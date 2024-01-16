@@ -1,11 +1,11 @@
 ﻿using TutorLizard.BusinessLogic.Data;
 
 namespace TutorLizard.BusinessLogic.Services;
-public class UserIdentityService
+public class UserIdentityService : IUserIdentityService
 {
-    private readonly DataAccess _dataAccess;
+    private readonly IUserIdentityDataAccess _dataAccess;
 
-    public UserIdentityService(DataAccess dataAccess)
+    public UserIdentityService(IUserIdentityDataAccess dataAccess)
     {
         _dataAccess = dataAccess;
     }

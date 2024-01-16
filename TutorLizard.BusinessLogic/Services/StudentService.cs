@@ -1,12 +1,12 @@
 ﻿using TutorLizard.BusinessLogic.Data;
 
 namespace TutorLizard.BusinessLogic.Services;
-public class StudentService
+public class StudentService : IStudentService
 {
-    private readonly DataAccess _dataAccess;
-    private readonly UserIdentityService _userIdentityService;
+    private readonly IStudentDataAccess _dataAccess;
+    private readonly IUserIdentityService _userIdentityService;
 
-    public StudentService(DataAccess dataAccess, UserIdentityService userIdentityService)
+    public StudentService(IStudentDataAccess dataAccess, IUserIdentityService userIdentityService)
     {
         _dataAccess = dataAccess;
         _userIdentityService = userIdentityService;

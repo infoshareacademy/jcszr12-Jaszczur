@@ -2,13 +2,13 @@
 using TutorLizard.BusinessLogic.Services;
 
 namespace TutorLizard.UI.Menu;
-public class MenuService
+public class MenuService : IMenuService
 {
-    private readonly UserIdentityService _userIdentityService;
-    private readonly TutorService _tutorService;
-    private readonly StudentService _studentService;
+    private readonly IUserIdentityService _userIdentityService;
+    private readonly ITutorService _tutorService;
+    private readonly IStudentService _studentService;
 
-    public MenuService(UserIdentityService userIdentityService, TutorService tutorService, StudentService studentService)
+    public MenuService(IUserIdentityService userIdentityService, ITutorService tutorService, IStudentService studentService)
     {
         _userIdentityService = userIdentityService;
         _tutorService = tutorService;
