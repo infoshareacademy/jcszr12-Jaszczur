@@ -8,7 +8,7 @@ namespace TutorLizard.BusinessLogic.Models;
 
 public class Schedule
 {
-    public int ScheduleId { get; set; }
+    public int Id { get; set; }
     public int TutorId { get; set; }
     public int StudentId { get; set; }
     public DateTime DateTime { get; set; }
