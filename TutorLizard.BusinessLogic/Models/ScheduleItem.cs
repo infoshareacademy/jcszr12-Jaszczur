@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TutorLizard.BusinessLogic.Models;
 
-public class Schedule
+public class ScheduleItem
 {
     public int Id { get; set; }
     public int TutorId { get; set; }
