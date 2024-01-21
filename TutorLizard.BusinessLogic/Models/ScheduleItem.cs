@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace TutorLizard.BusinessLogic.Models;
 
-public class LessonRequest
+public class ScheduleItem
 {
     public int Id { get; set; }
-    public int AdId { get; set; }
-    public int ScheduleId { get; set; }
-    public int UserId { get; set; }
-    public bool IsAccepted {  get; set; }
+    public int TutorId { get; set; }
+    public int StudentId { get; set; }
+    public DateTime DateTime { get; set; }
 }
