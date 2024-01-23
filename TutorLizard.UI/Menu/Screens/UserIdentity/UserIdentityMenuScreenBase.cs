@@ -1,6 +1,6 @@
 ﻿using TutorLizard.BusinessLogic.Services;
 
-namespace TutorLizard.UI.Menu.Screens;
+namespace TutorLizard.UI.Menu.Screens.UserIdentity;
 public abstract class UserIdentityMenuScreenBase : IMenuScreen
 {
     protected readonly IMenuService _menuService;

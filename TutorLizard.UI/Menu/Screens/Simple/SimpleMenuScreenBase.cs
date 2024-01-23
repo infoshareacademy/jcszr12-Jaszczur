@@ -1,4 +1,4 @@
-﻿namespace TutorLizard.UI.Menu.Screens;
+﻿namespace TutorLizard.UI.Menu.Screens.Simple;
 public abstract class SimpleMenuScreenBase : IMenuScreen
 {
     protected readonly IMenuService _menuService;

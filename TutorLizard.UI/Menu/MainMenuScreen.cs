@@ -1,4 +1,4 @@
-﻿using TutorLizard.UI.Menu.Screens;
+﻿using TutorLizard.UI.Menu.Screens.Simple;
 using TutorLizard.UI.Utilities;
 
 namespace TutorLizard.UI.Menu;

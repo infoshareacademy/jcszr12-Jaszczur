@@ -1,6 +1,6 @@
 ﻿using TutorLizard.BusinessLogic.Services;
 
-namespace TutorLizard.UI.Menu.Screens;
+namespace TutorLizard.UI.Menu.Screens.Tutor;
 public abstract class TutorMenuScreenBase : IMenuScreen
 {
     protected readonly IMenuService _menuService;
