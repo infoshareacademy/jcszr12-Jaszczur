@@ -15,6 +15,11 @@ public static class ConsoleParser
         return Ask<int?>(parser, options, null);
     }
 
+    public static string? AskForString(ParserOptions<string?> options)
+    {
+        Func<string?, string?> parser = s => s;
+        return Ask<string?>(parser, options, null);
+    }
     private static T Ask<T>(Func<string?, T?> parser, ParserOptions<T> options, T exitValue)
     {
         string? input;
