@@ -1,7 +1,6 @@
-﻿using TutorLizard.UI.Menu.Screens.Simple;
-using TutorLizard.UI.Utilities;
+﻿using TutorLizard.UI.Utilities;
 
-namespace TutorLizard.UI.Menu;
+namespace TutorLizard.UI.Menu.Screens.Simple;
 public class MainMenuScreen : SimpleMenuScreenBase
 {
     public MainMenuScreen(IMenuService menuService) : base(menuService)
