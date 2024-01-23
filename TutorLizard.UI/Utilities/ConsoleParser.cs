@@ -1,7 +1,7 @@
 ﻿namespace TutorLizard.UI.Utilities;
 public static class ConsoleParser
 {
-    public static int? AskForInt(ParserOptions options)
+    public static int? AskForInt(ParserOptions<int> options)
     {
         string? input;
         int output;
