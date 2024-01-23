@@ -1,6 +1,9 @@
-﻿using TutorLizard.BusinessLogic.Data;
-using TutorLizard.BusinessLogic.Services;
+﻿using TutorLizard.BusinessLogic.Services;
 using TutorLizard.UI.Menu.Screens;
+using TutorLizard.UI.Menu.Screens.Simple;
+using TutorLizard.UI.Menu.Screens.Tutor;
+using TutorLizard.UI.Menu.Screens.Student;
+using TutorLizard.UI.Menu.Screens.UserIdentity;
 
 namespace TutorLizard.UI.Menu;
 public class MenuService : IMenuService
