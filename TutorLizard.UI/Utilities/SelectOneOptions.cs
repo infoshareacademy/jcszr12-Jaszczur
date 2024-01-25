@@ -8,10 +8,12 @@ public class SelectOneOptions
     public string Selected
     {
         get => PadSelector(_selected);
+        set => _selected = value;
     }
     public string NotSelected
     {
         get => PadSelector(_notSelected);
+        set => _notSelected = value;
     }
     private string PadSelector(string selector)
     {
