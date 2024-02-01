@@ -84,7 +84,7 @@ public class MenuService : IMenuService
         switch (name)
         {
             case MenuScreenName.Main:
-                return new MainMenuScreen(this);
+                return new MainMenuScreen(this, _userIdentityService);
             default:
                 return null;
         }

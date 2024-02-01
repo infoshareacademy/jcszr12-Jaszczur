@@ -1,4 +1,5 @@
 ﻿using TutorLizard.BusinessLogic.Data;
+using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.BusinessLogic.Services;
 public class UserIdentityService : IUserIdentityService
@@ -8,5 +9,10 @@ public class UserIdentityService : IUserIdentityService
     public UserIdentityService(IUserIdentityDataAccess dataAccess)
     {
         _dataAccess = dataAccess;
+    }
+
+    public UserType? GetUserType()
+    {
+        throw new NotImplementedException();
     }
 }
