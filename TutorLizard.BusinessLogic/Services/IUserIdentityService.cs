@@ -1,5 +1,8 @@
-﻿namespace TutorLizard.BusinessLogic.Services;
+﻿using TutorLizard.BusinessLogic.Models;
+
+namespace TutorLizard.BusinessLogic.Services;
 
 public interface IUserIdentityService
 {
+    UserType? GetUserType();
 }
