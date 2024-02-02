@@ -28,21 +28,30 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
 
     private MenuNavigation DisplayNotLoggedInMenu()
     {
-        int selected = SelectTool.SelectOne(["Zaloguj się", "Zarejestruj się",  "Wyjdź"], new SelectOneOptions()
-        {
-        });
+        string[] items = [
+            "Zaloguj się", // 0
+            "Zarejestruj się", // 1
+            "Wyjdź" // 2
+            ];
+
+        int selected = SelectTool.SelectOne(items, new());
 
         switch (selected)
         {
             case 0:
                 // _menuService.AddNextScreen(MenuScreenName.Login);
-                return MenuNavigation.NextOrCurrent;
+                break;
             case 1:
-                // _menuService.AddNextScreen(MenuScreenName.Register);
-                return MenuNavigation.NextOrCurrent;
+                // _menuService.AddNextScreen(MenuScreenName.RegisterUser);
+                break;
             case 2:
+                DisplaySelectedOption(items[selected]);
                 return MenuNavigation.QuitProgram;
             default:
+                break;
+        }
+
+        DisplaySelectedOption(items[selected]);
                 return MenuNavigation.NextOrCurrent;
         }
     }
