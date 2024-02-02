@@ -62,14 +62,58 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
 
     private MenuNavigation DisplayTutorMenu()
     {
-        throw new NotImplementedException();
-        // - Dodaj ogłoszenie
-        // - Dodaj terminy do ogłoszenia
-        // - Zobacz zgłoszenia do ogłoszeń
-        // - Zobacz zgłoszenia na termin
-        // - Wyświetl swoje ogłoszenia
-        // - Wyświetl swoje terminy
-        // - Wyloguj
-        // - Wyjdź
+        string[] items = [
+            "Dodaj ogłoszenie", // 0
+            "Dodaj termin zajęć do ogłoszenia", // 1
+            "Przeglądaj swoje ogłoszenia", // 2
+            "Przeglądaj swoje terminy zajęć", // 3
+            "Przeglądaj zgłoszenia do twoich ofert", //4
+            "Przeglądaj zgłoszenia na terminy zajęć", //5
+            "Wyloguj", // 6
+            "Wyjdź" // 7
+            ];
+
+        int selected = SelectTool.SelectOne(items, new());
+
+        switch (selected)
+        {
+            case 0:
+                _menuService.AddNextScreen(MenuScreenName.CreateAd);
+                break;
+            case 1:
+                _menuService.AddNextScreen(MenuScreenName.CreateScheduleItem);
+                break;
+            case 2:
+                _menuService.AddNextScreen(MenuScreenName.BrowseTutorsAds);
+                break;
+            case 3:
+                _menuService.AddNextScreen(MenuScreenName.BrowseTutorsAds);
+                break;
+            case 4:
+                _menuService.AddNextScreen(MenuScreenName.BrowseTutorsAdRequests);
+                break;
+            case 5:
+                _menuService.AddNextScreen(MenuScreenName.BrowseTutorsScheduleItemRequests);
+                break;
+            case 6:
+                _userIdentityService.LogOut();
+                break;
+            case 7:
+                DisplaySelectedOption(items[selected]);
+                return MenuNavigation.QuitProgram;
+            default:
+                break;
+        }
+
+        DisplaySelectedOption(items[selected]);
+        return MenuNavigation.NextOrCurrent;
+    }
+
+    private void DisplaySelectedOption(string selected)
+    {
+        Console.WriteLine();
+        Console.WriteLine($"Wybrałeś: {selected}");
+        Console.Write("Kontynuuj...");
+        Console.ReadKey(true);
     }
 }

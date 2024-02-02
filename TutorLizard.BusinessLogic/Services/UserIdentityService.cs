@@ -15,4 +15,9 @@ public class UserIdentityService : IUserIdentityService
     {
         throw new NotImplementedException();
     }
+
+    public void LogOut()
+    {
+        throw new NotImplementedException();
+    }
 }
