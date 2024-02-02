@@ -86,7 +86,7 @@ public class MenuService : IMenuService
             case MenuScreenName.Main:
                 return new MainMenuScreen(this, _userIdentityService);
             case MenuScreenName.CreateAd:
-                return new CreateAddScreen(this, _tutorService);
+                return new CreateAdScreen(this, _tutorService);
             case MenuScreenName.CreateScheduleItem:
                 return new CreateScheduleItemScreen(this, _tutorService);
             case MenuScreenName.BrowseTutorsAds:

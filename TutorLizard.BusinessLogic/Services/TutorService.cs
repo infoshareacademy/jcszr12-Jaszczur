@@ -11,4 +11,10 @@ public class TutorService : ITutorService
         _dataAccess = dataAccess;
         _userIdentityService = userIdentityService;
     }
+
+    public bool CreateAd(string subject, string title, string description)
+    {
+        // return true if successful
+        return true;
+    }
 }
