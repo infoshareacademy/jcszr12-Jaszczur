@@ -1,4 +1,5 @@
 ﻿using TutorLizard.BusinessLogic.Data;
+using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.BusinessLogic.Services;
 public class TutorService : ITutorService
@@ -16,5 +17,26 @@ public class TutorService : ITutorService
     {
         // return true if successful
         return true;
+    }
+
+    public bool CreateScheduleItem(int adId, DateTime dateTime)
+    {
+        // return true if successful
+        return true;
+    }
+
+    public Ad GetAdById(int adId)
+    {
+        return new Ad()
+        {
+            Id = adId,
+            Title = "Test"
+        };
+    }
+
+    public bool UserCanEditAdSchedule(int adId)
+    {
+        // return true if ad exists and belongs to active user
+        return adId == 1;
     }
 }
