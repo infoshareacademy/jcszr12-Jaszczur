@@ -12,8 +12,10 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
     public override MenuNavigation Display()
     {
         //var userType = _userIdentityService.GetUserType();
-        UserType? userType = null;
+        UserType? userType = UserType.Tutor;
 
+        Console.WriteLine("Menu główne");
+        Console.WriteLine();
         switch (userType)
         {
             case BusinessLogic.Models.UserType.Tutor:
@@ -34,7 +36,7 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
             "Wyjdź" // 2
             ];
 
-        int selected = SelectTool.SelectOne(items, new());
+        int selected = SelectTool.SelectOne(items);
 
         switch (selected)
         {
@@ -52,8 +54,7 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
         }
 
         DisplaySelectedOption(items[selected]);
-                return MenuNavigation.NextOrCurrent;
-        }
+        return MenuNavigation.NextOrCurrent;
     }
 
     private MenuNavigation DisplayStudentMenu()
@@ -82,7 +83,7 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
             "Wyjdź" // 7
             ];
 
-        int selected = SelectTool.SelectOne(items, new());
+        int selected = SelectTool.SelectOne(items);
 
         switch (selected)
         {
