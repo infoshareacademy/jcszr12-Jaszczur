@@ -97,7 +97,7 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
                 _menuService.AddNextScreen(MenuScreenName.BrowseTutorsAds);
                 break;
             case 3:
-                _menuService.AddNextScreen(MenuScreenName.BrowseTutorsAds);
+                _menuService.AddNextScreen(MenuScreenName.BrowseTutorsSchedule);
                 break;
             case 4:
                 _menuService.AddNextScreen(MenuScreenName.BrowseTutorsAdRequests);
