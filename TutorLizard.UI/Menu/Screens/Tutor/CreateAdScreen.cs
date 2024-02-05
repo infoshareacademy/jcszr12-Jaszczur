@@ -1,4 +1,5 @@
-﻿using TutorLizard.BusinessLogic.Services;
+﻿using TutorLizard.BusinessLogic.Models;
+using TutorLizard.BusinessLogic.Services;
 using TutorLizard.UI.Utilities;
 
 namespace TutorLizard.UI.Menu.Screens.Tutor;
@@ -58,10 +59,10 @@ public class CreateAdScreen : TutorMenuScreenBase
         switch (selected)
         {
             case 0:
-                bool successful = _tutorService.CreateAd(subject, title, description);
-                if (successful)
+                Ad createdAd = _tutorService.CreateAd(subject, title, description);
+                if (createdAd.Id != 0)
                 {
-                    Console.WriteLine("Twoje ogłoszenie zostało dodane.");
+                    Console.WriteLine($"Twoje ogłoszenie zostało dodane. Id ogłoszenia: {createdAd.Id}");
                     Console.WriteLine("Wróć do menu głównego...");
                     Console.ReadKey(true);
                     return MenuNavigation.Previous;

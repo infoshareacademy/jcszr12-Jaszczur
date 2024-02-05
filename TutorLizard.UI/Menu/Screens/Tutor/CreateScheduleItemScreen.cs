@@ -30,7 +30,15 @@ public class CreateScheduleItemScreen : TutorMenuScreenBase
         if (adId is null)
             return Cancel();
 
-        Ad ad = _tutorService.GetAdById((int)adId);
+        Ad? ad = _tutorService.GetAdById((int)adId);
+        if (ad is null)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Nie znaleziono ogłoszenia o podanym id.");
+            Console.WriteLine("Spróbuj ponownie...");
+            Console.ReadKey(true);
+            return MenuNavigation.NextOrCurrent;
+        }
 
         Console.WriteLine();
         DisplayAdSummary(ad);
@@ -61,10 +69,10 @@ public class CreateScheduleItemScreen : TutorMenuScreenBase
         switch (selected)
         {
             case 0:
-                bool successful = _tutorService.CreateScheduleItem((int)adId, (DateTime)dateTime);
-                if (successful)
+                ScheduleItem createdItem = _tutorService.CreateScheduleItem((int)adId, (DateTime)dateTime);
+                if (createdItem.Id != 0)
                 {
-                    Console.WriteLine("Termin zajęć został dodany.");
+                    Console.WriteLine($"Termin zajęć został dodany. Id terminu: {createdItem.Id}");
                     Console.WriteLine("Wróć do menu głównego...");
                     Console.ReadKey(true);
                     return MenuNavigation.Previous;
