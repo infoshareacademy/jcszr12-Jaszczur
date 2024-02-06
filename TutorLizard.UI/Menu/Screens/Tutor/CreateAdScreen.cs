@@ -63,14 +63,14 @@ public class CreateAdScreen : TutorMenuScreenBase
                 if (createdAd.Id != 0)
                 {
                     Console.WriteLine($"Twoje ogłoszenie zostało dodane. Id ogłoszenia: {createdAd.Id}");
-                    Console.WriteLine("Wróć do menu głównego...");
+                    Console.Write("Wróć do menu głównego...");
                     Console.ReadKey(true);
                     return MenuNavigation.Previous;
                 }
                 else
                 {
                     Console.WriteLine("Nie udało się dodać ogłoszenia.");
-                    Console.WriteLine("Spróbuj ponownie...");
+                    Console.Write("Spróbuj ponownie...");
                     Console.ReadKey(true);
                     return MenuNavigation.NextOrCurrent;
                 }
@@ -87,7 +87,7 @@ public class CreateAdScreen : TutorMenuScreenBase
     {
         Console.WriteLine();
         Console.WriteLine("Dodawanie nowego ogłoszenia anulowane.");
-        Console.WriteLine("Wróć do menu głównego...");
+        Console.Write("Wróć do menu głównego...");
         Console.ReadKey(true);
         return MenuNavigation.Previous;
     }

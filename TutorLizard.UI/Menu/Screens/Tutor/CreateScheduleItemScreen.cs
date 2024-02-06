@@ -73,14 +73,14 @@ public class CreateScheduleItemScreen : TutorMenuScreenBase
                 if (createdItem.Id != 0)
                 {
                     Console.WriteLine($"Termin zajęć został dodany. Id terminu: {createdItem.Id}");
-                    Console.WriteLine("Wróć do menu głównego...");
+                    Console.Write("Wróć do menu głównego...");
                     Console.ReadKey(true);
                     return MenuNavigation.Previous;
                 }
                 else
                 {
                     Console.WriteLine("Nie udało się dodać terminu.");
-                    Console.WriteLine("Spróbuj ponownie...");
+                    Console.Write("Spróbuj ponownie...");
                     Console.ReadKey(true);
                     return MenuNavigation.NextOrCurrent;
                 }
@@ -103,7 +103,7 @@ public class CreateScheduleItemScreen : TutorMenuScreenBase
     {
         Console.WriteLine();
         Console.WriteLine("Dodawanie nowego terminu anulowane.");
-        Console.WriteLine("Wróć do menu głównego...");
+        Console.Write("Wróć do menu głównego...");
         Console.ReadKey(true);
         return MenuNavigation.Previous;
     }
