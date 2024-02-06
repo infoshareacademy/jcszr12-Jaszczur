@@ -14,12 +14,23 @@ public class TutorService : ITutorService
     }
     public Ad CreateAd(string subject, string title, string description)
     {
-        // return created Ad
-        // return empty with id = 0 to indicate something went wrong
+        Console.WriteLine("Enter subject:");
+        subject = Console.ReadLine();
+
+        Console.WriteLine("Enter title:");
+        title = Console.ReadLine();
+
+        Console.WriteLine("Enter description:");
+        description = Console.ReadLine();
+
+        if (string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(title) || string.IsNullOrEmpty(description))
+        {
+            Console.WriteLine("Subject, title, and description are required.");
+            return null;
+        }
+
         return new Ad()
         {
-            // this is only for tests
-            Id = 1,
             Subject = subject,
             Title = title,
             Description = description
