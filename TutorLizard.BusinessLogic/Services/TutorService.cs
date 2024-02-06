@@ -36,17 +36,21 @@ public class TutorService : ITutorService
             Description = description
         };
     }
-    public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime)
+    public ScheduleItem CreateScheduleItem(int adId, string dateTimeInput)
     {
-        // return created ScheduleItem
-        // return empty with id = 0 to indicate something went wrong
-        return new ScheduleItem()
+        Console.WriteLine("Enter date and time for the lesson (e.g. 'yyyy-mm-dd hh:mm': ");
+        dateTimeInput = Console.ReadLine();
+
+        if (DateTime.TryParse(dateTimeInput, out DateTime dateTime)) 
         {
-            // this is only for tests
-            Id = 1,
-            AdId = adId,
-            DateTime = dateTime
-        };
+            Console.WriteLine("Schedule updated.");
+            return new ScheduleItem(adId, dateTime);
+        }
+        else
+        {
+            Console.WriteLine("Invalid date and time format.");
+            return null;
+        }
     }
     public Ad? GetAdById(int adId)
     {
