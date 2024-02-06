@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TutorLizard.BusinessLogic.Models;
+﻿namespace TutorLizard.BusinessLogic.Models;
 
 public class Ad
 {
+    public Ad()
+    {
+    }
+
     public Ad(int id, int tutorId, string subject, string title, string description)
     {
         Id = id;

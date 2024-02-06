@@ -12,5 +12,9 @@ public class User
         this.Name = name;
         this.UserType = type;
     }
+
+    public User()
+    {
+    }
 }
 public enum UserType { Tutor, Student } 

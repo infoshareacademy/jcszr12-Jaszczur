@@ -7,10 +7,14 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     private List<User> _userList = new();
     private List<ScheduleItem> _scheduleItemList = new();
     private List<Ad> _adList = new();
+    private List<AdRequest> _adRequestList = new();
+    private List<ScheduleItemRequest> _scheduleItemRequestList = new();
 
     private string _userFilePath = @"Data/users.json";
     private string _scheduleItemFilePath = @"Data/schedules.json";
     private string _adFilePath = @"Data/ads.json";
+    private string _adRequestFilePath = @"Data/ad_requests.json";
+    private string _scheduleItemRequestFilePath = @"Data/schedule_requests.json";
 
     public DataAccess()
     {
@@ -44,6 +48,14 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     private void LoadUsersFromJson()
     {
         _userList = LoadFromJson<User>(_userFilePath);
+    }    
+    private void LoadAdRequestsFromJson()
+    {
+        _adRequestList = LoadFromJson<AdRequest>(_adRequestFilePath);
+    } 
+    private void LoadScheduleItemRequestFromJson()
+    {
+        _scheduleItemRequestList = LoadFromJson<ScheduleItemRequest>(_scheduleItemRequestFilePath);
     }
 
     private void LoadAdsFromJson()
@@ -79,10 +91,19 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     private void SaveAdToJson()
     {
         SaveToJson(_adFilePath, _adList);
+    }    
+    
+    private void SaveAdRequestToJson()
+    {
+        SaveToJson(_adRequestFilePath, _adRequestList);
+    }
+    private void SaveScheduleItemRequestToJson()
+    {
+        SaveToJson(_scheduleItemRequestFilePath, _scheduleItemRequestList);
     }
     #endregion
 
-    #region Create new User/Schedule/Ad
+    #region Create new User/Schedule item/Ad/Ad Request/Schedule item request
     public User CreateUser(string name, UserType type)
     {
         User newUser = new User(GetNewUserID(), name, type);
@@ -109,6 +130,25 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
         return newAd;
     }
+
+    public AdRequest CreateAdRequest (int id, int adId, int studentId, bool isAccepted, string message)
+    {
+        AdRequest newAdRequest = new AdRequest(GetNewAdRequestID(), adId, studentId, isAccepted, message);
+        _adRequestList.Add(newAdRequest);
+        SaveAdRequestToJson();
+
+        return newAdRequest;
+    }
+    
+    public ScheduleItemRequest CreateScheduleItemRequest (int id, int scheduleItemId, int userId, bool isAccepted)
+    {
+        ScheduleItemRequest newScheduleItemRequest = new ScheduleItemRequest(GetNewScheduleItemRequestID(), scheduleItemId, userId, isAccepted);
+        _scheduleItemRequestList.Add(newScheduleItemRequest);
+        SaveScheduleItemRequestToJson();
+
+        return newScheduleItemRequest;
+    }
+
     #endregion
 
     #region GetID
@@ -131,6 +171,22 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     {
         if (_adList.Count() > 0)
             return _adList.Max(x => x.Id) + 1;
+        else
+            return 0;
+    }
+
+    private int GetNewAdRequestID()
+    {
+        if (_adRequestList.Count() > 0)
+            return _adRequestList.Max(x => x.Id) + 1;
+        else
+            return 0;
+    }
+
+    private int GetNewScheduleItemRequestID()
+    {
+        if (_scheduleItemRequestList.Count() > 0)
+            return _scheduleItemRequestList.Max(x => x.Id) + 1;
         else
             return 0;
     }

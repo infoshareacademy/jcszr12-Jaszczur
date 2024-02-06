@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TutorLizard.BusinessLogic.Models;
+﻿namespace TutorLizard.BusinessLogic.Models;
 
 public class ScheduleItem
 {
+    public ScheduleItem()
+    {
+    }
+
     public ScheduleItem(int id, int adId, int studentId, DateTime dateTime)
     {
         Id = id;
