@@ -27,6 +27,8 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         LoadAdsFromJson();
         LoadSchedulesFromJson();
         LoadUsersFromJson();
+        LoadScheduleItemRequestFromJson();
+        LoadAdRequestsFromJson();
     }
     private List<T> LoadFromJson<T>(string Path)
     {
