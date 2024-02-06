@@ -7,9 +7,13 @@ public class BrowseTutorsAdsScreen : TutorMenuScreenBase
 {
     private int _page = 1;
     Paginator<Ad> _paginator;
+    List<AdRequest> _accepted;
     public BrowseTutorsAdsScreen(IMenuService menuService, ITutorService tutorService) : base(menuService, tutorService)
     {
         List<Ad> ads = _tutorService.GetUsersAds();
+        _accepted = _tutorService.GetUsersAdRequests()
+            .Where(r => r.IsAccepted)
+            .ToList();
         PaginatorOptions<Ad> options = new()
         {
             CollectionName = "Ogłoszenia",
@@ -20,17 +24,27 @@ public class BrowseTutorsAdsScreen : TutorMenuScreenBase
 
     public override MenuNavigation Display()
     {
-        Console.WriteLine("Twoje ogłoszenia");
-        Console.WriteLine();
+        Console.Write("Twoje ogłoszenia\t");
         return _paginator.DisplayPage(ref _page);
     }
 
     private void DisplayAd(Ad ad, int i)
     {
-        Console.WriteLine($"{i + 1}. Id: {ad.Id}");
-        Console.WriteLine($"Tytuł: {ad.Title}");
-        Console.WriteLine($"Temat: {ad.Subject}");
-        Console.WriteLine($"Opis: {ad.Description}");
+        List<string> studentNames = _accepted
+            .Where(r => r.AdId == ad.Id)
+            .Select(r => _tutorService.GetStudentUserNameByAdRequestId(r.Id))
+            .ToList();
+
+        Console.WriteLine($"{i + 1}.\tId: {ad.Id}");
+        Console.WriteLine($"\tTytuł: {ad.Title}");
+        Console.WriteLine($"\tTemat: {ad.Subject}");
+        Console.WriteLine($"\tOpis: {ad.Description}");
+        Console.WriteLine($"\tZapisani uczniowie: {studentNames.Count}");
+        foreach (var name in studentNames)
+        {
+            Console.WriteLine($"\t\t{name}");
+        }
+
         Console.WriteLine();
     }
 }
