@@ -77,8 +77,8 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
             "Dodaj termin zajęć do ogłoszenia", // 1
             "Przeglądaj swoje ogłoszenia", // 2
             "Przeglądaj swoje terminy zajęć", // 3
-            "Przeglądaj zgłoszenia do twoich ofert", //4
-            "Przeglądaj zgłoszenia na terminy zajęć", //5
+            "Przeglądaj oczekujące zgłoszenia do twoich ofert", //4
+            "Przeglądaj oczekujące zgłoszenia na terminy zajęć", //5
             "Wyloguj", // 6
             "Wyjdź" // 7
             ];
