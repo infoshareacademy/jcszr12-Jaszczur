@@ -93,9 +93,9 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return newUser;
     }
 
-    public ScheduleItem CreateScheduleItem(int studentId, DateTime dateTime)
+    public ScheduleItem CreateScheduleItem(int adId, int studentId, DateTime dateTime)
     {
-        ScheduleItem newSchedule = new ScheduleItem(GetScheduleItemID(), GetCurrentAdId(), studentId, dateTime);
+        ScheduleItem newSchedule = new ScheduleItem(GetScheduleItemID(), adId, studentId, dateTime);
         _scheduleItemList.Add(newSchedule);
         SaveScheduleItemToJson();
 
@@ -134,11 +134,6 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
             return _adList.Max(x => x.Id) + 1;
         else
             return 0;
-    }
-
-    private int GetCurrentAdId()
-    {
-        throw new NotImplementedException();
     }
     #endregion
 }
