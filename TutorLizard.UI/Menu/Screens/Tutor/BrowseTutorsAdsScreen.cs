@@ -37,7 +37,7 @@ public class BrowseTutorsAdsScreen : TutorMenuScreenBase
 
         Console.WriteLine($"{i + 1}.\tId: {ad.Id}");
         Console.WriteLine($"\tTytuł: {ad.Title}");
-        Console.WriteLine($"\tTemat: {ad.Subject}");
+        Console.WriteLine($"\tTematyka: {ad.Subject}");
         Console.WriteLine($"\tOpis: {ad.Description}");
         Console.WriteLine($"\tZapisani uczniowie: {studentNames.Count}");
         foreach (var name in studentNames)
