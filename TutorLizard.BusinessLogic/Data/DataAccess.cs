@@ -85,17 +85,16 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     #region Create new User/Schedule/Ad
     public User CreateUser(string name, UserType type)
     {
-        User newUser = new User(GetUserID(), name, type);
+        User newUser = new User(GetNewUserID(), name, type);
         _userList.Add(newUser);
         SaveUserToJson();
 
-        Console.WriteLine($"Twoje ID to {newUser.Id}. Zapamiętaj je, będzie potrzebne do zalogowania!");
         return newUser;
     }
 
     public ScheduleItem CreateScheduleItem(int adId, int studentId, DateTime dateTime)
     {
-        ScheduleItem newSchedule = new ScheduleItem(GetScheduleItemID(), adId, studentId, dateTime);
+        ScheduleItem newSchedule = new ScheduleItem(GetNewScheduleItemID(), adId, studentId, dateTime);
         _scheduleItemList.Add(newSchedule);
         SaveScheduleItemToJson();
 
@@ -104,7 +103,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     public Ad CreateAd(int tutorId, string subject, string title, string description) 
     {
-        Ad newAd = new Ad(GetAdID(), tutorId, subject, title, description); 
+        Ad newAd = new Ad(GetNewAdID(), tutorId, subject, title, description); 
         _adList.Add(newAd);
         SaveAdToJson();
 
@@ -113,7 +112,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     #endregion
 
     #region GetID
-    private int GetUserID()
+    private int GetNewUserID()
     {
         if (_userList.Count() > 0)
             return _userList.Max(x => x.Id) + 1;
@@ -121,14 +120,14 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
             return 0;
     }
 
-    private int GetScheduleItemID()
+    private int GetNewScheduleItemID()
     {
         if (_scheduleItemList.Count() > 0)
             return _scheduleItemList.Max(x => x.Id) + 1;
         else
             return 0;
     }
-    private int GetAdID()
+    private int GetNewAdID()
     {
         if (_adList.Count() > 0)
             return _adList.Max(x => x.Id) + 1;
