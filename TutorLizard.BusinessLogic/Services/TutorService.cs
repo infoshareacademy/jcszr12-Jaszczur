@@ -1,4 +1,5 @@
 ﻿using TutorLizard.BusinessLogic.Data;
+using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.BusinessLogic.Services;
 public class TutorService : ITutorService
@@ -10,5 +11,127 @@ public class TutorService : ITutorService
     {
         _dataAccess = dataAccess;
         _userIdentityService = userIdentityService;
+    }
+    public Ad CreateAd(string subject, string title, string description)
+    {
+        // return created Ad
+        // return empty with id = 0 to indicate something went wrong
+        return new Ad()
+        {
+            // this is only for tests
+            Id = 1,
+            Subject = subject,
+            Title = title,
+            Description = description
+        };
+    }
+    public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime)
+    {
+        // return created ScheduleItem
+        // return empty with id = 0 to indicate something went wrong
+        return new ScheduleItem()
+        {
+            // this is only for tests
+            Id = 1,
+            AdId = adId,
+            DateTime = dateTime
+        };
+    }
+    public Ad? GetAdById(int adId)
+    {
+        // return Ad (from _dataAccess) with provided adId
+        // return null if no such Ad
+        return new Ad()
+        {
+            // this is only for tests
+            Id = adId,
+            Title = "Test"
+        };
+    }
+    public ScheduleItem? GetScheduleItemById(int scheduleItemId)
+    {
+        return new ScheduleItem()
+        {
+            // this is only for tests
+            Id = scheduleItemId,
+            DateTime = DateTime.Now.AddHours(1),
+        };
+    }
+    public List<Ad> GetUsersAds()
+    {
+        return [
+            // this is only for tests
+            GetAdById(1)!,
+            GetAdById(2)!,
+            GetAdById(3)!
+            ];
+    }
+    public List<ScheduleItem> GetUsersScheduleItems()
+    {
+        return [
+            // this is only for tests
+            GetScheduleItemById(1)!,
+            GetScheduleItemById(2)!,
+            GetScheduleItemById(3)!
+            ];
+    }
+    public List<AdRequest> GetUsersAdRequests()
+    {
+        return [
+            // this is only for tests
+            new AdRequest()
+            {
+                Id = 1,
+                AdId = 1,
+                IsAccepted = false,
+                Message = "Test Ad Request",
+                StudentId = 1
+            },
+        ];
+    }
+    public List<ScheduleItemRequest> GetUsersScheduleItemRequests()
+    {
+        return [
+            new ScheduleItemRequest()
+            {
+                // this is only for tests
+                Id = 1,
+                IsAccepted = false,
+                ScheduleItemId = 1,
+                UserId = 1
+            }];
+    }
+    public string GetStudentUserNameByAdRequestId(int adRequestId)
+    {
+        // this is only for tests
+        return "TestStudentName1";
+    }
+    public string GetStudentUserNameByScheduleItemRequestId(int scheduleItemRequestId)
+    {
+        // this is only for tests
+        return "TestStudentName2";
+    }
+    public bool UserCanEditAdSchedule(int adId)
+    {
+        // return true if ad exists and belongs to active user (ask _userIdentityService)
+        return adId == 1;
+    }
+    public AdRequest AcceptAdRequest(int adRequestId)
+    {
+        return new AdRequest()
+        {
+            // this is only for tests
+            Id = adRequestId,
+            IsAccepted = true
+        };
+    }
+    public ScheduleItemRequest AcceptScheduleItemRequest(int scheduleItemRequestId)
+    {
+        return new ScheduleItemRequest()
+        {
+            // this is only for tests
+            Id = scheduleItemRequestId,
+            IsAccepted = true
+        };
     }
 }
