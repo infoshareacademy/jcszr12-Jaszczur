@@ -20,18 +20,5 @@ public class User
         this.Name = name;
         this.UserType = type;
     }
-    public static int GetID()
-    {
-        var filePath = $@"{Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName}\User.json";
-
-        var jsonData = System.IO.File.ReadAllText(filePath);
-        var userList = JsonConvert.DeserializeObject<List<User>>(jsonData)
-                ?? new List<User>();
-
-        if (userList.Count > 0)
-            return userList.Max(x => x.Id) + 1;
-        else
-            return 0;
-    }
 }
 public enum UserType { Tutor, Student } 
