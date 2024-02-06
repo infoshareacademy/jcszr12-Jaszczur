@@ -75,7 +75,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     #region Save to Json
     private void SaveToJson<T>(string Path, T data)
     {
-        var filePath = $@"{Path}.json";
+        var filePath = $@"{Path}";
 
         var jsonData = JsonSerializer.Serialize(data);
         File.WriteAllText(filePath, jsonData);
