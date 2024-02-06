@@ -1,37 +1,25 @@
 ﻿using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Services;
-using TutorLizard.UI.Utilities;
 
 namespace TutorLizard.UI.Menu.Screens.Tutor;
-public class BrowseTutorsAdRequestsScreen : TutorMenuScreenBase
+public class BrowseTutorsAdRequestsScreen : BrowseTutorsRequestScreenBase<AdRequest>
 {
-    List<AdRequest> _pending;
-    int _index = 0;
     public BrowseTutorsAdRequestsScreen(IMenuService menuService, ITutorService tutorService) : base(menuService, tutorService)
     {
-        _pending = _tutorService.GetUsersAdRequests()
+    }
+
+    protected override List<AdRequest> GetPending()
+    {
+        return _tutorService.GetUsersAdRequests()
             .Where(r => r.IsAccepted == false)
             .ToList();
     }
-
-    public override MenuNavigation Display()
-    {
-        Console.WriteLine($"Oczekujące zgłoszenia do twoich ofert: {_pending.Count}");
-        Console.WriteLine();
-
-        if (_pending.Any() == false)
-            return DisplayWhenNoPending();
-
-        _index = Math.Min(_index, _pending.Count - 1);
-
-        return DisplayAdRequest(_pending[_index], _index);
-    }
-    private MenuNavigation DisplayAdRequest(AdRequest request, int i)
+    protected override void DisplayRequest(AdRequest request, int i)
     {
         Ad? ad = _tutorService.GetAdById(request.AdId);
         if (ad is null)
         {
-            Console.WriteLine($"{i + 1}.\tZgłoszenie do nieistniejącego zgłoszenia (Id: {request.AdId})");
+            Console.WriteLine($"{i + 1}.\tZgłoszenie do nieistniejącego ogłoszenia (Id: {request.AdId})");
         }
         else
         {
@@ -43,40 +31,10 @@ public class BrowseTutorsAdRequestsScreen : TutorMenuScreenBase
             Console.WriteLine($"\tWiadomość: {request.Message}");
             Console.WriteLine();
         }
-
-        int selected = SelectTool.SelectOne([
-            "Pomiń", // 0
-            "Akceptuj", // 1
-            "Wróć do menu głównego" // 2
-            ]);
-        Console.WriteLine();
-
-        switch (selected)
-        {
-            case 0:
-                Console.WriteLine("Zgłoszenie pominięte.");
-                Console.Write("Kontunuuj...");
-                Console.ReadKey(true);
-                _index++;
-                if (_index == _pending.Count)
-                    _index = 0;
-                return MenuNavigation.NextOrCurrent;
-            case 1:
-                Console.WriteLine("Zgłoszenie zakceptowane.");
-                Console.Write("Kontunuuj...");
-                Console.ReadKey(true);
-                _tutorService.AcceptAdRequest(request.Id);
-                _pending.Remove(request);
-                return MenuNavigation.NextOrCurrent;
-            default:
-                return MenuNavigation.Previous;
-        }
     }
-    private MenuNavigation DisplayWhenNoPending()
+
+    protected override void AcceptRequest(AdRequest request)
     {
-        Console.WriteLine("Brak oczekujących zgłoszeń");
-        Console.WriteLine();
-        SelectTool.SelectOne(["Wróć do menu głównego"]);
-        return MenuNavigation.Previous;
+        _tutorService.AcceptAdRequest(request.Id);
     }
 }
