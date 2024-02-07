@@ -11,14 +11,13 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
 
     public override MenuNavigation Display()
     {
-        //var userType = _userIdentityService.GetUserType();
-        UserType? userType = null;
-
+        var userType = _userIdentityService.GetUserType();
+        
         switch (userType)
         {
-            case BusinessLogic.Models.UserType.Tutor:
+            case UserType.Tutor:
                 return DisplayTutorMenu();
-            case BusinessLogic.Models.UserType.Student:
+            case UserType.Student:
                 return DisplayStudentMenu();
             case null:
             default:
@@ -28,17 +27,15 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
 
     private MenuNavigation DisplayNotLoggedInMenu()
     {
-        int selected = SelectTool.SelectOne(["Zaloguj się", "Zarejestruj się",  "Wyjdź"], new SelectOneOptions()
-        {
-        });
+        int selected = SelectTool.SelectOne(["Zaloguj się", "Zarejestruj użytkownika",  "Wyjdź"]);
 
         switch (selected)
         {
             case 0:
-                // _menuService.AddNextScreen(MenuScreenName.Login);
+                _menuService.AddNextScreen(MenuScreenName.Login);
                 return MenuNavigation.NextOrCurrent;
             case 1:
-                // _menuService.AddNextScreen(MenuScreenName.Register);
+                _menuService.AddNextScreen(MenuScreenName.RegisterUser);
                 return MenuNavigation.NextOrCurrent;
             case 2:
                 return MenuNavigation.QuitProgram;
