@@ -14,43 +14,19 @@ public class TutorService : ITutorService
     }
     public Ad CreateAd(string subject, string title, string description)
     {
-        Console.WriteLine("Enter subject:");
-        subject = Console.ReadLine();
-
-        Console.WriteLine("Enter title:");
-        title = Console.ReadLine();
-
-        Console.WriteLine("Enter description:");
-        description = Console.ReadLine();
-
-        if (string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(title) || string.IsNullOrEmpty(description))
+        int? tutorId = _userIdentityService.GetUserId();
+        if (tutorId is null)
         {
-            Console.WriteLine("Subject, title, and description are required.");
-            return null;
+            return new Ad()
+            { Id = 0 };
         }
 
-        return new Ad()
-        {
-            Subject = subject,
-            Title = title,
-            Description = description
-        };
+        return _dataAccess.CreateAd((int)tutorId, subject, title, description);
+
     }
-    public ScheduleItem CreateScheduleItem(int adId, string dateTimeInput)
+    public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime)
     {
-        Console.WriteLine("Enter date and time for the lesson (e.g. 'yyyy-mm-dd hh:mm': ");
-        dateTimeInput = Console.ReadLine();
-
-        if (DateTime.TryParse(dateTimeInput, out DateTime dateTime)) 
-        {
-            Console.WriteLine("Schedule updated.");
-            return new ScheduleItem(adId, dateTime);
-        }
-        else
-        {
-            Console.WriteLine("Invalid date and time format.");
-            return null;
-        }
+        return _dataAccess.CreateScheduleItem(adId, dateTime);
     }
     public Ad? GetAdById(int adId)
     {

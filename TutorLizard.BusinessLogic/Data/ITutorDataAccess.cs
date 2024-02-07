@@ -1,5 +1,9 @@
-﻿namespace TutorLizard.BusinessLogic.Data;
+﻿using TutorLizard.BusinessLogic.Models;
+
+namespace TutorLizard.BusinessLogic.Data;
 
 public interface ITutorDataAccess
 {
+    Ad CreateAd(int tutorId, string subject, string title, string description);
+    ScheduleItem CreateScheduleItem(int adId, DateTime dateTime);
 }
