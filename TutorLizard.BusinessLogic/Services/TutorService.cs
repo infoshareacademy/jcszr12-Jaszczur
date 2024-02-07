@@ -39,14 +39,14 @@ public class TutorService : ITutorService
         }
         return _dataAccess.GetAdById((int)adId);
     }
-    public ScheduleItem? GetScheduleItemById(int scheduleItemId)
+    public ScheduleItem? GetScheduleItemById(int? scheduleItemId)
     {
-        return new ScheduleItem()
+        scheduleItemId = _dataAccess.GetScheduleItemId();
+        if (scheduleItemId is null)
         {
-            // this is only for tests
-            Id = scheduleItemId,
-            DateTime = DateTime.Now.AddHours(1),
-        };
+            return null;
+        }
+        return _dataAccess.GetScheduleItemById(scheduleItemId);
     }
     public List<Ad> GetUsersAds()
     {

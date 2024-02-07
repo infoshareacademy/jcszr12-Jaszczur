@@ -8,4 +8,6 @@ public interface ITutorDataAccess
     ScheduleItem CreateScheduleItem(int adId, DateTime dateTime);
     Ad? GetAdById(int adId);
     int? GetAllAdsId();
+    ScheduleItem? GetScheduleItemById(int? scheduleItemId);
+    int? GetScheduleItemId();
 }
