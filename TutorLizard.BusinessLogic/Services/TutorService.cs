@@ -50,12 +50,12 @@ public class TutorService : ITutorService
     }
     public List<Ad> GetUsersAds()
     {
-        return [
-            // this is only for tests
-            GetAdById(1)!,
-            GetAdById(2)!,
-            GetAdById(3)!
-            ];
+        List<Ad> ads = new List<Ad>();
+        if (ads is null)
+        {
+            return null;
+        }
+        return _dataAccess.GetUsersAds().ToList();
     }
     public List<ScheduleItem> GetUsersScheduleItems()
     {
