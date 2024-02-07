@@ -77,7 +77,10 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     {
         var filePath = $@"{Path}";
 
-        var jsonData = JsonSerializer.Serialize(data);
+        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions
+        {
+            WriteIndented = true,
+        });
         File.WriteAllText(filePath, jsonData);
     }
     private void SaveUserToJson()
@@ -133,7 +136,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return newAd;
     }
 
-    public AdRequest CreateAdRequest (int id, int adId, int studentId, bool isAccepted, string message)
+    public AdRequest CreateAdRequest (int adId, int studentId, bool isAccepted, string message)
     {
         AdRequest newAdRequest = new AdRequest(GetNewAdRequestID(), adId, studentId, isAccepted, message);
         _adRequestList.Add(newAdRequest);
@@ -142,7 +145,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return newAdRequest;
     }
     
-    public ScheduleItemRequest CreateScheduleItemRequest (int id, int scheduleItemId, int userId, bool isAccepted)
+    public ScheduleItemRequest CreateScheduleItemRequest (int scheduleItemId, int userId, bool isAccepted)
     {
         ScheduleItemRequest newScheduleItemRequest = new ScheduleItemRequest(GetNewScheduleItemRequestID(), scheduleItemId, userId, isAccepted);
         _scheduleItemRequestList.Add(newScheduleItemRequest);
