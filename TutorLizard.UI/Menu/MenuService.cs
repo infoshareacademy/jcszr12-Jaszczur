@@ -85,6 +85,10 @@ public class MenuService : IMenuService
         {
             case MenuScreenName.Main:
                 return new MainMenuScreen(this, _userIdentityService);
+            case MenuScreenName.Login:
+                return new LoginScreen(this, _userIdentityService);
+            case MenuScreenName.RegisterUser:
+                return new RegisterUserScreen(this, _userIdentityService);
             default:
                 return null;
         }
@@ -93,5 +97,7 @@ public class MenuService : IMenuService
 
 public enum MenuScreenName
 {
-    Main
+    Main,
+    Login,
+    RegisterUser
 }
