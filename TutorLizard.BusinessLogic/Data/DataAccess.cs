@@ -195,5 +195,10 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         else
             return 0;
     }
+
+    public Ad? GetAdById(int adId)
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 }
