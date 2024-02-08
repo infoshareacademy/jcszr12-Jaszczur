@@ -28,16 +28,16 @@ public class TutorService : ITutorService
     {
         return _dataAccess.CreateScheduleItem(adId, dateTime);
     }
-    public Ad? GetAdById(int? adId)
+    public Ad? GetAdById(int adId)
     {
         // return Ad (from _dataAccess) with provided adId
         // return null if no such Ad
-        adId = _dataAccess.GetAllAdsId();
-        if (adId is null)
+        Ad? ad = _dataAccess.GetAdById(adId);
+        if (ad == null)
         {
             return null;
         }
-        return _dataAccess.GetAdById((int)adId);
+        return ad;
     }
     public ScheduleItem? GetScheduleItemById(int scheduleItemId)
     {
