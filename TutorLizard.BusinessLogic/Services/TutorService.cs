@@ -67,8 +67,17 @@ public class TutorService : ITutorService
     }
     public string GetStudentUserNameByAdRequestId(int adRequestId)
     {
-        // this is only for tests
-        return "TestStudentName1";
+        AdRequest adRequest = _dataAccess.GetAdRequestById(adRequestId);
+        if (adRequest != null)
+        {
+            int studentId = adRequest.StudentId;
+            User user = _userIdentityService.GetUserById(studentId);
+            if (user != null)
+            {
+                return user.Name;
+            }
+        }
+        return null;
     }
     public string GetStudentUserNameByScheduleItemRequestId(int scheduleItemRequestId)
     {
