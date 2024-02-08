@@ -9,5 +9,4 @@ public interface ITutorDataAccess
     Ad? GetAdById(int adId);
     int? GetAllAdsId();
     ScheduleItem? GetScheduleItemById(int? scheduleItemId);
-    int? GetScheduleItemId();
 }

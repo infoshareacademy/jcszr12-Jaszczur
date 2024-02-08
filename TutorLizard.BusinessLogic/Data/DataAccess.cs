@@ -195,5 +195,20 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         else
             return 0;
     }
+
+    public Ad? GetAdById(int adId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public int? GetAllAdsId()
+    {
+        throw new NotImplementedException();
+    }
+
+    public ScheduleItem? GetScheduleItemById(int? scheduleItemId)
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 }
