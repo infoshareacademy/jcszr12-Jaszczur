@@ -16,8 +16,6 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     private string _adRequestFilePath = @"Data/ad_requests.json";
     private string _scheduleItemRequestFilePath = @"Data/schedule_requests.json";
 
-    private User _currentUser = new();
-
     public DataAccess()
     {
         LoadData();
@@ -32,6 +30,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         LoadScheduleItemRequestFromJson();
         LoadAdRequestsFromJson();
     }
+
     private List<T> LoadFromJson<T>(string Path)
     {
         var filePath = $@"{Path}";
@@ -52,11 +51,13 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     private void LoadUsersFromJson()
     {
         _userList = LoadFromJson<User>(_userFilePath);
-    }    
+    } 
+    
     private void LoadAdRequestsFromJson()
     {
         _adRequestList = LoadFromJson<AdRequest>(_adRequestFilePath);
     } 
+
     private void LoadScheduleItemRequestFromJson()
     {
         _scheduleItemRequestList = LoadFromJson<ScheduleItemRequest>(_scheduleItemRequestFilePath);
@@ -85,6 +86,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         });
         File.WriteAllText(filePath, jsonData);
     }
+
     private void SaveUserToJson()
     {
         SaveToJson(_userFilePath, _userList);
@@ -104,6 +106,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     {
         SaveToJson(_adRequestFilePath, _adRequestList);
     }
+
     private void SaveScheduleItemRequestToJson()
     {
         SaveToJson(_scheduleItemRequestFilePath, _scheduleItemRequestList);
@@ -161,50 +164,52 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     #region GetID
     private int GetNewUserID()
     {
-        if (_userList.Count() > 0)
+        if (_userList.Count() +1 > 1)
             return _userList.Max(x => x.Id) + 1;
         else
-            return 0;
+            return 1;
     }
 
     private int GetNewScheduleItemID()
     {
-        if (_scheduleItemList.Count() > 0)
+        if (_scheduleItemList.Count() +1 > 1)
             return _scheduleItemList.Max(x => x.Id) + 1;
         else
-            return 0;
+            return 1;
     }
+
     private int GetNewAdID()
     {
-        if (_adList.Count() > 0)
+        if (_adList.Count() +1 > 1)
             return _adList.Max(x => x.Id) + 1;
         else
-            return 0;
+            return 1;
     }
 
     private int GetNewAdRequestID()
     {
-        if (_adRequestList.Count() > 0)
+        if (_adRequestList.Count() +1 > 1)
             return _adRequestList.Max(x => x.Id) + 1;
         else
-            return 0;
+            return 1;
     }
 
     private int GetNewScheduleItemRequestID()
     {
-        if (_scheduleItemRequestList.Count() > 0)
+        if (_scheduleItemRequestList.Count() +1 > 1)
             return _scheduleItemRequestList.Max(x => x.Id) + 1;
         else
-            return 0;
+            return 1;
     }
     #endregion
 
+    #region Login
     private bool DoesTheUserIdExist(int id)
     {
-        if (id >= GetNewUserID() || id < 0)
-            return false;
+        if (_userList.Any(x => x.Id == id))
+            return true;
 
-        return true;
+        return false;
     }
 
     private bool DoesTheUsernameMatchUserId(int id, string username)
@@ -216,37 +221,25 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
         return false;
     }
-
-    public bool IsLoginDataCorrect (int id, string username)
+    private User ReturnActiveUser(int id)
+    {
+        User tempUser = _userList.Single(x => x.Id == id);
+        return tempUser;
+    }
+    public (bool isCorrect, User activeUser) IsLoginDataCorrect (int id, string username)
     {
         bool condition1 = DoesTheUserIdExist(id);
         bool condition2 = DoesTheUsernameMatchUserId(id, username); 
         
         if (condition1 == false || condition2 == false)
-            return false;
-
-        _currentUser = _userList.Single(x => x.Id == id);
-        return true;
+            return (first: false, last: null);
+        
+        return (first: true, last: ReturnActiveUser(id));
     }
 
-    public User GetCurrentUser()
+    public bool LookForUserName(string username)
     {
-        return _currentUser;
-    }   
-    public int GetCurrentUserID()
-    {
-        return _currentUser.Id;
-    }    
-    public string GetCurrentUserName()
-    {
-        return _currentUser.Name;
+        return _userList.Any(x => x.Name == username);
     }
-    public UserType GetCurrentUserUsertype()
-    {
-        return _currentUser.UserType;
-    }
-    public void ResetCurrentUserToNull()
-    {
-        _currentUser = null;
-    }
+    #endregion
 }

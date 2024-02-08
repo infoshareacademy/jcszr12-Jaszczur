@@ -5,47 +5,76 @@ namespace TutorLizard.BusinessLogic.Services;
 public class UserIdentityService : IUserIdentityService
 {
     private readonly IUserIdentityDataAccess _dataAccess;
+    private readonly DataAccess? _dataAccessObject = new();
+    
+    private User _activeUser = new();
 
     public UserIdentityService(IUserIdentityDataAccess dataAccess)
     {
         _dataAccess = dataAccess;
     }
+
+    public User? GetActiveUser() 
+    {
+        if (_activeUser is null)
+            return null;
+        return _activeUser;
+    }
+
     public UserType? GetUserType()
     {
-        // return UserType of active user
-        // return null if not logged in
-        throw new NotImplementedException();
+        if (_activeUser is null)
+            return null;
+        return _activeUser.UserType;
     }
+
     public string? GetUserName()
     {
-        // return Name of active user
-        // return null if not logged in
-        throw new NotImplementedException();
+        if (_activeUser is null)
+            return null;
+        return _activeUser.Name;
     }
+
     public int? GetUserId()
     {
-        // return Id of active user
-        // return null if not logged in
-        throw new NotImplementedException();
+        if (_activeUser is null)
+            return null;
+        return _activeUser.Id;
     }
+
     public bool IsUserNameTaken(string userName)
     {
-        // return true if user with this userName already exists
-        throw new NotImplementedException();
+        return _dataAccessObject.LookForUserName(userName);
     }
+
     public bool LogIn(string userName, int userId)
     {
-        // return true if successful
-        throw new NotImplementedException();
+        var isDataCorrect = _dataAccessObject?.IsLoginDataCorrect(userId, userName).isCorrect;
+
+        if (!(isDataCorrect == true))
+            return false;
+
+        _activeUser = _dataAccessObject.IsLoginDataCorrect(userId, userName).activeUser;
+        return true;
     }
+
     public void LogOut()
     {
+        //ResetCurrentUserToNull();
         throw new NotImplementedException();
     }
-    public int RegisterUser(string userName)
+
+    public int RegisterUser(string userName, UserType type)
     {
-        // return id of newly created user
-        // return 0 if unsuccessful
-        throw new NotImplementedException();
+        if (!IsUserNameTaken(userName))
+            return 0;
+
+        var newUser = _dataAccessObject.CreateUser(userName, type);
+        return newUser.Id;
+    }
+
+    public void ResetCurrentUserToNull()
+    {
+        _activeUser = null;
     }
 }
