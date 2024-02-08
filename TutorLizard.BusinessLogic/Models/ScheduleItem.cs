@@ -8,12 +8,9 @@ namespace TutorLizard.BusinessLogic.Models;
 
 public class ScheduleItem
 {
-    public ScheduleItem()
+    public ScheduleItem(int id, int adId, DateTime dateTime)
     {
-    }
-
-    public ScheduleItem(int adId, DateTime dateTime)
-    {
+        Id = id;
         AdId = adId;
         DateTime = dateTime;
     }
