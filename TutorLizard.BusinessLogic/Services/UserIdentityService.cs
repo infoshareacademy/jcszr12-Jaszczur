@@ -51,7 +51,7 @@ public class UserIdentityService : IUserIdentityService
     {
         var isDataCorrect = _dataAccessObject?.IsLoginDataCorrect(userId, userName).isCorrect;
 
-        if (!(isDataCorrect == true))
+        if (isDataCorrect == false)
             return false;
 
         _activeUser = _dataAccessObject.IsLoginDataCorrect(userId, userName).activeUser;
