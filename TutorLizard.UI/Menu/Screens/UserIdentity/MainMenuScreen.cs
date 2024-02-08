@@ -28,7 +28,7 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
 
     private MenuNavigation DisplayNotLoggedInMenu()
     {
-        int selected = SelectTool.SelectOne(["Zaloguj się", "Zarejestruj się",  "Wyjdź"], new SelectOneOptions()
+        int selected = SelectTool.SelectOne(["Zaloguj się", "Zarejestruj się", "Wyjdź"], new SelectOneOptions()
         {
         });
 
@@ -49,15 +49,51 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
 
     private MenuNavigation DisplayStudentMenu()
     {
-        throw new NotImplementedException();
-        // - Przeglądaj wszystkie ogłoszenia
-        // - Przeglądaj swoje ogłoszenia (zakceptowane)
-        // - Zgłoś się na termin
-        // - Przeglądaj swoje terminy (zaakceptowane)
-        // - Wyloguj
-        //      _userIdentityService.Logout();
-        //      return MenuNavigation.NextOrCurrent;
-        // - Wyjdź
+        string[] items = [
+            "Przeglądaj wszystkie ogłoszenia", // 0
+            "Wyślij zgłoszenie do ogłoszenia", // 1
+            "Przeglądaj ogłoszenia, na które jesteś zapisany/a", // 2
+            "Przeglądaj dostępne terminy zajęć", // 3
+            "Wyślij zgłoszenie na termin zajęć", //4
+            "Przeglądaj terminy zajęć, na które jesteś zapisany/a", //5
+            "Wyloguj", // 6
+            "Wyjdź" // 7
+            ];
+
+        int selected = SelectTool.SelectOne(items);
+
+        switch (selected)
+        {
+            case 0:
+                _menuService.AddNextScreen(MenuScreenName.BrowseAds);
+                break;
+            case 1:
+                _menuService.AddNextScreen(MenuScreenName.CreateAdRequest);
+                break;
+            case 2:
+                _menuService.AddNextScreen(MenuScreenName.BrowseStudentsAcceptedAds);
+                break;
+            case 3:
+                _menuService.AddNextScreen(MenuScreenName.BrowseStudentsAvailableSchedule);
+                break;
+            case 4:
+                _menuService.AddNextScreen(MenuScreenName.CreateScheduleItemRequest);
+                break;
+            case 5:
+                _menuService.AddNextScreen(MenuScreenName.BrowseStudentsAcceptedSchedule);
+                break;
+            case 6:
+                _userIdentityService.LogOut();
+                break;
+            case 7:
+                DisplaySelectedOption(items[selected]);
+                return MenuNavigation.QuitProgram;
+            default:
+                break;
+        }
+
+        DisplaySelectedOption(items[selected]);
+        return MenuNavigation.NextOrCurrent;
     }
 
     private MenuNavigation DisplayTutorMenu()
@@ -71,5 +107,13 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
         // - Wyświetl swoje terminy
         // - Wyloguj
         // - Wyjdź
+    }
+
+    private void DisplaySelectedOption(string selected)
+    {
+        Console.WriteLine();
+        Console.WriteLine($"Wybrałeś: {selected}");
+        Console.Write("Kontynuuj...");
+        Console.ReadKey(true);
     }
 }
