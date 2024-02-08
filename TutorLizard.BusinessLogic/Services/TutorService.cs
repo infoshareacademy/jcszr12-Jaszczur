@@ -48,8 +48,9 @@ public class TutorService : ITutorService
         }
         return _dataAccess.GetScheduleItemById(scheduleItemId);
     }
-    public List<Ad> GetUsersAds()
+    public List<Ad> GetUsersAds(int userId)
     {
+
         List<Ad> ads = new List<Ad>();
         return _dataAccess.GetUsersAds().ToList();
     }
