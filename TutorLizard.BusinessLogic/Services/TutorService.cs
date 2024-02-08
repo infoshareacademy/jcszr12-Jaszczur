@@ -41,12 +41,12 @@ public class TutorService : ITutorService
     }
     public ScheduleItem? GetScheduleItemById(int? scheduleItemId)
     {
-        scheduleItemId = _dataAccess.GetScheduleItemId();
-        if (scheduleItemId is null)
+        ScheduleItem? scheduleItem = _dataAccess.GetScheduleItemById(scheduleItemId);
+        if (scheduleItem == null)
         {
             return null;
         }
-        return _dataAccess.GetScheduleItemById(scheduleItemId);
+        return scheduleItem;
     }
     public List<Ad> GetUsersAds()
     {
