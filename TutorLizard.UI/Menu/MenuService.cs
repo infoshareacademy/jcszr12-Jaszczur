@@ -94,6 +94,18 @@ public class MenuService : IMenuService
         {
             case MenuScreenName.Main:
                 return new MainMenuScreen(this, _userIdentityService);
+            case MenuScreenName.CreateAd:
+                return new CreateAdScreen(this, _tutorService);
+            case MenuScreenName.CreateScheduleItem:
+                return new CreateScheduleItemScreen(this, _tutorService);
+            case MenuScreenName.BrowseTutorsAds:
+                return new BrowseTutorsAdsScreen(this, _tutorService);
+            case MenuScreenName.BrowseTutorsSchedule:
+                return new BrowseTutorsScheduleScreen(this, _tutorService);
+            case MenuScreenName.BrowseTutorsAdRequests:
+                return new BrowseTutorsAdRequestsScreen(this, _tutorService);
+            case MenuScreenName.BrowseTutorsScheduleItemRequests:
+                return new BrowseTutorsScheduleItemRequestsScreen(this, _tutorService);
             case MenuScreenName.Login:
                 return new LoginScreen(this, _userIdentityService);
             case MenuScreenName.RegisterUser:
@@ -107,6 +119,12 @@ public class MenuService : IMenuService
 public enum MenuScreenName
 {
     Main,
+    CreateAd,
+    CreateScheduleItem,
+    BrowseTutorsAds,
+    BrowseTutorsSchedule,
+    BrowseTutorsAdRequests,
+    BrowseTutorsScheduleItemRequests
     Login,
     RegisterUser
 }
