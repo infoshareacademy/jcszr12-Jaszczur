@@ -14,12 +14,7 @@ public class TutorService : ITutorService
     }
     public Ad CreateAd(string subject, string title, string description)
     {
-        int? tutorId = _userIdentityService.GetUserId();
-        if (tutorId is null)
-        {
-            return new Ad()
-            { Id = 0 };
-        }
+        int tutorId = (int)_userIdentityService.GetUserId();
 
         return _dataAccess.CreateAd((int)tutorId, subject, title, description);
 
@@ -28,24 +23,16 @@ public class TutorService : ITutorService
     {
         return _dataAccess.CreateScheduleItem(adId, dateTime);
     }
-    public Ad? GetAdById(int? adId)
+    public Ad? GetAdById(int adId)
     {
         // return Ad (from _dataAccess) with provided adId
         // return null if no such Ad
-        adId = _dataAccess.GetAllAdsId();
-        if (adId is null)
-        {
-            return null;
-        }
+        adId = (int)_dataAccess.GetAllAdsId();
         return _dataAccess.GetAdById((int)adId);
     }
-    public ScheduleItem? GetScheduleItemById(int? scheduleItemId)
+    public ScheduleItem? GetScheduleItemById(int scheduleItemId)
     {
-        scheduleItemId = _dataAccess.GetScheduleItemId();
-        if (scheduleItemId is null)
-        {
-            return null;
-        }
+        scheduleItemId = (int)_dataAccess.GetScheduleItemId();
         return _dataAccess.GetScheduleItemById(scheduleItemId);
     }
     public List<Ad> GetUsersAds()
@@ -100,7 +87,7 @@ public class TutorService : ITutorService
     public bool UserCanEditAdSchedule(int adId)
     {
         // return true if ad exists and belongs to active user (ask _userIdentityService)
-        int? userId = _userIdentityService.GetUserId();
+        int userId = (int)_userIdentityService.GetUserId();
 
         Ad? ad = _dataAccess.GetAdById(adId);
 
