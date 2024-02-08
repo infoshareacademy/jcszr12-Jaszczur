@@ -16,6 +16,8 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     private string _adRequestFilePath = @"Data/ad_requests.json";
     private string _scheduleItemRequestFilePath = @"Data/schedule_requests.json";
 
+    private User _currentUser = new();
+
     public DataAccess()
     {
         LoadData();
@@ -118,9 +120,9 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return newUser;
     }
 
-    public ScheduleItem CreateScheduleItem(int adId, int studentId, DateTime dateTime)
+    public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime)
     {
-        ScheduleItem newSchedule = new ScheduleItem(GetNewScheduleItemID(), adId, studentId, dateTime);
+        ScheduleItem newSchedule = new ScheduleItem(GetNewScheduleItemID(), adId, dateTime);
         _scheduleItemList.Add(newSchedule);
         SaveScheduleItemToJson();
 
@@ -196,4 +198,55 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
             return 0;
     }
     #endregion
+
+    private bool DoesTheUserIdExist(int id)
+    {
+        if (id >= GetNewUserID() || id < 0)
+            return false;
+
+        return true;
+    }
+
+    private bool DoesTheUsernameMatchUserId(int id, string username)
+    {
+        User tempUser = _userList.Single(x => x.Id == id);
+
+        if (tempUser.Name.ToLower() == username.ToLower()) 
+            return true;
+
+        return false;
+    }
+
+    public bool IsLoginDataCorrect (int id, string username)
+    {
+        bool condition1 = DoesTheUserIdExist(id);
+        bool condition2 = DoesTheUsernameMatchUserId(id, username); 
+        
+        if (condition1 == false || condition2 == false)
+            return false;
+
+        _currentUser = _userList.Single(x => x.Id == id);
+        return true;
+    }
+
+    public User GetCurrentUser()
+    {
+        return _currentUser;
+    }   
+    public int GetCurrentUserID()
+    {
+        return _currentUser.Id;
+    }    
+    public string GetCurrentUserName()
+    {
+        return _currentUser.Name;
+    }
+    public UserType GetCurrentUserUsertype()
+    {
+        return _currentUser.UserType;
+    }
+    public void ResetCurrentUserToNull()
+    {
+        _currentUser = null;
+    }
 }
