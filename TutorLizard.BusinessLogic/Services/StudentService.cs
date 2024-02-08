@@ -46,6 +46,11 @@ public class StudentService : IStudentService
     }
     public List<Ad> GetAllAds()
     {
+        if (_dataAccess.GetAllAds() is IEnumerable<Ad> allAds) 
+        {
+            List<Ad> ads = allAds.ToList();
+            return ads;
+        }
         throw new NotImplementedException();
     }
     public List<Ad> GetUsersAcceptedAds()

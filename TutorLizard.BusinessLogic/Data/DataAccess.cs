@@ -205,5 +205,10 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     {
         throw new NotImplementedException();
     }
+
+    public object GetAllAds()
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 }
