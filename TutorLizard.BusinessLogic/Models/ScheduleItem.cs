@@ -2,6 +2,10 @@
 
 public class ScheduleItem
 {
+    public ScheduleItem()
+    {
+    }
+
     public ScheduleItem(int id, int adId, DateTime dateTime)
     {
         Id = id;
