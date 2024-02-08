@@ -17,12 +17,15 @@ public class StudentService : IStudentService
     {
         // return created request
         // return empty with id = 0 to indicate something went wrong
-        int? studentAd = _userIdentityService.GetUserId();
-        if (studentAd is null) 
+        int? studentId = _userIdentityService.GetUserId();
+        
+        if (studentId is null) 
         {
             return new AdRequest()
             { AdId = 0 };
         }
+
+        return _dataAccess.CreateAdRequest(adId, studentId.Value, isAccepted: false, message);
         throw new NotImplementedException();
     }
     public ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId)

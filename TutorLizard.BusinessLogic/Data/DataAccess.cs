@@ -195,5 +195,10 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         else
             return 0;
     }
+
+    public AdRequest CreateAdRequest(int adId, object value, bool isAccepted, string message)
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 }
