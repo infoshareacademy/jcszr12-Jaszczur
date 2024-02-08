@@ -30,7 +30,7 @@ public class RegisterUserScreen : UserIdentityMenuScreenBase
         if (userName is null)
             return Cancel();
 
-        UserType? userType;
+        UserType userType;
 
         int selectedType = SelectTool.SelectOne(["Uczeń", "Nauczyciel"]);
         if (selectedType == 0)

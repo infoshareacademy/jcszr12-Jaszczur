@@ -16,4 +16,9 @@ public static class UserTypeHelpers
                 return "";
         }
     }
+
+    public static string UiName(this UserType userType)
+    {
+        return ((UserType?)userType).UiName();
+    }
 }
