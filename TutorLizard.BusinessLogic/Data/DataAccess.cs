@@ -200,5 +200,10 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     {
         throw new NotImplementedException();
     }
+
+    public ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId, int value)
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 }

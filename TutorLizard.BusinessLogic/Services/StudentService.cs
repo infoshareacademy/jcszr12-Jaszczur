@@ -32,6 +32,16 @@ public class StudentService : IStudentService
     {
         // return created request
         // return empty with id = 0 to indicate something went wrong
+        int? studentId = _userIdentityService.GetUserId();
+
+        if (studentId is null)
+        {
+            return new ScheduleItemRequest
+            {
+                ScheduleItemId = 0
+            };
+        }
+        return _dataAccess.CreateScheduleItemRequest(scheduleItemId, studentId.Value);
         throw new NotImplementedException();
     }
     public List<Ad> GetAllAds()
