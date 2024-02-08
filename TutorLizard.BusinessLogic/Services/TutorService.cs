@@ -100,7 +100,16 @@ public class TutorService : ITutorService
     public bool UserCanEditAdSchedule(int adId)
     {
         // return true if ad exists and belongs to active user (ask _userIdentityService)
-        return adId == 1;
+        int? userId = _userIdentityService.GetUserId();
+
+        Ad? ad = _dataAccess.GetAdById(adId);
+
+        if (userId != null && ad != null && ad.TutorId == (int)userId)
+        {
+            return true;
+        }
+
+        return false;
     }
     public AdRequest AcceptAdRequest(int adRequestId)
     {
