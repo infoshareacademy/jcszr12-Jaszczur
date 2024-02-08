@@ -14,7 +14,12 @@ public class TutorService : ITutorService
     }
     public Ad CreateAd(string subject, string title, string description)
     {
-        int tutorId = (int)_userIdentityService.GetUserId();
+        int? tutorId = _userIdentityService.GetUserId();
+        if (tutorId is null)
+        {
+            return new Ad()
+            { Id = 0 };
+        }
 
         return _dataAccess.CreateAd((int)tutorId, subject, title, description);
 
