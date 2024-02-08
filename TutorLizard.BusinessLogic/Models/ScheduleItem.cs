@@ -6,11 +6,10 @@ public class ScheduleItem
     {
     }
 
-    public ScheduleItem(int id, int adId, int studentId, DateTime dateTime)
+    public ScheduleItem(int id, int adId, DateTime dateTime)
     {
         Id = id;
         AdId = adId;
-        StudentId = studentId;
         DateTime = dateTime;
     }
 
