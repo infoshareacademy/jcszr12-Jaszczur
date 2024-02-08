@@ -10,5 +10,5 @@ public interface IUserIdentityService
     public bool LogIn(string userName, int userId);
     public void LogOut();
     public bool IsUserNameTaken(string userName);
-    public int RegisterUser(string userName);
+    public int RegisterUser(string userName, UserType userType);
 }

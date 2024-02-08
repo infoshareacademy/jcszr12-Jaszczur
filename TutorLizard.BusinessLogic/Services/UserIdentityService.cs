@@ -42,7 +42,7 @@ public class UserIdentityService : IUserIdentityService
     {
         throw new NotImplementedException();
     }
-    public int RegisterUser(string userName)
+    public int RegisterUser(string userName, UserType userType)
     {
         // return id of newly created user
         // return 0 if unsuccessful

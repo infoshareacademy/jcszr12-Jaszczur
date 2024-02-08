@@ -45,7 +45,7 @@ public class RegisterUserScreen : UserIdentityMenuScreenBase
             return Cancel();
         Console.WriteLine();
 
-        int userId = _userIdentityService.RegisterUser(userName);
+        int userId = _userIdentityService.RegisterUser(userName, userType);
 
         Console.WriteLine("Użytkownik zarejestrowany.");
         Console.WriteLine($"Twoje id to {userId} - zapamiętaj je! Będzie ci potrzebne w takcie logowania.");
