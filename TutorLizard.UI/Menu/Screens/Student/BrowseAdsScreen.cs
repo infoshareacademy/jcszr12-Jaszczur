@@ -20,7 +20,7 @@ public class BrowseAdsScreen : StudentMenuScreenBase
 
     public override MenuNavigation Display()
     {
-        Console.WriteLine("Wszystkie ogłoszenia \t");
+        Console.Write("Wszystkie ogłoszenia \t");
         return _paginator.DisplayPage(ref _page);
     }
 
