@@ -4,6 +4,7 @@ using TutorLizard.UI.Menu.Screens.Simple;
 using TutorLizard.UI.Menu.Screens.Tutor;
 using TutorLizard.UI.Menu.Screens.Student;
 using TutorLizard.UI.Menu.Screens.UserIdentity;
+using System.Reflection.Metadata.Ecma335;
 
 namespace TutorLizard.UI.Menu;
 public class MenuService : IMenuService
@@ -85,6 +86,18 @@ public class MenuService : IMenuService
         {
             case MenuScreenName.Main:
                 return new MainMenuScreen(this, _userIdentityService);
+            case MenuScreenName.BrowseAds:
+                return new BrowseAdsScreen(this, _studentService);
+            case MenuScreenName.BrowseStudentsAcceptedAds:
+                return new BrowseStudentsAcceptedAdsScreen(this, _studentService);
+            case MenuScreenName.BrowseStudentsAcceptedSchedule:
+                return new BrowseStudentsAcceptedScheduleScreen(this, _studentService);
+            case MenuScreenName.BrowseStudentsAvailableSchedule:
+                return new BrowseStudentsAvailableScheduleScreen(this, _studentService);
+            case MenuScreenName.CreateAdRequest:
+                return new CreateAdRequestScreen(this, _studentService);
+            case MenuScreenName.CreateScheduleItemRequest:
+                return new CreateScheduleItemRequestScreen(this, _studentService);
             default:
                 return null;
         }
@@ -93,5 +106,11 @@ public class MenuService : IMenuService
 
 public enum MenuScreenName
 {
-    Main
+    Main,
+    BrowseAds,
+    BrowseStudentsAcceptedAds,
+    BrowseStudentsAcceptedSchedule,
+    BrowseStudentsAvailableSchedule,
+    CreateAdRequest,
+    CreateScheduleItemRequest
 }
