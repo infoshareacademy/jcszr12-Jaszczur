@@ -195,5 +195,65 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         else
             return 0;
     }
+
+    public Ad? GetAdById(int adId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public AdRequest GetAdRequestById(int adRequestId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public int? GetAllAdsId()
+    {
+        throw new NotImplementedException();
+    }
+
+    public ScheduleItem? GetScheduleItemById(int? scheduleItemId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public int? GetScheduleItemId()
+    {
+        throw new NotImplementedException();
+    }
+
+    public ScheduleItemRequest GetScheduleItemRequestById(int scheduleItemRequestId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public List<AdRequest> GetUsersAdRequests()
+    {
+        throw new NotImplementedException();
+    }
+
+    public List<Ad> GetUsersAds()
+    {
+        throw new NotImplementedException();
+    }
+
+    public List<ScheduleItemRequest> GetUsersScheduleItemRequests()
+    {
+        throw new NotImplementedException();
+    }
+
+    public List<ScheduleItem> GetUsersScheduleItems()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void UpdateAdRequest(AdRequest adRequest)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void UpdateScheduleItemRequest(ScheduleItemRequest scheduleItemRequest)
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 }
