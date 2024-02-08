@@ -81,9 +81,22 @@ public class TutorService : ITutorService
     }
     public string GetStudentUserNameByScheduleItemRequestId(int scheduleItemRequestId)
     {
-        // this is only for tests
-        return "TestStudentName2";
+        ScheduleItemRequest scheduleItemRequest = _dataAccess.GetScheduleItemRequestById(scheduleItemRequestId);
+
+        if (scheduleItemRequest != null)
+        {
+            int userId = scheduleItemRequest.UserId;
+
+            User user = _userIdentityService.GetUserById(userId);
+
+            if (user != null && user.UserType == UserType.Student)
+            {
+                return user.Name;
+            }
+        }
+        return null;
     }
+
     public bool UserCanEditAdSchedule(int adId)
     {
         // return true if ad exists and belongs to active user (ask _userIdentityService)
