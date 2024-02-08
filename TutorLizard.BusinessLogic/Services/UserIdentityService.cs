@@ -48,9 +48,4 @@ public class UserIdentityService : IUserIdentityService
         // return 0 if unsuccessful
         throw new NotImplementedException();
     }
-
-    public void LogOut()
-    {
-        throw new NotImplementedException();
-    }
 }
