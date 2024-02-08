@@ -118,9 +118,9 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return newUser;
     }
 
-    public ScheduleItem CreateScheduleItem(int adId, int studentId, DateTime dateTime)
+    public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime)
     {
-        ScheduleItem newSchedule = new ScheduleItem(GetNewScheduleItemID(), adId, studentId, dateTime);
+        ScheduleItem newSchedule = new ScheduleItem(GetNewScheduleItemID(), adId, dateTime);
         _scheduleItemList.Add(newSchedule);
         SaveScheduleItemToJson();
 
