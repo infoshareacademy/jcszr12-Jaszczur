@@ -124,7 +124,7 @@ public enum MenuScreenName
     BrowseTutorsAds,
     BrowseTutorsSchedule,
     BrowseTutorsAdRequests,
-    BrowseTutorsScheduleItemRequests
+    BrowseTutorsScheduleItemRequests,
     Login,
     RegisterUser
 }

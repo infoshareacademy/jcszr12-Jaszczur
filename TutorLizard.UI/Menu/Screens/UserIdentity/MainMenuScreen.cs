@@ -29,7 +29,13 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
 
     private MenuNavigation DisplayNotLoggedInMenu()
     {
-        int selected = SelectTool.SelectOne(["Zaloguj się", "Zarejestruj użytkownika",  "Wyjdź"]);
+        string[] items = [
+            "Zaloguj się", // 0
+            "Zarejestruj użytkownika", // 1
+            "Wyjdź" // 2
+            ];
+
+        int selected = SelectTool.SelectOne(items);
 
         switch (selected)
         {
