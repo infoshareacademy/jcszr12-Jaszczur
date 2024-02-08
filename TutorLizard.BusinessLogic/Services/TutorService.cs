@@ -113,20 +113,28 @@ public class TutorService : ITutorService
     }
     public AdRequest AcceptAdRequest(int adRequestId)
     {
-        return new AdRequest()
+        AdRequest adRequest = _dataAccess.GetAdRequestById(adRequestId);
+        if (adRequest != null)
         {
-            // this is only for tests
-            Id = adRequestId,
-            IsAccepted = true
-        };
+            adRequest.IsAccepted = true;
+            _dataAccess.UpdateAdRequest(adRequest);
+
+            return adRequest;
+        }
+
+        return null;
     }
     public ScheduleItemRequest AcceptScheduleItemRequest(int scheduleItemRequestId)
     {
-        return new ScheduleItemRequest()
+        ScheduleItemRequest scheduleItemRequest = _dataAccess.GetScheduleItemRequestById(scheduleItemRequestId);
+        if (scheduleItemRequest != null)
         {
-            // this is only for tests
-            Id = scheduleItemRequestId,
-            IsAccepted = true
-        };
+            scheduleItemRequest.IsAccepted = true;
+            _dataAccess.UpdateScheduleItemRequest(scheduleItemRequest);
+            
+            return scheduleItemRequest;
+        }
+
+        return null;
     }
 }

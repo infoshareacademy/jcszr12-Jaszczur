@@ -16,4 +16,6 @@ public interface ITutorDataAccess
     List<Ad> GetUsersAds();
     List<ScheduleItemRequest> GetUsersScheduleItemRequests();
     List<ScheduleItem> GetUsersScheduleItems();
+    void UpdateAdRequest(AdRequest adRequest);
+    void UpdateScheduleItemRequest(ScheduleItemRequest scheduleItemRequest);
 }
