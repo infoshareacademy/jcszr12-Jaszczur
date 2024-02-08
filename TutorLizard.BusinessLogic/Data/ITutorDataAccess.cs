@@ -10,5 +10,8 @@ public interface ITutorDataAccess
     int? GetAllAdsId();
     ScheduleItem? GetScheduleItemById(int? scheduleItemId);
     int? GetScheduleItemId();
+    List<AdRequest> GetUsersAdRequests();
     List<Ad> GetUsersAds();
+    List<ScheduleItemRequest> GetUsersScheduleItemRequests();
+    List<ScheduleItem> GetUsersScheduleItems();
 }

@@ -51,42 +51,19 @@ public class TutorService : ITutorService
     public List<Ad> GetUsersAds()
     {
         List<Ad> ads = new List<Ad>();
-        return _dataAccess.GetUsersAds().ToList();
+        return [.. _dataAccess.GetUsersAds()];
     }
     public List<ScheduleItem> GetUsersScheduleItems()
     {
-        return [
-            // this is only for tests
-            GetScheduleItemById(1)!,
-            GetScheduleItemById(2)!,
-            GetScheduleItemById(3)!
-            ];
+        return _dataAccess.GetUsersScheduleItems();
     }
     public List<AdRequest> GetUsersAdRequests()
     {
-        return [
-            // this is only for tests
-            new AdRequest()
-            {
-                Id = 1,
-                AdId = 1,
-                IsAccepted = false,
-                Message = "Test Ad Request",
-                StudentId = 1
-            },
-        ];
+        return _dataAccess.GetUsersAdRequests();
     }
     public List<ScheduleItemRequest> GetUsersScheduleItemRequests()
     {
-        return [
-            new ScheduleItemRequest()
-            {
-                // this is only for tests
-                Id = 1,
-                IsAccepted = false,
-                ScheduleItemId = 1,
-                UserId = 1
-            }];
+        return _dataAccess.GetUsersScheduleItemRequests();
     }
     public string GetStudentUserNameByAdRequestId(int adRequestId)
     {
