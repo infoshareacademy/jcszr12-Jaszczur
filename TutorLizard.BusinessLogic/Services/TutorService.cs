@@ -51,10 +51,6 @@ public class TutorService : ITutorService
     public List<Ad> GetUsersAds()
     {
         List<Ad> ads = new List<Ad>();
-        if (ads is null)
-        {
-            return null;
-        }
         return _dataAccess.GetUsersAds().ToList();
     }
     public List<ScheduleItem> GetUsersScheduleItems()
