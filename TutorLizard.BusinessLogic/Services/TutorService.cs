@@ -14,28 +14,19 @@ public class TutorService : ITutorService
     }
     public Ad CreateAd(string subject, string title, string description)
     {
-        // return created Ad
-        // return empty with id = 0 to indicate something went wrong
-        return new Ad()
+        int? tutorId = _userIdentityService.GetUserId();
+        if (tutorId is null)
         {
-            // this is only for tests
-            Id = 1,
-            Subject = subject,
-            Title = title,
-            Description = description
-        };
+            return new Ad()
+            { Id = 0 };
+        }
+
+        return _dataAccess.CreateAd((int)tutorId, subject, title, description);
+
     }
     public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime)
     {
-        // return created ScheduleItem
-        // return empty with id = 0 to indicate something went wrong
-        return new ScheduleItem()
-        {
-            // this is only for tests
-            Id = 1,
-            AdId = adId,
-            DateTime = dateTime
-        };
+        return _dataAccess.CreateScheduleItem(adId, dateTime);
     }
     public Ad? GetAdById(int adId)
     {
