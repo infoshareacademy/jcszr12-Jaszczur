@@ -255,71 +255,112 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     
     public Ad? GetAdById(int adId)
     {
-        throw new NotImplementedException();
+        var ad = _adList.FirstOrDefault(a => a.Id == adId);
+        return ad;
     }
 
     public AdRequest? GetAdRequestById(int adRequestId)
     {
-        throw new NotImplementedException();
+        var adRequest = _adRequestList.FirstOrDefault(ar => ar.Id == adRequestId);
+        return adRequest;
     }
 
     public ScheduleItem? GetScheduleItemById(int scheduleItemId)
     {
-        throw new NotImplementedException();
+        var scheduleItem = _scheduleItemList.FirstOrDefault(si => si.Id == scheduleItemId);
+        return scheduleItem;
     }
 
     public ScheduleItemRequest? GetScheduleItemRequestById(int scheduleItemRequestId)
     {
-        throw new NotImplementedException();
+        var scheduleItemRequest = _scheduleItemRequestList.FirstOrDefault(sr => sr.Id == scheduleItemRequestId);
+        return scheduleItemRequest;
     }
 
     public List<AdRequest> GetUsersAdRequests(int userId)
     {
-        throw new NotImplementedException();
+        var userAdRequests = _adRequestList.Where(a => a.StudentId == userId).ToList();
+        return userAdRequests;
     }
 
     public List<Ad> GetUsersAds(int userId)
     {
-        throw new NotImplementedException();
+        var userAds = _adList.Where(a => a.TutorId == userId).ToList();
+        return userAds;
     }
 
     public List<ScheduleItemRequest> GetUsersScheduleItemRequests(int userId)
     {
-        throw new NotImplementedException();
+        var userScheduleItemRequests = _scheduleItemRequestList.Where(sr => sr.UserId == userId).ToList();
+        return userScheduleItemRequests;
     }
 
     public List<ScheduleItem> GetUsersScheduleItems(int userId)
     {
-        throw new NotImplementedException();
+        List<Ad> usersAds = _adList.Where(a => a.TutorId == userId).ToList();
+
+        var userScheduleItems = _scheduleItemList.Where(s => usersAds.Any(a => a.Id == s.AdId)).ToList();
+        return userScheduleItems;
     }
 
     public void UpdateAdRequest(AdRequest adRequest)
     {
-        throw new NotImplementedException();
+        if (adRequest is not null)
+        {
+            CreateAdRequest(adRequest.AdId, adRequest.StudentId, adRequest.IsAccepted, adRequest.Message);
+        }
     }
 
     public void UpdateScheduleItemRequest(ScheduleItemRequest scheduleItemRequest)
     {
-        throw new NotImplementedException();
+        if (scheduleItemRequest is not null)
+        {
+            CreateScheduleItemRequest(scheduleItemRequest.ScheduleItemId, scheduleItemRequest.UserId, scheduleItemRequest.IsAccepted);
+        }
     }
 
     public List<Ad> GetAcceptedUserAds(int userId)
     {
-        throw new NotImplementedException();
+        var acceptedUserAds = _adList.Where(a => a.TutorId == userId).ToList();
+        return acceptedUserAds;
     }
 
     public List<Ad> GetAllAds()
     {
-        throw new NotImplementedException();
+        return _adList;
     }
 
     public List<ScheduleItem> GetAllScheduleItemsForUsersAcceptedAds(int userId)
     {
-        throw new NotImplementedException();
+        List<ScheduleItem> scheduleItems = new List<ScheduleItem>();
+        List<AdRequest> userAcceptedAdRequests = _adRequestList.Where(ar => ar.StudentId == userId && ar.IsAccepted == true).ToList();
+
+        foreach (AdRequest adRequest in userAcceptedAdRequests)
+        {
+            ScheduleItem? scheduleItem = _scheduleItemList.FirstOrDefault(i => i.AdId == adRequest.AdId);
+
+            if (scheduleItem is not null)
+            {
+                scheduleItems.Add(scheduleItem);
+            }
+        }
+        return scheduleItems;
     }
 
     public List<ScheduleItem> GetUsersAcceptedScheduleItems(int userId)
     {
-        throw new NotImplementedException();
+        List<ScheduleItem> scheduleItems = new List<ScheduleItem>();
+        List<ScheduleItemRequest> scheduleItemRequests = _scheduleItemRequestList.Where(sir => sir.UserId == userId && sir.IsAccepted == true).ToList();
+
+        foreach (ScheduleItemRequest scheduleItemRequest in scheduleItemRequests)
+        {
+            ScheduleItem? scheduleItem = _scheduleItemList.FirstOrDefault(si => si.Id == scheduleItemRequest.ScheduleItemId);
+
+            if (scheduleItem is not null)
+            {
+                scheduleItems.Add(scheduleItem);
+            }
+        }
+        return scheduleItems;
     }
 }
