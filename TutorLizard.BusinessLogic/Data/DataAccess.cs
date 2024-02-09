@@ -347,7 +347,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     public List<ScheduleItem> GetStudentsAcceptedScheduleItems(int studentId)
     {
         List<ScheduleItemRequest> scheduleItemRequests = _scheduleItemRequestList
-            .Where(sr => sr.UserId == studentId && sr.IsAccepted == true)
+            .Where(sr => sr.StudentId == studentId && sr.IsAccepted == true)
             .ToList();
 
         return _scheduleItemList
@@ -362,6 +362,6 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     public List<ScheduleItemRequest> GetStudentsScheduleItemRequests(int studentId)
     {
-        return _scheduleItemRequestList.Where(r => r.UserId == studentId).ToList();
+        return _scheduleItemRequestList.Where(r => r.StudentId == studentId).ToList();
     }
 }

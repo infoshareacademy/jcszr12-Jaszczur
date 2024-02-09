@@ -91,7 +91,7 @@ public class TutorService : ITutorService
 
         if (scheduleItemRequest is not null)
         {
-            int userId = scheduleItemRequest.UserId;
+            int userId = scheduleItemRequest.StudentId;
 
             return _userIdentityService.GetUserNameById(userId);       
         }
