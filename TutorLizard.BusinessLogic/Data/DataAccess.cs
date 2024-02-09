@@ -223,7 +223,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     }
     private User ReturnActiveUser(int id)
     {
-        User tempUser = _userList.SingleOrDefault(x => x.Id == id);
+        User? tempUser = _userList.SingleOrDefault(x => x.Id == id);
         return tempUser;
     }
     public (bool isCorrect, User activeUser) IsLoginDataCorrect (int id, string username)
