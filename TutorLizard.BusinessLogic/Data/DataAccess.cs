@@ -216,17 +216,17 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     {
         User? tempUser = _userList.SingleOrDefault(x => x.Id == id);
 
-        if (tempUser.Name.ToLower() == username.ToLower()) 
+        if (tempUser?.Name.ToLower() == username.ToLower()) 
             return true;
 
         return false;
     }
-    private User ReturnActiveUser(int id)
+    private User? ReturnActiveUser(int id)
     {
         User? tempUser = _userList.SingleOrDefault(x => x.Id == id);
         return tempUser;
     }
-    public (bool isCorrect, User activeUser) IsLoginDataCorrect (int id, string username)
+    public (bool isCorrect, User? activeUser) IsLoginDataCorrect (int id, string username)
     {
         bool condition1 = DoesTheUserIdExist(id);
         bool condition2 = DoesTheUsernameMatchUserId(id, username); 
@@ -237,10 +237,20 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return (true, ReturnActiveUser(id));
     }
 
-    public bool LookForUserName(string username)
+    public bool DoesUserWithThisNameExist(string username)
     {
         return _userList.Any(x => x.Name == username);
     }
+
+    public string GetUserNameById(int userId)
+    {
+        var tempUser = _userList.FirstOrDefault(x => x.Id == userId);
+        if (tempUser is null)
+            return "";
+
+        return tempUser.Name;
+    }
+
     #endregion
     
     public Ad? GetAdById(int adId)
