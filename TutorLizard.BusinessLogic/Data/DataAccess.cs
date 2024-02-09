@@ -249,18 +249,18 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     public void UpdateAdRequest(AdRequest adRequest)
     {
-        int index = _adRequestList.FindIndex(ar => ar.Id == adRequest.Id);
-
-        if (index > 0)
+        if (adRequest is not null)
         {
-            _adRequestList[index] = adRequest;
+            CreateAdRequest(adRequest.AdId, adRequest.StudentId, adRequest.IsAccepted, adRequest.Message);
         }
-        throw new InvalidOperationException("Not found");
     }
 
     public void UpdateScheduleItemRequest(ScheduleItemRequest scheduleItemRequest)
     {
-        throw new NotImplementedException();
+        if (scheduleItemRequest is not null)
+        {
+            CreateScheduleItemRequest(scheduleItemRequest.ScheduleItemId, scheduleItemRequest.UserId, scheduleItemRequest.IsAccepted);
+        }
     }
 
     public List<Ad> GetAcceptedUserAds(int userId)
@@ -277,11 +277,11 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     public List<ScheduleItem> GetAllScheduleItemsForUsersAcceptedAds(int userId)
     {
         List<ScheduleItem> scheduleItems = new List<ScheduleItem>();
-        List<AdRequest> userAcceptedAdRequests = _adRequestList.Where(ar => ar.StudentId == userId && ar.IsAccepted).ToList();
+        List<AdRequest> userAcceptedAdRequests = _adRequestList.Where(ar => ar.StudentId == userId && ar.IsAccepted == true).ToList();
 
         foreach (AdRequest adRequest in userAcceptedAdRequests)
         {
-            ScheduleItem scheduleItem = _scheduleItemList.FirstOrDefault(i => i.AdId == adRequest.AdId);
+            ScheduleItem? scheduleItem = _scheduleItemList.FirstOrDefault(i => i.AdId == adRequest.AdId);
 
             if (scheduleItem is not null)
             {
@@ -294,11 +294,11 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     public List<ScheduleItem> GetUsersAcceptedScheduleItems(int userId)
     {
         List<ScheduleItem> scheduleItems = new List<ScheduleItem>();
-        List<ScheduleItemRequest> scheduleItemRequests = _scheduleItemRequestList.Where(sir => sir.UserId == userId && sir.IsAccepted).ToList();
+        List<ScheduleItemRequest> scheduleItemRequests = _scheduleItemRequestList.Where(sir => sir.UserId == userId && sir.IsAccepted == true).ToList();
 
         foreach (ScheduleItemRequest scheduleItemRequest in scheduleItemRequests)
         {
-            ScheduleItem scheduleItem = _scheduleItemList.FirstOrDefault(si => si.Id == scheduleItemRequest.ScheduleItemId);
+            ScheduleItem? scheduleItem = _scheduleItemList.FirstOrDefault(si => si.Id == scheduleItemRequest.ScheduleItemId);
 
             if (scheduleItem is not null)
             {
