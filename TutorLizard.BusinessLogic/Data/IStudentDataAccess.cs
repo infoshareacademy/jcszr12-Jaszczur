@@ -6,5 +6,6 @@ public interface IStudentDataAccess
 {
     AdRequest CreateAdRequest(int adId, object value, bool isAccepted, string message);
     ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId, int value);
+    IEnumerable<Ad> GetAcceptedUserAds(object userId);
     object GetAllAds();
 }

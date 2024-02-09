@@ -56,6 +56,16 @@ public class StudentService : IStudentService
     public List<Ad> GetUsersAcceptedAds()
     {
         // list of ads that the active user created request for and they were accepted
+        int userId = (int)_userIdentityService.GetUserId();
+        List<Ad> acceptedAds = new List<Ad>();
+
+        IEnumerable<Ad> userAcceptedAds = _dataAccess.GetAcceptedUserAds(userId);
+
+        if (userAcceptedAds != null)
+        {
+            acceptedAds.AddRange(userAcceptedAds);
+        }
+        return acceptedAds;
         throw new NotImplementedException();
     }
     public List<Ad> GetUsersNotAcceptedAds()
