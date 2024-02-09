@@ -68,29 +68,14 @@ public class StudentService : IStudentService
         return acceptedAds;
         throw new NotImplementedException();
     }
-    public List<Ad> GetUsersNotAcceptedAds()
+    public List<ScheduleItem> GetAllScheduleItemsForUsersAcceptedAds()
     {
-        // list of ads that the active user created request for and they were not accepted
-        int userId = (int)_userIdentityService.GetUserId();
-        List<Ad> notAcceptedAds = new List<Ad>();
-
-        IEnumerable<Ad> userNotAcceptedAds = _dataAccess.GetNotAcceptedUserAds(userId);
-
-        if (userNotAcceptedAds != null)
-        {
-            notAcceptedAds.AddRange(userNotAcceptedAds);
-        }
-        return notAcceptedAds;
+        // return list of all ScheduleItems with AdId matching any Id of active user's accepted ads
         throw new NotImplementedException();
     }
     public List<ScheduleItem> GetUsersAcceptedScheduleItems()
     {
         // list of schedule items that the active user created request for and they were accepted
-        throw new NotImplementedException();
-    }
-    public List<ScheduleItem> GetUsersNotAcceptedScheduleItems()
-    {
-        // list of schedule items that the active user created request for and they were not accepted
         throw new NotImplementedException();
     }
     public Ad? GetAdById(int adId)
@@ -99,15 +84,9 @@ public class StudentService : IStudentService
         // return null if no such Ad
         throw new NotImplementedException();
     }
-    public ScheduleItem? GetScheduleItemById(int scheduleItemId)
-    {
-        // return ScheduleItem (from _dataAccess) with provided scheduleItemId
-        // return null if no such Ad
-        throw new NotImplementedException();
-    }
-
     public string GetTutorUserNameByAdId(int adId)
     {
         throw new NotImplementedException();
     }
+
 }
