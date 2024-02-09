@@ -6,51 +6,57 @@ public class UserIdentityService : IUserIdentityService
 {
     private readonly IUserIdentityDataAccess _dataAccess;
 
+    private User? _activeUser;
+
     public UserIdentityService(IUserIdentityDataAccess dataAccess)
     {
         _dataAccess = dataAccess;
     }
+
     public UserType? GetUserType()
     {
-        // return UserType of active user
-        // return null if not logged in
-        throw new NotImplementedException();
+        return _activeUser?.UserType;
     }
+
     public string? GetUserName()
     {
-        // return Name of active user
-        // return null if not logged in
-        throw new NotImplementedException();
+        return _activeUser?.Name;
     }
+
     public int? GetUserId()
     {
-        // return Id of active user
-        // return null if not logged in
-        throw new NotImplementedException();
+        return _activeUser?.Id;
     }
+
     public bool IsUserNameTaken(string userName)
     {
-        // return true if user with this userName already exists
-        throw new NotImplementedException();
+        return _dataAccess.DoesUserWithThisNameExist(userName);
     }
+
     public bool LogIn(string userName, int userId)
     {
-        // return true if successful
-        throw new NotImplementedException();
+        var isDataCorrect = _dataAccess?.IsLoginDataCorrect(userId, userName).isCorrect;
+
+        if (isDataCorrect == false)
+            return false;
+
+        _activeUser = _dataAccess.IsLoginDataCorrect(userId, userName).activeUser;
+        return true;
     }
+
     public void LogOut()
     {
-        throw new NotImplementedException();
+        _activeUser = null;
     }
-    public int RegisterUser(string userName)
+
+    public int RegisterUser(string userName, UserType type)
     {
-        // return id of newly created user
-        // return 0 if unsuccessful
-        throw new NotImplementedException();
+        User newUser = _dataAccess.CreateUser(userName, type);
+        return newUser.Id;
     }
 
     public string GetUserNameById(int userId)
     {
-        throw new NotImplementedException();
+        return _dataAccess.GetUserNameById(userId);
     }
 }

@@ -10,6 +10,6 @@ public interface IUserIdentityService
     public bool LogIn(string userName, int userId);
     public void LogOut();
     public bool IsUserNameTaken(string userName);
-    public int RegisterUser(string userName);
-    string GetUserNameById(int userId);
+    public int RegisterUser(string userName, UserType type);
+    public string GetUserNameById(int tutorId);
 }
