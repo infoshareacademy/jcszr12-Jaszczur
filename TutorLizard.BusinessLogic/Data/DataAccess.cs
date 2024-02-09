@@ -270,4 +270,24 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     {
         throw new NotImplementedException();
     }
+
+    public List<Ad> GetAcceptedUserAds(int userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    List<Ad> IStudentDataAccess.GetAllAds()
+    {
+        throw new NotImplementedException();
+    }
+
+    public List<ScheduleItem> GetAllScheduleItemsForUsersAcceptedAds(int userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public List<ScheduleItem> GetUsersAcceptedScheduleItems(int userId)
+    {
+        throw new NotImplementedException();
+    }
 }

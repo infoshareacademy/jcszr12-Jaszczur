@@ -15,23 +15,18 @@ public class StudentService : IStudentService
 
     public AdRequest CreateAdRequest(int adId, string message)
     {
-        // return created request
-        // return empty with id = 0 to indicate something went wrong
         int? studentId = _userIdentityService.GetUserId();
-        
-        if (studentId is null) 
+
+        if (studentId is null)
         {
             return new AdRequest()
             { AdId = 0 };
         }
 
-        return _dataAccess.CreateAdRequest(adId, studentId.Value, isAccepted: false, message);
-        throw new NotImplementedException();
+        return _dataAccess.CreateAdRequest(adId, (int)studentId, isAccepted: false, message);
     }
     public ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId)
     {
-        // return created request
-        // return empty with id = 0 to indicate something went wrong
         int? studentId = _userIdentityService.GetUserId();
 
         if (studentId is null)
@@ -41,52 +36,55 @@ public class StudentService : IStudentService
                 ScheduleItemId = 0
             };
         }
-        return _dataAccess.CreateScheduleItemRequest(scheduleItemId, studentId.Value);
-        throw new NotImplementedException();
+        return _dataAccess.CreateScheduleItemRequest(scheduleItemId, (int)studentId, isAccepted: false);
     }
     public List<Ad> GetAllAds()
     {
-        if (_dataAccess.GetAllAds() is IEnumerable<Ad> allAds) 
-        {
-            List<Ad> ads = allAds.ToList();
-            return ads;
-        }
-        throw new NotImplementedException();
+        return _dataAccess.GetAllAds();
     }
     public List<Ad> GetUsersAcceptedAds()
     {
-        // list of ads that the active user created request for and they were accepted
-        int userId = (int)_userIdentityService.GetUserId();
-        List<Ad> acceptedAds = new List<Ad>();
-
-        IEnumerable<Ad> userAcceptedAds = _dataAccess.GetAcceptedUserAds(userId);
-
-        if (userAcceptedAds != null)
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
         {
-            acceptedAds.AddRange(userAcceptedAds);
+            return new List<Ad>();
         }
-        return acceptedAds;
-        throw new NotImplementedException();
+
+        return _dataAccess.GetAcceptedUserAds((int)userId);
     }
     public List<ScheduleItem> GetAllScheduleItemsForUsersAcceptedAds()
     {
-        // return list of all ScheduleItems with AdId matching any Id of active user's accepted ads
-        throw new NotImplementedException();
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
+        {
+            return new List<ScheduleItem>();
+        }
+
+        return _dataAccess.GetAllScheduleItemsForUsersAcceptedAds((int)userId);
     }
     public List<ScheduleItem> GetUsersAcceptedScheduleItems()
     {
-        // list of schedule items that the active user created request for and they were accepted
-        throw new NotImplementedException();
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
+        {
+            return new List<ScheduleItem>();
+        }
+
+        return _dataAccess.GetUsersAcceptedScheduleItems((int)userId);
     }
     public Ad? GetAdById(int adId)
     {
-        // return Ad (from _dataAccess) with provided adId
-        // return null if no such Ad
-        throw new NotImplementedException();
+        return _dataAccess.GetAdById(adId);
     }
     public string GetTutorUserNameByAdId(int adId)
     {
-        throw new NotImplementedException();
+        Ad? ad = _dataAccess.GetAdById(adId);
+        if (ad is null)
+        {
+            return "";
+        }
+
+        return _userIdentityService.GetUserNameById(ad.TutorId);
     }
 
 }
