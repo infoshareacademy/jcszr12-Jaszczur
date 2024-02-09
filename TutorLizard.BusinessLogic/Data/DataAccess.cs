@@ -327,6 +327,8 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     public List<Ad> GetStudentsAcceptedAds(int studentId)
     {
+        var studentsAcceptedRequests = _adRequestList
+            .Where(r => r.IsAccepted == true && r.StudentId == studentId);
         var acceptedUserAds = _adList.Where(a => a.TutorId == studentId).ToList();
         return acceptedUserAds;
     }
