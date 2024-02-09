@@ -199,43 +199,43 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     
     public Ad? GetAdById(int adId)
     {
-        var ad = _adList.FirstOrDefault(x => x.Id == adId);
+        var ad = _adList.FirstOrDefault(a => a.Id == adId);
         return ad;
     }
 
     public AdRequest? GetAdRequestById(int adRequestId)
     {
-        var adRequest = _adRequestList.FirstOrDefault(x => x.Id == adRequestId);
+        var adRequest = _adRequestList.FirstOrDefault(ar => ar.Id == adRequestId);
         return adRequest;
     }
 
     public ScheduleItem? GetScheduleItemById(int scheduleItemId)
     {
-        var scheduleItem = _scheduleItemList.FirstOrDefault(x => x.Id == scheduleItemId);
+        var scheduleItem = _scheduleItemList.FirstOrDefault(si => si.Id == scheduleItemId);
         return scheduleItem;
     }
 
     public ScheduleItemRequest? GetScheduleItemRequestById(int scheduleItemRequestId)
     {
-        var scheduleItemRequest = _scheduleItemRequestList.FirstOrDefault(x => x.Id == scheduleItemRequestId);
+        var scheduleItemRequest = _scheduleItemRequestList.FirstOrDefault(sr => sr.Id == scheduleItemRequestId);
         return scheduleItemRequest;
     }
 
     public List<AdRequest> GetUsersAdRequests(int userId)
     {
-        var userAdRequests = _adRequestList.Where(p => p.StudentId == userId).ToList();
+        var userAdRequests = _adRequestList.Where(a => a.StudentId == userId).ToList();
         return userAdRequests;
     }
 
     public List<Ad> GetUsersAds(int userId)
     {
-        var userAds = _adList.Where(p => p.TutorId == userId).ToList();
+        var userAds = _adList.Where(a => a.TutorId == userId).ToList();
         return userAds;
     }
 
     public List<ScheduleItemRequest> GetUsersScheduleItemRequests(int userId)
     {
-        var userScheduleItemRequests = _scheduleItemRequestList.Where(p => p.UserId == userId).ToList();
+        var userScheduleItemRequests = _scheduleItemRequestList.Where(sr => sr.UserId == userId).ToList();
         return userScheduleItemRequests;
     }
 
@@ -249,7 +249,13 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     public void UpdateAdRequest(AdRequest adRequest)
     {
-        throw new NotImplementedException();
+        int index = _adRequestList.FindIndex(ar => ar.Id == adRequest.Id);
+
+        if (index > 0)
+        {
+            _adRequestList[index] = adRequest;
+        }
+        throw new Exception("Not found");
     }
 
     public void UpdateScheduleItemRequest(ScheduleItemRequest scheduleItemRequest)
@@ -259,7 +265,8 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     public List<Ad> GetAcceptedUserAds(int userId)
     {
-        throw new NotImplementedException();
+        var acceptedUserAds = _adList.Where(a => a.TutorId == userId).ToList();
+        return acceptedUserAds;
     }
 
     public List<Ad> GetAllAds()
