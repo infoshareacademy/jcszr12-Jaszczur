@@ -77,4 +77,9 @@ public class UserIdentityService : IUserIdentityService
     {
         _activeUser = null;
     }
+
+    public string GetUserNameById(int userId)
+    {
+        throw new NotImplementedException();
+    }
 }
