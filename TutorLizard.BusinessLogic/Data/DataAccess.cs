@@ -30,6 +30,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         LoadScheduleItemRequestFromJson();
         LoadAdRequestsFromJson();
     }
+
     private List<T> LoadFromJson<T>(string Path)
     {
         var filePath = $@"{Path}";
@@ -50,11 +51,13 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     private void LoadUsersFromJson()
     {
         _userList = LoadFromJson<User>(_userFilePath);
-    }    
+    } 
+    
     private void LoadAdRequestsFromJson()
     {
         _adRequestList = LoadFromJson<AdRequest>(_adRequestFilePath);
     } 
+
     private void LoadScheduleItemRequestFromJson()
     {
         _scheduleItemRequestList = LoadFromJson<ScheduleItemRequest>(_scheduleItemRequestFilePath);
@@ -83,6 +86,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         });
         File.WriteAllText(filePath, jsonData);
     }
+
     private void SaveUserToJson()
     {
         SaveToJson(_userFilePath, _userList);
@@ -102,6 +106,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     {
         SaveToJson(_adRequestFilePath, _adRequestList);
     }
+
     private void SaveScheduleItemRequestToJson()
     {
         SaveToJson(_scheduleItemRequestFilePath, _scheduleItemRequestList);
@@ -159,42 +164,93 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     #region GetID
     private int GetNewUserID()
     {
-        if (_userList.Count() > 0)
+        if (_userList.Any() == true)
             return _userList.Max(x => x.Id) + 1;
         else
-            return 0;
+            return 1;
     }
 
     private int GetNewScheduleItemID()
     {
-        if (_scheduleItemList.Count() > 0)
+        if (_scheduleItemList.Any() == true)
             return _scheduleItemList.Max(x => x.Id) + 1;
         else
-            return 0;
+            return 1;
     }
+
     private int GetNewAdID()
     {
-        if (_adList.Count() > 0)
+        if (_adList.Any() == true)
             return _adList.Max(x => x.Id) + 1;
         else
-            return 0;
+            return 1;
     }
 
     private int GetNewAdRequestID()
     {
-        if (_adRequestList.Count() > 0)
+        if (_adRequestList.Any() == true)
             return _adRequestList.Max(x => x.Id) + 1;
         else
-            return 0;
+            return 1;
     }
 
     private int GetNewScheduleItemRequestID()
     {
-        if (_scheduleItemRequestList.Count() > 0)
+        if (_scheduleItemRequestList.Any() == true)
             return _scheduleItemRequestList.Max(x => x.Id) + 1;
         else
-            return 0;
+            return 1;
     }
+    #endregion
+
+    #region Login
+    private bool DoesTheUserIdExist(int id)
+    {
+        if (_userList.Any(x => x.Id == id))
+            return true;
+
+        return false;
+    }
+
+    private bool DoesTheUsernameMatchUserId(int id, string username)
+    {
+        User? tempUser = _userList.SingleOrDefault(x => x.Id == id);
+
+        if (tempUser?.Name.ToLower() == username.ToLower()) 
+            return true;
+
+        return false;
+    }
+    private User? ReturnActiveUser(int id)
+    {
+        User? tempUser = _userList.SingleOrDefault(x => x.Id == id);
+        return tempUser;
+    }
+    public (bool isCorrect, User? activeUser) IsLoginDataCorrect (int id, string username)
+    {
+        bool condition1 = DoesTheUserIdExist(id);
+        bool condition2 = DoesTheUsernameMatchUserId(id, username); 
+        
+        if (condition1 == false || condition2 == false)
+            return (false, null);
+        
+        return (true, ReturnActiveUser(id));
+    }
+
+    public bool DoesUserWithThisNameExist(string username)
+    {
+        return _userList.Any(x => x.Name == username);
+    }
+
+    public string GetUserNameById(int userId)
+    {
+        var tempUser = _userList.FirstOrDefault(x => x.Id == userId);
+        if (tempUser is null)
+            return "";
+
+        return tempUser.Name;
+    }
+
     #endregion
     
     public Ad? GetAdById(int adId)
