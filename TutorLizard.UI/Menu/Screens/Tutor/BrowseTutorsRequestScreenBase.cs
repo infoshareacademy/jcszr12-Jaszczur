@@ -48,6 +48,7 @@ public abstract class BrowseTutorsRequestScreenBase<T> : TutorMenuScreenBase
         switch (selected)
         {
             case 0:
+                _index++;
                 if (_index == _pending.Count)
                 {
                     Console.WriteLine("Ostatnie zgłoszenie pominięte.");
@@ -58,7 +59,6 @@ public abstract class BrowseTutorsRequestScreenBase<T> : TutorMenuScreenBase
                 Console.WriteLine("Zgłoszenie pominięte.");
                 Console.Write("Kontunuuj...");
                 Console.ReadKey(true);
-                _index++;
                 return MenuNavigation.NextOrCurrent;
             case 1:
                 Console.WriteLine("Zgłoszenie zakceptowane.");
