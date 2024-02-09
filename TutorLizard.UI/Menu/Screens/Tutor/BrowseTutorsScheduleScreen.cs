@@ -11,7 +11,7 @@ public class BrowseTutorsScheduleScreen : TutorMenuScreenBase
     List<ScheduleItemRequest> _accepted;
     public BrowseTutorsScheduleScreen(IMenuService menuService, ITutorService tutorService) : base(menuService, tutorService)
     {
-        List<ScheduleItem> schedule = _tutorService.GetUsersScheduleItems();
+        List<ScheduleItem> schedule = _tutorService.GetTutorsScheduleItems();
         PaginatorOptions<ScheduleItem> options = new()
         {
             CollectionName = "Terminy",
@@ -19,8 +19,8 @@ public class BrowseTutorsScheduleScreen : TutorMenuScreenBase
         };
         _paginator = new(schedule, options);
 
-        _ads = _tutorService.GetUsersAds();
-        _accepted = _tutorService.GetUsersScheduleItemRequests()
+        _ads = _tutorService.GetTutorsAds();
+        _accepted = _tutorService.GetTutorsScheduleItemRequests()
             .Where(r => r.IsAccepted)
             .ToList();
     }

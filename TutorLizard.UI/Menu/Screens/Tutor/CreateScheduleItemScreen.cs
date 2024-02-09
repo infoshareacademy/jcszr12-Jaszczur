@@ -23,7 +23,7 @@ public class CreateScheduleItemScreen : TutorMenuScreenBase
         {
             ExitString = exitString,
             Message = "Podaj id ogłoszenia: ",
-            Predicate = id => _tutorService.UserCanEditAdSchedule((int)id!),
+            Predicate = id => _tutorService.TutorCanEditAdSchedule((int)id!),
             RetryMessage = "Nieprawidłowe id. Spróbuj ponownie."
         });
 

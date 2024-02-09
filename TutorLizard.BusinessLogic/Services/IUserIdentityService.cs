@@ -11,5 +11,5 @@ public interface IUserIdentityService
     public void LogOut();
     public bool IsUserNameTaken(string userName);
     public int RegisterUser(string userName, UserType type);
-    public string GetUserNameById(int tutorId);
+    string GetUserNameById(int userId);
 }

@@ -277,51 +277,56 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return scheduleItemRequest;
     }
 
-    public List<AdRequest> GetUsersAdRequests(int userId)
+    public List<AdRequest> GetTutorsAdRequests(int tutorId)
     {
-        var userAdRequests = _adRequestList.Where(a => a.StudentId == userId).ToList();
+        var tutorsAds = GetTutorsAds(tutorId);
+        var userAdRequests = _adRequestList
+            .Where(r => tutorsAds.Any(a => a.Id == r.AdId))
+            .ToList();
         return userAdRequests;
     }
 
-    public List<Ad> GetUsersAds(int userId)
+    public List<Ad> GetTutorsAds(int tutorId)
     {
-        var userAds = _adList.Where(a => a.TutorId == userId).ToList();
+        var userAds = _adList.Where(a => a.TutorId == tutorId).ToList();
         return userAds;
     }
 
-    public List<ScheduleItemRequest> GetUsersScheduleItemRequests(int userId)
+    public List<ScheduleItemRequest> GetTutorsScheduleItemRequests(int tutorId)
     {
-        var userScheduleItemRequests = _scheduleItemRequestList.Where(sr => sr.UserId == userId).ToList();
-        return userScheduleItemRequests;
+        var tutorsSchedule = GetTutorsScheduleItems(tutorId);
+        var tutorsScheduleItemRequests = _scheduleItemRequestList
+            .Where(sr => tutorsSchedule.Any(si => si.Id == sr.ScheduleItemId))
+            .ToList();
+        return tutorsScheduleItemRequests;
     }
 
-    public List<ScheduleItem> GetUsersScheduleItems(int userId)
+    public List<ScheduleItem> GetTutorsScheduleItems(int tutorId)
     {
-        List<Ad> usersAds = _adList.Where(a => a.TutorId == userId).ToList();
+        List<Ad> tutorsAds = _adList.Where(a => a.TutorId == tutorId).ToList();
 
-        var userScheduleItems = _scheduleItemList.Where(s => usersAds.Any(a => a.Id == s.AdId)).ToList();
+        var userScheduleItems = _scheduleItemList.Where(s => tutorsAds.Any(a => a.Id == s.AdId)).ToList();
         return userScheduleItems;
     }
 
     public void UpdateAdRequest(AdRequest adRequest)
     {
-        if (adRequest is not null)
-        {
-            CreateAdRequest(adRequest.AdId, adRequest.StudentId, adRequest.IsAccepted, adRequest.Message);
-        }
+        SaveAdRequestToJson();
     }
 
     public void UpdateScheduleItemRequest(ScheduleItemRequest scheduleItemRequest)
     {
-        if (scheduleItemRequest is not null)
-        {
-            CreateScheduleItemRequest(scheduleItemRequest.ScheduleItemId, scheduleItemRequest.UserId, scheduleItemRequest.IsAccepted);
-        }
+        SaveScheduleItemRequestToJson();
     }
 
-    public List<Ad> GetAcceptedUserAds(int userId)
+    public List<Ad> GetStudentsAcceptedAds(int studentId)
     {
-        var acceptedUserAds = _adList.Where(a => a.TutorId == userId).ToList();
+        List<AdRequest> studentsAcceptedRequests = _adRequestList
+            .Where(r => r.IsAccepted == true && r.StudentId == studentId)
+            .ToList();
+        var acceptedUserAds = _adList
+            .Where(a => studentsAcceptedRequests.Any(r => r.AdId == a.Id))
+            .ToList();
         return acceptedUserAds;
     }
 
@@ -330,37 +335,33 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return _adList;
     }
 
-    public List<ScheduleItem> GetAllScheduleItemsForUsersAcceptedAds(int userId)
+    public List<ScheduleItem> GetAllScheduleItemsForStudentsAcceptedAds(int studentId)
     {
-        List<ScheduleItem> scheduleItems = new List<ScheduleItem>();
-        List<AdRequest> userAcceptedAdRequests = _adRequestList.Where(ar => ar.StudentId == userId && ar.IsAccepted == true).ToList();
+        List<AdRequest> userAcceptedAdRequests = _adRequestList.Where(ar => ar.StudentId == studentId && ar.IsAccepted == true).ToList();
 
-        foreach (AdRequest adRequest in userAcceptedAdRequests)
-        {
-            ScheduleItem? scheduleItem = _scheduleItemList.FirstOrDefault(i => i.AdId == adRequest.AdId);
-
-            if (scheduleItem is not null)
-            {
-                scheduleItems.Add(scheduleItem);
-            }
-        }
-        return scheduleItems;
+        return _scheduleItemList
+            .Where(si => userAcceptedAdRequests.Any(ar => ar.AdId == si.AdId))
+            .ToList();
     }
 
-    public List<ScheduleItem> GetUsersAcceptedScheduleItems(int userId)
+    public List<ScheduleItem> GetStudentsAcceptedScheduleItems(int studentId)
     {
-        List<ScheduleItem> scheduleItems = new List<ScheduleItem>();
-        List<ScheduleItemRequest> scheduleItemRequests = _scheduleItemRequestList.Where(sir => sir.UserId == userId && sir.IsAccepted == true).ToList();
+        List<ScheduleItemRequest> scheduleItemRequests = _scheduleItemRequestList
+            .Where(sr => sr.StudentId == studentId && sr.IsAccepted == true)
+            .ToList();
 
-        foreach (ScheduleItemRequest scheduleItemRequest in scheduleItemRequests)
-        {
-            ScheduleItem? scheduleItem = _scheduleItemList.FirstOrDefault(si => si.Id == scheduleItemRequest.ScheduleItemId);
+        return _scheduleItemList
+            .Where(si => scheduleItemRequests.Any(sr => sr.ScheduleItemId == si.Id))
+            .ToList();
+    }
 
-            if (scheduleItem is not null)
-            {
-                scheduleItems.Add(scheduleItem);
-            }
-        }
-        return scheduleItems;
+    public List<AdRequest> GetStudentsAdRequests(int studentId)
+    {
+        return _adRequestList.Where(r => r.StudentId == studentId).ToList();
+    }
+
+    public List<ScheduleItemRequest> GetStudentsScheduleItemRequests(int studentId)
+    {
+        return _scheduleItemRequestList.Where(r => r.StudentId == studentId).ToList();
     }
 }

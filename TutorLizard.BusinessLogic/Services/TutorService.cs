@@ -36,7 +36,7 @@ public class TutorService : ITutorService
     {
         return _dataAccess.GetScheduleItemById(scheduleItemId);
     }
-    public List<Ad> GetUsersAds()
+    public List<Ad> GetTutorsAds()
     {
         int? userId = _userIdentityService.GetUserId();
         if (userId is null)
@@ -44,9 +44,9 @@ public class TutorService : ITutorService
             return new List<Ad>();
         }
 
-        return _dataAccess.GetUsersAds((int)userId);
+        return _dataAccess.GetTutorsAds((int)userId);
     }
-    public List<ScheduleItem> GetUsersScheduleItems()
+    public List<ScheduleItem> GetTutorsScheduleItems()
     {
         int? userId = _userIdentityService.GetUserId();
         if (userId is null)
@@ -54,25 +54,25 @@ public class TutorService : ITutorService
             return new List<ScheduleItem>();
         }
 
-        return _dataAccess.GetUsersScheduleItems((int)userId);
+        return _dataAccess.GetTutorsScheduleItems((int)userId);
     }
-    public List<AdRequest> GetUsersAdRequests()
+    public List<AdRequest> GetTutorsAdRequests()
     {
         int? userId = _userIdentityService.GetUserId();
         if (userId is null)
         {
             return new List<AdRequest>();
         }
-        return _dataAccess.GetUsersAdRequests((int)userId);
+        return _dataAccess.GetTutorsAdRequests((int)userId);
     }
-    public List<ScheduleItemRequest> GetUsersScheduleItemRequests()
+    public List<ScheduleItemRequest> GetTutorsScheduleItemRequests()
     {
         int? userId = _userIdentityService.GetUserId();
         if (userId is null)
         {
             return new List<ScheduleItemRequest>();
         }
-        return _dataAccess.GetUsersScheduleItemRequests((int)userId);
+        return _dataAccess.GetTutorsScheduleItemRequests((int)userId);
     }
     public string GetStudentUserNameByAdRequestId(int adRequestId)
     {
@@ -91,14 +91,14 @@ public class TutorService : ITutorService
 
         if (scheduleItemRequest is not null)
         {
-            int userId = scheduleItemRequest.UserId;
+            int userId = scheduleItemRequest.StudentId;
 
             return _userIdentityService.GetUserNameById(userId);       
         }
         return "";
     }
 
-    public bool UserCanEditAdSchedule(int adId)
+    public bool TutorCanEditAdSchedule(int adId)
     {
         // return true if ad exists and belongs to active user (ask _userIdentityService)
         int? userId = _userIdentityService.GetUserId();

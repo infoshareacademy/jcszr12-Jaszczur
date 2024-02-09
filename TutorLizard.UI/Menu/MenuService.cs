@@ -4,6 +4,8 @@ using TutorLizard.UI.Menu.Screens.Simple;
 using TutorLizard.UI.Menu.Screens.Tutor;
 using TutorLizard.UI.Menu.Screens.Student;
 using TutorLizard.UI.Menu.Screens.UserIdentity;
+using TutorLizard.BusinessLogic.Models;
+using TutorLizard.UI.Utilities;
 
 namespace TutorLizard.UI.Menu;
 public class MenuService : IMenuService
@@ -65,10 +67,17 @@ public class MenuService : IMenuService
 
     private void DisplayHeader()
     {
+        UserType? userType = _userIdentityService.GetUserType();
+        string? userName = _userIdentityService.GetUserName();
+
         Console.Write("Tutor Lizard");
-        Console.Write("\t\tUżytkownik: abc");
+        if (userName is null)
+            Console.Write("\t\tUżytkownik niezalogowany");
+        else
+            Console.Write($"\t\tUżytkownik: {userName}\t{userType.UiName()}");
         Console.WriteLine();
-        Console.WriteLine("-----------------------------------------");
+        int width = Console.WindowWidth;
+        Console.WriteLine(new string('-', width));
     }
 
     private void DisplayExitMessage()
@@ -97,6 +106,22 @@ public class MenuService : IMenuService
                 return new BrowseTutorsAdRequestsScreen(this, _tutorService);
             case MenuScreenName.BrowseTutorsScheduleItemRequests:
                 return new BrowseTutorsScheduleItemRequestsScreen(this, _tutorService);
+            case MenuScreenName.Login:
+                return new LoginScreen(this, _userIdentityService);
+            case MenuScreenName.RegisterUser:
+                return new RegisterUserScreen(this, _userIdentityService);
+            case MenuScreenName.BrowseAds:
+                return new BrowseAdsScreen(this, _studentService);
+            case MenuScreenName.BrowseStudentsAcceptedAds:
+                return new BrowseStudentsAcceptedAdsScreen(this, _studentService);
+            case MenuScreenName.BrowseStudentsAcceptedSchedule:
+                return new BrowseStudentsAcceptedScheduleScreen(this, _studentService);
+            case MenuScreenName.BrowseStudentsAvailableSchedule:
+                return new BrowseStudentsAvailableScheduleScreen(this, _studentService);
+            case MenuScreenName.CreateAdRequest:
+                return new CreateAdRequestScreen(this, _studentService);
+            case MenuScreenName.CreateScheduleItemRequest:
+                return new CreateScheduleItemRequestScreen(this, _studentService);
             default:
                 return null;
         }
@@ -111,5 +136,13 @@ public enum MenuScreenName
     BrowseTutorsAds,
     BrowseTutorsSchedule,
     BrowseTutorsAdRequests,
-    BrowseTutorsScheduleItemRequests
+    Login,
+    RegisterUser,
+    BrowseTutorsScheduleItemRequests,
+    BrowseAds,
+    BrowseStudentsAcceptedAds,
+    BrowseStudentsAcceptedSchedule,
+    BrowseStudentsAvailableSchedule,
+    CreateAdRequest,
+    CreateScheduleItemRequest
 }

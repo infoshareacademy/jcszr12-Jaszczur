@@ -10,10 +10,10 @@ public interface ITutorDataAccess
     AdRequest? GetAdRequestById(int adRequestId);
     ScheduleItem? GetScheduleItemById(int scheduleItemId);
     ScheduleItemRequest? GetScheduleItemRequestById(int scheduleItemRequestId);
-    List<AdRequest> GetUsersAdRequests(int userId);
-    List<Ad> GetUsersAds(int userId);
-    List<ScheduleItemRequest> GetUsersScheduleItemRequests(int userId);
-    List<ScheduleItem> GetUsersScheduleItems(int userId);
+    List<AdRequest> GetTutorsAdRequests(int tutorId);
+    List<Ad> GetTutorsAds(int tutorId);
+    List<ScheduleItemRequest> GetTutorsScheduleItemRequests(int tutorId);
+    List<ScheduleItem> GetTutorsScheduleItems(int tutorId);
     void UpdateAdRequest(AdRequest adRequest);
     void UpdateScheduleItemRequest(ScheduleItemRequest scheduleItemRequest);
 }

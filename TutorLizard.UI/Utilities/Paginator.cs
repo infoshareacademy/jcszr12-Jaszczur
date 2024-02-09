@@ -24,7 +24,7 @@ public class Paginator<T>
         int firstItem = (page - 1) * _options.ItemsPerPage;
         int lastItem = Math.Min(page * _options.ItemsPerPage, _items.Count);
 
-        int firstItemDisplay = firstItem == 0 ? 0 : firstItem + 1;
+        int firstItemDisplay = lastItem == 0 ? 0 : firstItem + 1;
 
         Console.WriteLine($"Strona {page} z {_pagesTotal}\t{_options.CollectionName} {firstItemDisplay}-{lastItem} z {_items.Count}");
         Console.WriteLine();

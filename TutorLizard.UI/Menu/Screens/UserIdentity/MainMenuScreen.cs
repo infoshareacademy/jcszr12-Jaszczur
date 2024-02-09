@@ -11,16 +11,15 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
 
     public override MenuNavigation Display()
     {
-        //var userType = _userIdentityService.GetUserType();
-        UserType? userType = UserType.Tutor;
+        var userType = _userIdentityService.GetUserType();
 
         Console.WriteLine("Menu główne");
         Console.WriteLine();
         switch (userType)
         {
-            case BusinessLogic.Models.UserType.Tutor:
+            case UserType.Tutor:
                 return DisplayTutorMenu();
-            case BusinessLogic.Models.UserType.Student:
+            case UserType.Student:
                 return DisplayStudentMenu();
             case null:
             default:
@@ -32,7 +31,7 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
     {
         string[] items = [
             "Zaloguj się", // 0
-            "Zarejestruj się", // 1
+            "Zarejestruj użytkownika", // 1
             "Wyjdź" // 2
             ];
 
@@ -41,11 +40,11 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
         switch (selected)
         {
             case 0:
-                // _menuService.AddNextScreen(MenuScreenName.Login);
-                break;
+                _menuService.AddNextScreen(MenuScreenName.Login);
+                return MenuNavigation.NextOrCurrent;
             case 1:
-                // _menuService.AddNextScreen(MenuScreenName.RegisterUser);
-                break;
+                _menuService.AddNextScreen(MenuScreenName.RegisterUser);
+                return MenuNavigation.NextOrCurrent;
             case 2:
                 DisplaySelectedOption(items[selected]);
                 return MenuNavigation.QuitProgram;
@@ -59,15 +58,51 @@ public class MainMenuScreen : UserIdentityMenuScreenBase
 
     private MenuNavigation DisplayStudentMenu()
     {
-        throw new NotImplementedException();
-        // - Przeglądaj wszystkie ogłoszenia
-        // - Przeglądaj swoje ogłoszenia (zakceptowane)
-        // - Zgłoś się na termin
-        // - Przeglądaj swoje terminy (zaakceptowane)
-        // - Wyloguj
-        //      _userIdentityService.Logout();
-        //      return MenuNavigation.NextOrCurrent;
-        // - Wyjdź
+        string[] items = [
+            "Przeglądaj wszystkie ogłoszenia", // 0
+            "Wyślij zgłoszenie do ogłoszenia", // 1
+            "Przeglądaj ogłoszenia, na które jesteś zapisany/a", // 2
+            "Przeglądaj dostępne terminy zajęć", // 3
+            "Wyślij zgłoszenie na termin zajęć", //4
+            "Przeglądaj terminy zajęć, na które jesteś zapisany/a", //5
+            "Wyloguj", // 6
+            "Wyjdź" // 7
+            ];
+
+        int selected = SelectTool.SelectOne(items);
+
+        switch (selected)
+        {
+            case 0:
+                _menuService.AddNextScreen(MenuScreenName.BrowseAds);
+                break;
+            case 1:
+                _menuService.AddNextScreen(MenuScreenName.CreateAdRequest);
+                break;
+            case 2:
+                _menuService.AddNextScreen(MenuScreenName.BrowseStudentsAcceptedAds);
+                break;
+            case 3:
+                _menuService.AddNextScreen(MenuScreenName.BrowseStudentsAvailableSchedule);
+                break;
+            case 4:
+                _menuService.AddNextScreen(MenuScreenName.CreateScheduleItemRequest);
+                break;
+            case 5:
+                _menuService.AddNextScreen(MenuScreenName.BrowseStudentsAcceptedSchedule);
+                break;
+            case 6:
+                _userIdentityService.LogOut();
+                break;
+            case 7:
+                DisplaySelectedOption(items[selected]);
+                return MenuNavigation.QuitProgram;
+            default:
+                break;
+        }
+
+        DisplaySelectedOption(items[selected]);
+        return MenuNavigation.NextOrCurrent;
     }
 
     private MenuNavigation DisplayTutorMenu()
