@@ -11,7 +11,7 @@ public class BrowseStudentsAcceptedScheduleScreen : StudentMenuScreenBase
     public BrowseStudentsAcceptedScheduleScreen(IMenuService menuService, IStudentService studentService) : base(menuService, studentService)
     {
         _ads = _studentService.GetAllAds();
-        List<ScheduleItem> availableSchedule = _studentService.GetStudentsAcceptedScheduleItems()
+        List<ScheduleItem> acceptedSchedule = _studentService.GetStudentsAcceptedScheduleItems()
             .Where(s => s.DateTime > DateTime.Now)
             .ToList();
         PaginatorOptions<ScheduleItem> options = new()
@@ -20,7 +20,7 @@ public class BrowseStudentsAcceptedScheduleScreen : StudentMenuScreenBase
             DisplayItem = DisplayScheduleItem
         };
 
-        _paginator = new(availableSchedule, options);
+        _paginator = new(acceptedSchedule, options);
     }
 
     public override MenuNavigation Display()
