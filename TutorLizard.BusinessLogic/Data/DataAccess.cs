@@ -346,18 +346,12 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     public List<ScheduleItem> GetStudentsAcceptedScheduleItems(int studentId)
     {
-        List<ScheduleItem> scheduleItems = new List<ScheduleItem>();
-        List<ScheduleItemRequest> scheduleItemRequests = _scheduleItemRequestList.Where(sir => sir.UserId == studentId && sir.IsAccepted == true).ToList();
+        List<ScheduleItemRequest> scheduleItemRequests = _scheduleItemRequestList
+            .Where(sr => sr.UserId == studentId && sr.IsAccepted == true)
+            .ToList();
 
-        foreach (ScheduleItemRequest scheduleItemRequest in scheduleItemRequests)
-        {
-            ScheduleItem? scheduleItem = _scheduleItemList.FirstOrDefault(si => si.Id == scheduleItemRequest.ScheduleItemId);
-
-            if (scheduleItem is not null)
-            {
-                scheduleItems.Add(scheduleItem);
-            }
-        }
-        return scheduleItems;
+        return _scheduleItemList
+            .Where(si => scheduleItemRequests.Any(sr => sr.ScheduleItemId == si.Id))
+            .ToList();
     }
 }
