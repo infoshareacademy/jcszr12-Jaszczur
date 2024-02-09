@@ -10,7 +10,7 @@ public class BrowseTutorsAdRequestsScreen : BrowseTutorsRequestScreenBase<AdRequ
 
     protected override List<AdRequest> GetPending()
     {
-        return _tutorService.GetUsersAdRequests()
+        return _tutorService.GetTutorsAdRequests()
             .Where(r => r.IsAccepted == false)
             .ToList();
     }

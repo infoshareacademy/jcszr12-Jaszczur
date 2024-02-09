@@ -18,7 +18,7 @@ public class CreateScheduleItemRequestScreen : StudentMenuScreenBase
         Console.WriteLine("Aby anulować, wciśnij Enter bez podawania wartości.");
         Console.WriteLine();
 
-        List<ScheduleItem> availableSchedule = _studentService.GetAllScheduleItemsForUsersAcceptedAds()
+        List<ScheduleItem> availableSchedule = _studentService.GetAllScheduleItemsForStudentsAcceptedAds()
             .Where(s => s.DateTime > DateTime.Now)
             .ToList();
 

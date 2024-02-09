@@ -6,9 +6,9 @@ public interface IStudentDataAccess
 {
     AdRequest CreateAdRequest(int adId, int studentId, bool isAccepted, string message);
     ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId, int userId, bool isAccepted);
-    List<Ad> GetAcceptedUserAds(int userId);
+    List<Ad> GetStudentsAcceptedAds(int studentId);
     List<Ad> GetAllAds();
-    List<ScheduleItem> GetAllScheduleItemsForUsersAcceptedAds(int userId);
-    List<ScheduleItem> GetUsersAcceptedScheduleItems(int userId);
+    List<ScheduleItem> GetAllScheduleItemsForStudentsAcceptedAds(int studentId);
+    List<ScheduleItem> GetStudentsAcceptedScheduleItems(int studentId);
     Ad? GetAdById(int adId);
 }

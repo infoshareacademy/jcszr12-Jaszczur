@@ -41,7 +41,7 @@ public class BrowseTutorsScheduleItemRequestsScreen : BrowseTutorsRequestScreenB
 
     protected override List<ScheduleItemRequest> GetPending()
     {
-        return _tutorService.GetUsersScheduleItemRequests()
+        return _tutorService.GetTutorsScheduleItemRequests()
             .Where(r => r.IsAccepted == false)
             .ToList();
     }

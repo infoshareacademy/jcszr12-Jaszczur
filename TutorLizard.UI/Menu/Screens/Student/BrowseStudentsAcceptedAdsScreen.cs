@@ -10,7 +10,7 @@ public class BrowseStudentsAcceptedAdsScreen : StudentMenuScreenBase
     Paginator<Ad> _paginator;
     public BrowseStudentsAcceptedAdsScreen(IMenuService menuService, IStudentService studentService) : base(menuService, studentService)
     {
-        List<Ad> acceptedAds = _studentService.GetUsersAcceptedAds();
+        List<Ad> acceptedAds = _studentService.GetStudentsAcceptedAds();
         PaginatorOptions<Ad> options = new()
         {
             CollectionName = "Ogłoszenia",

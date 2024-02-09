@@ -10,8 +10,8 @@ public class BrowseTutorsAdsScreen : TutorMenuScreenBase
     List<AdRequest> _accepted;
     public BrowseTutorsAdsScreen(IMenuService menuService, ITutorService tutorService) : base(menuService, tutorService)
     {
-        List<Ad> ads = _tutorService.GetUsersAds();
-        _accepted = _tutorService.GetUsersAdRequests()
+        List<Ad> ads = _tutorService.GetTutorsAds();
+        _accepted = _tutorService.GetTutorsAdRequests()
             .Where(r => r.IsAccepted)
             .ToList();
         PaginatorOptions<Ad> options = new()

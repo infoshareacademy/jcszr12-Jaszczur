@@ -42,7 +42,7 @@ public class StudentService : IStudentService
     {
         return _dataAccess.GetAllAds();
     }
-    public List<Ad> GetUsersAcceptedAds()
+    public List<Ad> GetStudentsAcceptedAds()
     {
         int? userId = _userIdentityService.GetUserId();
         if (userId is null)
@@ -50,9 +50,9 @@ public class StudentService : IStudentService
             return new List<Ad>();
         }
 
-        return _dataAccess.GetAcceptedUserAds((int)userId);
+        return _dataAccess.GetStudentsAcceptedAds((int)userId);
     }
-    public List<ScheduleItem> GetAllScheduleItemsForUsersAcceptedAds()
+    public List<ScheduleItem> GetAllScheduleItemsForStudentsAcceptedAds()
     {
         int? userId = _userIdentityService.GetUserId();
         if (userId is null)
@@ -60,9 +60,9 @@ public class StudentService : IStudentService
             return new List<ScheduleItem>();
         }
 
-        return _dataAccess.GetAllScheduleItemsForUsersAcceptedAds((int)userId);
+        return _dataAccess.GetAllScheduleItemsForStudentsAcceptedAds((int)userId);
     }
-    public List<ScheduleItem> GetUsersAcceptedScheduleItems()
+    public List<ScheduleItem> GetStudentsAcceptedScheduleItems()
     {
         int? userId = _userIdentityService.GetUserId();
         if (userId is null)
@@ -70,7 +70,7 @@ public class StudentService : IStudentService
             return new List<ScheduleItem>();
         }
 
-        return _dataAccess.GetUsersAcceptedScheduleItems((int)userId);
+        return _dataAccess.GetStudentsAcceptedScheduleItems((int)userId);
     }
     public Ad? GetAdById(int adId)
     {

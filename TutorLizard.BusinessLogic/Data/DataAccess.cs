@@ -277,29 +277,35 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return scheduleItemRequest;
     }
 
-    public List<AdRequest> GetUsersAdRequests(int userId)
+    public List<AdRequest> GetTutorsAdRequests(int tutorId)
     {
-        var userAdRequests = _adRequestList.Where(a => a.StudentId == userId).ToList();
+        var tutorsAds = GetTutorsAds(tutorId);
+        var userAdRequests = _adRequestList
+            .Where(r => tutorsAds.Any(a => a.Id == r.AdId))
+            .ToList();
         return userAdRequests;
     }
 
-    public List<Ad> GetUsersAds(int userId)
+    public List<Ad> GetTutorsAds(int tutorId)
     {
-        var userAds = _adList.Where(a => a.TutorId == userId).ToList();
+        var userAds = _adList.Where(a => a.TutorId == tutorId).ToList();
         return userAds;
     }
 
-    public List<ScheduleItemRequest> GetUsersScheduleItemRequests(int userId)
+    public List<ScheduleItemRequest> GetTutorsScheduleItemRequests(int tutorId)
     {
-        var userScheduleItemRequests = _scheduleItemRequestList.Where(sr => sr.UserId == userId).ToList();
-        return userScheduleItemRequests;
+        var tutorsSchedule = GetTutorsScheduleItems(tutorId);
+        var tutorsScheduleItemRequests = _scheduleItemRequestList
+            .Where(sr => tutorsSchedule.Any(si => si.Id == sr.ScheduleItemId))
+            .ToList();
+        return tutorsScheduleItemRequests;
     }
 
-    public List<ScheduleItem> GetUsersScheduleItems(int userId)
+    public List<ScheduleItem> GetTutorsScheduleItems(int tutorId)
     {
-        List<Ad> usersAds = _adList.Where(a => a.TutorId == userId).ToList();
+        List<Ad> tutorsAds = _adList.Where(a => a.TutorId == tutorId).ToList();
 
-        var userScheduleItems = _scheduleItemList.Where(s => usersAds.Any(a => a.Id == s.AdId)).ToList();
+        var userScheduleItems = _scheduleItemList.Where(s => tutorsAds.Any(a => a.Id == s.AdId)).ToList();
         return userScheduleItems;
     }
 
@@ -319,9 +325,9 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         }
     }
 
-    public List<Ad> GetAcceptedUserAds(int userId)
+    public List<Ad> GetStudentsAcceptedAds(int studentId)
     {
-        var acceptedUserAds = _adList.Where(a => a.TutorId == userId).ToList();
+        var acceptedUserAds = _adList.Where(a => a.TutorId == studentId).ToList();
         return acceptedUserAds;
     }
 
@@ -330,10 +336,10 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return _adList;
     }
 
-    public List<ScheduleItem> GetAllScheduleItemsForUsersAcceptedAds(int userId)
+    public List<ScheduleItem> GetAllScheduleItemsForStudentsAcceptedAds(int studentId)
     {
         List<ScheduleItem> scheduleItems = new List<ScheduleItem>();
-        List<AdRequest> userAcceptedAdRequests = _adRequestList.Where(ar => ar.StudentId == userId && ar.IsAccepted == true).ToList();
+        List<AdRequest> userAcceptedAdRequests = _adRequestList.Where(ar => ar.StudentId == studentId && ar.IsAccepted == true).ToList();
 
         foreach (AdRequest adRequest in userAcceptedAdRequests)
         {
@@ -347,10 +353,10 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return scheduleItems;
     }
 
-    public List<ScheduleItem> GetUsersAcceptedScheduleItems(int userId)
+    public List<ScheduleItem> GetStudentsAcceptedScheduleItems(int studentId)
     {
         List<ScheduleItem> scheduleItems = new List<ScheduleItem>();
-        List<ScheduleItemRequest> scheduleItemRequests = _scheduleItemRequestList.Where(sir => sir.UserId == userId && sir.IsAccepted == true).ToList();
+        List<ScheduleItemRequest> scheduleItemRequests = _scheduleItemRequestList.Where(sir => sir.UserId == studentId && sir.IsAccepted == true).ToList();
 
         foreach (ScheduleItemRequest scheduleItemRequest in scheduleItemRequests)
         {

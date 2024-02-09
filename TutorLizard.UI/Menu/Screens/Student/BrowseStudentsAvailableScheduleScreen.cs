@@ -11,7 +11,7 @@ public class BrowseStudentsAvailableScheduleScreen : StudentMenuScreenBase
     public BrowseStudentsAvailableScheduleScreen(IMenuService menuService, IStudentService studentService) : base(menuService, studentService)
     {
         _ads = _studentService.GetAllAds();
-        List<ScheduleItem> availableSchedule = _studentService.GetAllScheduleItemsForUsersAcceptedAds()
+        List<ScheduleItem> availableSchedule = _studentService.GetAllScheduleItemsForStudentsAcceptedAds()
             .Where(s => s.DateTime > DateTime.Now)
             .ToList();
         PaginatorOptions<ScheduleItem> options = new()
