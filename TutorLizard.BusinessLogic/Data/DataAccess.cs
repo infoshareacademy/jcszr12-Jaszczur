@@ -196,22 +196,23 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
             return 0;
     }
     #endregion
+    
     public Ad? GetAdById(int adId)
     {
         throw new NotImplementedException();
     }
 
-    public AdRequest GetAdRequestById(int adRequestId)
+    public AdRequest? GetAdRequestById(int adRequestId)
     {
         throw new NotImplementedException();
     }
 
-    public ScheduleItem? GetScheduleItemById(int? scheduleItemId)
+    public ScheduleItem? GetScheduleItemById(int scheduleItemId)
     {
         throw new NotImplementedException();
     }
 
-    public ScheduleItemRequest GetScheduleItemRequestById(int scheduleItemRequestId)
+    public ScheduleItemRequest? GetScheduleItemRequestById(int scheduleItemRequestId)
     {
         throw new NotImplementedException();
     }
@@ -242,6 +243,26 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     }
 
     public void UpdateScheduleItemRequest(ScheduleItemRequest scheduleItemRequest)
+    {
+        throw new NotImplementedException();
+    }
+
+    public List<Ad> GetAcceptedUserAds(int userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public List<Ad> GetAllAds()
+    {
+        throw new NotImplementedException();
+    }
+
+    public List<ScheduleItem> GetAllScheduleItemsForUsersAcceptedAds(int userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public List<ScheduleItem> GetUsersAcceptedScheduleItems(int userId)
     {
         throw new NotImplementedException();
     }
