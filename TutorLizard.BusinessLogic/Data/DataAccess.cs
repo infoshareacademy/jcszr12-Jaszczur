@@ -255,7 +255,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         {
             _adRequestList[index] = adRequest;
         }
-        throw new Exception("Not found");
+        throw new InvalidOperationException("Not found");
     }
 
     public void UpdateScheduleItemRequest(ScheduleItemRequest scheduleItemRequest)
@@ -293,6 +293,18 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     public List<ScheduleItem> GetUsersAcceptedScheduleItems(int userId)
     {
-        throw new NotImplementedException();
+        List<ScheduleItem> scheduleItems = new List<ScheduleItem>();
+        List<ScheduleItemRequest> scheduleItemRequests = _scheduleItemRequestList.Where(sir => sir.UserId == userId && sir.IsAccepted).ToList();
+
+        foreach (ScheduleItemRequest scheduleItemRequest in scheduleItemRequests)
+        {
+            ScheduleItem scheduleItem = _scheduleItemList.FirstOrDefault(si => si.Id == scheduleItemRequest.ScheduleItemId);
+
+            if (scheduleItem is not null)
+            {
+                scheduleItems.Add(scheduleItem);
+            }
+        }
+        return scheduleItems;
     }
 }
