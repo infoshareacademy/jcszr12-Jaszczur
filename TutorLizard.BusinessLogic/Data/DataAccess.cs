@@ -311,18 +311,12 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     public void UpdateAdRequest(AdRequest adRequest)
     {
-        if (adRequest is not null)
-        {
-            CreateAdRequest(adRequest.AdId, adRequest.StudentId, adRequest.IsAccepted, adRequest.Message);
-        }
+        SaveAdRequestToJson();
     }
 
     public void UpdateScheduleItemRequest(ScheduleItemRequest scheduleItemRequest)
     {
-        if (scheduleItemRequest is not null)
-        {
-            CreateScheduleItemRequest(scheduleItemRequest.ScheduleItemId, scheduleItemRequest.UserId, scheduleItemRequest.IsAccepted);
-        }
+        SaveScheduleItemRequestToJson();
     }
 
     public List<Ad> GetStudentsAcceptedAds(int studentId)
