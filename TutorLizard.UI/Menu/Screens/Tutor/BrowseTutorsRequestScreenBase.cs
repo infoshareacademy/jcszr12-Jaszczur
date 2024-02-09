@@ -1,5 +1,4 @@
-﻿using TutorLizard.BusinessLogic.Models;
-using TutorLizard.BusinessLogic.Services;
+﻿using TutorLizard.BusinessLogic.Services;
 using TutorLizard.UI.Utilities;
 
 namespace TutorLizard.UI.Menu.Screens.Tutor;
@@ -16,7 +15,7 @@ public abstract class BrowseTutorsRequestScreenBase<T> : TutorMenuScreenBase
     {
         if (_pending.Any() == false)
             return DisplayWhenNoPending();
-        
+
         return DisplayWhenAnyPending();
     }
 
@@ -49,12 +48,17 @@ public abstract class BrowseTutorsRequestScreenBase<T> : TutorMenuScreenBase
         switch (selected)
         {
             case 0:
+                if (_index == _pending.Count)
+                {
+                    Console.WriteLine("Ostatnie zgłoszenie pominięte.");
+                    Console.Write("Wróć do menu głównego...");
+                    Console.ReadKey(true);
+                    return MenuNavigation.Previous;
+                }
                 Console.WriteLine("Zgłoszenie pominięte.");
                 Console.Write("Kontunuuj...");
                 Console.ReadKey(true);
                 _index++;
-                if (_index == _pending.Count)
-                    _index = 0;
                 return MenuNavigation.NextOrCurrent;
             case 1:
                 Console.WriteLine("Zgłoszenie zakceptowane.");
