@@ -30,83 +30,95 @@ public class TutorService : ITutorService
     }
     public Ad? GetAdById(int adId)
     {
-        // return Ad (from _dataAccess) with provided adId
-        // return null if no such Ad
-        adId = (int)_dataAccess.GetAllAdsId();
-        return _dataAccess.GetAdById((int)adId);
+        return _dataAccess.GetAdById(adId);
     }
     public ScheduleItem? GetScheduleItemById(int scheduleItemId)
     {
-        scheduleItemId = (int)_dataAccess.GetScheduleItemId();
         return _dataAccess.GetScheduleItemById(scheduleItemId);
     }
     public List<Ad> GetUsersAds()
     {
-        List<Ad> ads = new List<Ad>();
-        return [.. _dataAccess.GetUsersAds()];
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
+        {
+            return new List<Ad>();
+        }
+
+        return _dataAccess.GetUsersAds((int)userId);
     }
     public List<ScheduleItem> GetUsersScheduleItems()
     {
-        return _dataAccess.GetUsersScheduleItems();
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
+        {
+            return new List<ScheduleItem>();
+        }
+
+        return _dataAccess.GetUsersScheduleItems((int)userId);
     }
     public List<AdRequest> GetUsersAdRequests()
     {
-        return _dataAccess.GetUsersAdRequests();
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
+        {
+            return new List<AdRequest>();
+        }
+        return _dataAccess.GetUsersAdRequests((int)userId);
     }
     public List<ScheduleItemRequest> GetUsersScheduleItemRequests()
     {
-        return _dataAccess.GetUsersScheduleItemRequests();
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
+        {
+            return new List<ScheduleItemRequest>();
+        }
+        return _dataAccess.GetUsersScheduleItemRequests((int)userId);
     }
     public string GetStudentUserNameByAdRequestId(int adRequestId)
     {
         AdRequest adRequest = _dataAccess.GetAdRequestById(adRequestId);
-        if (adRequest != null)
+        if (adRequest is not null)
         {
             int studentId = adRequest.StudentId;
-            User user = _userIdentityService.GetUserById(studentId);
-            if (user != null)
-            {
-                return user.Name;
-            }
+            return _userIdentityService.GetUserNameById(studentId);
         }
-        return null;
+
+        return "";
     }
     public string GetStudentUserNameByScheduleItemRequestId(int scheduleItemRequestId)
     {
         ScheduleItemRequest scheduleItemRequest = _dataAccess.GetScheduleItemRequestById(scheduleItemRequestId);
 
-        if (scheduleItemRequest != null)
+        if (scheduleItemRequest is not null)
         {
             int userId = scheduleItemRequest.UserId;
 
-            User user = _userIdentityService.GetUserById(userId);
-
-            if (user != null && user.UserType == UserType.Student)
-            {
-                return user.Name;
-            }
+            return _userIdentityService.GetUserNameById(userId);       
         }
-        return null;
+        return "";
     }
 
     public bool UserCanEditAdSchedule(int adId)
     {
         // return true if ad exists and belongs to active user (ask _userIdentityService)
-        int userId = (int)_userIdentityService.GetUserId();
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
+        {
+            return false;
+        }
 
         Ad? ad = _dataAccess.GetAdById(adId);
 
-        if (userId != null && ad != null && ad.TutorId == (int)userId)
+        if (userId is not null && ad is not null && ad.TutorId == (int)userId)
         {
             return true;
         }
-
         return false;
     }
     public AdRequest AcceptAdRequest(int adRequestId)
     {
         AdRequest adRequest = _dataAccess.GetAdRequestById(adRequestId);
-        if (adRequest != null)
+        if (adRequest is not null)
         {
             adRequest.IsAccepted = true;
             _dataAccess.UpdateAdRequest(adRequest);
@@ -114,12 +126,12 @@ public class TutorService : ITutorService
             return adRequest;
         }
 
-        return null;
+        return new AdRequest() { Id = 0 };
     }
     public ScheduleItemRequest AcceptScheduleItemRequest(int scheduleItemRequestId)
     {
         ScheduleItemRequest scheduleItemRequest = _dataAccess.GetScheduleItemRequestById(scheduleItemRequestId);
-        if (scheduleItemRequest != null)
+        if (scheduleItemRequest is not null)
         {
             scheduleItemRequest.IsAccepted = true;
             _dataAccess.UpdateScheduleItemRequest(scheduleItemRequest);
@@ -127,6 +139,6 @@ public class TutorService : ITutorService
             return scheduleItemRequest;
         }
 
-        return null;
+        return new ScheduleItemRequest() { Id = 0 };
     }
 }

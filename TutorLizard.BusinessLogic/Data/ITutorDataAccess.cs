@@ -8,14 +8,12 @@ public interface ITutorDataAccess
     ScheduleItem CreateScheduleItem(int adId, DateTime dateTime);
     Ad? GetAdById(int adId);
     AdRequest GetAdRequestById(int adRequestId);
-    int? GetAllAdsId();
     ScheduleItem? GetScheduleItemById(int? scheduleItemId);
-    int? GetScheduleItemId();
     ScheduleItemRequest GetScheduleItemRequestById(int scheduleItemRequestId);
-    List<AdRequest> GetUsersAdRequests();
-    List<Ad> GetUsersAds();
-    List<ScheduleItemRequest> GetUsersScheduleItemRequests();
-    List<ScheduleItem> GetUsersScheduleItems();
+    List<AdRequest> GetUsersAdRequests(int userId);
+    List<Ad> GetUsersAds(int userId);
+    List<ScheduleItemRequest> GetUsersScheduleItemRequests(int userId);
+    List<ScheduleItem> GetUsersScheduleItems(int userId);
     void UpdateAdRequest(AdRequest adRequest);
     void UpdateScheduleItemRequest(ScheduleItemRequest scheduleItemRequest);
 }

@@ -195,7 +195,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         else
             return 0;
     }
-
+    #endregion
     public Ad? GetAdById(int adId)
     {
         throw new NotImplementedException();
@@ -206,17 +206,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         throw new NotImplementedException();
     }
 
-    public int? GetAllAdsId()
-    {
-        throw new NotImplementedException();
-    }
-
     public ScheduleItem? GetScheduleItemById(int? scheduleItemId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public int? GetScheduleItemId()
     {
         throw new NotImplementedException();
     }
@@ -226,22 +216,22 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         throw new NotImplementedException();
     }
 
-    public List<AdRequest> GetUsersAdRequests()
+    public List<AdRequest> GetUsersAdRequests(int userId)
     {
         throw new NotImplementedException();
     }
 
-    public List<Ad> GetUsersAds()
+    public List<Ad> GetUsersAds(int userId)
     {
         throw new NotImplementedException();
     }
 
-    public List<ScheduleItemRequest> GetUsersScheduleItemRequests()
+    public List<ScheduleItemRequest> GetUsersScheduleItemRequests(int userId)
     {
         throw new NotImplementedException();
     }
 
-    public List<ScheduleItem> GetUsersScheduleItems()
+    public List<ScheduleItem> GetUsersScheduleItems(int userId)
     {
         throw new NotImplementedException();
     }
@@ -255,5 +245,4 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     {
         throw new NotImplementedException();
     }
-    #endregion
 }

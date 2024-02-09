@@ -49,7 +49,7 @@ public class UserIdentityService : IUserIdentityService
         throw new NotImplementedException();
     }
 
-    public User GetUserById(int studentId)
+    public string GetUserNameById(int userId)
     {
         throw new NotImplementedException();
     }
