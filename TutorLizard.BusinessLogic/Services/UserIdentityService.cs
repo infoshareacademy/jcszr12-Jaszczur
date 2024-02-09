@@ -5,7 +5,6 @@ namespace TutorLizard.BusinessLogic.Services;
 public class UserIdentityService : IUserIdentityService
 {
     private readonly IUserIdentityDataAccess _dataAccess;
-    private readonly DataAccess? _dataAccessObject = new();
     
     private User _activeUser = new();
 
@@ -14,68 +13,46 @@ public class UserIdentityService : IUserIdentityService
         _dataAccess = dataAccess;
     }
 
-    public User? GetActiveUser() 
-    {
-        if (_activeUser is null)
-            return null;
-        return _activeUser;
-    }
-
     public UserType? GetUserType()
     {
-        if (_activeUser is null)
-            return null;
         return _activeUser.UserType;
     }
 
     public string? GetUserName()
     {
-        if (_activeUser is null)
-            return null;
         return _activeUser.Name;
     }
 
     public int? GetUserId()
     {
-        if (_activeUser is null)
-            return null;
         return _activeUser.Id;
     }
 
     public bool IsUserNameTaken(string userName)
     {
-        return _dataAccessObject.LookForUserName(userName);
+        return _dataAccess.LookForUserName(userName);
     }
 
     public bool LogIn(string userName, int userId)
     {
-        var isDataCorrect = _dataAccessObject?.IsLoginDataCorrect(userId, userName).isCorrect;
+        var isDataCorrect = _dataAccess?.IsLoginDataCorrect(userId, userName).isCorrect;
 
         if (isDataCorrect == false)
             return false;
 
-        _activeUser = _dataAccessObject.IsLoginDataCorrect(userId, userName).activeUser;
+        _activeUser = _dataAccess.IsLoginDataCorrect(userId, userName).activeUser;
         return true;
     }
 
     public void LogOut()
     {
-        //ResetCurrentUserToNull();
-        throw new NotImplementedException();
+        _activeUser = null;
     }
 
     public int RegisterUser(string userName, UserType type)
     {
-        if (!IsUserNameTaken(userName))
-            return 0;
-
-        var newUser = _dataAccessObject.CreateUser(userName, type);
+        var newUser = _dataAccess.CreateUser(userName, type);
         return newUser.Id;
-    }
-
-    public void ResetCurrentUserToNull()
-    {
-        _activeUser = null;
     }
 
     public string GetUserNameById(int userId)

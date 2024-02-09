@@ -223,7 +223,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     }
     private User ReturnActiveUser(int id)
     {
-        User tempUser = _userList.Single(x => x.Id == id);
+        User tempUser = _userList.SingleOrDefault(x => x.Id == id);
         return tempUser;
     }
     public (bool isCorrect, User activeUser) IsLoginDataCorrect (int id, string username)
@@ -232,9 +232,9 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         bool condition2 = DoesTheUsernameMatchUserId(id, username); 
         
         if (condition1 == false || condition2 == false)
-            return (first: false, last: null);
+            return (false, null);
         
-        return (first: true, last: ReturnActiveUser(id));
+        return (true, ReturnActiveUser(id));
     }
 
     public bool LookForUserName(string username)
