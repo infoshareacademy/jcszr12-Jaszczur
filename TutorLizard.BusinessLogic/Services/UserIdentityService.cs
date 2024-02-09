@@ -48,4 +48,9 @@ public class UserIdentityService : IUserIdentityService
         // return 0 if unsuccessful
         throw new NotImplementedException();
     }
+
+    public string GetUserNameById(int userId)
+    {
+        throw new NotImplementedException();
+    }
 }

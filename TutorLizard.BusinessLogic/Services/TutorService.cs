@@ -14,124 +14,131 @@ public class TutorService : ITutorService
     }
     public Ad CreateAd(string subject, string title, string description)
     {
-        // return created Ad
-        // return empty with id = 0 to indicate something went wrong
-        return new Ad()
+        int? tutorId = _userIdentityService.GetUserId();
+        if (tutorId is null)
         {
-            // this is only for tests
-            Id = 1,
-            Subject = subject,
-            Title = title,
-            Description = description
-        };
+            return new Ad()
+            { Id = 0 };
+        }
+
+        return _dataAccess.CreateAd((int)tutorId, subject, title, description);
+
     }
     public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime)
     {
-        // return created ScheduleItem
-        // return empty with id = 0 to indicate something went wrong
-        return new ScheduleItem()
-        {
-            // this is only for tests
-            Id = 1,
-            AdId = adId,
-            DateTime = dateTime
-        };
+        return _dataAccess.CreateScheduleItem(adId, dateTime);
     }
     public Ad? GetAdById(int adId)
     {
-        // return Ad (from _dataAccess) with provided adId
-        // return null if no such Ad
-        return new Ad()
-        {
-            // this is only for tests
-            Id = adId,
-            Title = "Test"
-        };
+        return _dataAccess.GetAdById(adId);
     }
     public ScheduleItem? GetScheduleItemById(int scheduleItemId)
     {
-        return new ScheduleItem()
-        {
-            // this is only for tests
-            Id = scheduleItemId,
-            DateTime = DateTime.Now.AddHours(1),
-        };
+        return _dataAccess.GetScheduleItemById(scheduleItemId);
     }
     public List<Ad> GetUsersAds()
     {
-        return [
-            // this is only for tests
-            GetAdById(1)!,
-            GetAdById(2)!,
-            GetAdById(3)!
-            ];
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
+        {
+            return new List<Ad>();
+        }
+
+        return _dataAccess.GetUsersAds((int)userId);
     }
     public List<ScheduleItem> GetUsersScheduleItems()
     {
-        return [
-            // this is only for tests
-            GetScheduleItemById(1)!,
-            GetScheduleItemById(2)!,
-            GetScheduleItemById(3)!
-            ];
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
+        {
+            return new List<ScheduleItem>();
+        }
+
+        return _dataAccess.GetUsersScheduleItems((int)userId);
     }
     public List<AdRequest> GetUsersAdRequests()
     {
-        return [
-            // this is only for tests
-            new AdRequest()
-            {
-                Id = 1,
-                AdId = 1,
-                IsAccepted = false,
-                Message = "Test Ad Request",
-                StudentId = 1
-            },
-        ];
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
+        {
+            return new List<AdRequest>();
+        }
+        return _dataAccess.GetUsersAdRequests((int)userId);
     }
     public List<ScheduleItemRequest> GetUsersScheduleItemRequests()
     {
-        return [
-            new ScheduleItemRequest()
-            {
-                // this is only for tests
-                Id = 1,
-                IsAccepted = false,
-                ScheduleItemId = 1,
-                UserId = 1
-            }];
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
+        {
+            return new List<ScheduleItemRequest>();
+        }
+        return _dataAccess.GetUsersScheduleItemRequests((int)userId);
     }
     public string GetStudentUserNameByAdRequestId(int adRequestId)
     {
-        // this is only for tests
-        return "TestStudentName1";
+        AdRequest adRequest = _dataAccess.GetAdRequestById(adRequestId);
+        if (adRequest is not null)
+        {
+            int studentId = adRequest.StudentId;
+            return _userIdentityService.GetUserNameById(studentId);
+        }
+
+        return "";
     }
     public string GetStudentUserNameByScheduleItemRequestId(int scheduleItemRequestId)
     {
-        // this is only for tests
-        return "TestStudentName2";
+        ScheduleItemRequest scheduleItemRequest = _dataAccess.GetScheduleItemRequestById(scheduleItemRequestId);
+
+        if (scheduleItemRequest is not null)
+        {
+            int userId = scheduleItemRequest.UserId;
+
+            return _userIdentityService.GetUserNameById(userId);       
+        }
+        return "";
     }
+
     public bool UserCanEditAdSchedule(int adId)
     {
         // return true if ad exists and belongs to active user (ask _userIdentityService)
-        return adId == 1;
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
+        {
+            return false;
+        }
+
+        Ad? ad = _dataAccess.GetAdById(adId);
+
+        if (userId is not null && ad is not null && ad.TutorId == (int)userId)
+        {
+            return true;
+        }
+        return false;
     }
     public AdRequest AcceptAdRequest(int adRequestId)
     {
-        return new AdRequest()
+        AdRequest adRequest = _dataAccess.GetAdRequestById(adRequestId);
+        if (adRequest is not null)
         {
-            // this is only for tests
-            Id = adRequestId,
-            IsAccepted = true
-        };
+            adRequest.IsAccepted = true;
+            _dataAccess.UpdateAdRequest(adRequest);
+
+            return adRequest;
+        }
+
+        return new AdRequest() { Id = 0 };
     }
     public ScheduleItemRequest AcceptScheduleItemRequest(int scheduleItemRequestId)
     {
-        return new ScheduleItemRequest()
+        ScheduleItemRequest scheduleItemRequest = _dataAccess.GetScheduleItemRequestById(scheduleItemRequestId);
+        if (scheduleItemRequest is not null)
         {
-            // this is only for tests
-            Id = scheduleItemRequestId,
-            IsAccepted = true
-        };
+            scheduleItemRequest.IsAccepted = true;
+            _dataAccess.UpdateScheduleItemRequest(scheduleItemRequest);
+            
+            return scheduleItemRequest;
+        }
+
+        return new ScheduleItemRequest() { Id = 0 };
     }
 }

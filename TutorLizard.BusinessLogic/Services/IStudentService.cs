@@ -8,10 +8,8 @@ public interface IStudentService
     public ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId);
     public List<Ad> GetAllAds();
     public List<Ad> GetUsersAcceptedAds();
-    public List<Ad> GetUsersNotAcceptedAds();
+    public List<ScheduleItem> GetAllScheduleItemsForUsersAcceptedAds();
     public List<ScheduleItem> GetUsersAcceptedScheduleItems();
-    public List<ScheduleItem> GetUsersNotAcceptedScheduleItems();
     public Ad? GetAdById(int adId);
-    public ScheduleItem? GetScheduleItemById(int scheduleItemId);
     public string GetTutorUserNameByAdId(int adId);
 }
