@@ -76,7 +76,7 @@ public class TutorService : ITutorService
     }
     public string GetStudentUserNameByAdRequestId(int adRequestId)
     {
-        AdRequest adRequest = _dataAccess.GetAdRequestById(adRequestId);
+        AdRequest? adRequest = _dataAccess.GetAdRequestById(adRequestId);
         if (adRequest is not null)
         {
             int studentId = adRequest.StudentId;
@@ -87,7 +87,7 @@ public class TutorService : ITutorService
     }
     public string GetStudentUserNameByScheduleItemRequestId(int scheduleItemRequestId)
     {
-        ScheduleItemRequest scheduleItemRequest = _dataAccess.GetScheduleItemRequestById(scheduleItemRequestId);
+        ScheduleItemRequest? scheduleItemRequest = _dataAccess.GetScheduleItemRequestById(scheduleItemRequestId);
 
         if (scheduleItemRequest is not null)
         {
@@ -117,7 +117,7 @@ public class TutorService : ITutorService
     }
     public AdRequest AcceptAdRequest(int adRequestId)
     {
-        AdRequest adRequest = _dataAccess.GetAdRequestById(adRequestId);
+        AdRequest? adRequest = _dataAccess.GetAdRequestById(adRequestId);
         if (adRequest is not null)
         {
             adRequest.IsAccepted = true;
@@ -130,7 +130,7 @@ public class TutorService : ITutorService
     }
     public ScheduleItemRequest AcceptScheduleItemRequest(int scheduleItemRequestId)
     {
-        ScheduleItemRequest scheduleItemRequest = _dataAccess.GetScheduleItemRequestById(scheduleItemRequestId);
+        ScheduleItemRequest? scheduleItemRequest = _dataAccess.GetScheduleItemRequestById(scheduleItemRequestId);
         if (scheduleItemRequest is not null)
         {
             scheduleItemRequest.IsAccepted = true;

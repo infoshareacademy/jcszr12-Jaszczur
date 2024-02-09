@@ -195,48 +195,24 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         else
             return 0;
     }
-
-    public AdRequest CreateAdRequest(int adId, object value, bool isAccepted, string message)
-    {
-        throw new NotImplementedException();
-    }
-
-    public ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId, int value)
-    {
-        throw new NotImplementedException();
-    }
-
-    public object GetAllAds()
-    {
-        throw new NotImplementedException();
-    }
-
-    public IEnumerable<Ad> GetAcceptedUserAds(object userId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IEnumerable<Ad> GetNotAcceptedUserAds(int userId)
-    {
-        throw new NotImplementedException();
-    }
     #endregion
+    
     public Ad? GetAdById(int adId)
     {
         throw new NotImplementedException();
     }
 
-    public AdRequest GetAdRequestById(int adRequestId)
+    public AdRequest? GetAdRequestById(int adRequestId)
     {
         throw new NotImplementedException();
     }
 
-    public ScheduleItem? GetScheduleItemById(int? scheduleItemId)
+    public ScheduleItem? GetScheduleItemById(int scheduleItemId)
     {
         throw new NotImplementedException();
     }
 
-    public ScheduleItemRequest GetScheduleItemRequestById(int scheduleItemRequestId)
+    public ScheduleItemRequest? GetScheduleItemRequestById(int scheduleItemRequestId)
     {
         throw new NotImplementedException();
     }
@@ -276,7 +252,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         throw new NotImplementedException();
     }
 
-    List<Ad> IStudentDataAccess.GetAllAds()
+    public List<Ad> GetAllAds()
     {
         throw new NotImplementedException();
     }
