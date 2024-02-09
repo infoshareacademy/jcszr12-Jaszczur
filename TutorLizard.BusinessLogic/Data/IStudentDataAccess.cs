@@ -8,4 +8,5 @@ public interface IStudentDataAccess
     ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId, int value);
     IEnumerable<Ad> GetAcceptedUserAds(object userId);
     object GetAllAds();
+    IEnumerable<Ad> GetNotAcceptedUserAds(int userId);
 }

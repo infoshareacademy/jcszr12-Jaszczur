@@ -210,5 +210,15 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     {
         throw new NotImplementedException();
     }
+
+    public IEnumerable<Ad> GetAcceptedUserAds(object userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<Ad> GetNotAcceptedUserAds(int userId)
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 }
