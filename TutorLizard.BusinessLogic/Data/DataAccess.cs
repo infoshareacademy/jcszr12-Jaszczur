@@ -214,7 +214,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     private bool DoesTheUsernameMatchUserId(int id, string username)
     {
-        User tempUser = _userList.Single(x => x.Id == id);
+        User? tempUser = _userList.SingleOrDefault(x => x.Id == id);
 
         if (tempUser.Name.ToLower() == username.ToLower()) 
             return true;
