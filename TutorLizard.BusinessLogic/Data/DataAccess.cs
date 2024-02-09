@@ -337,19 +337,11 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     public List<ScheduleItem> GetAllScheduleItemsForStudentsAcceptedAds(int studentId)
     {
-        List<ScheduleItem> scheduleItems = new List<ScheduleItem>();
         List<AdRequest> userAcceptedAdRequests = _adRequestList.Where(ar => ar.StudentId == studentId && ar.IsAccepted == true).ToList();
 
-        foreach (AdRequest adRequest in userAcceptedAdRequests)
-        {
-            ScheduleItem? scheduleItem = _scheduleItemList.FirstOrDefault(i => i.AdId == adRequest.AdId);
-
-            if (scheduleItem is not null)
-            {
-                scheduleItems.Add(scheduleItem);
-            }
-        }
-        return scheduleItems;
+        return _scheduleItemList
+            .Where(si => userAcceptedAdRequests.Any(ar => ar.AdId == si.AdId))
+            .ToList();
     }
 
     public List<ScheduleItem> GetStudentsAcceptedScheduleItems(int studentId)
