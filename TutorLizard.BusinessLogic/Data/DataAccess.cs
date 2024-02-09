@@ -199,42 +199,52 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     
     public Ad? GetAdById(int adId)
     {
-        throw new NotImplementedException();
+        var ad = _adList.FirstOrDefault(x => x.Id == adId);
+        return ad;
     }
 
     public AdRequest? GetAdRequestById(int adRequestId)
     {
-        throw new NotImplementedException();
+        var adRequest = _adRequestList.FirstOrDefault(x => x.Id == adRequestId);
+        return adRequest;
     }
 
     public ScheduleItem? GetScheduleItemById(int scheduleItemId)
     {
-        throw new NotImplementedException();
+        var scheduleItem = _scheduleItemList.FirstOrDefault(x => x.Id == scheduleItemId);
+        return scheduleItem;
     }
 
     public ScheduleItemRequest? GetScheduleItemRequestById(int scheduleItemRequestId)
     {
-        throw new NotImplementedException();
+        var scheduleItemRequest = _scheduleItemRequestList.FirstOrDefault(x => x.Id == scheduleItemRequestId);
+        return scheduleItemRequest;
     }
 
     public List<AdRequest> GetUsersAdRequests(int userId)
     {
-        throw new NotImplementedException();
+        var userAdRequests = _adRequestList.Where(p => p.StudentId == userId).ToList();
+        return userAdRequests;
     }
 
     public List<Ad> GetUsersAds(int userId)
     {
-        throw new NotImplementedException();
+        var userAds = _adList.Where(p => p.TutorId == userId).ToList();
+        return userAds;
     }
 
     public List<ScheduleItemRequest> GetUsersScheduleItemRequests(int userId)
     {
-        throw new NotImplementedException();
+        var userScheduleItemRequests = _scheduleItemRequestList.Where(p => p.UserId == userId).ToList();
+        return userScheduleItemRequests;
     }
 
     public List<ScheduleItem> GetUsersScheduleItems(int userId)
     {
-        throw new NotImplementedException();
+        List<Ad> usersAds = _adList.Where(a => a.TutorId == userId).ToList();
+
+        var userScheduleItems = _scheduleItemList.Where(s => usersAds.Any(a => a.Id == s.AdId)).ToList();
+        return userScheduleItems;
     }
 
     public void UpdateAdRequest(AdRequest adRequest)
