@@ -164,7 +164,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     #region GetID
     private int GetNewUserID()
     {
-        if (_userList.Count() +1 > 1)
+        if (_userList.Any() == true)
             return _userList.Max(x => x.Id) + 1;
         else
             return 1;
@@ -172,7 +172,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     private int GetNewScheduleItemID()
     {
-        if (_scheduleItemList.Count() +1 > 1)
+        if (_scheduleItemList.Any() == true)
             return _scheduleItemList.Max(x => x.Id) + 1;
         else
             return 1;
@@ -180,7 +180,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     private int GetNewAdID()
     {
-        if (_adList.Count() +1 > 1)
+        if (_adList.Any() == true)
             return _adList.Max(x => x.Id) + 1;
         else
             return 1;
@@ -188,7 +188,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     private int GetNewAdRequestID()
     {
-        if (_adRequestList.Count() +1 > 1)
+        if (_adRequestList.Any() == true)
             return _adRequestList.Max(x => x.Id) + 1;
         else
             return 1;
@@ -196,7 +196,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     private int GetNewScheduleItemRequestID()
     {
-        if (_scheduleItemRequestList.Count() +1 > 1)
+        if (_scheduleItemRequestList.Any() == true)
             return _scheduleItemRequestList.Max(x => x.Id) + 1;
         else
             return 1;
