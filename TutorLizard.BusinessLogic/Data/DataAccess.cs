@@ -271,12 +271,24 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     public List<Ad> GetAllAds()
     {
-        throw new NotImplementedException();
+        return _adList;
     }
 
     public List<ScheduleItem> GetAllScheduleItemsForUsersAcceptedAds(int userId)
     {
-        throw new NotImplementedException();
+        List<ScheduleItem> scheduleItems = new List<ScheduleItem>();
+        List<AdRequest> userAcceptedAdRequests = _adRequestList.Where(ar => ar.StudentId == userId && ar.IsAccepted).ToList();
+
+        foreach (AdRequest adRequest in userAcceptedAdRequests)
+        {
+            ScheduleItem scheduleItem = _scheduleItemList.FirstOrDefault(i => i.AdId == adRequest.AdId);
+
+            if (scheduleItem is not null)
+            {
+                scheduleItems.Add(scheduleItem);
+            }
+        }
+        return scheduleItems;
     }
 
     public List<ScheduleItem> GetUsersAcceptedScheduleItems(int userId)
