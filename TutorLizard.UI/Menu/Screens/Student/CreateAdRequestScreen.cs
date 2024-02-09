@@ -35,6 +35,18 @@ public class CreateAdRequestScreen : StudentMenuScreenBase
 
         Console.WriteLine();
 
+        bool alreadySentRequest = _studentService
+            .GetStudentsAdRequests()
+            .Any(r => r.AdId == adId);
+
+        if (alreadySentRequest)
+        {
+            Console.WriteLine("Już wysłałeś/aś zgłoszenie do tego ogłoszenia.");
+            Console.Write("Spróbuj ponownie...");
+            Console.ReadKey(true);
+            return MenuNavigation.NextOrCurrent;
+        }
+
         string? message = ConsoleParser.AskForString(new()
         {
             ExitString = exitString,

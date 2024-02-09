@@ -33,11 +33,23 @@ public class CreateScheduleItemRequestScreen : StudentMenuScreenBase
             return Cancel();
 
         Console.WriteLine();
-        
+
         ScheduleItem scheduleItem = availableSchedule.First(s => s.Id == scheduleItemId);
         DisplayScheduleItemSummary(scheduleItem);
 
+        bool alreadySentRequest = _studentService
+            .GetStudentsScheduleItemRequests()
+            .Any(r => r.ScheduleItemId == scheduleItemId);
+
         Console.WriteLine();
+
+        if (alreadySentRequest)
+        {
+            Console.WriteLine("Już wysłałeś/aś zgłoszenie na ten termin.");
+            Console.Write("Spróbuj ponownie...");
+            Console.ReadKey(true);
+            return MenuNavigation.NextOrCurrent;
+        }
 
         int selected = SelectTool.SelectOne([
             "Wyślij zgłoszenie",
