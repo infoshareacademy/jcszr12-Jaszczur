@@ -44,6 +44,22 @@ public class BrowseStudentsAvailableScheduleScreen : StudentMenuScreenBase
 
         Console.WriteLine($"\tTermin Id: {item.Id}\n\t{item.DateTime.ToString("dd.MM.yyyy HH:mm")}");
 
+        var requests = _studentService
+            .GetStudentsScheduleItemRequests()
+            .Where(r => r.ScheduleItemId == item.Id)
+            .ToList();
+
+        bool accepted = requests.Any(r => r.IsAccepted);
+
+        if (accepted)
+        {
+            Console.WriteLine("\tJesteś zapisany/a.");
+        }
+        else if (requests.Any())
+        {
+            Console.WriteLine("\tWysłałeś/aś zgłoszenie.");
+        }
+
         Console.WriteLine();
     }
 }

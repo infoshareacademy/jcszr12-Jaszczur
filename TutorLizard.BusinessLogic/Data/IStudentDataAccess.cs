@@ -11,4 +11,6 @@ public interface IStudentDataAccess
     List<ScheduleItem> GetAllScheduleItemsForStudentsAcceptedAds(int studentId);
     List<ScheduleItem> GetStudentsAcceptedScheduleItems(int studentId);
     Ad? GetAdById(int adId);
+    List<AdRequest> GetStudentsAdRequests(int studentId);
+    List<ScheduleItemRequest> GetStudentsScheduleItemRequests(int studentId);
 }

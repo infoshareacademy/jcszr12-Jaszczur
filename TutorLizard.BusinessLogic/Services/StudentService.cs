@@ -87,4 +87,23 @@ public class StudentService : IStudentService
         return _userIdentityService.GetUserNameById(ad.TutorId);
     }
 
+    public List<AdRequest> GetStudentsAdRequests()
+    {
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
+        {
+            return new List<AdRequest>();
+        }
+        return _dataAccess.GetStudentsAdRequests((int)userId);
+    }
+
+    public List<ScheduleItemRequest> GetStudentsScheduleItemRequests()
+    {
+        int? userId = _userIdentityService.GetUserId();
+        if (userId is null)
+        {
+            return new List<ScheduleItemRequest>();
+        }
+        return _dataAccess.GetStudentsScheduleItemRequests((int)userId);
+    }
 }

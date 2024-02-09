@@ -33,6 +33,19 @@ public class BrowseAdsScreen : StudentMenuScreenBase
         Console.WriteLine($"\tTematyka: {ad.Subject}");
         Console.WriteLine($"\tOpis: {ad.Description}");
 
+        var requests = _studentService
+            .GetStudentsAdRequests()
+            .Where(r => r.AdId == ad.Id);
+        bool accepted = requests.Any(r => r.IsAccepted);
+        if (accepted)
+        {
+            Console.WriteLine("\tJesteś zapisany/a.");
+        }
+        else if (requests.Any())
+        {
+            Console.WriteLine("\tWysłałeś/aś zgłoszenie.");
+        }
+
         Console.WriteLine();
     }
 }

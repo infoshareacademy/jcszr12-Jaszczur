@@ -12,4 +12,6 @@ public interface IStudentService
     public List<ScheduleItem> GetStudentsAcceptedScheduleItems();
     public Ad? GetAdById(int adId);
     public string GetTutorUserNameByAdId(int adId);
+    List<AdRequest> GetStudentsAdRequests();
+    List<ScheduleItemRequest> GetStudentsScheduleItemRequests();
 }
