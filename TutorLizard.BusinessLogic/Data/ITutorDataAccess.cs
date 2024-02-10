@@ -16,4 +16,5 @@ public interface ITutorDataAccess
     List<ScheduleItem> GetTutorsScheduleItems(int tutorId);
     void UpdateAdRequest(AdRequest adRequest);
     void UpdateScheduleItemRequest(ScheduleItemRequest scheduleItemRequest);
+    List<ScheduleItemRequest> GetScheduleItemRequestsByScheduleItemId(int scheduleItemId);
 }

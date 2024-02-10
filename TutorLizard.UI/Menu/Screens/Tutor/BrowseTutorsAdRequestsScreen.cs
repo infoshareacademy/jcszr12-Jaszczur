@@ -37,4 +37,9 @@ public class BrowseTutorsAdRequestsScreen : BrowseTutorsRequestScreenBase<AdRequ
     {
         _tutorService.AcceptAdRequest(request.Id);
     }
+
+    protected override bool RequestCanBeAccepted(AdRequest request)
+    {
+        return true;
+    }
 }

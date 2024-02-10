@@ -17,4 +17,5 @@ public interface ITutorService
     public bool TutorCanEditAdSchedule(int adId);
     public AdRequest AcceptAdRequest(int adRequestId); 
     public ScheduleItemRequest AcceptScheduleItemRequest(int scheduleItemRequestId);
+    public bool IsScheduleItemFree(ScheduleItem scheduleItem);
 }

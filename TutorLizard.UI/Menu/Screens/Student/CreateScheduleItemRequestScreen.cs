@@ -19,7 +19,7 @@ public class CreateScheduleItemRequestScreen : StudentMenuScreenBase
         Console.WriteLine();
 
         List<ScheduleItem> availableSchedule = _studentService.GetAllScheduleItemsForStudentsAcceptedAds()
-            .Where(s => s.DateTime > DateTime.Now)
+            .Where(s => s.DateTime > DateTime.Now && _studentService.IsScheduleItemFree(s))
             .ToList();
 
         int? scheduleItemId = ConsoleParser.AskForInt(new()

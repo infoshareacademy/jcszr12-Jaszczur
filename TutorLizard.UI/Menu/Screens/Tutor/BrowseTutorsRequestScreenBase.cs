@@ -1,4 +1,5 @@
-﻿using TutorLizard.BusinessLogic.Services;
+﻿using TutorLizard.BusinessLogic.Models;
+using TutorLizard.BusinessLogic.Services;
 using TutorLizard.UI.Utilities;
 
 namespace TutorLizard.UI.Menu.Screens.Tutor;
@@ -22,6 +23,7 @@ public abstract class BrowseTutorsRequestScreenBase<T> : TutorMenuScreenBase
     protected abstract List<T> GetPending();
     protected abstract void DisplayRequest(T request, int i);
     protected abstract void AcceptRequest(T request);
+    protected abstract bool RequestCanBeAccepted(T request);
 
     protected MenuNavigation DisplayWhenNoPending()
     {
@@ -38,6 +40,14 @@ public abstract class BrowseTutorsRequestScreenBase<T> : TutorMenuScreenBase
 
         DisplayRequest(request, _index);
 
+        if (RequestCanBeAccepted(request) == false)
+            return OptionsWhenRequestCannotBeAccepted();
+        
+        return OptionsWhenRequestCanBeAccepted(request);
+    }
+
+    protected MenuNavigation OptionsWhenRequestCanBeAccepted(T request)
+    {
         int selected = SelectTool.SelectOne([
             "Pomiń", // 0
             "Akceptuj", // 1
@@ -48,27 +58,54 @@ public abstract class BrowseTutorsRequestScreenBase<T> : TutorMenuScreenBase
         switch (selected)
         {
             case 0:
-                _index++;
-                if (_index == _pending.Count)
-                {
-                    Console.WriteLine("Ostatnie zgłoszenie pominięte.");
-                    Console.Write("Wróć do menu głównego...");
-                    Console.ReadKey(true);
-                    return MenuNavigation.Previous;
-                }
-                Console.WriteLine("Zgłoszenie pominięte.");
-                Console.Write("Kontunuuj...");
-                Console.ReadKey(true);
-                return MenuNavigation.NextOrCurrent;
+                return Skip();
             case 1:
-                Console.WriteLine("Zgłoszenie zakceptowane.");
-                Console.Write("Kontunuuj...");
-                Console.ReadKey(true);
-                AcceptRequest(request);
-                _pending.Remove(request);
-                return MenuNavigation.NextOrCurrent;
+                return Accept(request);
             default:
                 return MenuNavigation.Previous;
         }
+    }
+
+    protected MenuNavigation OptionsWhenRequestCannotBeAccepted()
+    {
+        Console.WriteLine("Zgłoszenie nie może być zaakceptowane.");
+        int selected = SelectTool.SelectOne([
+            "Pomiń", // 0
+            "Wróć do menu głównego" // 1
+            ]);
+        Console.WriteLine();
+
+        switch (selected)
+        {
+            case 0:
+                return Skip();
+            default:
+                return MenuNavigation.Previous;
+        }
+    }
+    protected MenuNavigation Skip()
+    {
+        _index++;
+        if (_index == _pending.Count)
+        {
+            Console.WriteLine("Ostatnie zgłoszenie pominięte.");
+            Console.Write("Wróć do menu głównego...");
+            Console.ReadKey(true);
+            return MenuNavigation.Previous;
+        }
+        Console.WriteLine("Zgłoszenie pominięte.");
+        Console.Write("Kontunuuj...");
+        Console.ReadKey(true);
+        return MenuNavigation.NextOrCurrent;
+    }
+
+    protected MenuNavigation Accept(T request)
+    {
+        Console.WriteLine("Zgłoszenie zakceptowane.");
+        Console.Write("Kontunuuj...");
+        Console.ReadKey(true);
+        AcceptRequest(request);
+        _pending.Remove(request);
+        return MenuNavigation.NextOrCurrent;
     }
 }
