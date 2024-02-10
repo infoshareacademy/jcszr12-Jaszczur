@@ -131,8 +131,18 @@ public class TutorService : ITutorService
     public ScheduleItemRequest AcceptScheduleItemRequest(int scheduleItemRequestId)
     {
         ScheduleItemRequest? scheduleItemRequest = _dataAccess.GetScheduleItemRequestById(scheduleItemRequestId);
+
         if (scheduleItemRequest is not null)
         {
+            var allRequests = GetTutorsScheduleItemRequests()
+                .Where(r => r.ScheduleItemId == scheduleItemRequest.ScheduleItemId)
+                .ToList();
+
+            if (allRequests.Any(r => r.IsAccepted))
+            {
+                return new ScheduleItemRequest() { Id = 0 };
+            }
+
             scheduleItemRequest.IsAccepted = true;
             _dataAccess.UpdateScheduleItemRequest(scheduleItemRequest);
             
@@ -140,5 +150,11 @@ public class TutorService : ITutorService
         }
 
         return new ScheduleItemRequest() { Id = 0 };
+    }
+
+    public bool IsScheduleItemFree(ScheduleItem scheduleItem)
+    {
+        var requests = _dataAccess.GetScheduleItemRequestsByScheduleItemId(scheduleItem.Id);
+        return !requests.Any(r => r.IsAccepted == true);
     }
 }

@@ -12,7 +12,7 @@ public class BrowseStudentsAvailableScheduleScreen : StudentMenuScreenBase
     {
         _ads = _studentService.GetAllAds();
         List<ScheduleItem> availableSchedule = _studentService.GetAllScheduleItemsForStudentsAcceptedAds()
-            .Where(s => s.DateTime > DateTime.Now)
+            .Where(s => s.DateTime > DateTime.Now && _studentService.IsScheduleItemFree(s))
             .ToList();
         PaginatorOptions<ScheduleItem> options = new()
         {

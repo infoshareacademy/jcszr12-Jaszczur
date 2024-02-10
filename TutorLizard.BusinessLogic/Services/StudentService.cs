@@ -106,4 +106,10 @@ public class StudentService : IStudentService
         }
         return _dataAccess.GetStudentsScheduleItemRequests((int)userId);
     }
+
+    public bool IsScheduleItemFree(ScheduleItem scheduleItem)
+    {
+        var requests =_dataAccess.GetScheduleItemRequestsByScheduleItemId(scheduleItem.Id);
+        return !requests.Any(r => r.IsAccepted == true);
+    }
 }

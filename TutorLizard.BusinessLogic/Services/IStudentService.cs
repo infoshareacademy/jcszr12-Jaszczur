@@ -14,4 +14,5 @@ public interface IStudentService
     public string GetTutorUserNameByAdId(int adId);
     List<AdRequest> GetStudentsAdRequests();
     List<ScheduleItemRequest> GetStudentsScheduleItemRequests();
+    public bool IsScheduleItemFree(ScheduleItem scheduleItem);
 }

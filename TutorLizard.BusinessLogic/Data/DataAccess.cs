@@ -364,4 +364,9 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     {
         return _scheduleItemRequestList.Where(r => r.StudentId == studentId).ToList();
     }
+
+    public List<ScheduleItemRequest> GetScheduleItemRequestsByScheduleItemId(int scheduleItemId)
+    {
+        return _scheduleItemRequestList.Where(r => r.ScheduleItemId == scheduleItemId).ToList();
+    }
 }
