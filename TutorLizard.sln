@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TutorLizard.BusinessLogic", "TutorLizard.BusinessLogic\TutorLizard.BusinessLogic.csproj", "{4EB834BE-5462-49E8-A007-4CEDFF6942D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutorLizard.Web", "TutorLizard.Web\TutorLizard.Web.csproj", "{DEBF1D43-13D4-4362-BFCE-54E7156B65B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +17,15 @@ Global
 		{4EB834BE-5462-49E8-A007-4CEDFF6942D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EB834BE-5462-49E8-A007-4CEDFF6942D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EB834BE-5462-49E8-A007-4CEDFF6942D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEBF1D43-13D4-4362-BFCE-54E7156B65B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEBF1D43-13D4-4362-BFCE-54E7156B65B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEBF1D43-13D4-4362-BFCE-54E7156B65B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEBF1D43-13D4-4362-BFCE-54E7156B65B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7EED87D-4CE0-4032-B462-AA398B62FD46}
 	EndGlobalSection
 EndGlobal
