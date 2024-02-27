@@ -5,14 +5,14 @@ namespace TutorLizard.BusinessLogic.Data;
 public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDataAccess
 {
     private List<User> _userList = new();
-    private List<ScheduleItem> _scheduleItemList = new();
     private List<Ad> _adList = new();
+    private List<ScheduleItem> _scheduleItemList = new();
     private List<AdRequest> _adRequestList = new();
     private List<ScheduleItemRequest> _scheduleItemRequestList = new();
 
     private string _userFilePath = @"Data/users.json";
-    private string _scheduleItemFilePath = @"Data/schedules.json";
     private string _adFilePath = @"Data/ads.json";
+    private string _scheduleItemFilePath = @"Data/schedules.json";
     private string _adRequestFilePath = @"Data/ad_requests.json";
     private string _scheduleItemRequestFilePath = @"Data/schedule_requests.json";
 
@@ -21,13 +21,250 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         LoadData();
     }
 
+    #region CRUD - Create
+    public User CreateUser(string name, UserType type)
+    {
+        User newUser = new User(GetNewUserID(), name, type);
+        _userList.Add(newUser);
+        SaveUsersToJson();
+
+        return newUser;
+    }
+
+    public Ad CreateAd(int tutorId, string subject, string title, string description)
+    {
+        Ad newAd = new Ad(GetNewAdID(), tutorId, subject, title, description);
+        _adList.Add(newAd);
+        SaveAdsToJson();
+
+        return newAd;
+    }
+
+    public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime)
+    {
+        ScheduleItem newSchedule = new ScheduleItem(GetNewScheduleItemID(), adId, dateTime);
+        _scheduleItemList.Add(newSchedule);
+        SaveScheduleItemsToJson();
+
+        return newSchedule;
+    }
+
+    public AdRequest CreateAdRequest(int adId, int studentId, bool isAccepted, string message)
+    {
+        AdRequest newAdRequest = new AdRequest(GetNewAdRequestID(), adId, studentId, isAccepted, message);
+        _adRequestList.Add(newAdRequest);
+        SaveAdRequestsToJson();
+
+        return newAdRequest;
+    }
+
+    public ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId, int userId, bool isAccepted)
+    {
+        ScheduleItemRequest newScheduleItemRequest = new ScheduleItemRequest(GetNewScheduleItemRequestID(), scheduleItemId, userId, isAccepted);
+        _scheduleItemRequestList.Add(newScheduleItemRequest);
+        SaveScheduleItemRequestsToJson();
+
+        return newScheduleItemRequest;
+    }
+
+    #endregion
+
+    #region CRUD - Read - Get All
+    public List<User> GetAllUsers()
+    {
+        return _userList;
+    }
+
+    public List<Ad> GetAllAds()
+    {
+        return _adList;
+    }
+
+    public List<ScheduleItem> GetAllScheduleItems()
+    {
+        return _scheduleItemList;
+    }
+
+    public List<AdRequest> GetAllAdRequests()
+    {
+        return _adRequestList;
+    }
+
+    public List<ScheduleItemRequest> GetAllScheduleItemRequests()
+    {
+        return _scheduleItemRequestList;
+    }
+
+    #endregion
+
+    #region CRUD - Read - Get By Id
+    public User? GetUserById(int userId)
+    {
+        User? tempUser = _userList.SingleOrDefault(x => x.Id == userId);
+        return tempUser;
+    }
+
+    public Ad? GetAdById(int adId)
+    {
+        var ad = _adList.FirstOrDefault(a => a.Id == adId);
+        return ad;
+    }
+
+    public ScheduleItem? GetScheduleItemById(int scheduleItemId)
+    {
+        var scheduleItem = _scheduleItemList.FirstOrDefault(si => si.Id == scheduleItemId);
+        return scheduleItem;
+    }
+
+    public AdRequest? GetAdRequestById(int adRequestId)
+    {
+        var adRequest = _adRequestList.FirstOrDefault(ar => ar.Id == adRequestId);
+        return adRequest;
+    }
+
+    public ScheduleItemRequest? GetScheduleItemRequestById(int scheduleItemRequestId)
+    {
+        var scheduleItemRequest = _scheduleItemRequestList.FirstOrDefault(sr => sr.Id == scheduleItemRequestId);
+        return scheduleItemRequest;
+    }
+
+    #endregion
+
+    #region CRUD - Update
+
+    public void UpdateUser(User user)
+    {
+        var toUpdate = GetUserById(user.Id);
+        if (toUpdate is null)
+            return;
+
+        toUpdate.Name = user.Name;
+        toUpdate.UserType = user.UserType;
+
+        SaveUsersToJson();
+    }
+
+    public void UpdateAd(Ad ad)
+    {
+        var toUpdate = GetAdById(ad.Id);
+        if (toUpdate is null)
+            return;
+
+        toUpdate.TutorId = ad.TutorId;
+        toUpdate.Subject = ad.Subject;
+        toUpdate.Title = ad.Title;
+        toUpdate.Description = ad.Description;
+
+        SaveAdsToJson();
+    }
+
+    public void UpdateScheduleItem(ScheduleItem scheduleItem)
+    {
+        var toUpdate = GetScheduleItemById(scheduleItem.Id);
+        if (toUpdate is null)
+            return;
+
+        toUpdate.AdId = scheduleItem.AdId;
+        toUpdate.DateTime = scheduleItem.DateTime;
+
+        SaveScheduleItemsToJson();
+    }
+
+    public void UpdateAdRequest(AdRequest adRequest)
+    {
+        var toUpdate = GetAdRequestById(adRequest.Id);
+        if (toUpdate is null)
+            return;
+
+        toUpdate.AdId = adRequest.AdId;
+        toUpdate.StudentId = adRequest.StudentId;
+        toUpdate.IsAccepted = adRequest.IsAccepted;
+        toUpdate.Message = adRequest.Message;
+
+        SaveAdRequestsToJson();
+    }
+
+    public void UpdateScheduleItemRequest(ScheduleItemRequest scheduleItemRequest)
+    {
+        var toUpdate = GetScheduleItemRequestById(scheduleItemRequest.Id);
+        if (toUpdate is null)
+            return;
+
+        toUpdate.ScheduleItemId = scheduleItemRequest.ScheduleItemId;
+        toUpdate.StudentId = scheduleItemRequest.StudentId;
+        toUpdate.IsAccepted = scheduleItemRequest.IsAccepted;
+
+        SaveScheduleItemRequestsToJson();
+    }
+
+    #endregion
+
+    #region CRUD - Delete
+
+    public void DeleteUserById(int userId)
+    {
+        var toDelete = GetUserById(userId);
+        if (toDelete is null)
+            return;
+
+        _userList.Remove(toDelete);
+
+        SaveUsersToJson();
+    }
+
+    public void DeleteAdById(int adId)
+    {
+        var toDelete = GetAdById(adId);
+        if (toDelete is null)
+            return;
+
+        _adList.Remove(toDelete);
+
+        SaveAdsToJson();
+    }
+
+    public void DeleteScheduleItemById(int scheduleItemId)
+    {
+        var toDelete = GetScheduleItemById(scheduleItemId);
+        if (toDelete is null)
+            return;
+
+        _scheduleItemList.Remove(toDelete);
+
+        SaveScheduleItemsToJson();
+    }
+
+    public void DeleteAdRequestById(int adRequestId)
+    {
+        var toDelete = GetAdRequestById(adRequestId);
+        if (toDelete is null)
+            return;
+
+        _adRequestList.Remove(toDelete);
+
+        SaveAdRequestsToJson();
+    }
+
+    public void DeleteScheduleItemRequestById(int scheduleItemRequestId)
+    {
+        var toDelete = GetScheduleItemRequestById(scheduleItemRequestId);
+        if (toDelete is null)
+            return;
+
+        _scheduleItemRequestList.Remove(toDelete);
+
+        SaveScheduleItemRequestsToJson();
+    }
+
+    #endregion
+
     #region Load from Json
     private void LoadData()
     {
         LoadAdsFromJson();
-        LoadSchedulesFromJson();
+        LoadScheduleItemsFromJson();
         LoadUsersFromJson();
-        LoadScheduleItemRequestFromJson();
+        LoadScheduleItemRequestsFromJson();
         LoadAdRequestsFromJson();
     }
 
@@ -51,16 +288,6 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     private void LoadUsersFromJson()
     {
         _userList = LoadFromJson<User>(_userFilePath);
-    } 
-    
-    private void LoadAdRequestsFromJson()
-    {
-        _adRequestList = LoadFromJson<AdRequest>(_adRequestFilePath);
-    } 
-
-    private void LoadScheduleItemRequestFromJson()
-    {
-        _scheduleItemRequestList = LoadFromJson<ScheduleItemRequest>(_scheduleItemRequestFilePath);
     }
 
     private void LoadAdsFromJson()
@@ -68,9 +295,19 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         _adList = LoadFromJson<Ad>(_adFilePath);
     }
 
-    private void LoadSchedulesFromJson()
+    private void LoadScheduleItemsFromJson()
     {
         _scheduleItemList = LoadFromJson<ScheduleItem>(_scheduleItemFilePath);
+    }
+
+    private void LoadAdRequestsFromJson()
+    {
+        _adRequestList = LoadFromJson<AdRequest>(_adRequestFilePath);
+    } 
+
+    private void LoadScheduleItemRequestsFromJson()
+    {
+        _scheduleItemRequestList = LoadFromJson<ScheduleItemRequest>(_scheduleItemRequestFilePath);
     }
 
     #endregion
@@ -87,78 +324,30 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         File.WriteAllText(filePath, jsonData);
     }
 
-    private void SaveUserToJson()
+    private void SaveUsersToJson()
     {
         SaveToJson(_userFilePath, _userList);
     }
 
-    private void SaveScheduleItemToJson()
+    private void SaveAdsToJson()
+    {
+        SaveToJson(_adFilePath, _adList);
+    }    
+
+    private void SaveScheduleItemsToJson()
     {
         SaveToJson(_scheduleItemFilePath, _scheduleItemList);
     }
 
-    private void SaveAdToJson()
-    {
-        SaveToJson(_adFilePath, _adList);
-    }    
-    
-    private void SaveAdRequestToJson()
+    private void SaveAdRequestsToJson()
     {
         SaveToJson(_adRequestFilePath, _adRequestList);
     }
 
-    private void SaveScheduleItemRequestToJson()
+    private void SaveScheduleItemRequestsToJson()
     {
         SaveToJson(_scheduleItemRequestFilePath, _scheduleItemRequestList);
     }
-    #endregion
-
-    #region Create new User/Schedule item/Ad/Ad Request/Schedule item request
-    public User CreateUser(string name, UserType type)
-    {
-        User newUser = new User(GetNewUserID(), name, type);
-        _userList.Add(newUser);
-        SaveUserToJson();
-
-        return newUser;
-    }
-
-    public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime)
-    {
-        ScheduleItem newSchedule = new ScheduleItem(GetNewScheduleItemID(), adId, dateTime);
-        _scheduleItemList.Add(newSchedule);
-        SaveScheduleItemToJson();
-
-        return newSchedule;
-    }
-
-    public Ad CreateAd(int tutorId, string subject, string title, string description) 
-    {
-        Ad newAd = new Ad(GetNewAdID(), tutorId, subject, title, description); 
-        _adList.Add(newAd);
-        SaveAdToJson();
-
-        return newAd;
-    }
-
-    public AdRequest CreateAdRequest (int adId, int studentId, bool isAccepted, string message)
-    {
-        AdRequest newAdRequest = new AdRequest(GetNewAdRequestID(), adId, studentId, isAccepted, message);
-        _adRequestList.Add(newAdRequest);
-        SaveAdRequestToJson();
-
-        return newAdRequest;
-    }
-    
-    public ScheduleItemRequest CreateScheduleItemRequest (int scheduleItemId, int userId, bool isAccepted)
-    {
-        ScheduleItemRequest newScheduleItemRequest = new ScheduleItemRequest(GetNewScheduleItemRequestID(), scheduleItemId, userId, isAccepted);
-        _scheduleItemRequestList.Add(newScheduleItemRequest);
-        SaveScheduleItemRequestToJson();
-
-        return newScheduleItemRequest;
-    }
-
     #endregion
 
     #region GetID
@@ -221,11 +410,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
         return false;
     }
-    private User? ReturnActiveUser(int id)
-    {
-        User? tempUser = _userList.SingleOrDefault(x => x.Id == id);
-        return tempUser;
-    }
+
     public (bool isCorrect, User? activeUser) IsLoginDataCorrect (int id, string username)
     {
         bool condition1 = DoesTheUserIdExist(id);
@@ -234,7 +419,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         if (condition1 == false || condition2 == false)
             return (false, null);
         
-        return (true, ReturnActiveUser(id));
+        return (true, GetUserById(id));
     }
 
     public bool DoesUserWithThisNameExist(string username)
@@ -252,30 +437,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     }
 
     #endregion
-    
-    public Ad? GetAdById(int adId)
-    {
-        var ad = _adList.FirstOrDefault(a => a.Id == adId);
-        return ad;
-    }
 
-    public AdRequest? GetAdRequestById(int adRequestId)
-    {
-        var adRequest = _adRequestList.FirstOrDefault(ar => ar.Id == adRequestId);
-        return adRequest;
-    }
-
-    public ScheduleItem? GetScheduleItemById(int scheduleItemId)
-    {
-        var scheduleItem = _scheduleItemList.FirstOrDefault(si => si.Id == scheduleItemId);
-        return scheduleItem;
-    }
-
-    public ScheduleItemRequest? GetScheduleItemRequestById(int scheduleItemRequestId)
-    {
-        var scheduleItemRequest = _scheduleItemRequestList.FirstOrDefault(sr => sr.Id == scheduleItemRequestId);
-        return scheduleItemRequest;
-    }
 
     public List<AdRequest> GetTutorsAdRequests(int tutorId)
     {
@@ -309,15 +471,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return userScheduleItems;
     }
 
-    public void UpdateAdRequest(AdRequest adRequest)
-    {
-        SaveAdRequestToJson();
-    }
 
-    public void UpdateScheduleItemRequest(ScheduleItemRequest scheduleItemRequest)
-    {
-        SaveScheduleItemRequestToJson();
-    }
 
     public List<Ad> GetStudentsAcceptedAds(int studentId)
     {
@@ -330,10 +484,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return acceptedUserAds;
     }
 
-    public List<Ad> GetAllAds()
-    {
-        return _adList;
-    }
+
 
     public List<ScheduleItem> GetAllScheduleItemsForStudentsAcceptedAds(int studentId)
     {
