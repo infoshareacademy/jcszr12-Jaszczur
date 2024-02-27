@@ -438,6 +438,20 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
     #endregion
 
+    #region Get By TutorId
+    public List<Ad> GetTutorsAds(int tutorId)
+    {
+        var userAds = _adList.Where(a => a.TutorId == tutorId).ToList();
+        return userAds;
+    }
+
+    public List<ScheduleItem> GetTutorsScheduleItems(int tutorId)
+    {
+        List<Ad> tutorsAds = _adList.Where(a => a.TutorId == tutorId).ToList();
+
+        var userScheduleItems = _scheduleItemList.Where(s => tutorsAds.Any(a => a.Id == s.AdId)).ToList();
+        return userScheduleItems;
+    }
 
     public List<AdRequest> GetTutorsAdRequests(int tutorId)
     {
@@ -446,12 +460,6 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
             .Where(r => tutorsAds.Any(a => a.Id == r.AdId))
             .ToList();
         return userAdRequests;
-    }
-
-    public List<Ad> GetTutorsAds(int tutorId)
-    {
-        var userAds = _adList.Where(a => a.TutorId == tutorId).ToList();
-        return userAds;
     }
 
     public List<ScheduleItemRequest> GetTutorsScheduleItemRequests(int tutorId)
@@ -463,16 +471,9 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return tutorsScheduleItemRequests;
     }
 
-    public List<ScheduleItem> GetTutorsScheduleItems(int tutorId)
-    {
-        List<Ad> tutorsAds = _adList.Where(a => a.TutorId == tutorId).ToList();
+    #endregion
 
-        var userScheduleItems = _scheduleItemList.Where(s => tutorsAds.Any(a => a.Id == s.AdId)).ToList();
-        return userScheduleItems;
-    }
-
-
-
+    #region Get By StudentId
     public List<Ad> GetStudentsAcceptedAds(int studentId)
     {
         List<AdRequest> studentsAcceptedRequests = _adRequestList
@@ -483,8 +484,6 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
             .ToList();
         return acceptedUserAds;
     }
-
-
 
     public List<ScheduleItem> GetAllScheduleItemsForStudentsAcceptedAds(int studentId)
     {
@@ -516,8 +515,13 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return _scheduleItemRequestList.Where(r => r.StudentId == studentId).ToList();
     }
 
+    #endregion
+
+    #region Get By ScheduleItemId
     public List<ScheduleItemRequest> GetScheduleItemRequestsByScheduleItemId(int scheduleItemId)
     {
         return _scheduleItemRequestList.Where(r => r.ScheduleItemId == scheduleItemId).ToList();
     }
+
+    #endregion
 }
