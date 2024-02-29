@@ -88,9 +88,9 @@ namespace TutorLizard.Web.Controllers
         // GET: ScheduleItemController/Delete/5
         public ActionResult Delete(int id)
         {
-            _dataAccess.DeleteScheduleItemById(id);
+            var model = _dataAccess.GetScheduleItemById(id);
 
-            return View(_dataAccess.GetAllScheduleItems());
+            return View(model);
         }
 
         // POST: ScheduleItemController/Delete/5
@@ -106,7 +106,7 @@ namespace TutorLizard.Web.Controllers
             }
             catch
             {
-                return View();
+                return View(_dataAccess.GetAllScheduleItems());
             }
         }
     }
