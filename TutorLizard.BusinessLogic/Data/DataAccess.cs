@@ -268,13 +268,19 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         LoadAdRequestsFromJson();
     }
 
-    private List<T> LoadFromJson<T>(string Path)
+    private List<T> LoadFromJson<T>(string path)
     {
-        var filePath = $@"{Path}";
-        if (!File.Exists(filePath))
+        string filePath = Path.Combine(path.Split('/'));
+        string fullPath;
+        if (Path.IsPathRooted(filePath))
+            fullPath = filePath;
+        else
+            fullPath = Path.Combine(AppContext.BaseDirectory, filePath);
+
+        if (!File.Exists(fullPath))
             return new List<T>();
 
-        var jsonData = File.ReadAllText(filePath);
+        var jsonData = File.ReadAllText(fullPath);
 
         var outputList = JsonSerializer.Deserialize<List<T>>(jsonData, new JsonSerializerOptions
         {
