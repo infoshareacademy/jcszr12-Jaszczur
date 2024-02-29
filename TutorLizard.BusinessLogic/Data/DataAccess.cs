@@ -315,8 +315,13 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     #region Save to Json
     private void SaveToJson<T>(string path, T data)
     {
-        var filePath = Path.Combine(path.Split('/'));
-        string fullPath = Path.Combine(AppContext.BaseDirectory, filePath);
+        string filePath = Path.Combine(path.Split('/'));
+        string fullPath;
+        if (Path.IsPathRooted(filePath))
+            fullPath = filePath;
+        else
+            fullPath = Path.Combine(AppContext.BaseDirectory, filePath);
+
         string? directoryPath = Path.GetDirectoryName(fullPath);
 
         var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions
