@@ -161,6 +161,10 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         toUpdate.Subject = ad.Subject;
         toUpdate.Title = ad.Title;
         toUpdate.Description = ad.Description;
+        toUpdate.Location = ad.Location;
+        toUpdate.Price = ad.Price;
+        toUpdate.IsRemote = ad.IsRemote;
+        toUpdate.Category = ad.Category;
 
         SaveAdsToJson();
     }
