@@ -316,16 +316,13 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     private void SaveToJson<T>(string path, T data)
     {
         var filePath = Path.Combine(path.Split('/'));
+        string fullPath = Path.Combine(AppContext.BaseDirectory, filePath);
+        string? directoryPath = Path.GetDirectoryName(fullPath);
 
         var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions
         {
             WriteIndented = true,
         });
-
-        var current = AppContext.BaseDirectory;
-
-        string fullPath = Path.Combine(current, filePath);
-        string? directoryPath = Path.GetDirectoryName(fullPath);
 
         if (directoryPath is not null && Directory.Exists(directoryPath) == false)
             Directory.CreateDirectory(directoryPath);
