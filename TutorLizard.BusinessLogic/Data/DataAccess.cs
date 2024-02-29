@@ -31,9 +31,16 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return newUser;
     }
 
-    public Ad CreateAd(int tutorId, string subject, string title, string description)
-    {
-        Ad newAd = new Ad(GetNewAdID(), tutorId, subject, title, description);
+    public Ad CreateAd(int tutorId,
+              string subject,
+              string title,
+              string description,
+              string category,
+              double price,
+              string location,
+              bool isRemote) // czy potrzebujemy tutaj tutorId? Czy będziemy je wyciągać w jakiś inny sposób? 
+    {                        // póki co zostawiam tak jak jest ale warto o tym pomyśleć
+        Ad newAd = new Ad(GetNewAdID(), tutorId, subject, title, description, category, price, location, isRemote);
         _adList.Add(newAd);
         SaveAdsToJson();
 
