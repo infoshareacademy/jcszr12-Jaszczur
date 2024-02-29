@@ -55,7 +55,5 @@ public class Ad
     [Required(ErrorMessage = "Please provide location!")]
     [StringLength(25)]
     public string Location { get; set; }
-
-    [Required(ErrorMessage = "Please provide price!")]
     public bool IsRemote { get; set; }
 }
