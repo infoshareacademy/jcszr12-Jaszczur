@@ -8,18 +8,24 @@ namespace TutorLizard.Web.Controllers
     public class ScheduleItemController : Controller
     {
         private readonly DataAccess _dataAccess = new();
-        private static List<ScheduleItem> scheduleItems = new List<ScheduleItem>();
+
 
         // GET: ScheduleItemController
         public ActionResult Index()
         {
-            return View(scheduleItems);
+            return View(_dataAccess.GetAllScheduleItems());
         }
 
         // GET: ScheduleItemController/Details/5
         public ActionResult Details(int id)
         {
-            var scheduleItem = scheduleItems.FirstOrDefault(x => x.Id == id);
+            var scheduleItem = _dataAccess.GetScheduleItemById(id);
+
+            if(scheduleItem == null)
+            {
+                return RedirectToAction("Error");
+            }
+
             return View(scheduleItem);
         }
 
@@ -32,11 +38,27 @@ namespace TutorLizard.Web.Controllers
         // POST: ScheduleItemController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ScheduleItem scheduleItem)
+        public ActionResult Create(ScheduleItem model)
         {
-            scheduleItems.Add(scheduleItem);
-            TempData["Sukces!"] = "Plan zajęć został zaktualizowany";
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                int adId = model.AdId;
+                DateTime dateTime = model.DateTime;
+
+                _dataAccess.CreateScheduleItem(adId, dateTime);
+
+                TempData["Success"] = "Produkt został dodany";
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: ScheduleItemController/Edit/5
@@ -66,9 +88,9 @@ namespace TutorLizard.Web.Controllers
         // GET: ScheduleItemController/Delete/5
         public ActionResult Delete(int id)
         {
-            var model = _dataAccess.GetScheduleItemById(id);
+            _dataAccess.DeleteScheduleItemById(id);
 
-            return View(model);
+            return View(_dataAccess.GetAllScheduleItems());
         }
 
         // POST: ScheduleItemController/Delete/5
