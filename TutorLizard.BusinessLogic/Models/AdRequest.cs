@@ -38,6 +38,6 @@ public class AdRequest
     [MaxLength(150)]
     public string Message { get; set; }
     public string? ReplyMessage { get; set; }
-    DateTime ReviewDate { get; set; }
+    public DateTime ReviewDate { get; set; }
     public bool IsRemote { get; set; }
 }

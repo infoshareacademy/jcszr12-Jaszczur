@@ -12,15 +12,40 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@*             <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div> *@
             <div class="form-group">
                 <label asp-for="AdId" class="control-label"></label>
                 <input asp-for="AdId" class="form-control" />
                 <span asp-validation-for="AdId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="StudentId" class="control-label"></label>
+                <input asp-for="StudentId" class="form-control" />
+                <span asp-validation-for="StudentId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsAccepted" /> @Html.DisplayNameFor(model => model.IsAccepted)
+                </label>
+            </div>
+            <div class="form-group">
                 <label asp-for="Message" class="control-label"></label>
                 <input asp-for="Message" class="form-control" />
                 <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReplyMessage" class="control-label"></label>
+                <input asp-for="ReplyMessage" class="form-control" />
+                <span asp-validation-for="ReplyMessage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReviewDate" class="control-label"></label>
+                <input asp-for="ReviewDate" class="form-control" />
+                <span asp-validation-for="ReviewDate" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
