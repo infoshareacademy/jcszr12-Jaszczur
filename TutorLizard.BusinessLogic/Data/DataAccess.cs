@@ -38,8 +38,8 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
               string category,
               double price,
               string location,
-              bool isRemote) // czy potrzebujemy tutaj tutorId? Czy będziemy je wyciągać w jakiś inny sposób? 
-    {                        // póki co zostawiam tak jak jest ale warto o tym pomyśleć
+              bool isRemote)  
+    {                        
         Ad newAd = new Ad(GetNewAdID(), tutorId, subject, title, description, category, price, location, isRemote);
         _adList.Add(newAd);
         SaveAdsToJson();

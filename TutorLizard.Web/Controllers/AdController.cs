@@ -51,7 +51,7 @@ namespace TutorLizard.Web.Controllers
                     return View(model);
                 }
 
-                _dataAccess.CreateAd(model.Id,
+                _dataAccess.CreateAd(model.TutorId,
                                      model.Subject,
                                      model.Title,
                                      model.Description,

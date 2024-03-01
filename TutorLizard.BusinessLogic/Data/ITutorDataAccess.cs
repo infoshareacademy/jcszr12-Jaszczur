@@ -4,7 +4,14 @@ namespace TutorLizard.BusinessLogic.Data;
 
 public interface ITutorDataAccess
 {
-    Ad CreateAd(int tutorId, string subject, string title, string description);
+    Ad CreateAd(int tutorId,
+              string subject,
+              string title,
+              string description,
+              string category,
+              double price,
+              string location,
+              bool isRemote);
     ScheduleItem CreateScheduleItem(int adId, DateTime dateTime);
     Ad? GetAdById(int adId);
     AdRequest? GetAdRequestById(int adRequestId);
