@@ -19,14 +19,14 @@ namespace TutorLizard.Web.Controllers
         // GET: ScheduleItemController/Details/5
         public ActionResult Details(int id)
         {
-            var scheduleItem = _dataAccess.GetScheduleItemById(id);
+            var model = _dataAccess.GetScheduleItemById(id);
 
-            if(scheduleItem == null)
+            if(model == null)
             {
-                return RedirectToAction("Error");
+                return RedirectToAction("Index");
             }
 
-            return View(scheduleItem);
+            return View(model);
         }
 
         // GET: ScheduleItemController/Create
@@ -66,6 +66,11 @@ namespace TutorLizard.Web.Controllers
         {
             var model = _dataAccess.GetScheduleItemById(id);
 
+            if (model == null)
+            {
+                return RedirectToAction("Index");
+            }
+
             return View(model);
         }
 
@@ -90,6 +95,11 @@ namespace TutorLizard.Web.Controllers
         {
             var model = _dataAccess.GetScheduleItemById(id);
 
+            if (model == null)
+            {
+                return RedirectToAction("Index");
+            }
+
             return View(model);
         }
 
@@ -106,7 +116,7 @@ namespace TutorLizard.Web.Controllers
             }
             catch
             {
-                return View(_dataAccess.GetAllScheduleItems());
+                return View(model);
             }
         }
     }
