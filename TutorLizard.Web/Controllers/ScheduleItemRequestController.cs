@@ -109,7 +109,7 @@ namespace TutorLizard.Web.Controllers
         {
             try
             {
-                _dataAccess.DeleteScheduleItemById(id);
+                _dataAccess.DeleteScheduleItemRequestById(id);
 
                 return RedirectToAction(nameof(Index));
             }
