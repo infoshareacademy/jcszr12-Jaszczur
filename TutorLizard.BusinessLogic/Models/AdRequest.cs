@@ -35,9 +35,9 @@ public class AdRequest
     public bool IsAccepted { get; set; }
 
     [Required(ErrorMessage = "Please write a message!")]
-    [MaxLength(250)]
+    [MaxLength(150)]
     public string Message { get; set; }
-    public string ReplyMessage { get; set; }
+    public string? ReplyMessage { get; set; }
     DateTime ReviewDate { get; set; }
     public bool IsRemote { get; set; }
 }

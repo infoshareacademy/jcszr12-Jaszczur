@@ -19,6 +19,15 @@
                 @Html.DisplayNameFor(model => model.AdId)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.StudentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Message)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReplyMessage)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.IsAccepted)
             </th>
             <th>
@@ -35,6 +44,15 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AdId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Message)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReplyMessage)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsAccepted)
