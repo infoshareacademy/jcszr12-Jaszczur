@@ -50,11 +50,17 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     }
 
     public AdRequest CreateAdRequest(int adId,
-                     int studentId,
-                     string message,
-                     bool isRemote)
+                                     int studentId,
+                                     bool isAccepted,
+                                     string message,
+                                     bool isRemote)
     {
-        AdRequest newAdRequest = new AdRequest(GetNewAdRequestID(), adId, studentId, message, isRemote);
+        AdRequest newAdRequest = new AdRequest(GetNewAdRequestID(),
+                                               adId,
+                                               studentId,
+                                               isAccepted,
+                                               message,
+                                               isRemote);
         _adRequestList.Add(newAdRequest);
         SaveAdRequestsToJson();
 

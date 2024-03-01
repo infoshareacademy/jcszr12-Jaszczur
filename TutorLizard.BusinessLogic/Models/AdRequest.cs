@@ -8,10 +8,16 @@ public class AdRequest
     {
     }
 
-    public AdRequest(int id, int adId, int studentId, string message, bool isRemote)
+    public AdRequest(int id,
+                     int adId,
+                     int studentId,
+                     bool isAccepted,
+                     string message,
+                     bool isRemote)
     {
         Id = id;
         AdId = adId;
+        IsAccepted = isAccepted;
         StudentId = studentId;
         Message = message;
         IsRemote = isRemote;
