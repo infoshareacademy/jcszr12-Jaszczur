@@ -4,7 +4,13 @@ namespace TutorLizard.BusinessLogic.Services;
 
 public interface ITutorService
 {
-    public Ad CreateAd(string subject, string title, string description);
+    public Ad CreateAd(string subject,
+              string title,
+              string description,
+              string category,
+              double price,
+              string location,
+              bool isRemote);
     public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime);
     public Ad? GetAdById(int adId);
     public ScheduleItem? GetScheduleItemById(int scheduleItemId);

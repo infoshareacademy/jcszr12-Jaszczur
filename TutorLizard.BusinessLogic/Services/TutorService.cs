@@ -12,7 +12,13 @@ public class TutorService : ITutorService
         _dataAccess = dataAccess;
         _userIdentityService = userIdentityService;
     }
-    public Ad CreateAd(string subject, string title, string description)
+    public Ad CreateAd(string subject,
+              string title,
+              string description,
+              string category,
+              double price,
+              string location,
+              bool isRemote)
     {
         int? tutorId = _userIdentityService.GetUserId();
         if (tutorId is null)
@@ -21,7 +27,7 @@ public class TutorService : ITutorService
             { Id = 0 };
         }
 
-        return _dataAccess.CreateAd((int)tutorId, subject, title, description);
+        return _dataAccess.CreateAd((int)tutorId, subject, title, description, category, price, location, isRemote);
 
     }
     public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime)
