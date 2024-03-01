@@ -5,7 +5,7 @@ namespace TutorLizard.BusinessLogic.Data;
 public interface IStudentDataAccess
 {
     AdRequest CreateAdRequest(int adId, int studentId, bool isAccepted, string message);
-    ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId, int userId, bool isAccepted);
+    ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId, int userId, bool isAccepted, bool isRemote);
     List<Ad> GetStudentsAcceptedAds(int studentId);
     List<Ad> GetAllAds();
     List<ScheduleItem> GetAllScheduleItemsForStudentsAcceptedAds(int studentId);

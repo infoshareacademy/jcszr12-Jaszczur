@@ -36,7 +36,7 @@ public class StudentService : IStudentService
                 ScheduleItemId = 0
             };
         }
-        return _dataAccess.CreateScheduleItemRequest(scheduleItemId, (int)studentId, isAccepted: false);
+        return _dataAccess.CreateScheduleItemRequest(scheduleItemId, (int)studentId, isAccepted: false, isRemote: false);
     }
     public List<Ad> GetAllAds()
     {
