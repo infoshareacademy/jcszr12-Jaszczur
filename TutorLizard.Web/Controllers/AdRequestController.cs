@@ -1,23 +1,37 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TutorLizard.BusinessLogic.Data;
+using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.Web.Controllers
 {
+    [Route("adrequest")]
     public class AdRequestController : Controller
     {
+        private readonly DataAccess _dataAccess;
+
+        public AdRequestController()
+        {
+            _dataAccess = new DataAccess();
+        }
         // GET: AdRequestController
+        [Route("")]
         public ActionResult Index()
         {
-            return View();
+            var model = _dataAccess.GetAllAdRequests();
+            return View(model);
         }
 
         // GET: AdRequestController/Details/5
+        [Route("details/{id}:int")]
         public ActionResult Details(int id)
         {
-            return View();
+            var model = _dataAccess.GetAdRequestById(id);
+            return View(model);
         }
 
         // GET: AdRequestController/Create
+        [Route("create")]
         public ActionResult Create()
         {
             return View();
@@ -26,10 +40,17 @@ namespace TutorLizard.Web.Controllers
         // POST: AdRequestController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [Route("create")]
+        public ActionResult Create(AdRequest model)
         {
             try
             {
+                if(!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                _dataAccess.CreateAdRequest(model.AdId, model.StudentId, model.Message, model.IsRemote);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -39,18 +60,22 @@ namespace TutorLizard.Web.Controllers
         }
 
         // GET: AdRequestController/Edit/5
+        [Route("edit/{id}:int")]
         public ActionResult Edit(int id)
         {
-            return View();
+            var model = _dataAccess.GetAdRequestById(id);
+            return View(model);
         }
 
         // POST: AdRequestController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [Route("edit/{id}:int")]
+        public ActionResult Edit(int id, AdRequest model)
         {
             try
             {
+                _dataAccess.UpdateAdRequest(model);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -60,18 +85,22 @@ namespace TutorLizard.Web.Controllers
         }
 
         // GET: AdRequestController/Delete/5
+        [Route("delete/{id}:int")]
         public ActionResult Delete(int id)
         {
-            return View();
+            var model = _dataAccess.GetAdRequestById(id);
+            return View(model);
         }
 
         // POST: AdRequestController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        [Route("delete/{id}:int")]
+        public ActionResult Delete(int id, AdRequest model)
         {
             try
             {
+                _dataAccess.DeleteAdRequestById(id);    
                 return RedirectToAction(nameof(Index));
             }
             catch

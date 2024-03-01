@@ -13,7 +13,7 @@ public class StudentService : IStudentService
         _userIdentityService = userIdentityService;
     }
 
-    public AdRequest CreateAdRequest(int adId, string message)
+    public AdRequest CreateAdRequest(int adId, string message, bool isRemote)
     {
         int? studentId = _userIdentityService.GetUserId();
 
@@ -23,7 +23,7 @@ public class StudentService : IStudentService
             { AdId = 0 };
         }
 
-        return _dataAccess.CreateAdRequest(adId, (int)studentId, isAccepted: false, message);
+        return _dataAccess.CreateAdRequest(adId, (int)studentId, message, isRemote);
     }
     public ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId)
     {
