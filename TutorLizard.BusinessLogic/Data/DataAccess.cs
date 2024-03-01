@@ -58,9 +58,9 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return newAdRequest;
     }
 
-    public ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId, int userId, bool isAccepted)
+    public ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId, int userId, bool isAccepted, bool isRemote)
     {
-        ScheduleItemRequest newScheduleItemRequest = new ScheduleItemRequest(GetNewScheduleItemRequestID(), scheduleItemId, userId, isAccepted);
+        ScheduleItemRequest newScheduleItemRequest = new ScheduleItemRequest(GetNewScheduleItemRequestID(), scheduleItemId, userId, isAccepted, isRemote);
         _scheduleItemRequestList.Add(newScheduleItemRequest);
         SaveScheduleItemRequestsToJson();
 

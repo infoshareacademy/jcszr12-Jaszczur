@@ -49,8 +49,9 @@ namespace TutorLizard.Web.Controllers
                 int scheduleItemId = model.ScheduleItemId;
                 int studentId = model.StudentId;
                 bool isAccepted = model.IsAccepted;
+                bool isRemote = model.IsRemote;
 
-                _dataAccess.CreateScheduleItemRequest(scheduleItemId, studentId, isAccepted);
+                _dataAccess.CreateScheduleItemRequest(scheduleItemId, studentId, isAccepted, isRemote);
 
                 return RedirectToAction(nameof(Index));
             }
