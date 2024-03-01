@@ -40,9 +40,12 @@
                 <th>
                     @Html.DisplayNameFor(model => model.IsRemote)
                 </th>
-                @if (item.IsAccepted == false)
+                @if (!item.IsAccepted)
                 {
-                    <p></p>
+                    <p>Not accepted</p>
+                }
+                else {
+                    <p>Accepted</p>
                 }
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id= item.Id }) |

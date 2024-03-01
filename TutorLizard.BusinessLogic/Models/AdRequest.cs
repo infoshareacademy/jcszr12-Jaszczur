@@ -11,16 +11,16 @@ public class AdRequest
     public AdRequest(int id,
                      int adId,
                      int studentId,
-                     bool isAccepted,
                      string message,
-                     bool isRemote)
+                     bool isRemote,
+                     bool isAccepted)
     {
         Id = id;
         AdId = adId;
-        IsAccepted = isAccepted;
         StudentId = studentId;
         Message = message;
         IsRemote = isRemote;
+        IsAccepted = isAccepted;
     }
 
     public int Id { get; set; }
