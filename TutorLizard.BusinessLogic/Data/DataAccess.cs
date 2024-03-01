@@ -22,9 +22,9 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     }
 
     #region CRUD - Create
-    public User CreateUser(string name, UserType type)
+    public User CreateUser(string name, UserType type, string email, string passwordHash)
     {
-        User newUser = new User(GetNewUserID(), name, type);
+        User newUser = new User(GetNewUserID(), name, type, email, passwordHash);
         _userList.Add(newUser);
         SaveUsersToJson();
 
@@ -140,6 +140,8 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
         toUpdate.Name = user.Name;
         toUpdate.UserType = user.UserType;
+        toUpdate.Email = user.Email;
+        toUpdate.PasswordHash = user.PasswordHash;
 
         SaveUsersToJson();
     }
