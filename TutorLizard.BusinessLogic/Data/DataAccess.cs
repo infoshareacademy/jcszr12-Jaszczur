@@ -31,9 +31,16 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return newUser;
     }
 
-    public Ad CreateAd(int tutorId, string subject, string title, string description)
-    {
-        Ad newAd = new Ad(GetNewAdID(), tutorId, subject, title, description);
+    public Ad CreateAd(int tutorId,
+              string subject,
+              string title,
+              string description,
+              string category,
+              double price,
+              string location,
+              bool isRemote)  
+    {                        
+        Ad newAd = new Ad(GetNewAdID(), tutorId, subject, title, description, category, price, location, isRemote);
         _adList.Add(newAd);
         SaveAdsToJson();
 
@@ -156,6 +163,10 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         toUpdate.Subject = ad.Subject;
         toUpdate.Title = ad.Title;
         toUpdate.Description = ad.Description;
+        toUpdate.Location = ad.Location;
+        toUpdate.Price = ad.Price;
+        toUpdate.IsRemote = ad.IsRemote;
+        toUpdate.Category = ad.Category;
 
         SaveAdsToJson();
     }
