@@ -49,9 +49,9 @@ public class UserIdentityService : IUserIdentityService
         _activeUser = null;
     }
 
-    public int RegisterUser(string userName, UserType type)
+    public int RegisterUser(string userName, UserType type, string email, string passwordHash)
     {
-        User newUser = _dataAccess.CreateUser(userName, type);
+        User newUser = _dataAccess.CreateUser(userName, type, email, passwordHash);
         return newUser.Id;
     }
 
