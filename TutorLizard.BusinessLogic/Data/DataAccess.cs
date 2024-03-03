@@ -22,18 +22,25 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     }
 
     #region CRUD - Create
-    public User CreateUser(string name, UserType type)
+    public User CreateUser(string name, UserType type, string email, string passwordHash)
     {
-        User newUser = new User(GetNewUserID(), name, type);
+        User newUser = new User(GetNewUserID(), name, type, email, passwordHash);
         _userList.Add(newUser);
         SaveUsersToJson();
 
         return newUser;
     }
 
-    public Ad CreateAd(int tutorId, string subject, string title, string description)
-    {
-        Ad newAd = new Ad(GetNewAdID(), tutorId, subject, title, description);
+    public Ad CreateAd(int tutorId,
+              string subject,
+              string title,
+              string description,
+              string category,
+              double price,
+              string location,
+              bool isRemote)  
+    {                        
+        Ad newAd = new Ad(GetNewAdID(), tutorId, subject, title, description, category, price, location, isRemote);
         _adList.Add(newAd);
         SaveAdsToJson();
 
@@ -49,9 +56,17 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return newSchedule;
     }
 
-    public AdRequest CreateAdRequest(int adId, int studentId, bool isAccepted, string message)
+    public AdRequest CreateAdRequest(int adId,
+                                     int studentId,
+                                     string message,
+                                     bool isRemote)
     {
-        AdRequest newAdRequest = new AdRequest(GetNewAdRequestID(), adId, studentId, isAccepted, message);
+        AdRequest newAdRequest = new AdRequest(GetNewAdRequestID(),
+                                               adId,
+                                               studentId,
+                                               message,
+                                               isRemote,
+                                               false);
         _adRequestList.Add(newAdRequest);
         SaveAdRequestsToJson();
 
@@ -140,6 +155,8 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
 
         toUpdate.Name = user.Name;
         toUpdate.UserType = user.UserType;
+        toUpdate.Email = user.Email;
+        toUpdate.PasswordHash = user.PasswordHash;
 
         SaveUsersToJson();
     }
@@ -154,6 +171,10 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         toUpdate.Subject = ad.Subject;
         toUpdate.Title = ad.Title;
         toUpdate.Description = ad.Description;
+        toUpdate.Location = ad.Location;
+        toUpdate.Price = ad.Price;
+        toUpdate.IsRemote = ad.IsRemote;
+        toUpdate.Category = ad.Category;
 
         SaveAdsToJson();
     }
@@ -180,6 +201,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         toUpdate.StudentId = adRequest.StudentId;
         toUpdate.IsAccepted = adRequest.IsAccepted;
         toUpdate.Message = adRequest.Message;
+        toUpdate.IsRemote = adRequest.IsRemote;
 
         SaveAdRequestsToJson();
     }

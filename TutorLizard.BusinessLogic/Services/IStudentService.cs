@@ -4,7 +4,7 @@ namespace TutorLizard.BusinessLogic.Services;
 
 public interface IStudentService
 {
-    public AdRequest CreateAdRequest(int adId, string message);
+    public AdRequest CreateAdRequest(int adId, string message, bool isRemote);
     public ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId);
     public List<Ad> GetAllAds();
     public List<Ad> GetStudentsAcceptedAds();
