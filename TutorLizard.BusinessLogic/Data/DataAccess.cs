@@ -56,9 +56,17 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return newSchedule;
     }
 
-    public AdRequest CreateAdRequest(int adId, int studentId, bool isAccepted, string message)
+    public AdRequest CreateAdRequest(int adId,
+                                     int studentId,
+                                     string message,
+                                     bool isRemote)
     {
-        AdRequest newAdRequest = new AdRequest(GetNewAdRequestID(), adId, studentId, isAccepted, message);
+        AdRequest newAdRequest = new AdRequest(GetNewAdRequestID(),
+                                               adId,
+                                               studentId,
+                                               message,
+                                               isRemote,
+                                               false);
         _adRequestList.Add(newAdRequest);
         SaveAdRequestsToJson();
 
@@ -193,6 +201,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         toUpdate.StudentId = adRequest.StudentId;
         toUpdate.IsAccepted = adRequest.IsAccepted;
         toUpdate.Message = adRequest.Message;
+        toUpdate.IsRemote = adRequest.IsRemote;
 
         SaveAdRequestsToJson();
     }
