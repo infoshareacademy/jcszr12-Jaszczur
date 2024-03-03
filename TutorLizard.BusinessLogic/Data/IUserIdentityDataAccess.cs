@@ -6,6 +6,6 @@ public interface IUserIdentityDataAccess
 {
     public bool DoesUserWithThisNameExist(string username);
     public (bool isCorrect, User? activeUser) IsLoginDataCorrect(int id, string username);
-    public User CreateUser(string name, UserType type);
+    public User CreateUser(string name, UserType type, string email, string passwordHash);
     public string GetUserNameById(int userId);
 }
