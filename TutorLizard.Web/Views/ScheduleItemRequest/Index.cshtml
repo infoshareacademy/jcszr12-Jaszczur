@@ -24,6 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.IsAccepted)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsRemote)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -41,6 +44,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsAccepted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsRemote)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

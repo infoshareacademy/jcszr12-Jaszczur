@@ -194,6 +194,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         toUpdate.ScheduleItemId = scheduleItemRequest.ScheduleItemId;
         toUpdate.StudentId = scheduleItemRequest.StudentId;
         toUpdate.IsAccepted = scheduleItemRequest.IsAccepted;
+        toUpdate.IsRemote = scheduleItemRequest.IsRemote;
 
         SaveScheduleItemRequestsToJson();
     }
