@@ -73,14 +73,15 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return newAdRequest;
     }
 
-    public ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId, int userId, bool isAccepted)
+    public ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId, int userId, bool isAccepted, bool isRemote)
     {
-        ScheduleItemRequest newScheduleItemRequest = new ScheduleItemRequest(GetNewScheduleItemRequestID(), scheduleItemId, userId, isAccepted);
+        ScheduleItemRequest newScheduleItemRequest = new ScheduleItemRequest(GetNewScheduleItemRequestID(), scheduleItemId, userId, isAccepted, isRemote);
         _scheduleItemRequestList.Add(newScheduleItemRequest);
         SaveScheduleItemRequestsToJson();
 
         return newScheduleItemRequest;
     }
+
 
     #endregion
 
@@ -215,6 +216,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         toUpdate.ScheduleItemId = scheduleItemRequest.ScheduleItemId;
         toUpdate.StudentId = scheduleItemRequest.StudentId;
         toUpdate.IsAccepted = scheduleItemRequest.IsAccepted;
+        toUpdate.IsRemote = scheduleItemRequest.IsRemote;
 
         SaveScheduleItemRequestsToJson();
     }
