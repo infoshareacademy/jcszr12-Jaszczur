@@ -15,7 +15,7 @@ public class TutorService : ITutorService
     public Ad CreateAd(string subject,
               string title,
               string description,
-              string category,
+              int categoryId,
               double price,
               string location,
               bool isRemote)
@@ -27,7 +27,7 @@ public class TutorService : ITutorService
             { Id = 0 };
         }
 
-        return _dataAccess.CreateAd((int)tutorId, subject, title, description, category, price, location, isRemote);
+        return _dataAccess.CreateAd((int)tutorId, subject, title, description, categoryId, price, location, isRemote);
 
     }
     public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime)

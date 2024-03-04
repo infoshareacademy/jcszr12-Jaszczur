@@ -37,12 +37,12 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
               string subject,
               string title,
               string description,
-              string category,
+              int categoryId,
               double price,
               string location,
               bool isRemote)  
     {                        
-        Ad newAd = new Ad(GetNewAdID(), tutorId, subject, title, description, category, price, location, isRemote);
+        Ad newAd = new Ad(GetNewAdID(), tutorId, subject, title, description, categoryId, price, location, isRemote);
         _adList.Add(newAd);
         SaveAdsToJson();
 
@@ -196,7 +196,7 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         toUpdate.Location = ad.Location;
         toUpdate.Price = ad.Price;
         toUpdate.IsRemote = ad.IsRemote;
-        toUpdate.Category = ad.Category;
+        toUpdate.CategoryId = ad.CategoryId;
 
         SaveAdsToJson();
     }

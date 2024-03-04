@@ -13,7 +13,7 @@ public class Ad
               string subject,
               string title,
               string description,
-              string category,
+              int categoryId,
               double price,
               string location,
               bool isRemote)
@@ -23,7 +23,7 @@ public class Ad
         Subject = subject;
         Title = title;
         Description = description;
-        Category = category;
+        CategoryId = categoryId;
         Price = price;
         Location = location;
         IsRemote = isRemote;
@@ -44,9 +44,9 @@ public class Ad
     [StringLength(250)]
     public string Description { get; set; }
 
+    [Display(Name = "Category")]
     [Required(ErrorMessage = "Please provide category!")]
-    [StringLength(25)]
-    public string Category { get; set; }
+    public int CategoryId { get; set; }
 
     [Required(ErrorMessage = "Please provide price!")]
     [Range(0, double.MaxValue, ErrorMessage = "The price must be greater than 0!")]

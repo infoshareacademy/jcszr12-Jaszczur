@@ -55,7 +55,7 @@ namespace TutorLizard.Web.Controllers
                                      model.Subject,
                                      model.Title,
                                      model.Description,
-                                     model.Category,
+                                     model.CategoryId,
                                      model.Price,
                                      model.Location,
                                      model.IsRemote);
