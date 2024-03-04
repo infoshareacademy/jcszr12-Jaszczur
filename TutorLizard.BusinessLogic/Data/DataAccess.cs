@@ -9,12 +9,14 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     private List<ScheduleItem> _scheduleItemList = new();
     private List<AdRequest> _adRequestList = new();
     private List<ScheduleItemRequest> _scheduleItemRequestList = new();
+    private List<Category> _categoryList = new();
 
     private string _userFilePath = @"Data/users.json";
     private string _adFilePath = @"Data/ads.json";
     private string _scheduleItemFilePath = @"Data/schedules.json";
     private string _adRequestFilePath = @"Data/ad_requests.json";
     private string _scheduleItemRequestFilePath = @"Data/schedule_requests.json";
+    private string _categoryFilePath = @"Data/categories.json";
 
     public DataAccess()
     {
@@ -82,6 +84,14 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         return newScheduleItemRequest;
     }
 
+    public Category CreateCategory(string name, string? description = null)
+    {
+        Category newCategory = new(GetNewCategoryId(), name, description);
+        _categoryList.Add(newCategory);
+        SaveCategoriesToJson();
+
+        return newCategory;
+    }
 
     #endregion
 
@@ -109,6 +119,11 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     public List<ScheduleItemRequest> GetAllScheduleItemRequests()
     {
         return _scheduleItemRequestList;
+    }
+
+    public List<Category> GetAllCategories()
+    {
+        return _categoryList;
     }
 
     #endregion
@@ -142,6 +157,12 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     {
         var scheduleItemRequest = _scheduleItemRequestList.FirstOrDefault(sr => sr.Id == scheduleItemRequestId);
         return scheduleItemRequest;
+    }
+
+    public Category? GetCategoryById(int categoryId)
+    {
+        var category = _categoryList.FirstOrDefault(c => c.Id == categoryId);
+        return category;
     }
 
     #endregion
@@ -221,6 +242,18 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         SaveScheduleItemRequestsToJson();
     }
 
+    public void UpdateCategory(Category category)
+    {
+        var toUpdate = GetCategoryById(category.Id);
+        if (toUpdate is null)
+            return;
+
+        toUpdate.Name = category.Name;
+        toUpdate.Description = category.Description;
+
+        SaveCategoriesToJson();
+    }
+
     #endregion
 
     #region CRUD - Delete
@@ -280,16 +313,28 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         SaveScheduleItemRequestsToJson();
     }
 
+    public void DeleteCategoryById(int categoryId)
+    {
+        var toDelete = GetCategoryById(categoryId);
+        if (toDelete is null)
+            return;
+
+        _categoryList.Remove(toDelete);
+
+        SaveCategoriesToJson();
+    }
+
     #endregion
 
     #region Load from Json
     private void LoadData()
     {
+        LoadUsersFromJson();
         LoadAdsFromJson();
         LoadScheduleItemsFromJson();
-        LoadUsersFromJson();
-        LoadScheduleItemRequestsFromJson();
         LoadAdRequestsFromJson();
+        LoadScheduleItemRequestsFromJson();
+        LoadCategoriesFromJson();
     }
 
     private List<T> LoadFromJson<T>(string path)
@@ -338,6 +383,11 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     private void LoadScheduleItemRequestsFromJson()
     {
         _scheduleItemRequestList = LoadFromJson<ScheduleItemRequest>(_scheduleItemRequestFilePath);
+    }
+
+    private void LoadCategoriesFromJson()
+    {
+        _categoryList = LoadFromJson<Category>(_categoryFilePath);
     }
 
     #endregion
@@ -389,6 +439,12 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
     {
         SaveToJson(_scheduleItemRequestFilePath, _scheduleItemRequestList);
     }
+
+    private void SaveCategoriesToJson()
+    {
+        SaveToJson(_categoryFilePath, _categoryList);
+    }
+
     #endregion
 
     #region GetID
@@ -431,6 +487,15 @@ public class DataAccess : IUserIdentityDataAccess, IStudentDataAccess, ITutorDat
         else
             return 1;
     }
+
+    private int GetNewCategoryId()
+    {
+        if (_categoryList.Any() == true)
+            return _categoryList.Max(x => x.Id) + 1;
+        else
+            return 1;
+    }
+
     #endregion
 
     #region Login
