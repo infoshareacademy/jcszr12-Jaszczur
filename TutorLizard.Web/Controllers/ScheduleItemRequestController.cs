@@ -7,7 +7,12 @@ namespace TutorLizard.Web.Controllers
 {
     public class ScheduleItemRequestController : Controller
     {
-        private readonly DataAccess _dataAccess = new();
+        private readonly DataAccess _dataAccess;
+        public ScheduleItemRequestController(DataAccess dataAccess)
+        {
+            _dataAccess = dataAccess;
+        }
+
 
         // GET: ScheduleItemRequestController
         public ActionResult Index()

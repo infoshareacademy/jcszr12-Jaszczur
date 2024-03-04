@@ -9,10 +9,9 @@ namespace TutorLizard.Web.Controllers
     public class AdController : Controller
     {
         private readonly DataAccess _dataAccess;
-
-        public AdController()
+        public AdController(DataAccess dataAccess)
         {
-            _dataAccess = new DataAccess();
+            _dataAccess = dataAccess;
         }
 
         // GET: AdController

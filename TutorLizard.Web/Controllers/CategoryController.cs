@@ -6,7 +6,11 @@ using TutorLizard.BusinessLogic.Models;
 namespace TutorLizard.Web.Controllers;
 public class CategoryController : Controller
 {
-    private readonly DataAccess _dataAccess = new();
+    private readonly DataAccess _dataAccess;
+    public CategoryController(DataAccess dataAccess)
+    {
+        _dataAccess = dataAccess;
+    }
     // GET: CategoryController
     public ActionResult Index()
     {
