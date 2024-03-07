@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Data;
+using TutorLizard.BusinessLogic.Interfaces.Repositories;
 using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.Web.Controllers
@@ -8,18 +9,18 @@ namespace TutorLizard.Web.Controllers
     [Route("ad")]
     public class AdController : Controller
     {
-        private readonly DataAccess _dataAccess;
+        private readonly IAdRepository _adRepository;
 
-        public AdController()
+        public AdController(IAdRepository adRepository)
         {
-            _dataAccess = new DataAccess();
+            _adRepository = adRepository;
         }
 
         // GET: AdController
         [Route("")]
         public ActionResult Index()
         {
-            var model = _dataAccess.GetAllAds();
+            var model = _adRepository.GetAllAds();
             return View(model);
         }
 
@@ -27,7 +28,7 @@ namespace TutorLizard.Web.Controllers
         [Route("details/{id}:int")]
         public ActionResult Details(int id)
         {
-            var model = _dataAccess.GetAdById(id);
+            var model = _adRepository.GetAdById(id);
             return View(model);
         }
 
@@ -51,7 +52,7 @@ namespace TutorLizard.Web.Controllers
                     return View(model);
                 }
 
-                _dataAccess.CreateAd(model.TutorId,
+                _adRepository.CreateAd(model.TutorId,
                                      model.Subject,
                                      model.Title,
                                      model.Description,
@@ -72,7 +73,7 @@ namespace TutorLizard.Web.Controllers
         [Route("edit/{id}:int")]
         public ActionResult Edit(int id)
         {
-            var model =_dataAccess.GetAdById(id);
+            var model = _adRepository.GetAdById(id);
 
             return View(model);
         }
@@ -85,7 +86,7 @@ namespace TutorLizard.Web.Controllers
         {
             try
             {
-                _dataAccess.UpdateAd(model);
+                _adRepository.UpdateAd(model);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -98,7 +99,7 @@ namespace TutorLizard.Web.Controllers
         [Route("delete/{id}:int")]
         public ActionResult Delete(int id)
         {
-            var model = _dataAccess.GetAdById(id);
+            var model = _adRepository.GetAdById(id);
             return View(model);
         }
 
@@ -110,7 +111,7 @@ namespace TutorLizard.Web.Controllers
         {
             try
             {
-                _dataAccess.DeleteAdById(id);
+                _adRepository.DeleteAdById(id);
                 return RedirectToAction(nameof(Index));
             }
             catch
