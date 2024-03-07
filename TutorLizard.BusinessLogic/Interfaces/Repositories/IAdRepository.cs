@@ -7,7 +7,7 @@ using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.BusinessLogic.Interfaces.Repositories
 {
-    public interface IAdRepository//, IBaseRepository
+    public interface IAdRepository
     {
         public Ad CreateAd(int tutorId,
               string subject,

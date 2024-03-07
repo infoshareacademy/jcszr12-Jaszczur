@@ -9,7 +9,7 @@ using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.BusinessLogic.Repositories
 {
-    public class AdRepository : IAdRepository
+    public class AdRepository : IAdRepository//, IBaseRepository
     {
         private readonly string _adFilePath = @"Data/ads.json";
         private List<Ad> _adList = new();
