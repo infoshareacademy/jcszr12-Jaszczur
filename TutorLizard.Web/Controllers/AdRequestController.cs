@@ -1,24 +1,26 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Data;
+using TutorLizard.BusinessLogic.Interfaces.Repositories;
 using TutorLizard.BusinessLogic.Models;
+using TutorLizard.BusinessLogic.Repositories;
 
 namespace TutorLizard.Web.Controllers
 {
     [Route("adrequest")]
     public class AdRequestController : Controller
     {
-        private readonly DataAccess _dataAccess;
+        private readonly IAdRequestRepository _adRequestRepository;
 
-        public AdRequestController()
+        public AdRequestController(IAdRequestRepository adRequestRepository)
         {
-            _dataAccess = new DataAccess();
+            _adRequestRepository = new AdRequestRepository();
         }
         // GET: AdRequestController
         [Route("")]
         public ActionResult Index()
         {
-            var model = _dataAccess.GetAllAdRequests();
+            var model = _adRequestRepository.GetAllAdRequests();
             return View(model);
         }
 
@@ -26,7 +28,7 @@ namespace TutorLizard.Web.Controllers
         [Route("details/{id}:int")]
         public ActionResult Details(int id)
         {
-            var model = _dataAccess.GetAdRequestById(id);
+            var model = _adRequestRepository.GetAdRequestById(id);
             return View(model);
         }
 
@@ -50,7 +52,7 @@ namespace TutorLizard.Web.Controllers
                     return View(model);
                 }
 
-                _dataAccess.CreateAdRequest(model.AdId, model.StudentId, model.Message, model.IsRemote);
+                _adRequestRepository.CreateAdRequest(model.AdId, model.StudentId, model.Message, model.IsRemote);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -63,7 +65,7 @@ namespace TutorLizard.Web.Controllers
         [Route("edit/{id}:int")]
         public ActionResult Edit(int id)
         {
-            var model = _dataAccess.GetAdRequestById(id);
+            var model = _adRequestRepository.GetAdRequestById(id);
             return View(model);
         }
 
@@ -75,7 +77,7 @@ namespace TutorLizard.Web.Controllers
         {
             try
             {
-                _dataAccess.UpdateAdRequest(model);
+                _adRequestRepository.UpdateAdRequest(model);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -88,7 +90,7 @@ namespace TutorLizard.Web.Controllers
         [Route("delete/{id}:int")]
         public ActionResult Delete(int id)
         {
-            var model = _dataAccess.GetAdRequestById(id);
+            var model = _adRequestRepository.GetAdRequestById(id);
             return View(model);
         }
 
@@ -100,7 +102,7 @@ namespace TutorLizard.Web.Controllers
         {
             try
             {
-                _dataAccess.DeleteAdRequestById(id);    
+                _adRequestRepository.DeleteAdRequestById(id);    
                 return RedirectToAction(nameof(Index));
             }
             catch
