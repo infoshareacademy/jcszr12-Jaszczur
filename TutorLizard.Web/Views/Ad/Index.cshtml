@@ -1,10 +1,18 @@
 ﻿@model IEnumerable<TutorLizard.BusinessLogic.Models.Ad>
+@inject TutorLizard.BusinessLogic.Data.DataAccess dataAccess
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Ads - List";
 }
 
-<h1>Index</h1>
+@functions{
+    string? CategoryName(int id)
+    {
+        return dataAccess.GetCategoryById(id)?.Name;
+    }
+}
+
+<h1>Ads</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -28,7 +36,7 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                @Html.DisplayNameFor(model => model.CategoryId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
@@ -61,7 +69,7 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Category)
+                @CategoryName(item.CategoryId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Price)

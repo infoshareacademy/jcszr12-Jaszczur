@@ -1,10 +1,10 @@
-﻿@model IEnumerable<TutorLizard.BusinessLogic.Models.ScheduleItem>
+﻿@model IEnumerable<TutorLizard.BusinessLogic.Models.Category>
 
 @{
-    ViewData["Title"] = "Schedule Items";
+    ViewData["Title"] = "Categories";
 }
 
-<h1>Schedule Items</h1>
+<h1>Categories</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -16,10 +16,10 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdId)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateTime)
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th></th>
         </tr>
@@ -31,10 +31,10 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AdId)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateTime)
+                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

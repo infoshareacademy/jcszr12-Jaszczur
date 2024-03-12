@@ -7,7 +7,11 @@ using TutorLizard.BusinessLogic.Models;
 namespace TutorLizard.Web.Controllers;
 public class UserController : Controller
 {
-    private readonly DataAccess _dataAccess = new();
+    private readonly DataAccess _dataAccess;
+    public UserController(DataAccess dataAccess)
+    {
+        _dataAccess = dataAccess;
+    }
 
     // GET: User
     public ActionResult Index()

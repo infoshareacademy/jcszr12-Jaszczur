@@ -9,10 +9,9 @@ namespace TutorLizard.Web.Controllers
     public class AdController : Controller
     {
         private readonly DataAccess _dataAccess;
-
-        public AdController()
+        public AdController(DataAccess dataAccess)
         {
-            _dataAccess = new DataAccess();
+            _dataAccess = dataAccess;
         }
 
         // GET: AdController
@@ -55,7 +54,7 @@ namespace TutorLizard.Web.Controllers
                                      model.Subject,
                                      model.Title,
                                      model.Description,
-                                     model.Category,
+                                     model.CategoryId,
                                      model.Price,
                                      model.Location,
                                      model.IsRemote);

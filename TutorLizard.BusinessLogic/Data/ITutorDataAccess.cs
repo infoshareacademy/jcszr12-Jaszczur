@@ -8,7 +8,7 @@ public interface ITutorDataAccess
               string subject,
               string title,
               string description,
-              string category,
+              int categoryId,
               double price,
               string location,
               bool isRemote);

@@ -7,7 +7,7 @@ public interface ITutorService
     public Ad CreateAd(string subject,
               string title,
               string description,
-              string category,
+              int categoryId,
               double price,
               string location,
               bool isRemote);
