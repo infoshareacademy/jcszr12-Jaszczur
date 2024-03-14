@@ -15,9 +15,9 @@ namespace TutorLizard.BusinessLogic.Data
 
         private string _filePath = @"Data/users.json";
 
-        protected void LoadFromJson()
+        protected List<T> LoadFromJson<T>(string path)
         {
-            string filePath = Path.Combine(_filePath.Split('/'));
+            string filePath = Path.Combine(path.Split('/'));
             string fullPath;
             if (Path.IsPathRooted(filePath))
                 fullPath = filePath;
@@ -35,7 +35,7 @@ namespace TutorLizard.BusinessLogic.Data
                 IncludeFields = true
             })
                         ?? new List<T>();
-            _data = outputList;
+            return outputList;
         }
 
 
