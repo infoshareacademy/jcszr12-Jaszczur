@@ -12,12 +12,11 @@ namespace TutorLizard.BusinessLogic.Data
     public abstract class RepositoryBase<T>
     {
         protected List<T> _data = new();
+        protected abstract string FilePath { get; }
 
-        private string _filePath = @"Data/users.json";
-
-        protected List<T> LoadFromJson<T>(string path)
+        protected List<T> LoadFromJson()
         {
-            string filePath = Path.Combine(path.Split('/'));
+            string filePath = Path.Combine(FilePath);
             string fullPath;
             if (Path.IsPathRooted(filePath))
                 fullPath = filePath;
@@ -41,7 +40,7 @@ namespace TutorLizard.BusinessLogic.Data
 
         protected void SaveToJson()
         {
-            string filePath = Path.Combine(_filePath.Split('/'));
+            string filePath = Path.Combine(FilePath);
             string fullPath;
             if (Path.IsPathRooted(filePath))
                 fullPath = filePath;
