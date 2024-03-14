@@ -15,13 +15,6 @@ namespace TutorLizard.BusinessLogic.Data
 
         private string _filePath = @"Data/users.json";
 
-        public RepositoryBase(string filePath)
-        {
-            _filePath = filePath;
-            LoadFromJson();
-        }
-
-
         protected void LoadFromJson()
         {
             string filePath = Path.Combine(_filePath.Split('/'));
