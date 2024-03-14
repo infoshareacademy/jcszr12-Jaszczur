@@ -32,7 +32,7 @@ namespace TutorLizard.BusinessLogic.Data
                 fullPath = Path.Combine(AppContext.BaseDirectory, filePath);
 
             if (!File.Exists(fullPath))
-                _data = new List<T>();
+                return new List<T>();
 
             var jsonData = File.ReadAllText(fullPath);
 
