@@ -16,7 +16,7 @@ namespace TutorLizard.BusinessLogic.Data
 
         protected List<T> LoadFromJson()
         {
-            string filePath = Path.Combine(FilePath);
+            string filePath = Path.Combine(FilePath.Split('/'));
             string fullPath;
             if (Path.IsPathRooted(filePath))
                 fullPath = filePath;
@@ -24,7 +24,7 @@ namespace TutorLizard.BusinessLogic.Data
                 fullPath = Path.Combine(AppContext.BaseDirectory, filePath);
 
             if (!File.Exists(fullPath))
-                return new List<T>();
+                return;
 
             var jsonData = File.ReadAllText(fullPath);
 
@@ -34,13 +34,13 @@ namespace TutorLizard.BusinessLogic.Data
                 IncludeFields = true
             })
                         ?? new List<T>();
-            return outputList;
+            _data = outputList;
         }
 
 
         protected void SaveToJson()
         {
-            string filePath = Path.Combine(FilePath);
+            string filePath = Path.Combine(FilePath.Split('/');
             string fullPath;
             if (Path.IsPathRooted(filePath))
                 fullPath = filePath;
