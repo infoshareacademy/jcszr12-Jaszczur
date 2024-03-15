@@ -14,7 +14,7 @@ namespace TutorLizard.BusinessLogic.Data
         protected List<T> _data = new();
         protected abstract string FilePath { get; }
 
-        protected List<T> LoadFromJson()
+        protected void LoadFromJson()
         {
             string filePath = Path.Combine(FilePath.Split('/'));
             string fullPath;
