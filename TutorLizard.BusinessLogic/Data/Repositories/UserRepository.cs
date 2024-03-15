@@ -12,7 +12,7 @@ public class UserRepository : RepositoryBase<User>, IUserRepository
 
     public User CreateUser(string name, UserType type, string email, string passwordHash)
     {
-        User newUser = new User(GetNewId(), name, type, email, passwordHash);
+        User newUser = new(GetNewId(), name, type, email, passwordHash);
         _data.Add(newUser);
         SaveToJson();
 
