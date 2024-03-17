@@ -1,11 +1,11 @@
 ﻿using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 
-namespace TutorLizard.BusinessLogic.Data.Repositories;
-public class UserRepository : RepositoryBase<User>, IUserRepository
+namespace TutorLizard.BusinessLogic.Data.Repositories.Json;
+public class UserJsonRepository : JsonRepositoryBase<User>, IUserRepository
 {
     protected override string FilePath => "Data/users.json";
-    public UserRepository()
+    public UserJsonRepository()
     {
         LoadFromJson();
     }
