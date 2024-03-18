@@ -33,7 +33,7 @@ namespace TutorLizard.BusinessLogic.Data.Repositories.Json
 
         protected void SaveToJson()
         {
-            string filePath = Path.Combine(FilePath.Split('/');
+            string filePath = Path.Combine(_filePath.Split('/'));
             string fullPath;
             if (Path.IsPathRooted(filePath))
                 fullPath = filePath;
