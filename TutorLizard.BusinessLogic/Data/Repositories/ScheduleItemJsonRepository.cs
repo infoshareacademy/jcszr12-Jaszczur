@@ -7,14 +7,8 @@ namespace TutorLizard.BusinessLogic.Data.Repositories
     public class ScheduleItemJsonRepository : RepositoryBase<ScheduleItem>, IScheduleItemRepository
     {
         protected override string FilePath => "Data/scheduleItems.json";
-        private List<ScheduleItem> _scheduleItems = new();
 
-        public ScheduleItemJsonRepository() 
-        {
-            LoadFromJson();
-        }
-
-        public ScheduleItem CreateScheduleItem(int id, int  adId, DateTime dateTime)
+        public ScheduleItem CreateScheduleItem(int  adId, DateTime dateTime)
         {
             ScheduleItem newScheduleItem = new(GetNewScheduleItemId(), adId, dateTime);
             _data.Add(newScheduleItem);
@@ -38,7 +32,7 @@ namespace TutorLizard.BusinessLogic.Data.Repositories
             SaveToJson();
         }
 
-        public void DeleteScheduleItem(int id)
+        public void DeleteScheduleItemById(int id)
         {
             var toDelete = GetScheduleItemById(id);
             if (toDelete == null)
@@ -46,25 +40,25 @@ namespace TutorLizard.BusinessLogic.Data.Repositories
                 return;
             }
 
-            _scheduleItems.Remove(toDelete);
+            _data.Remove(toDelete);
         }
 
         public ScheduleItem? GetScheduleItemById(int id)
         {
-            var scheduleItem = _scheduleItems.FirstOrDefault(s => s.Id == id);
+            var scheduleItem = _data.FirstOrDefault(s => s.Id == id);
             return scheduleItem;
         }
 
         public List<ScheduleItem> GetAllScheduleItems()
         {
-            return _scheduleItems;
+            return _data;
         }
 
         public int GetNewScheduleItemId()
         {
-            if (_scheduleItems.Any())
+            if (_data.Any())
             {
-                return _scheduleItems.Max(s => s.Id) + 1;
+                return _data.Max(s => s.Id) + 1;
             }
 
             return 1;
