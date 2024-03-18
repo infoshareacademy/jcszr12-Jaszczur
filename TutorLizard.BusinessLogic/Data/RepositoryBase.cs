@@ -40,7 +40,7 @@ namespace TutorLizard.BusinessLogic.Data
 
         protected void SaveToJson()
         {
-            string filePath = Path.Combine(FilePath.Split('/');
+            string filePath = Path.Combine(FilePath.Split('/'));
             string fullPath;
             if (Path.IsPathRooted(filePath))
                 fullPath = filePath;
