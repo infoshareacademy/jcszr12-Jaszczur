@@ -56,7 +56,7 @@ public class UserJsonRepository : JsonRepositoryBase<User>, IUserRepository
     private int GetNewId()
     {
         if (_data.Any())
-            return _data.Max(x => x.Id);
+            return _data.Max(x => x.Id) + 1;
 
         return 1;
     }
