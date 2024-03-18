@@ -1,13 +1,13 @@
-﻿using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
+﻿using Microsoft.Extensions.Options;
+using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
+using TutorLizard.BusinessLogic.Options;
 
 namespace TutorLizard.BusinessLogic.Data.Repositories.Json;
 public class UserJsonRepository : JsonRepositoryBase<User>, IUserRepository
 {
-    protected override string FilePath => "Data/users.json";
-    public UserJsonRepository()
+    public UserJsonRepository(IOptions<DataJsonFilePaths> options) : base(options.Value.Users)
     {
-        LoadFromJson();
     }
 
     public User CreateUser(string name, UserType type, string email, string passwordHash)
