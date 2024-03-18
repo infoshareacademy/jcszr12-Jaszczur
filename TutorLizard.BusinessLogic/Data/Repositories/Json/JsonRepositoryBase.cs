@@ -5,11 +5,17 @@ namespace TutorLizard.BusinessLogic.Data.Repositories.Json
     public abstract class JsonRepositoryBase<T>
     {
         protected List<T> _data = new();
-        protected abstract string FilePath { get; }
+        private string _filePath;
+
+        protected JsonRepositoryBase(string filePath)
+        {
+            _filePath = filePath;
+            LoadFromJson();
+        }
 
         protected void LoadFromJson()
         {
-            string filePath = Path.Combine(FilePath.Split('/'));
+            string filePath = Path.Combine(_filePath.Split('/'));
             string fullPath;
             if (Path.IsPathRooted(filePath))
                 fullPath = filePath;
