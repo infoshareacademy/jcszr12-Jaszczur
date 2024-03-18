@@ -1,28 +1,29 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Data;
+using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.Web.Controllers
 {
     public class ScheduleItemController : Controller
     {
-        private readonly DataAccess _dataAccess;
-        public ScheduleItemController(DataAccess dataAccess)
+        private readonly IScheduleItemRepository _scheduleItemRepository;
+        public ScheduleItemController(IScheduleItemRepository scheduleItemRepository)
         {
-            _dataAccess = dataAccess;
+            _scheduleItemRepository = scheduleItemRepository;
         }
 
         // GET: ScheduleItemController
         public ActionResult Index()
         {
-            return View(_dataAccess.GetAllScheduleItems());
+            return View(_scheduleItemRepository.GetAllScheduleItems());
         }
 
         // GET: ScheduleItemController/Details/5
         public ActionResult Details(int id)
         {
-            var model = _dataAccess.GetScheduleItemById(id);
+            var model = _scheduleItemRepository.GetScheduleItemById(id);
 
             if(model == null)
             {
@@ -53,7 +54,7 @@ namespace TutorLizard.Web.Controllers
                 int adId = model.AdId;
                 DateTime dateTime = model.DateTime;
 
-                _dataAccess.CreateScheduleItem(adId, dateTime);
+                _scheduleItemRepository.CreateScheduleItem(adId, dateTime);
 
                 TempData["Success"] = "Produkt został dodany";
                 return RedirectToAction(nameof(Index));
@@ -67,7 +68,7 @@ namespace TutorLizard.Web.Controllers
         // GET: ScheduleItemController/Edit/5
         public ActionResult Edit(int id)
         {
-            var model = _dataAccess.GetScheduleItemById(id);
+            var model = _scheduleItemRepository.GetScheduleItemById(id);
 
             if (model == null)
             {
@@ -84,7 +85,7 @@ namespace TutorLizard.Web.Controllers
         {
             try
             {
-                _dataAccess.UpdateScheduleItem(model);
+                _scheduleItemRepository.UpdateScheduleItem(model);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -96,7 +97,7 @@ namespace TutorLizard.Web.Controllers
         // GET: ScheduleItemController/Delete/5
         public ActionResult Delete(int id)
         {
-            var model = _dataAccess.GetScheduleItemById(id);
+            var model = _scheduleItemRepository.GetScheduleItemById(id);
 
             if (model == null)
             {
@@ -113,7 +114,7 @@ namespace TutorLizard.Web.Controllers
         {
             try
             {
-                _dataAccess.DeleteScheduleItemById(id);
+                _scheduleItemRepository.DeleteScheduleItemById(id);
 
                 return RedirectToAction(nameof(Index));
             }
