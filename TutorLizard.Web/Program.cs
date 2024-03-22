@@ -1,5 +1,8 @@
 using TutorLizard.BusinessLogic.Data;
+using TutorLizard.BusinessLogic.Data.Repositories.Json;
+using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
+using TutorLizard.BusinessLogic.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IBrowseService, BrowseService>();
 builder.Services.AddSingleton<DataAccess>();
+builder.Services.AddScoped<IUserRepository, UserJsonRepository>();
+builder.Services
+    .AddOptions<DataJsonFilePaths>()
+    .Bind(builder.Configuration.GetSection(nameof(DataJsonFilePaths)))
+    .ValidateDataAnnotations();
 
 var app = builder.Build();
 
