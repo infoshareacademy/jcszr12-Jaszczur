@@ -1,13 +1,13 @@
-﻿using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
+﻿using Microsoft.Extensions.Options;
+using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
+using TutorLizard.BusinessLogic.Options;
 
-namespace TutorLizard.BusinessLogic.Data.Repositories;
-public class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
+namespace TutorLizard.BusinessLogic.Data.Repositories.Json;
+public class CategoryJsonRepository : JsonRepositoryBase<Category>, ICategoryRepository
 {
-    protected override string FilePath => "Data/categories.json";
-    public CategoryRepository()
+    public CategoryJsonRepository(IOptions<DataJsonFilePaths> options) : base(options.Value.Categories)
     {
-        LoadFromJson();
     }
 
     public Category CreateCategory(string name, string? description = null)
