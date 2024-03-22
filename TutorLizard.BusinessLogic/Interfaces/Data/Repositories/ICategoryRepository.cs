@@ -4,8 +4,8 @@ namespace TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 public interface ICategoryRepository
 {
     Category CreateCategory(string name, string? description = null);
-    void DeleteCategory(int id);
+    void DeleteCategoryById(int id);
     List<Category> GetAllCategories();
-    Category? GetcategoryById(int id);
+    Category? GetCategoryById(int id);
     void UpdateCategory(Category category);
 }
