@@ -1,9 +1,9 @@
 ﻿@model TutorLizard.BusinessLogic.Models.Ad
-@inject TutorLizard.BusinessLogic.Data.DataAccess dataAccess
+@inject ICategoryRepository categoryRepository
 
 @{
     ViewData["Title"] = "Create";
-    List<Category> categories = dataAccess.GetAllCategories();
+    List<Category> categories = categoryRepository.GetAllCategories();
 }
 
 <h1>Create</h1>
