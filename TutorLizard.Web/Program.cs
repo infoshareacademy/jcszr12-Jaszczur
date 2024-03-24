@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<DataAccess>();
 builder.Services.AddScoped<IScheduleItemRepository, ScheduleItemJsonRepository>();
+builder.Services.AddScoped<IScheduleItemRequestRepository, ScheduleItemRequestJsonRepository>();
 builder.Services.AddScoped<IUserRepository, UserJsonRepository>();
 builder.Services
     .AddOptions<DataJsonFilePaths>()
