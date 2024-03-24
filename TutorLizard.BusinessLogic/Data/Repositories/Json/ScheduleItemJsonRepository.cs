@@ -1,14 +1,18 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using Microsoft.Extensions.Options;
+using System.Security.Cryptography.X509Certificates;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
+using TutorLizard.BusinessLogic.Options;
 
-namespace TutorLizard.BusinessLogic.Data.Repositories
+namespace TutorLizard.BusinessLogic.Data.Repositories.Json
 {
-    public class ScheduleItemJsonRepository : RepositoryBase<ScheduleItem>, IScheduleItemRepository
+    public class ScheduleItemJsonRepository : JsonRepositoryBase<ScheduleItem>, IScheduleItemRepository
     {
-        protected override string FilePath => "Data/scheduleItems.json";
+        public ScheduleItemJsonRepository(IOptions<DataJsonFilePaths> options) : base(options.Value.ScheduleItems)
+        {
+        }
 
-        public ScheduleItem CreateScheduleItem(int  adId, DateTime dateTime)
+        public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime)
         {
             ScheduleItem newScheduleItem = new(GetNewScheduleItemId(), adId, dateTime);
             _data.Add(newScheduleItem);
