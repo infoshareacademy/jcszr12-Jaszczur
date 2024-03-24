@@ -29,6 +29,7 @@ namespace TutorLizard.BusinessLogic.Data.Repositories.Json
             }
 
             _data.Remove(toDelete);
+            SaveToJson();
         }
 
         public List<ScheduleItemRequest> GetAllScheduleItemRequests()
