@@ -8,12 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<DataAccess>();
+builder.Services.AddScoped<IScheduleItemRepository, ScheduleItemJsonRepository>();
 builder.Services.AddScoped<IScheduleItemRequestRepository, ScheduleItemRequestJsonRepository>();
 builder.Services.AddScoped<IUserRepository, UserJsonRepository>();
 builder.Services
     .AddOptions<DataJsonFilePaths>()
     .Bind(builder.Configuration.GetSection(nameof(DataJsonFilePaths)))
     .ValidateDataAnnotations();
+
 
 var app = builder.Build();
 
