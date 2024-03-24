@@ -2,20 +2,18 @@ using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Data.Repositories.Json;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Options;
-using TutorLizard.BusinessLogic.Data.Repositories;
-using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<DataAccess>();
+builder.Services.AddScoped<IScheduleItemRequestRepository, ScheduleItemRequestJsonRepository>();
 builder.Services.AddScoped<IUserRepository, UserJsonRepository>();
 builder.Services
     .AddOptions<DataJsonFilePaths>()
     .Bind(builder.Configuration.GetSection(nameof(DataJsonFilePaths)))
     .ValidateDataAnnotations();
-builder.Services.AddSingleton<IScheduleItemRequestRepository, ScheduleItemRequestJsonRepository>();
 
 var app = builder.Build();
 

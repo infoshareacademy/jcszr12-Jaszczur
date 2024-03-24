@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TutorLizard.BusinessLogic.Models;
+﻿using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.BusinessLogic.Interfaces.Data.Repositories
 {

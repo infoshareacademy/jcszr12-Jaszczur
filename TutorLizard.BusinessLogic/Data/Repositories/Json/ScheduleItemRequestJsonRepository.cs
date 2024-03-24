@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Options;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
+using TutorLizard.BusinessLogic.Options;
 
-namespace TutorLizard.BusinessLogic.Data.Repositories
+namespace TutorLizard.BusinessLogic.Data.Repositories.Json
 {
-    public class ScheduleItemRequestJsonRepository : RepositoryBase<ScheduleItemRequest>, IScheduleItemRequestRepository
+    public class ScheduleItemRequestJsonRepository : JsonRepositoryBase<ScheduleItemRequest>, IScheduleItemRequestRepository
     {
-        protected override string FilePath => "Data/scheduleItemRequests.json";
+        public ScheduleItemRequestJsonRepository(IOptions<DataJsonFilePaths> options) : base(options.Value.ScheduleItemRequests)
+        {
+        }
 
         public ScheduleItemRequest CreateScheduleItemRequest(int scheduleItemId, int userId, bool isAccepted, bool isRemote)
         {
