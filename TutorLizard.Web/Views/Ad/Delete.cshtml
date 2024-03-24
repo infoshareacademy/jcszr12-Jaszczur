@@ -1,5 +1,5 @@
 ﻿@model TutorLizard.BusinessLogic.Models.Ad
-@inject TutorLizard.BusinessLogic.Data.DataAccess dataAccess
+@inject ICategoryRepository categoryRepository
 
 @{
     ViewData["Title"] = "Delete";
@@ -8,7 +8,7 @@
 @functions {
     string? CategoryName(int id)
     {
-        return dataAccess.GetCategoryById(id)?.Name;
+        return categoryRepository.GetCategoryById(id)?.Name;
     }
 }
 
