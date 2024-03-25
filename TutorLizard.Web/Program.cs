@@ -17,6 +17,13 @@ builder.Services
     .ValidateDataAnnotations();
 builder.Services.AddScoped<ITutorService, TutorService>();
 
+// Registered only to resolve old version of services' dependencies
+// TODO remove when serviced no longer need them
+builder.Services.AddScoped<IUserIdentityService, UserIdentityService>();
+builder.Services.AddScoped<ITutorDataAccess>(s => s.GetService<DataAccess>()!);
+builder.Services.AddScoped<IStudentDataAccess>(s => s.GetService<DataAccess>()!);
+builder.Services.AddScoped<IUserIdentityDataAccess>(s => s.GetService<DataAccess>()!);
+
 
 var app = builder.Build();
 
