@@ -2,6 +2,7 @@ using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Data.Repositories.Json;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Options;
+using TutorLizard.BusinessLogic.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,14 @@ builder.Services
     .AddOptions<DataJsonFilePaths>()
     .Bind(builder.Configuration.GetSection(nameof(DataJsonFilePaths)))
     .ValidateDataAnnotations();
+builder.Services.AddScoped<ITutorService, TutorService>();
+
+// Registered only to resolve old version of services' dependencies
+// TODO remove when serviced no longer need them
+builder.Services.AddScoped<IUserIdentityService, UserIdentityService>();
+builder.Services.AddScoped<ITutorDataAccess>(s => s.GetService<DataAccess>()!);
+builder.Services.AddScoped<IStudentDataAccess>(s => s.GetService<DataAccess>()!);
+builder.Services.AddScoped<IUserIdentityDataAccess>(s => s.GetService<DataAccess>()!);
 
 
 var app = builder.Build();
