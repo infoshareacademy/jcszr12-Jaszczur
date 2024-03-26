@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿﻿@using System.Security.Claims
+@{
+    var claims = (User.Identity as ClaimsIdentity)?.Claims;
+
+    string? role = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+    string? userName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -27,6 +36,25 @@
                         </li>    
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Data">Data</a>
+                        </li>    
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AdminPanel">AdminPanel</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">
+                                @if (userName is not null)
+                                {
+                                    <span>@userName</span>
+                                }
+                                else
+                                {
+                                    <span>User</span>
+                                }
+                                @if (role is not null)
+                                {
+                                    <span>: @role.ToLower()</span>
+                                }
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -34,6 +62,16 @@
         </nav>
     </header>
     <div class="container">
+        <div>
+            @if (TempData.ContainsKey("LoginUnsuccessful"))
+            {
+                <p class="alert alert-danger">@TempData["LoginUnsuccessful"]</p>
+            }
+            @if (TempData.ContainsKey("LoginSuccessful"))
+            {
+                <p class="alert alert-success">@TempData["LoginSuccessful"]</p>
+            }
+        </div>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

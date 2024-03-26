@@ -1,15 +1,20 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
+using TutorLizard.BusinessLogic.Services;
+using TutorLizard.Web.Models;
 
 namespace TutorLizard.Web.Controllers;
 public class UserController : Controller
 {
     private readonly IUserRepository _userRepository;
-    public UserController(IUserRepository userRepository)
+    private readonly IUserIdentityService _userIdentityService;
+    public UserController(IUserRepository userRepository, IUserIdentityService userIdentityService)
     {
         _userRepository = userRepository;
+        _userIdentityService = userIdentityService;
     }
 
     // GET: User
@@ -114,4 +119,52 @@ public class UserController : Controller
             return View();
         }
     }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login(LoginModel model)
+    {
+        try
+        {
+            if (ModelState.IsValid && await _userIdentityService.LogInAsync(model.UserName, model.Password))
+            {
+                TempData["LoginSuccessful"] = $"You are logged in.";
+                return RedirectToAction("Index");
+            }
+        }
+        catch
+        {
+            return View("Error");
+        }
+        TempData["LoginUnsuccessful"] = "Could not log in.";
+        return View();
+    }
+    [Authorize]
+    public async Task<IActionResult> Logout()
+    {
+        await _userIdentityService.LogOut();
+        return RedirectToAction("Index");
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Register(RegisterUserModel model)
+    {
+        try
+        {
+            if (ModelState.IsValid && _userIdentityService.RegisterUser(model.UserName, model.Type, model.Email, model.Password))
+            {
+                return RedirectToAction("Index");
+            }
+        }
+        catch
+        {
+            return View("Error");
+        }
+        return View();
+    }
+
+    public IActionResult AccessDenied()
+    {
+        return View("AccesDenied");
+    }
+
 }
