@@ -1,6 +1,6 @@
 ﻿using TutorLizard.BusinessLogic.Models;
 
-namespace TutorLizard.BusinessLogic.Services;
+namespace TutorLizard.BusinessLogic.Interfaces.Services;
 
 public interface ITutorService
 {
@@ -21,7 +21,7 @@ public interface ITutorService
     public string GetStudentUserNameByAdRequestId(int adRequestId);
     public string GetStudentUserNameByScheduleItemRequestId(int scheduleItemRequestId);
     public bool TutorCanEditAdSchedule(int adId);
-    public AdRequest AcceptAdRequest(int adRequestId); 
+    public AdRequest AcceptAdRequest(int adRequestId);
     public ScheduleItemRequest AcceptScheduleItemRequest(int scheduleItemRequestId);
     public bool IsScheduleItemFree(ScheduleItem scheduleItem);
 }
