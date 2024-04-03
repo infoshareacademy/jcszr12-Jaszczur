@@ -37,7 +37,7 @@ namespace TutorLizard.BusinessLogic.Data.Repositories.Json
             return _data;
         }
 
-        public int GetNewScheduleItemRequestId()
+        private int GetNewScheduleItemRequestId()
         {
             if (_data.Any())
             {

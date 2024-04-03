@@ -9,6 +9,5 @@ namespace TutorLizard.BusinessLogic.Interfaces.Data.Repositories
         public void DeleteScheduleItemRequestById(int id);
         ScheduleItemRequest? GetScheduleItemRequestById(int id);
         public List<ScheduleItemRequest> GetAllScheduleItemRequests();
-        public int GetNewScheduleItemRequestId();
     }
 }
