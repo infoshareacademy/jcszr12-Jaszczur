@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<TutorLizard.BusinessLogic.Models.Ad>
-@inject TutorLizard.BusinessLogic.Data.DataAccess dataAccess
+@inject ICategoryRepository categoryRepository
 
 @{
     ViewData["Title"] = "Ads - List";
@@ -8,7 +8,8 @@
 @functions{
     string? CategoryName(int id)
     {
-        return dataAccess.GetCategoryById(id)?.Name;
+        // TODO replace direct calls to repository with some service
+        return categoryRepository.GetCategoryById(id)?.Name;
     }
 }
 
