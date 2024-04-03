@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<DataAccess>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IScheduleItemRepository, ScheduleItemJsonRepository>();
 builder.Services.AddScoped<IUserRepository, UserJsonRepository>();
 builder.Services

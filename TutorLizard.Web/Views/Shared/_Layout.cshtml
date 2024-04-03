@@ -41,7 +41,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AdminPanel">AdminPanel</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">
                                 @if (userName is not null)
                                 {
                                     <span>@userName</span>

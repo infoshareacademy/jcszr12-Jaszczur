@@ -10,11 +10,10 @@ namespace TutorLizard.Web.Controllers;
 public class UserController : Controller
 {
     private readonly IUserRepository _userRepository;
-    private readonly IUserIdentityService _userIdentityService;
-    public UserController(IUserRepository userRepository, IUserIdentityService userIdentityService)
+
+    public UserController(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-        _userIdentityService = userIdentityService;
     }
 
     // GET: User
@@ -119,13 +118,18 @@ public class UserController : Controller
             return View();
         }
     }
+    public IActionResult Login()
+    {
+        return View();
+    }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginModel model)
     {
         try
         {
-            if (ModelState.IsValid && await _userIdentityService.LogInAsync(model.UserName, model.Password))
+            if (ModelState.IsValid && await _userRepository.LogInAsync(model.UserName, model.Password))
             {
                 TempData["LoginSuccessful"] = $"You are logged in.";
                 return RedirectToAction("Index");
@@ -141,8 +145,12 @@ public class UserController : Controller
     [Authorize]
     public async Task<IActionResult> Logout()
     {
-        await _userIdentityService.LogOut();
+        await _userRepository.LogOutAsync();
         return RedirectToAction("Index");
+    }
+    public IActionResult Register()
+    {
+        return View();
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -150,7 +158,7 @@ public class UserController : Controller
     {
         try
         {
-            if (ModelState.IsValid && _userIdentityService.RegisterUser(model.UserName, model.Type, model.Email, model.Password))
+            if (ModelState.IsValid && _userRepository.RegisterUser(model.UserName, model.Type, model.Email, model.Password))
             {
                 return RedirectToAction("Index");
             }
