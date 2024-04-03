@@ -4,6 +4,11 @@ using TutorLizard.BusinessLogic.Models;
 namespace TutorLizard.BusinessLogic.Services;
 public class TutorService : ITutorService
 {
+    // TODO inject needed repositories
+    public TutorService()
+    {
+        
+    }
     public AdRequest AcceptAdRequest(int adRequestId)
     {
         throw new NotImplementedException();
