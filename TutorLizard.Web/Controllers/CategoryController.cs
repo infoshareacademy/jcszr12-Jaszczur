@@ -1,27 +1,28 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Data;
+using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.Web.Controllers;
 public class CategoryController : Controller
 {
-    private readonly DataAccess _dataAccess;
-    public CategoryController(DataAccess dataAccess)
+    private readonly ICategoryRepository _categoryRepository;
+    public CategoryController(ICategoryRepository categoryRepository)
     {
-        _dataAccess = dataAccess;
+        _categoryRepository = categoryRepository;
     }
     // GET: CategoryController
     public ActionResult Index()
     {
-        var model = _dataAccess.GetAllCategories();
+        var model = _categoryRepository.GetAllCategories();
         return View(model);
     }
 
     // GET: CategoryController/Details/5
     public ActionResult Details(int id)
     {
-        var model = _dataAccess.GetCategoryById(id);
+        var model = _categoryRepository.GetCategoryById(id);
         if (model is null)
             return RedirectToAction(nameof(Index));
         return View(model);
@@ -43,7 +44,7 @@ public class CategoryController : Controller
             if (ModelState.IsValid == false)
                 return View(model);
 
-            _dataAccess.CreateCategory(model.Name, model.Description);
+            _categoryRepository.CreateCategory(model.Name, model.Description);
             return RedirectToAction(nameof(Index));
         }
         catch
@@ -55,7 +56,7 @@ public class CategoryController : Controller
     // GET: CategoryController/Edit/5
     public ActionResult Edit(int id)
     {
-        var model = _dataAccess.GetCategoryById(id);
+        var model = _categoryRepository.GetCategoryById(id);
         if (model is null)
             return RedirectToAction(nameof(Index));
         return View(model);
@@ -71,7 +72,7 @@ public class CategoryController : Controller
             if (ModelState.IsValid == false)
                 return View(model);
 
-            _dataAccess.UpdateCategory(model);
+            _categoryRepository.UpdateCategory(model);
             return RedirectToAction(nameof(Index));
         }
         catch
@@ -83,7 +84,7 @@ public class CategoryController : Controller
     // GET: CategoryController/Delete/5
     public ActionResult Delete(int id)
     {
-        var model = _dataAccess.GetCategoryById(id);
+        var model = _categoryRepository.GetCategoryById(id);
         if (model is null)
             return RedirectToAction(nameof(Index));
         return View(model);
@@ -96,7 +97,7 @@ public class CategoryController : Controller
     {
         try
         {
-            _dataAccess.DeleteCategoryById(id);
+            _categoryRepository.DeleteCategoryById(id);
             return RedirectToAction(nameof(Index));
         }
         catch
