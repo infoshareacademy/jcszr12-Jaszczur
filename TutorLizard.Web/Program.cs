@@ -1,6 +1,7 @@
 using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Data.Repositories.Json;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
+using TutorLizard.BusinessLogic.Interfaces.Repositories;
 using TutorLizard.BusinessLogic.Options;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<DataAccess>();
+builder.Services.AddScoped<IAdRepository, AdJsonRepository>();
 builder.Services.AddScoped<IScheduleItemRepository, ScheduleItemJsonRepository>();
 builder.Services.AddScoped<IScheduleItemRequestRepository, ScheduleItemRequestJsonRepository>();
 builder.Services.AddScoped<IUserRepository, UserJsonRepository>();
