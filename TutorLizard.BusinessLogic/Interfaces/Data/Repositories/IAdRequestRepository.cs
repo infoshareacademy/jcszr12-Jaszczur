@@ -12,5 +12,5 @@ public interface IAdRequestRepository
     public AdRequest? GetAdRequestById(int adRequestId);
     public void UpdateAdRequest(AdRequest adRequest);
     public void DeleteAdRequestById(int adRequestId);
-    public int GetNewAdRequestID();
+ 
 }
