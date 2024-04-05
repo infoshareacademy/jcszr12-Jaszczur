@@ -1,29 +1,30 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Data;
+using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.Web.Controllers
 {
     public class ScheduleItemRequestController : Controller
     {
-        private readonly DataAccess _dataAccess;
-        public ScheduleItemRequestController(DataAccess dataAccess)
+        private readonly IScheduleItemRequestRepository _scheduleItemRequestRepository;
+        public ScheduleItemRequestController(IScheduleItemRequestRepository scheduleItemRequestRepository)
         {
-            _dataAccess = dataAccess;
+            _scheduleItemRequestRepository = scheduleItemRequestRepository;
         }
 
 
         // GET: ScheduleItemRequestController
         public ActionResult Index()
         {
-            return View(_dataAccess.GetAllScheduleItemRequests());
+            return View(_scheduleItemRequestRepository.GetAllScheduleItemRequests());
         }
 
         // GET: ScheduleItemRequestController/Details/5
         public ActionResult Details(int id)
         {
-            var model = _dataAccess.GetScheduleItemRequestById(id);
+            var model = _scheduleItemRequestRepository.GetScheduleItemRequestById(id);
 
             if (model == null)
             {
@@ -56,7 +57,7 @@ namespace TutorLizard.Web.Controllers
                 bool isAccepted = model.IsAccepted;
                 bool isRemote = model.IsRemote;
 
-                _dataAccess.CreateScheduleItemRequest(scheduleItemId, studentId, isAccepted, isRemote);
+                _scheduleItemRequestRepository.CreateScheduleItemRequest(scheduleItemId, studentId, isAccepted, isRemote);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -69,7 +70,7 @@ namespace TutorLizard.Web.Controllers
         // GET: ScheduleItemRequestController/Edit/5
         public ActionResult Edit(int id)
         {
-            var model = _dataAccess.GetScheduleItemRequestById(id);
+            var model = _scheduleItemRequestRepository.GetScheduleItemRequestById(id);
 
             if (model == null)
             {
@@ -86,7 +87,7 @@ namespace TutorLizard.Web.Controllers
         {
             try
             {
-                _dataAccess.UpdateScheduleItemRequest(model);
+                _scheduleItemRequestRepository.UpdateScheduleItemRequest(model);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -98,7 +99,7 @@ namespace TutorLizard.Web.Controllers
         // GET: ScheduleItemRequestController/Delete/5
         public ActionResult Delete(int id)
         {
-            var model = _dataAccess.GetScheduleItemRequestById(id);
+            var model = _scheduleItemRequestRepository.GetScheduleItemRequestById(id);
 
             if (model == null)
             {
@@ -115,7 +116,7 @@ namespace TutorLizard.Web.Controllers
         {
             try
             {
-                _dataAccess.DeleteScheduleItemRequestById(id);
+                _scheduleItemRequestRepository.DeleteScheduleItemRequestById(id);
 
                 return RedirectToAction(nameof(Index));
             }
