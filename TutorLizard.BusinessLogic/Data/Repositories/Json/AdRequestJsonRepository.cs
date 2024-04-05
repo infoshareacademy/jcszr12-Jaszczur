@@ -8,7 +8,7 @@ namespace TutorLizard.BusinessLogic.Data.Repositories.Json;
 public class AdRequestJsonRepository: JsonRepositoryBase<AdRequest>, IAdRequestRepository
 {
 
-    public AdRequestJsonRepository(IOptions<DataJsonFilePaths> options) : base(options.Value.Ads)
+    public AdRequestJsonRepository(IOptions<DataJsonFilePaths> options) : base(options.Value.AdRequests)
     {
         
     }
