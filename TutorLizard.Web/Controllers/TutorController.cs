@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TutorLizard.BusinessLogic.Services;
+using TutorLizard.BusinessLogic.Interfaces.Services;
 
 namespace TutorLizard.Web.Controllers;
 public class TutorController : Controller

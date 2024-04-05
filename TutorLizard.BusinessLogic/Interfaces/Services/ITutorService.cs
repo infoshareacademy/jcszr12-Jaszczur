@@ -1,6 +1,6 @@
 ﻿using TutorLizard.BusinessLogic.Models;
 
-namespace TutorLizard.BusinessLogic.Services;
+namespace TutorLizard.BusinessLogic.Interfaces.Services;
 
 public interface ITutorService
 {
