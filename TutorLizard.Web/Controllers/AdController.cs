@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Data;
+using TutorLizard.BusinessLogic.Interfaces.Repositories;
 using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.Web.Controllers
@@ -8,10 +9,10 @@ namespace TutorLizard.Web.Controllers
     [Route("ad")]
     public class AdController : Controller
     {
-        private readonly DataAccess _dataAccess;
-        public AdController(DataAccess dataAccess)
+        private readonly IAdRepository _adRepository;
+        public AdController(IAdRepository adRepository)
         {
-            _dataAccess = dataAccess;
+            _adRepository = adRepository;
         }
 
         // GET: AdController

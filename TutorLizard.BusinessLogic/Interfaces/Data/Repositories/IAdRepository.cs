@@ -16,6 +16,5 @@ namespace TutorLizard.BusinessLogic.Interfaces.Repositories
         public Ad? GetAdById(int adId);
         public void UpdateAd(Ad ad);
         public void DeleteAdById(int adId);
-        public int GetNewAdID();
     }
 }

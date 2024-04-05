@@ -7,7 +7,7 @@ namespace TutorLizard.BusinessLogic.Data.Repositories.Json;
 
 public class AdJsonRepository : JsonRepositoryBase<Ad>, IAdRepository 
 {
-    public AdJsonRepository(IOptions<DataJsonFilePaths> options) : base(options.Value.Users)
+    public AdJsonRepository(IOptions<DataJsonFilePaths> options) : base(options.Value.Ads)
     {
         
     }
@@ -65,7 +65,7 @@ public class AdJsonRepository : JsonRepositoryBase<Ad>, IAdRepository
         SaveToJson();
     }
 
-    public int GetNewAdID()
+    private int GetNewAdID()
     {
         if (_data.Any() == true)
             return _data.Max(x => x.Id) + 1;
