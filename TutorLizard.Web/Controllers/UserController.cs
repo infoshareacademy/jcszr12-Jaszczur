@@ -158,15 +158,17 @@ public class UserController : Controller
     {
         try
         {
-            if (ModelState.IsValid && _userRepository.RegisterUser(model.UserName, model.Type, model.Email, model.Password))
+            if (ModelState.IsValid && _userRepository.RegisterUser(model.UserName, UserType.Student, model.Email, model.Password))
             {
-                return RedirectToAction("Index");
+                TempData["RegisterSuccessful"] = $"Registration successful";
+                return RedirectToAction("Index");               
             }
         }
         catch
         {
             return View("Error");
         }
+        TempData["RegisterUnsuccessful"] = "Could not register";
         return View();
     }
 
