@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<DataAccess>();
+builder.Services.AddScoped<IAdRequestRepository, AdRequestJsonRepository>();
 builder.Services.AddScoped<IScheduleItemRepository, ScheduleItemJsonRepository>();
 builder.Services.AddScoped<IScheduleItemRequestRepository, ScheduleItemRequestJsonRepository>();
 builder.Services.AddScoped<IUserRepository, UserJsonRepository>();
