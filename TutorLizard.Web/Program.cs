@@ -19,6 +19,7 @@ builder.Services
     .Bind(builder.Configuration.GetSection(nameof(DataJsonFilePaths)))
     .ValidateDataAnnotations();
 builder.Services.AddScoped<ITutorService, TutorService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
 
 var app = builder.Build();
 
