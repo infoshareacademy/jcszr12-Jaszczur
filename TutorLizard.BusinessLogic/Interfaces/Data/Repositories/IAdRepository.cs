@@ -8,7 +8,7 @@ namespace TutorLizard.BusinessLogic.Interfaces.Repositories
               string subject,
               string title,
               string description,
-              string category,
+              int category,
               double price,
               string location,
               bool isRemote);

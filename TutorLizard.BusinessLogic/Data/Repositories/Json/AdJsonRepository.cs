@@ -16,7 +16,7 @@ public class AdJsonRepository : JsonRepositoryBase<Ad>, IAdRepository
           string subject,
           string title,
           string description,
-          string category,
+          int category,
           double price,
           string location,
           bool isRemote)
