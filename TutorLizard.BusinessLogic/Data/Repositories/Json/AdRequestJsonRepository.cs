@@ -48,6 +48,7 @@ public class AdRequestJsonRepository: JsonRepositoryBase<AdRequest>, IAdRequestR
         toUpdate.IsAccepted = adRequest.IsAccepted;
         toUpdate.Message = adRequest.Message;
         toUpdate.IsRemote = adRequest.IsRemote;
+        toUpdate.IsRemote = adRequest.IsRemote;
 
         SaveToJson();
     }
