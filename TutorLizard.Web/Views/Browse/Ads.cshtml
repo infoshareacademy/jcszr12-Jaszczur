@@ -1,0 +1,12 @@
+﻿@model IEnumerable<TutorLizard.BusinessLogic.Models.DTOs.AdDto>
+
+@{
+    ViewData["Title"] = "Ads";
+}
+
+<h1>Ogłoszenia</h1>
+
+@foreach (var item in Model)
+{
+    <partial name="_AdListItem" model="item" />
+}

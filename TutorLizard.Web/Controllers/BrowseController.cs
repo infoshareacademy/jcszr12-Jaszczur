@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Services;
+using TutorLizard.BusinessLogic.Models;
+using TutorLizard.BusinessLogic.Models.DTOs;
 
 namespace TutorLizard.Web.Controllers;
 public class BrowseController : Controller
@@ -15,11 +18,20 @@ public class BrowseController : Controller
         return RedirectToAction(nameof(Ads));
     }
 
-    public IActionResult Ads()
+    public IActionResult Ads(int page = 1)
     {
         // TODO ask service for ads to show
         // TODO add pagination
-        return View();
+
+        List<AdDto> ads = [
+            new Ad(1, 1, "temat", "tytuł", "opis", 1, 10, "Warszawa", true).ToDto(),
+            new Ad(2, 1, "temat", "tytuł", "opis", 2, 10, "Kraków", true).ToDto(),
+            new Ad(3, 1, "temat", "tytuł", "opis", 1, 10, "Gdańsk", true).ToDto(),
+            new Ad(4, 1, "temat", "tytuł", "opis", 2, 10, "Kosmos", true).ToDto(),
+            new Ad(5, 1, "temat", "tytuł", "opis", 1, 10, "Wieś", true).ToDto(),
+            ];
+
+        return View(ads);
     }
 
     public IActionResult AdDetails(int id)
