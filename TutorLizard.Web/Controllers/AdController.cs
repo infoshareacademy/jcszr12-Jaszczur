@@ -28,6 +28,8 @@ namespace TutorLizard.Web.Controllers
         public ActionResult Details(int id)
         {
             var model = _adRepository.GetAdById(id);
+            if (model is null)
+                return RedirectToAction(nameof(Index));
             return View(model);
         }
 
@@ -64,7 +66,7 @@ namespace TutorLizard.Web.Controllers
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 
@@ -73,7 +75,8 @@ namespace TutorLizard.Web.Controllers
         public ActionResult Edit(int id)
         {
             var model = _adRepository.GetAdById(id);
-
+            if (model is null)
+                return RedirectToAction(nameof(Index));
             return View(model);
         }
 
@@ -85,12 +88,15 @@ namespace TutorLizard.Web.Controllers
         {
             try
             {
+                if (ModelState.IsValid == false)
+                    return View(model);
+
                 _adRepository.UpdateAd(model);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 
@@ -99,6 +105,8 @@ namespace TutorLizard.Web.Controllers
         public ActionResult Delete(int id)
         {
             var model = _adRepository.GetAdById(id);
+            if (model is null)
+                return RedirectToAction(nameof(Index));
             return View(model);
         }
 
@@ -115,7 +123,7 @@ namespace TutorLizard.Web.Controllers
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
     }
