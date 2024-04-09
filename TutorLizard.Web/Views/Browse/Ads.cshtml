@@ -13,12 +13,12 @@
 
 @if(Model.PageNumber > 1)
 {
-    <a asp-action="Ads" asp-route-page="@(Model.PageNumber - 1)">Poprzednia strona</a>
+    <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)">Poprzednia strona</a>
 }
 
 Strona @Model.PageNumber z @Model.TotalPages
 
 @if(Model.TotalPages > Model.PageNumber)
 {
-    <a asp-action="Ads" asp-route-page="@(Model.PageNumber + 1)">Następna strona</a>
+    <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)">Następna strona</a>
 }

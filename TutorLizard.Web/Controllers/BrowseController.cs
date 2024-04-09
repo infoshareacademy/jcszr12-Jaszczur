@@ -19,17 +19,17 @@ public class BrowseController : Controller
         return RedirectToAction(nameof(Ads));
     }
 
-    public IActionResult Ads(int page = 1)
+    public IActionResult Ads(int id = 1)
     {
-        // TODO add pagination
-
-        BrowseAdsPageRequest request = new(page, _pageSize);
-
         // TODO ask service for ads to show (using request)
+
+        // TODO customize routing, so that parameter is page, not id
+        int pageNumber = id;
+        BrowseAdsPageRequest request = new(pageNumber, _pageSize);
 
         // mock results:
         BrowseAdsPageResponse response = new();
-        response.PageNumber = page;
+        response.PageNumber = pageNumber;
         response.PageSize = _pageSize;
         response.TotalPages = 5;
 
