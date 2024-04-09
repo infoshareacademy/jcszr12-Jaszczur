@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TutorLizard.BusinessLogic.Models.DTOs.AdDto>
+﻿@model BrowseAdsPageResponse
 
 @{
     ViewData["Title"] = "Ads";
@@ -6,7 +6,19 @@
 
 <h1>Ogłoszenia</h1>
 
-@foreach (var item in Model)
+@foreach (var ad in Model.Ads)
 {
-    <partial name="_AdListItem" model="item" />
+    <partial name="_AdListItem" model="ad" />
+}
+
+@if(Model.PageNumber > 1)
+{
+    <a asp-action="Ads" asp-route-page="@(Model.PageNumber - 1)">Poprzednia strona</a>
+}
+
+Strona @Model.PageNumber z @Model.TotalPages
+
+@if(Model.TotalPages > Model.PageNumber)
+{
+    <a asp-action="Ads" asp-route-page="@(Model.PageNumber + 1)">Następna strona</a>
 }

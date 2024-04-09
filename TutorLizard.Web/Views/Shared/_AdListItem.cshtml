@@ -1,12 +1,17 @@
-﻿@model TutorLizard.BusinessLogic.Models.DTOs.AdDto
+﻿@model AdListItemDto
 
 <div class="card my-3">
     <div class="card-body">
-        <h5 class="card-title">@Html.DisplayFor(model => model.Title)</h5>
-        <h6 class="card-subtitle mb-2 text-body-secondary">@Html.DisplayFor(model => model.Subject)</h6>
-        <h6 class="card-subtitle mb-2 text-body-secondary">Lokalizacja: @Html.DisplayFor(model => model.Location)</h6>
-        <h6 class="card-subtitle mb-2 text-body-secondary">Cena: @Html.DisplayFor(model => model.Price)</h6>
-        <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
+        <h5 class="card-title">@Model.Title</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">@Model.CategoryName / @Model.Subject</h6>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Lokalizacja: @Model.Location</h6>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Nauczyciel: @Model.TutorName</h6>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Cena: @Html.DisplayFor(model => model.Price) zł/h</h6>
+        @if(Model.IsRemote)
+        {
+            <h6 class="card-subtitle mb-2 text-body-secondary">Nauczanie zdalne</h6>
+        }
+        <p class="card-text">@Model.Description</p>
         <a asp-action="Details" asp-controller="Ad" asp-route-id="@Model.Id" class="card-link">Szczegóły</a>
     </div>
 </div>
