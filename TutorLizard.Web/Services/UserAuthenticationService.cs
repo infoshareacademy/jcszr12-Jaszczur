@@ -1,18 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.BusinessLogic.Services;
 
-public class UserIdentificationService : IUserIdentificationService
+public class UserAuthenticationService : IUserAuthenticationService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IUserService _userService;
 
-    public UserIdentificationService(IHttpContextAccessor httpContextAccessor, IUserService userService)
+    public UserAuthenticationService(IHttpContextAccessor httpContextAccessor, IUserService userService)
     {
         _httpContextAccessor = httpContextAccessor;
         _userService = userService;
@@ -30,6 +29,7 @@ public class UserIdentificationService : IUserIdentificationService
         {
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.Name, user.Name),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
 
         var claimsIdentity = new ClaimsIdentity(
@@ -60,8 +60,9 @@ public class UserIdentificationService : IUserIdentificationService
         await _httpContextAccessor.HttpContext.SignOutAsync("CookieAuth");
     }
 
-    public bool RegisterUser(string username,UserType type, string email, string password)
+    public bool RegisterUser(string username, UserType type, string email, string password)
     {
-        return _userService.RegisterUser(username,type, email, password);
+        // _userService.PasswordtoPasswordHash();
+        return _userService.RegisterUser(username, type, email, password);
     }
 }

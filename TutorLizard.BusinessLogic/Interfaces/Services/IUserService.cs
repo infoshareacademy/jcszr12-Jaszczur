@@ -5,6 +5,6 @@ namespace TutorLizard.BusinessLogic.Interfaces.Services;
 
 public interface IUserService
 {
-    public UserDto LogIn(string username, string password);
+    public UserDto? LogIn(string username, string password);
     public bool RegisterUser(string userName, UserType type, string email, string passwordHash);
 }

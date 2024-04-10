@@ -11,12 +11,12 @@ public class UserController : Controller
 {
     private readonly IUserRepository _userRepository;
     private readonly IUserService _userService;
-    private readonly IUserIdentificationService _userIdentificationService;
-    public UserController(IUserRepository userRepository, IUserService userService, IUserIdentificationService userIdentificationService)
+    private readonly IUserAuthenticationService _userAuthenticationService;
+    public UserController(IUserRepository userRepository, IUserService userService, IUserAuthenticationService userAuthenticationService)
     {
         _userRepository = userRepository;
         _userService = userService;
-        _userIdentificationService = userIdentificationService;
+        _userAuthenticationService = userAuthenticationService;
     }
 
     // GET: User
@@ -132,10 +132,10 @@ public class UserController : Controller
     {
         try
         {
-            if (ModelState.IsValid && await _userIdentificationService.LogInAsync(model.UserName, model.Password))
+            if (ModelState.IsValid && await _userAuthenticationService.LogInAsync(model.UserName, model.Password))
             {
-                TempData["LoginSuccessful"] = $"You are logged in.";
-                return RedirectToAction("Index");
+                TempData["LoginSuccessful"] = "You are logged in.";
+                return LocalRedirect("/Home/Index");
             }
         }
         catch
@@ -148,7 +148,7 @@ public class UserController : Controller
     [Authorize]
     public async Task<IActionResult> Logout()
     {
-        await _userIdentificationService.LogOutAsync();
+        await _userAuthenticationService.LogOutAsync();
         return RedirectToAction("Index");
     }
     public IActionResult Register()
@@ -161,18 +161,18 @@ public class UserController : Controller
     {
         try
         {
-            if (ModelState.IsValid && _userIdentificationService.RegisterUser(model.UserName, UserType.Tutor, model.Email, model.Password)) 
+            if (ModelState.IsValid && _userAuthenticationService.RegisterUser(model.UserName, UserType.Tutor, model.Email, model.Password)) 
             {
-                TempData["RegisterSuccessful"] = $"Registration successful";
-                return RedirectToAction("Index");               
+                TempData["RegisterSuccessful"] = "Registered Successfully";
+                return LocalRedirect("/Home/Index");
             }
         }
         catch
         {
             return View("AccessDenied");
         }
-        TempData["RegisterUnsuccessful"] = "Could not register";
-        return View();
+        TempData["RegisterUnsuccessful"] = "Could not register.";
+        return LocalRedirect("/Home/Index");
     }
 
     public IActionResult AccessDenied()

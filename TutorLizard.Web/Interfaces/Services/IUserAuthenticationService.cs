@@ -1,7 +1,8 @@
 ﻿using TutorLizard.BusinessLogic.Models;
 namespace TutorLizard.BusinessLogic.Interfaces.Services;
 
-public interface IUserIdentificationService
+public interface IUserAuthenticationService
+
 {
     public Task<bool> LogInAsync(string username, string password);
     public Task LogOutAsync();

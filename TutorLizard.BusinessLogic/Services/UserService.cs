@@ -16,7 +16,7 @@ public class UserService : IUserService
     {
         _userRepository = userRepository;
     }
-    public UserDto LogIn(string username, string password)
+    public UserDto? LogIn(string username, string password)
     {
         var user = _userRepository.GetAllUsers()
             .FirstOrDefault(user => user.Name == username);
@@ -44,9 +44,12 @@ public class UserService : IUserService
 
         var user = _userRepository.CreateUser(userName, type, email, passwordHash);
         user.PasswordHash = _passwordHasher.HashPassword(user, passwordHash);
-        _userRepository.UpdateUser(user);
 
+        _userRepository.UpdateUser(user);
 
         return true;
     }
+    //public string PasswordToPasswordHash(User user)
+    //{ 
+    //}
 }
