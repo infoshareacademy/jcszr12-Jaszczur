@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
 
@@ -12,13 +11,11 @@ public class UserIdentificationService : IUserIdentificationService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IUserService _userService;
-    private readonly IUserRepository _userRepository;
 
-    public UserIdentificationService(IUserRepository userRepository, IHttpContextAccessor httpContextAccessor, IUserService userService)
+    public UserIdentificationService(IHttpContextAccessor httpContextAccessor, IUserService userService)
     {
         _httpContextAccessor = httpContextAccessor;
         _userService = userService;
-        _userRepository = userRepository;
     }
     public async Task<bool> LogInAsync(string username, string password)
     {
