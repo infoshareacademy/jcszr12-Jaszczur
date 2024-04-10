@@ -6,12 +6,12 @@ namespace TutorLizard.BusinessLogic.Services;
 public class UserIdentityService : IUserIdentityService
 {
     private readonly IUserIdentityDataAccess _dataAccess;
-
     private User? _activeUser;
 
     public UserIdentityService(IUserIdentityDataAccess dataAccess)
     {
         _dataAccess = dataAccess;
+
     }
 
     public UserType? GetUserType()

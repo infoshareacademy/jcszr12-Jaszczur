@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+using System.Security.Claims;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Options;
@@ -6,8 +10,12 @@ using TutorLizard.BusinessLogic.Options;
 namespace TutorLizard.BusinessLogic.Data.Repositories.Json;
 public class UserJsonRepository : JsonRepositoryBase<User>, IUserRepository
 {
+    
+    
+
     public UserJsonRepository(IOptions<DataJsonFilePaths> options) : base(options.Value.Users)
     {
+        
     }
 
     public User CreateUser(string name, UserType type, string email, string passwordHash)
@@ -60,4 +68,7 @@ public class UserJsonRepository : JsonRepositoryBase<User>, IUserRepository
 
         return 1;
     }
+
+    
+
 }
