@@ -3,15 +3,56 @@
 <div class="card my-3">
     <div class="card-body">
         <h5 class="card-title">@Model.Title</h5>
-        <h6 class="card-subtitle mb-2 text-body-secondary">@Model.CategoryName / @Model.Subject</h6>
-        <h6 class="card-subtitle mb-2 text-body-secondary">Lokalizacja: @Model.Location</h6>
-        <h6 class="card-subtitle mb-2 text-body-secondary">Nauczyciel: @Model.TutorName</h6>
-        <h6 class="card-subtitle mb-2 text-body-secondary">Cena: @Html.DisplayFor(model => model.Price) zł/h</h6>
-        @if(Model.IsRemote)
-        {
-            <h6 class="card-subtitle mb-2 text-body-secondary">Nauczanie zdalne</h6>
-        }
-        <p class="card-text">@Model.Description</p>
-        <a asp-action="Details" asp-controller="Ad" asp-route-id="@Model.Id" class="card-link">Szczegóły</a>
+        <div class="row">
+            <div class="col-6 col-sm-3">Kategoria:</div>
+            <div class="col-6 col-sm-9">@Model.CategoryName</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Tematyka:</div>
+            <div class="col-6 col-sm-9">@Model.Subject</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Lokalizacja:</div>
+            <div class="col-6 col-sm-9">@Model.Location</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Wystawione przez:</div>
+            <div class="col-6 col-sm-9">@Model.TutorName</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Cena:</div>
+            <div class="col-6 col-sm-9">@Html.DisplayFor(model => model.Price) zł/h</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Nauczanie zdalne:</div>
+            <div class="col-6 col-sm-9">
+                @if(Model.IsRemote)
+                {
+                    <span>Tak</span>
+                }
+                else
+                {
+                    <span>Nie</span>
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <p class="card-text">@Model.Description</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                @* TODO set link to correct controller and action *@
+                <a asp-action="Details" asp-controller="Ad" asp-route-id="@Model.Id" class="card-link">Szczegóły ogłoszenia</a>
+            </div>
+        </div>
     </div>
 </div>
