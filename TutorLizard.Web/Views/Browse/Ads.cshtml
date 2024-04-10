@@ -1,7 +1,7 @@
 ﻿@model BrowseAdsPageResponse
 
 @{
-    ViewData["Title"] = "Ads";
+    ViewData["Title"] = "Ogłoszenia";
 }
 
 <h1>Ogłoszenia</h1>
@@ -11,14 +11,24 @@
     <partial name="_AdListItem" model="ad" />
 }
 
-@if(Model.PageNumber > 1)
-{
-    <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)">Poprzednia strona</a>
-}
+<div class="row text-center">
 
-Strona @Model.PageNumber z @Model.TotalPages
+    <div class="col-4">
+        @if(Model.PageNumber > 1)
+        {
+            <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)">Poprzednia strona</a>
+        }
+    </div>
 
-@if(Model.TotalPages > Model.PageNumber)
-{
-    <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)">Następna strona</a>
-}
+    <div class="col-4">
+        Strona @Model.PageNumber z @Model.TotalPages
+    </div>
+
+    <div class="col-4">
+        @if(Model.TotalPages > Model.PageNumber)
+        {
+            <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)">Następna strona</a>
+        }
+    </div>
+
+</div>
