@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
-using TutorLizard.BusinessLogic.Services;
 using TutorLizard.Web.Models;
 
 namespace TutorLizard.Web.Controllers;

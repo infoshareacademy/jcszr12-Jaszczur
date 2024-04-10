@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Data.Repositories.Json;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Repositories;
-using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Options;
 using TutorLizard.BusinessLogic.Services;
@@ -39,7 +37,7 @@ builder.Services.AddAuthentication("CookieAuth")
         options.Cookie.Name = "CookieAuth";
         options.LoginPath = "/User/";
         options.LogoutPath = "/User/Logout";
-        options.ExpireTimeSpan = TimeSpan.FromSeconds(30);
+        options.ExpireTimeSpan = TimeSpan.FromSeconds(360);
     });
 
 var app = builder.Build();
