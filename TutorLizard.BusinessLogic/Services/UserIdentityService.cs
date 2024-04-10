@@ -1,5 +1,4 @@
 ﻿using TutorLizard.BusinessLogic.Data;
-using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
 
@@ -8,8 +7,6 @@ public class UserIdentityService : IUserIdentityService
 {
     private readonly IUserIdentityDataAccess _dataAccess;
     private User? _activeUser;
-    
-    private readonly IUserRepository _userRepository;
 
     public UserIdentityService(IUserIdentityDataAccess dataAccess)
     {
@@ -35,6 +32,28 @@ public class UserIdentityService : IUserIdentityService
     public bool IsUserNameTaken(string userName)
     {
         return _dataAccess.DoesUserWithThisNameExist(userName);
+    }
+
+    public bool LogIn(string userName, int userId)
+    {
+        var isDataCorrect = _dataAccess?.IsLoginDataCorrect(userId, userName).isCorrect;
+
+        if (isDataCorrect == false)
+            return false;
+
+        _activeUser = _dataAccess.IsLoginDataCorrect(userId, userName).activeUser;
+        return true;
+    }
+
+    public void LogOut()
+    {
+        _activeUser = null;
+    }
+
+    public int RegisterUser(string userName, UserType type, string email, string passwordHash)
+    {
+        User newUser = _dataAccess.CreateUser(userName, type, email, passwordHash);
+        return newUser.Id;
     }
 
     public string GetUserNameById(int userId)

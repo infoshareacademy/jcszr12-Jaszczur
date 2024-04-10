@@ -1,36 +1,33 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using TutorLizard.BusinessLogic.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.Web.Controllers
 {
-    [Route("adrequest")]
     public class AdRequestController : Controller
     {
-        private readonly DataAccess _dataAccess;
-        public AdRequestController(DataAccess dataAccess)
+        private readonly IAdRequestRepository _adRequestRepository;
+        public AdRequestController(IAdRequestRepository adRequestRepository)
         {
-            _dataAccess = dataAccess;
+            _adRequestRepository = adRequestRepository;
         }
         // GET: AdRequestController
-        [Route("")]
         public ActionResult Index()
         {
-            var model = _dataAccess.GetAllAdRequests();
+            var model = _adRequestRepository.GetAllAdRequests();
             return View(model);
         }
 
         // GET: AdRequestController/Details/5
-        [Route("details/{id}:int")]
         public ActionResult Details(int id)
         {
-            var model = _dataAccess.GetAdRequestById(id);
+            var model = _adRequestRepository.GetAdRequestById(id);
+            if (model is null)
+                return RedirectToAction(nameof(Index));
             return View(model);
         }
 
         // GET: AdRequestController/Create
-        [Route("create")]
         public ActionResult Create()
         {
             return View();
@@ -39,7 +36,6 @@ namespace TutorLizard.Web.Controllers
         // POST: AdRequestController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("create")]
         public ActionResult Create(AdRequest model)
         {
             try
@@ -49,7 +45,7 @@ namespace TutorLizard.Web.Controllers
                     return View(model);
                 }
 
-                _dataAccess.CreateAdRequest(model.AdId, model.StudentId, model.Message, model.IsRemote);
+                _adRequestRepository.CreateAdRequest(model.AdId, model.StudentId, model.Message, model.IsRemote);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -59,52 +55,55 @@ namespace TutorLizard.Web.Controllers
         }
 
         // GET: AdRequestController/Edit/5
-        [Route("edit/{id}:int")]
         public ActionResult Edit(int id)
         {
-            var model = _dataAccess.GetAdRequestById(id);
+            var model = _adRequestRepository.GetAdRequestById(id);
+            if (model is null)
+                return RedirectToAction(nameof(Index));
             return View(model);
         }
 
         // POST: AdRequestController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("edit/{id}:int")]
         public ActionResult Edit(int id, AdRequest model)
         {
             try
             {
-                _dataAccess.UpdateAdRequest(model);
+                if (ModelState.IsValid == false)
+                    return View(model);
+
+                _adRequestRepository.UpdateAdRequest(model);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 
         // GET: AdRequestController/Delete/5
-        [Route("delete/{id}:int")]
         public ActionResult Delete(int id)
         {
-            var model = _dataAccess.GetAdRequestById(id);
+            var model = _adRequestRepository.GetAdRequestById(id);
+            if (model is null)
+                return RedirectToAction(nameof(Index));
             return View(model);
         }
 
         // POST: AdRequestController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("delete/{id}:int")]
         public ActionResult Delete(int id, AdRequest model)
         {
             try
             {
-                _dataAccess.DeleteAdRequestById(id);    
+                _adRequestRepository.DeleteAdRequestById(id);    
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
     }
