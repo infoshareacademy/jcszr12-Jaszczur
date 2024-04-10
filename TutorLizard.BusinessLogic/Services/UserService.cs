@@ -37,19 +37,16 @@ public class UserService : IUserService
         return null;
     }
 
-    public bool RegisterUser(string userName, UserType type, string email, string passwordHash)
+    public bool RegisterUser(string userName, UserType type, string email, string password)
     {
         if (_userRepository.GetAllUsers().Any(user => user.Name == userName))
             return false;
 
-        var user = _userRepository.CreateUser(userName, type, email, passwordHash);
-        user.PasswordHash = _passwordHasher.HashPassword(user, passwordHash);
+        var user = _userRepository.CreateUser(userName, type, email, password);
+        user.PasswordHash = _passwordHasher.HashPassword(user, password);
 
         _userRepository.UpdateUser(user);
 
         return true;
     }
-    //public string PasswordToPasswordHash(User user)
-    //{ 
-    //}
 }

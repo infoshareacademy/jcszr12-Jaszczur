@@ -62,7 +62,6 @@ public class UserAuthenticationService : IUserAuthenticationService
 
     public bool RegisterUser(string username, UserType type, string email, string password)
     {
-        // _userService.PasswordtoPasswordHash();
         return _userService.RegisterUser(username, type, email, password);
     }
 }
