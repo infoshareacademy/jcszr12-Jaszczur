@@ -13,7 +13,7 @@ public class CategoryJsonRepository : JsonRepositoryBase<Category>, ICategoryRep
     public Category CreateCategory(string name, string? description = null)
     {
         Category newCategory = new(GetNewId(), name, description);
-        _data.Add(newCategory);
+        Data.Add(newCategory);
         SaveToJson();
 
         return newCategory;
@@ -21,12 +21,12 @@ public class CategoryJsonRepository : JsonRepositoryBase<Category>, ICategoryRep
 
     public List<Category> GetAllCategories()
     {
-        return _data;
+        return Data;
     }
 
     public Category? GetCategoryById(int id)
     {
-        return _data.Find(x => x.Id == id);
+        return Data.Find(x => x.Id == id);
     }
 
     public void UpdateCategory(Category category)
@@ -47,15 +47,15 @@ public class CategoryJsonRepository : JsonRepositoryBase<Category>, ICategoryRep
         if (toDelete is null)
             return;
 
-        _data.Remove(toDelete);
+        Data.Remove(toDelete);
 
         SaveToJson();
     }
 
     private int GetNewId()
     {
-        if (_data.Any())
-            return _data.Max(x => x.Id) + 1;
+        if (Data.Any())
+            return Data.Max(x => x.Id) + 1;
 
         return 1;
     }

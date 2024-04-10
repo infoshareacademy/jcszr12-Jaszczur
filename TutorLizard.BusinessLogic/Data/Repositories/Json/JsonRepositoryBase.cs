@@ -4,7 +4,7 @@ namespace TutorLizard.BusinessLogic.Data.Repositories.Json
 {
     public abstract class JsonRepositoryBase<T>
     {
-        protected List<T> _data = new();
+        protected List<T> Data { get; set; } = new();
         private string _filePath;
 
         protected JsonRepositoryBase(string filePath)
@@ -33,7 +33,7 @@ namespace TutorLizard.BusinessLogic.Data.Repositories.Json
                 IncludeFields = true
             })
                         ?? new List<T>();
-            _data = outputList;
+            Data = outputList;
         }
 
 
@@ -48,7 +48,7 @@ namespace TutorLizard.BusinessLogic.Data.Repositories.Json
 
             string? directoryPath = Path.GetDirectoryName(fullPath);
 
-            var jsonData = JsonSerializer.Serialize(_data, new JsonSerializerOptions
+            var jsonData = JsonSerializer.Serialize(Data, new JsonSerializerOptions
             {
                 WriteIndented = true,
             });
