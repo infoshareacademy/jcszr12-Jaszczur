@@ -9,9 +9,4 @@ public interface IUserRepository
     List<User> GetAllUsers();
     User? GetUserById(int id);
     void UpdateUser(User user);
-    public UserDto LogIn(string username, string password);
-    public bool RegisterUser(string userName, UserType type, string email, string passwordHash);
-    public Task<bool> LogInAsync(string username, string password);
-    public Task LogOutAsync();
-
 }

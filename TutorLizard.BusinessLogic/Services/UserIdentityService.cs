@@ -1,20 +1,20 @@
 ﻿using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
+using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
 
 namespace TutorLizard.BusinessLogic.Services;
 public class UserIdentityService : IUserIdentityService
 {
     private readonly IUserIdentityDataAccess _dataAccess;
-
     private User? _activeUser;
     
     private readonly IUserRepository _userRepository;
 
-    public UserIdentityService(IUserIdentityDataAccess dataAccess, IUserRepository userRepository)
+    public UserIdentityService(IUserIdentityDataAccess dataAccess)
     {
         _dataAccess = dataAccess;
-        _userRepository = userRepository;
+
     }
 
     public UserType? GetUserType()

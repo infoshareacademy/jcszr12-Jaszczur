@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
+using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Services;
 using TutorLizard.Web.Models;
@@ -10,10 +11,13 @@ namespace TutorLizard.Web.Controllers;
 public class UserController : Controller
 {
     private readonly IUserRepository _userRepository;
-
-    public UserController(IUserRepository userRepository)
+    private readonly IUserService _userService;
+    private readonly IUserIdentificationService _userIdentificationService;
+    public UserController(IUserRepository userRepository, IUserService userService, IUserIdentificationService userIdentificationService)
     {
         _userRepository = userRepository;
+        _userService = userService;
+        _userIdentificationService = userIdentificationService;
     }
 
     // GET: User
@@ -129,7 +133,7 @@ public class UserController : Controller
     {
         try
         {
-            if (ModelState.IsValid && await _userRepository.LogInAsync(model.UserName, model.Password))
+            if (ModelState.IsValid && await _userIdentificationService.LogInAsync(model.UserName, model.Password))
             {
                 TempData["LoginSuccessful"] = $"You are logged in.";
                 return RedirectToAction("Index");
@@ -137,7 +141,7 @@ public class UserController : Controller
         }
         catch
         {
-            return View("Error");
+            return View("AccessDenied");
         }
         TempData["LoginUnsuccessful"] = "Could not log in.";
         return View();
@@ -145,7 +149,7 @@ public class UserController : Controller
     [Authorize]
     public async Task<IActionResult> Logout()
     {
-        await _userRepository.LogOutAsync();
+        await _userIdentificationService.LogOutAsync();
         return RedirectToAction("Index");
     }
     public IActionResult Register()
@@ -158,7 +162,7 @@ public class UserController : Controller
     {
         try
         {
-            if (ModelState.IsValid && _userRepository.RegisterUser(model.UserName, UserType.Student, model.Email, model.Password))
+            if (ModelState.IsValid && _userIdentificationService.RegisterUser(model.UserName, UserType.Tutor, model.Email, model.Password)) 
             {
                 TempData["RegisterSuccessful"] = $"Registration successful";
                 return RedirectToAction("Index");               
@@ -166,7 +170,7 @@ public class UserController : Controller
         }
         catch
         {
-            return View("Error");
+            return View("AccessDenied");
         }
         TempData["RegisterUnsuccessful"] = "Could not register";
         return View();

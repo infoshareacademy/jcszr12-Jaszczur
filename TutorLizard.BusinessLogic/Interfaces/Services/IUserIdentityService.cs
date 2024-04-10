@@ -1,7 +1,7 @@
 ﻿using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Models.DTOs;
 
-namespace TutorLizard.BusinessLogic.Services;
+namespace TutorLizard.BusinessLogic.Interfaces.Services;
 
 public interface IUserIdentityService
 {
@@ -10,4 +10,5 @@ public interface IUserIdentityService
     public int? GetUserId();
     public bool IsUserNameTaken(string userName);
     string GetUserNameById(int userId);
+
 }
