@@ -76,6 +76,14 @@
             {
                 <p class="alert alert-success">@TempData["LoginSuccessful"]</p>
             }
+            @if (TempData.ContainsKey("RegisterUnsuccessful"))
+            {
+                <p class="alert alert-danger">@TempData["RegisterUnsuccessful"]</p>
+            }
+            @if (TempData.ContainsKey("RegisterSuccessful"))
+            {
+                <p class="alert alert-success">@TempData["RegisterSuccessful"]</p>
+            }
         </div>
         <main role="main" class="pb-3">
             @RenderBody()
