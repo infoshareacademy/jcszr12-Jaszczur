@@ -36,7 +36,7 @@ builder.Services.AddAuthentication("CookieAuth")
         options.SlidingExpiration = true;
         options.AccessDeniedPath = "/User/AccessDenied";
         options.Cookie.Name = "CookieAuth";
-        options.LoginPath = "/User/";
+        options.LoginPath = "/User/Login";
         options.LogoutPath = "/User/Logout";
         options.ExpireTimeSpan = TimeSpan.FromSeconds(360);
     });

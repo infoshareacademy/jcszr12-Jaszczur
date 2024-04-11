@@ -149,7 +149,7 @@ public class UserController : Controller
     public async Task<IActionResult> Logout()
     {
         await _userAuthenticationService.LogOutAsync();
-        return RedirectToAction("Index");
+        return RedirectToAction("Index", "Home");
     }
     public IActionResult Register()
     {
