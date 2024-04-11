@@ -69,6 +69,7 @@ public class TutorController : Controller
             if (response.SuccessfullyCreated)
             {
                 // TODO show notification
+                // TODO redirect to created Ad's details
             }
             else
             {
