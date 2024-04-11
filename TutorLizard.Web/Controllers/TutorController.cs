@@ -13,11 +13,15 @@ namespace TutorLizard.Web.Controllers;
 public class TutorController : Controller
 {
     private readonly ITutorService _tutorService;
+    private readonly IUserAuthenticationService _userAuthenticationService;
     private readonly ICategoryRepository _categoryRepository;
 
-    public TutorController(ITutorService tutorService, ICategoryRepository categoryRepository)
+    public TutorController(ITutorService tutorService,
+                           IUserAuthenticationService userAuthenticationService,
+                           ICategoryRepository categoryRepository)
     {
         _tutorService = tutorService;
+        _userAuthenticationService = userAuthenticationService;
         _categoryRepository = categoryRepository;
     }
     public IActionResult Index()
@@ -48,19 +52,12 @@ public class TutorController : Controller
             if(ModelState.IsValid == false)
                 return View(request);
 
-            var identity = User.Identity as ClaimsIdentity;
-
-            string? nameIdentifier = identity?
-                .Claims?
-                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?
-                .Value;
-
-            if(int.TryParse(nameIdentifier, out int tutorId) == false)
+            int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+            if(tutorId is null)
             {
                 return View(request);
             }
-
-            request.TutorId = tutorId;
+            request.TutorId = (int)tutorId;
 
             CreateAdResponse response = new()
             {
