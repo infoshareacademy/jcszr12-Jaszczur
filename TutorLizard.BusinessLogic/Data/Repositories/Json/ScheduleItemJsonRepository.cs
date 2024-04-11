@@ -15,7 +15,7 @@ namespace TutorLizard.BusinessLogic.Data.Repositories.Json
         public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime)
         {
             ScheduleItem newScheduleItem = new(GetNewScheduleItemId(), adId, dateTime);
-            _data.Add(newScheduleItem);
+            Data.Add(newScheduleItem);
             SaveToJson();
 
             return newScheduleItem;
@@ -44,26 +44,26 @@ namespace TutorLizard.BusinessLogic.Data.Repositories.Json
                 return;
             }
 
-            _data.Remove(toDelete);
+            Data.Remove(toDelete);
             SaveToJson();
         }
 
         public ScheduleItem? GetScheduleItemById(int id)
         {
-            var scheduleItem = _data.FirstOrDefault(s => s.Id == id);
+            var scheduleItem = Data.FirstOrDefault(s => s.Id == id);
             return scheduleItem;
         }
 
         public List<ScheduleItem> GetAllScheduleItems()
         {
-            return _data;
+            return Data;
         }
 
         private int GetNewScheduleItemId()
         {
-            if (_data.Any())
+            if (Data.Any())
             {
-                return _data.Max(s => s.Id) + 1;
+                return Data.Max(s => s.Id) + 1;
             }
 
             return 1;

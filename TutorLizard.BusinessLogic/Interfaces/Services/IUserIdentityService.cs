@@ -1,4 +1,5 @@
 ﻿using TutorLizard.BusinessLogic.Models;
+using TutorLizard.BusinessLogic.Models.DTOs;
 
 namespace TutorLizard.BusinessLogic.Interfaces.Services;
 
@@ -7,9 +8,7 @@ public interface IUserIdentityService
     public UserType? GetUserType();
     public string? GetUserName();
     public int? GetUserId();
-    public bool LogIn(string userName, int userId);
-    public void LogOut();
     public bool IsUserNameTaken(string userName);
-    public int RegisterUser(string userName, UserType type, string email, string passwordHash);
     string GetUserNameById(int userId);
+
 }

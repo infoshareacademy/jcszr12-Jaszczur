@@ -22,7 +22,7 @@ public class AdJsonRepository : JsonRepositoryBase<Ad>, IAdRepository
           bool isRemote)
     {
         Ad newAd = new Ad(GetNewAdID(), tutorId, subject, title, description, category, price, location, isRemote);
-        _data.Add(newAd);
+        Data.Add(newAd);
 
         SaveToJson();
 
@@ -30,11 +30,11 @@ public class AdJsonRepository : JsonRepositoryBase<Ad>, IAdRepository
     }
     public List<Ad> GetAllAds()
     {
-        return _data;
+        return Data;
     }
     public Ad? GetAdById(int adId)
     {
-        var ad = _data.FirstOrDefault(a => a.Id == adId);
+        var ad = Data.FirstOrDefault(a => a.Id == adId);
         return ad;
     }
     public void UpdateAd(Ad ad)
@@ -60,15 +60,15 @@ public class AdJsonRepository : JsonRepositoryBase<Ad>, IAdRepository
         if (toDelete is null)
             return;
 
-        _data.Remove(toDelete);
+        Data.Remove(toDelete);
 
         SaveToJson();
     }
 
     private int GetNewAdID()
     {
-        if (_data.Any() == true)
-            return _data.Max(x => x.Id) + 1;
+        if (Data.Any() == true)
+            return Data.Max(x => x.Id) + 1;
         else
             return 1;
     }
