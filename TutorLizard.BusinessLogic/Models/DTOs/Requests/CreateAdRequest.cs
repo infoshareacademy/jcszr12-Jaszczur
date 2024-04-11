@@ -4,6 +4,10 @@ using System.ComponentModel.DataAnnotations;
 namespace TutorLizard.BusinessLogic.Models.DTOs.Requests;
 public class CreateAdRequest
 {
+    public CreateAdRequest()
+    {
+        
+    }
     public CreateAdRequest(int tutorId,
                            string subject,
                            string title,
