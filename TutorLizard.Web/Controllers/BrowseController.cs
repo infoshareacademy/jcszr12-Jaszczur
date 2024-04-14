@@ -25,10 +25,10 @@ public class BrowseController : Controller
 
         // TODO customize routing, so that parameter is page, not id
         int pageNumber = id;
-        BrowseAdsPageRequest request = new(pageNumber, _pageSize);
+        GetBrowseAdsPageRequest request = new(pageNumber, _pageSize);
 
         // mock results:
-        BrowseAdsPageResponse response = new();
+        GetBrowseAdsPageResponse response = new();
         response.PageNumber = pageNumber;
         response.PageSize = _pageSize;
         response.TotalPages = 5;

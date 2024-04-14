@@ -1,5 +1,5 @@
 ﻿namespace TutorLizard.BusinessLogic.Models.DTOs.Responses;
-public class BrowseAdsPageResponse
+public class GetBrowseAdsPageResponse
 {
     public List<AdListItemDto> Ads { get; set; } = new();
     public int PageNumber { get; set; }
