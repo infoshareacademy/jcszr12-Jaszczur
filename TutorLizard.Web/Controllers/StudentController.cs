@@ -65,8 +65,8 @@ public class StudentController : Controller
 
             StudentsAdRequestsResponse response = new()
             {
-                //do poprawy, choć to test - stworzyć kontroler lub nowy dto do tego
-                AdRequests = [new AdRequestDto(1, 1, 1, true, "xyz", "yxz", "2024, 04, 10", false)] 
+                //data for tests only
+                AdRequests = [new AdRequestsListDto(1, 1, 1, true, "xyz", "yxz", false)]
             };
             return View(response);
         }
