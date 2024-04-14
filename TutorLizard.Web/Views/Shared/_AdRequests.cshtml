@@ -1,0 +1,17 @@
+﻿@model AdRequestDto
+
+<div class="card my-3">
+    <div class="card-body">
+
+        @if (Model.IsAccepted)
+        {
+            <h6 class="card-subtitle mb-2 text-body-secondary">Tutor zaakceptował twoje zgłoszenie</h6>
+        }
+        @if (Model.IsAccepted is false)
+        {
+            <h6 class="card-subtitle mb-2 text-body-secondary">Tutor odrzucił twoje zgłoszenie</h6>
+        }
+        <p class="card-text">@Model.ReplyMessage</p>
+        <a asp-action="Details" asp-controller="AdRequest" asp-route-id="@Model.Id" class="card-link">Szczegóły</a>
+    </div>
+</div>
