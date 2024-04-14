@@ -10,10 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddRazorPages();
 builder.Services.AddTransient<IBrowseService, BrowseService>();
 builder.Services.AddSingleton<DataAccess>();
 builder.Services.AddScoped<IAdRequestRepository, AdRequestJsonRepository>();
 builder.Services.AddScoped<IAdRepository, AdJsonRepository>();
+builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IScheduleItemRepository, ScheduleItemJsonRepository>();
 builder.Services.AddScoped<IScheduleItemRequestRepository, ScheduleItemRequestJsonRepository>();
 builder.Services.AddScoped<IUserRepository, UserJsonRepository>();
@@ -24,6 +28,17 @@ builder.Services
     .ValidateDataAnnotations();
 builder.Services.AddScoped<ITutorService, TutorService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+
+builder.Services.AddAuthentication("CookieAuth")
+    .AddCookie("CookieAuth",options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromDays(1);
+        options.SlidingExpiration = true;
+        options.AccessDeniedPath = "/User/AccessDenied";
+        options.Cookie.Name = "CookieAuth";
+        options.LoginPath = "/User/Login";
+        options.LogoutPath = "/User/Logout";
+    });
 
 var app = builder.Build();
 
@@ -37,6 +52,11 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict
+});
 
 app.UseRouting();
 

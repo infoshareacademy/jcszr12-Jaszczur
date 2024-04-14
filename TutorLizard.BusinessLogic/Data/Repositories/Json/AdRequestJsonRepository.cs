@@ -23,18 +23,18 @@ public class AdRequestJsonRepository: JsonRepositoryBase<AdRequest>, IAdRequestR
                                            message,
                                            isRemote,
                                            false);
-        _data.Add(newAdRequest);
+        Data.Add(newAdRequest);
         SaveToJson();
 
         return newAdRequest;
     }
     public List<AdRequest> GetAllAdRequests()
     {
-        return _data;
+        return Data;
     }
     public AdRequest? GetAdRequestById(int adRequestId)
     {
-        var adRequest = _data.FirstOrDefault(ar => ar.Id == adRequestId);
+        var adRequest = Data.FirstOrDefault(ar => ar.Id == adRequestId);
         return adRequest;
     }
     public void UpdateAdRequest(AdRequest adRequest)
@@ -58,14 +58,14 @@ public class AdRequestJsonRepository: JsonRepositoryBase<AdRequest>, IAdRequestR
         if (toDelete is null)
             return;
 
-        _data.Remove(toDelete);
+        Data.Remove(toDelete);
 
         SaveToJson();
     }
     private int GetNewAdRequestID()
     {
-        if (_data.Any() == true)
-            return _data.Max(x => x.Id) + 1;
+        if (Data.Any() == true)
+            return Data.Max(x => x.Id) + 1;
         else
             return 1;
     }

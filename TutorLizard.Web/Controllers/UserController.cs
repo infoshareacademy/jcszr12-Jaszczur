@@ -1,15 +1,22 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
+using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
+using TutorLizard.Web.Models;
 
 namespace TutorLizard.Web.Controllers;
 public class UserController : Controller
 {
     private readonly IUserRepository _userRepository;
-    public UserController(IUserRepository userRepository)
+    private readonly IUserService _userService;
+    private readonly IUserAuthenticationService _userAuthenticationService;
+    public UserController(IUserRepository userRepository, IUserService userService, IUserAuthenticationService userAuthenticationService)
     {
         _userRepository = userRepository;
+        _userService = userService;
+        _userAuthenticationService = userAuthenticationService;
     }
 
     // GET: User
@@ -114,4 +121,65 @@ public class UserController : Controller
             return View();
         }
     }
+    public IActionResult Login()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login(LoginModel model)
+    {
+        try
+        {
+            if (ModelState.IsValid && await _userAuthenticationService.LogInAsync(model.UserName, model.Password))
+            {
+                TempData["LoginSuccessful"] = "You are logged in.";
+                return LocalRedirect("/Home/Index");
+            }
+        }
+        catch
+        {
+            TempData["LoginUnsuccessful"] = "Could not log in.";
+            return LocalRedirect("/Home/Index");
+        }
+        TempData["LoginUnsuccessful"] = "Could not log in.";
+        return View();
+    }
+    [Authorize]
+    public async Task<IActionResult> Logout()
+    {
+        await _userAuthenticationService.LogOutAsync();
+        return RedirectToAction("Index", "Home");
+    }
+    public IActionResult Register()
+    {
+        return View();
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Register(RegisterUserModel model)
+    {
+        try
+        {
+            if (ModelState.IsValid && _userAuthenticationService.RegisterUser(model.UserName, UserType.Tutor, model.Email, model.Password)) 
+            {
+                TempData["RegisterSuccessful"] = "Registered Successfully";
+                return LocalRedirect("/Home/Index");
+            }
+        }
+        catch
+        {
+            TempData["RegisterUnsuccessful"] = "Could not register.";
+            return LocalRedirect("/Home/Index");
+        }
+        TempData["RegisterUnsuccessful"] = "Could not register.";
+        return LocalRedirect("/Home/Index");
+    }
+
+    public IActionResult AccessDenied()
+    {
+        return View("AccesDenied");
+    }
+
 }

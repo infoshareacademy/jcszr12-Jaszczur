@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+using System.Security.Claims;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Options;
@@ -6,14 +10,18 @@ using TutorLizard.BusinessLogic.Options;
 namespace TutorLizard.BusinessLogic.Data.Repositories.Json;
 public class UserJsonRepository : JsonRepositoryBase<User>, IUserRepository
 {
+    
+    
+
     public UserJsonRepository(IOptions<DataJsonFilePaths> options) : base(options.Value.Users)
     {
+        
     }
 
     public User CreateUser(string name, UserType type, string email, string passwordHash)
     {
         User newUser = new(GetNewId(), name, type, email, passwordHash);
-        _data.Add(newUser);
+        Data.Add(newUser);
         SaveToJson();
 
         return newUser;
@@ -21,12 +29,12 @@ public class UserJsonRepository : JsonRepositoryBase<User>, IUserRepository
 
     public List<User> GetAllUsers()
     {
-        return _data;
+        return Data;
     }
 
     public User? GetUserById(int id)
     {
-        return _data.Find(x => x.Id == id);
+        return Data.Find(x => x.Id == id);
     }
 
     public void UpdateUser(User user)
@@ -48,16 +56,19 @@ public class UserJsonRepository : JsonRepositoryBase<User>, IUserRepository
         var toDelete = GetUserById(id);
         if (toDelete is null)
             return;
-        _data.Remove(toDelete);
+        Data.Remove(toDelete);
 
         SaveToJson();
     }
 
     private int GetNewId()
     {
-        if (_data.Any())
-            return _data.Max(x => x.Id) + 1;
+        if (Data.Any())
+            return Data.Max(x => x.Id) + 1;
 
         return 1;
     }
+
+    
+
 }

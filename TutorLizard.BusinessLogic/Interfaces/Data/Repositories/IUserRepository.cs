@@ -1,4 +1,5 @@
 ﻿using TutorLizard.BusinessLogic.Models;
+using TutorLizard.BusinessLogic.Models.DTOs;
 
 namespace TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 public interface IUserRepository
