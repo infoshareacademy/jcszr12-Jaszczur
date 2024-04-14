@@ -64,4 +64,23 @@ public class UserAuthenticationService : IUserAuthenticationService
     {
         return _userService.RegisterUser(username, type, email, password);
     }
+
+    public int? GetLoggedInUserId()
+    {
+        if (_httpContextAccessor.HttpContext is null)
+            return null;
+
+        var identity = _httpContextAccessor.HttpContext.User.Identity as ClaimsIdentity;
+
+        string? nameIdentifier = identity?
+            .Claims?
+            .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?
+            .Value;
+
+        if (int.TryParse(nameIdentifier, out int userId) == false)
+        {
+            return null;
+        }
+        return userId;
+    }
 }
