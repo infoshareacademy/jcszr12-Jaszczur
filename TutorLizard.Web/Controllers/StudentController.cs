@@ -29,13 +29,10 @@ public class StudentController : Controller
         StudentsAcceptedAdsRequest request = new(studentId);
 
         try
-        {
-            if (ModelState.IsValid == false)
-                return View(request);
-            
+        {          
             if(studentId is null)
             {
-                return View(request);
+                return RedirectToAction("AccessDenied", "User");
             }
             request.StudentId = (int)studentId;
 
