@@ -66,7 +66,7 @@ public class StudentController : Controller
             StudentsAdRequestsResponse response = new()
             {
                 //data for tests only
-                AdRequests = [new AdRequestsListDto(1, 1, 1, true, "xyz", "yxz", false)]
+                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "xyz", "yxz", false)]
             };
             return View(response);
         }

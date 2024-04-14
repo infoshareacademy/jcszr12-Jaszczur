@@ -1,17 +1,51 @@
-﻿@model AdRequestDto
+﻿@model AdRequestsListDto
 
 <div class="card my-3">
     <div class="card-body">
+        <h5 class="card-title">@Model.AdId</h5>
+        <div class="row">
+            <div class="col-6 col-sm-3">Ogłoszenie:</div>
+            <div class="col-6 col-sm-9">@Model.AdId</div>
+        </div>
 
-        @if (Model.IsAccepted)
-        {
-            <h6 class="card-subtitle mb-2 text-body-secondary">Tutor zaakceptował twoje zgłoszenie</h6>
-        }
-        @if (Model.IsAccepted is false)
-        {
-            <h6 class="card-subtitle mb-2 text-body-secondary">Tutor odrzucił twoje zgłoszenie</h6>
-        }
-        <p class="card-text">@Model.ReplyMessage</p>
-        <a asp-action="Details" asp-controller="AdRequest" asp-route-id="@Model.Id" class="card-link">Szczegóły</a>
+        <div class="row">
+            <div class="col-6 col-sm-3">Twoja wiadomość</div>
+            <div class="col-6 col-sm-9">@Model.Message</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Odpowiedź:</div>
+            <div class="col-6 col-sm-9">@Model.ReplyMessage</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Nauczanie zdalne:</div>
+            <div class="col-6 col-sm-9">
+                @if (Model.IsRemote)
+                {
+                    <span>Tak</span>
+                }
+                else
+                {
+                    <span>Nie</span>
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Akceptacja:</div>
+            <div class="col-6 col-sm-9">
+                @if (Model.IsAccepted)
+                {
+                    <span>Nauczyciel zaakceptował Twoje zgłoszenie</span>
+                }
+                else
+                {
+                    <span>Nauczyciel nie zaakceptował Twojego zgłoszenia</span>
+                }
+            </div>
+        </div>       
+
+
     </div>
 </div>

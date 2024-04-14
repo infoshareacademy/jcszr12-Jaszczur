@@ -4,7 +4,7 @@
 }
     
 <h1>AdRequests</h1>
-@foreach(var ad in Model.AdRequests)
+@foreach(var adRequest in Model.AdRequests)
 {
-    <partial name=""
+    <partial name="_AdRequests" model="adRequest" />
 }
