@@ -25,15 +25,15 @@ public class StudentController : Controller
 
     public IActionResult AcceptedAds()
     {
-        int? studentId = _userAuthenticationService.GetLoggedInUserId();
-        StudentsAcceptedAdsRequest request = new(studentId);
-
         try
-        {          
-            if(studentId is null)
+        {
+            int? studentId = _userAuthenticationService.GetLoggedInUserId();
+            if (studentId is null)
             {
                 return RedirectToAction("AccessDenied", "User");
             }
+
+            StudentsAcceptedAdsRequest request = new(studentId);
             request.StudentId = (int)studentId;
 
             StudentsAcceptedAdsResponse response = new()
@@ -41,13 +41,12 @@ public class StudentController : Controller
                 // The data is only for tests
                 Ads = [new AdListItemDto(1, 1, "Jan", "Maths", "Matematyka", "opis", 1, "Math", 60, "Warszawa", true)]
             };
+            return View(response);
         }
 
         catch
         {
-            return View(request);
+            return RedirectToAction("Error", "Home");
         }
-        
-        return RedirectToAction(nameof(Index));
     }
 }
