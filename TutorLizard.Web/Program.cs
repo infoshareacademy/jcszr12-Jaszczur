@@ -38,7 +38,6 @@ builder.Services.AddAuthentication("CookieAuth")
         options.Cookie.Name = "CookieAuth";
         options.LoginPath = "/User/Login";
         options.LogoutPath = "/User/Logout";
-        options.ExpireTimeSpan = TimeSpan.FromSeconds(360);
     });
 
 var app = builder.Build();

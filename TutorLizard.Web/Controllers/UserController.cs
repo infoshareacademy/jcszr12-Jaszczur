@@ -140,7 +140,8 @@ public class UserController : Controller
         }
         catch
         {
-            return View("AccessDenied");
+            TempData["LoginUnsuccessful"] = "Could not log in.";
+            return LocalRedirect("/Home/Index");
         }
         TempData["LoginUnsuccessful"] = "Could not log in.";
         return View();
@@ -169,7 +170,8 @@ public class UserController : Controller
         }
         catch
         {
-            return View("AccessDenied");
+            TempData["RegisterUnsuccessful"] = "Could not register.";
+            return LocalRedirect("/Home/Index");
         }
         TempData["RegisterUnsuccessful"] = "Could not register.";
         return LocalRedirect("/Home/Index");
