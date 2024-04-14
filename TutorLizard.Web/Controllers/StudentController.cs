@@ -52,33 +52,30 @@ public class StudentController : Controller
     
     public IActionResult AdRequests()
     {
-        int? studentId = _userAuthenticationService.GetLoggedInUserId();
-        StudentsAdRequestsRequest request = new(studentId);
-
         try
         {
-            if (ModelState.IsValid == false)
+            int? studentId = _userAuthenticationService.GetLoggedInUserId();
+            if(studentId is null)
             {
-                return View(request);
+                return RedirectToAction("AccessDenied", "User");
             }
-                if(studentId is null)
-            {
-                return View(request);
-            }
+
+            StudentsAdRequestsRequest request = new(studentId);
             request.StudentId = (int)studentId;
 
             StudentsAdRequestsResponse response = new()
             {
-                //do poprawy, choć to test
-                AdRequests = [new AdRequestDto(1, 1, 1, true, "xyz", "yxz", "2024, 04, 10", false)]
+                //do poprawy, choć to test - stworzyć kontroler lub nowy dto do tego
+                AdRequests = [new AdRequestDto(1, 1, 1, true, "xyz", "yxz", "2024, 04, 10", false)] 
             };
+            return View(response);
         }
 
         catch
         {
-            return View(request);
+            return RedirectToAction("AccessDenied", "User");
         }
 
-        return RedirectToAction(nameof(Index));
+        
     }
 }
