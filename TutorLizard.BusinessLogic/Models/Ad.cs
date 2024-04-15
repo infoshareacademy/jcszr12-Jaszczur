@@ -14,7 +14,7 @@ public class Ad
               string title,
               string description,
               int categoryId,
-              double price,
+              decimal price,
               string location,
               bool isRemote)
     {
@@ -50,7 +50,7 @@ public class Ad
 
     [Required(ErrorMessage = "Please provide price!")]
     [Range(0, double.MaxValue, ErrorMessage = "The price must be greater than 0!")]
-    public double Price { get; set; }
+    public decimal Price { get; set; }
 
     [Required(ErrorMessage = "Please provide location!")]
     [StringLength(25)]

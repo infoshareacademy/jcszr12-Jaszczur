@@ -13,7 +13,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
 builder.Services.AddTransient<IBrowseService, BrowseService>();
-builder.Services.AddSingleton<DataAccess>();
 builder.Services.AddScoped<IAdRequestRepository, AdRequestJsonRepository>();
 builder.Services.AddScoped<IAdRepository, AdJsonRepository>();
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
