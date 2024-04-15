@@ -9,7 +9,7 @@ namespace TutorLizard.BusinessLogic.Interfaces.Repositories
               string title,
               string description,
               int category,
-              double price,
+              decimal price,
               string location,
               bool isRemote);
         public List<Ad> GetAllAds();
