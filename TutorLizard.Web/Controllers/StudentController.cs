@@ -34,7 +34,6 @@ public class StudentController : Controller
             }
 
             StudentsAcceptedAdsRequest request = new(studentId);
-            request.StudentId = (int)studentId;
 
             StudentsAcceptedAdsResponse response = new()
             {
@@ -61,7 +60,6 @@ public class StudentController : Controller
             }
 
             StudentsAdRequestsRequest request = new(studentId);
-            request.StudentId = (int)studentId;
 
             StudentsAdRequestsResponse response = new()
             {
@@ -76,6 +74,5 @@ public class StudentController : Controller
             return RedirectToAction("AccessDenied", "User");
         }
 
-        
     }
 }
