@@ -34,13 +34,13 @@ public class DbRepository<TEntity, UDbContext> : IDbRepository<TEntity>
         return entity;
     }
 
-    public async Task<TEntity?> Update<VId>(VId id, Action<TEntity> update)
+    public async Task<TEntity?> Update<VId>(VId id, Action<TEntity> updateAction)
     {
         TEntity? toUpdate = await GetById(id);
         if (toUpdate is null)
             return null;
 
-        update.Invoke(toUpdate);
+        updateAction.Invoke(toUpdate);
         await _dbContext.SaveChangesAsync();
 
         return toUpdate;
