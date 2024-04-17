@@ -2,7 +2,8 @@
 using TutorLizard.BusinessLogic.Data.Repositories.DataBase;
 
 namespace TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
-public class DbRepository<TEntity, UDbContext> : IDbRepository<TEntity> where TEntity : class
+public class DbRepository<TEntity, UDbContext> : IDbRepository<TEntity>
+    where TEntity : class
     where UDbContext : DbContext
 {
     private readonly UDbContext _dbContext;
