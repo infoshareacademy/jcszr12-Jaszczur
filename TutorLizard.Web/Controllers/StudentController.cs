@@ -34,7 +34,6 @@ public class StudentController : Controller
             }
 
             StudentsAcceptedAdsRequest request = new(studentId);
-            request.StudentId = (int)studentId;
 
             StudentsAcceptedAdsResponse response = new()
             {
@@ -48,5 +47,32 @@ public class StudentController : Controller
         {
             return RedirectToAction("Error", "Home");
         }
+    }
+    
+    public IActionResult AdRequests()
+    {
+        try
+        {
+            int? studentId = _userAuthenticationService.GetLoggedInUserId();
+            if(studentId is null)
+            {
+                return RedirectToAction("AccessDenied", "User");
+            }
+
+            StudentsAdRequestsRequest request = new(studentId);
+
+            StudentsAdRequestsResponse response = new()
+            {
+                //data for tests only
+                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "xyz", "yxz", false)]
+            };
+            return View(response);
+        }
+
+        catch
+        {
+            return RedirectToAction("AccessDenied", "User");
+        }
+
     }
 }
