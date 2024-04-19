@@ -83,4 +83,52 @@ public class TutorController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+
+    public async Task<IActionResult> CreateScheduleItem()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateScheduleItem(CreateScheduleItemRequest request)
+    {
+        try
+        {
+            if (ModelState.IsValid == false)
+            {
+                return View(request);
+            }
+
+            int? adId = _tutorService.GetUsersAdId();
+            if (adId is null)
+            {
+                return View(request);
+            }
+            request.AdId = (int)adId;
+
+            CreateScheduleItemResponse response = new()
+            {
+                Success = true,
+                CreatedItemId = 1,
+            };
+
+            if (response.Success)
+            {
+                // TODO
+                return View(adId);
+            }
+            else
+            {
+                // TODO
+                RedirectToAction(nameof(Index));
+            }
+        }
+        catch
+        {
+            return View(request);
+        }
+
+        return RedirectToAction(nameof(Index));
+    }
 }

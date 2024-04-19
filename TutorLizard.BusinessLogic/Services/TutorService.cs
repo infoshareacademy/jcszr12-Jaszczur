@@ -10,4 +10,10 @@ public class TutorService : ITutorService
     {
         
     }
+
+    public int? GetUsersAdId()
+    {
+        // TODO
+        return 1;
+    }
 }
