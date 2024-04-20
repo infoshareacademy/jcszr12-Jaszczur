@@ -73,6 +73,10 @@ public class StudentController : Controller
         {
             return RedirectToAction("AccessDenied", "User");
         }
-
     }
+
+   
+
+
+
 }

@@ -29,7 +29,8 @@ public class UserAuthenticationService : IUserAuthenticationService
         {
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.Name, user.Name),
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Role, user.UserType.ToString())
         };
 
         var claimsIdentity = new ClaimsIdentity(
