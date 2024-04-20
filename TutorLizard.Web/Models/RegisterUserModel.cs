@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TutorLizard.BusinessLogic.Models;
+using TutorLizard.BusinessLogic.Enums;
 
 namespace TutorLizard.Web.Models
 {

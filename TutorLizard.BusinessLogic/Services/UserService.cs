@@ -4,6 +4,7 @@ using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Services;
+using TutorLizard.BusinessLogic.Enums;
 
 namespace TutorLizard.BusinessLogic.Services;
 

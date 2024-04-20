@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TutorLizard.BusinessLogic.Enums;
 
 namespace TutorLizard.BusinessLogic.Models;
 
@@ -41,4 +42,3 @@ public class User
     {
     }
 }
-public enum UserType { Tutor, Student, Admin } 
