@@ -50,11 +50,11 @@ public class TutorController : Controller
     {
         try
         {
-            if(ModelState.IsValid == false)
+            if (ModelState.IsValid == false)
                 return View(request);
 
             int? tutorId = _userAuthenticationService.GetLoggedInUserId();
-            if(tutorId is null)
+            if (tutorId is null)
             {
                 return View(request);
             }
@@ -84,9 +84,18 @@ public class TutorController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> CreateScheduleItem()
+    public async Task<IActionResult> CreateScheduleItem(int id, int? userId)
     {
-        return View();
+        int adId = id;
+        IsUserTheAdOwnerRequest request = new IsUserTheAdOwnerRequest(adId, userId);
+        IsUserTheAdOwnerResponse response = await _tutorService.IsUserTheAdOwner(request);
+
+        if (response.IsOwner)
+        {
+            return View();
+        }
+
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]
@@ -100,7 +109,7 @@ public class TutorController : Controller
                 return View(request);
             }
 
-            int? adId = _tutorService.GetUsersAdId();
+            int? adId = request.AdId;
             if (adId is null)
             {
                 return View(request);

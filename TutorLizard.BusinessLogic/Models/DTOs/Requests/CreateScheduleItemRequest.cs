@@ -22,9 +22,11 @@ namespace TutorLizard.BusinessLogic.Models.DTOs.Requests
         }
 
         public int AdId { get; set; }
+        public int UserId { get; set; }
 
         [DisplayName("Data")]
         [Required(ErrorMessage = "To pole jest wymagane")]
         public DateTime DateTime { get; set; }
+
     }
 }

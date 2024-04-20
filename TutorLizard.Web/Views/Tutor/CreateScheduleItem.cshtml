@@ -9,9 +9,9 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateAd">
+        <form asp-action="CreateScheduleItem">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+            <input asp-for="AdId" class="form-control" type="hidden"/>
             <div class="form-group">
                 <label asp-for="DateTime" class="control-label"></label>
                 <input asp-for="DateTime" class="form-control" />
