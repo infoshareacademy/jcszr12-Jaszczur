@@ -20,4 +20,6 @@ public class Category
     [MaxLength(20)]
     public string Name { get; set; }
     public string? Description { get; set; }
+
+    public ICollection<Ad> Ads { get; set; } = new List<Ad>();
 }

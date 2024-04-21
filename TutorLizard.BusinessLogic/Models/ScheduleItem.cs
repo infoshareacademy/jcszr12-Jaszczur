@@ -16,4 +16,7 @@ public class ScheduleItem
     public int Id { get; set; }
     public int AdId { get; set; }
     public DateTime DateTime { get; set; }
+
+    public Ad Ad { get; set; } = null!;
+    public ICollection<ScheduleItemRequest> Requests { get; set; } = new List<ScheduleItemRequest>();
 }

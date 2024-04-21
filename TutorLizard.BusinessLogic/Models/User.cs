@@ -29,6 +29,10 @@ public class User
     [Display(Name = "Data rejestracji")]
     public DateTime DateCreated { get; set; } = DateTime.Now;
 
+    public ICollection<Ad> Ads { get; set; } = new List<Ad>();
+    public ICollection<AdRequest> AdRequests = new List<AdRequest>();
+    public ICollection<ScheduleItemRequest> ScheduleItemRequests = new List<ScheduleItemRequest>();
+
     public User(int id, string name, UserType userType, string email, string passwordHash)
     {
         Id = id;

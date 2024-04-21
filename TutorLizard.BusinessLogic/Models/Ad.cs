@@ -56,4 +56,9 @@ public class Ad
     [StringLength(25)]
     public string Location { get; set; }
     public bool IsRemote { get; set; }
+
+    public Category Category { get; set; } = null!;
+    public User Tutor { get; set; } = null!;
+    public ICollection<ScheduleItem> ScheduleItems { get; set; } = new List<ScheduleItem>();
+    public ICollection<AdRequest> Requests { get; set; } = new List<AdRequest>();
 }

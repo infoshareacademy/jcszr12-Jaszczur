@@ -40,4 +40,7 @@ public class AdRequest
     public string? ReplyMessage { get; set; }
     public DateTime ReviewDate { get; set; }
     public bool IsRemote { get; set; }
+
+    public Ad Ad { get; set; } = null!;
+    public User Student { get; set; } = null!;
 }

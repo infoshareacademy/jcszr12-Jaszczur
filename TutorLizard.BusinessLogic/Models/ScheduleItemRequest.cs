@@ -20,4 +20,7 @@ public class ScheduleItemRequest
     public int StudentId { get; set; }
     public bool IsAccepted {  get; set; }
     public bool IsRemote { get; set; }
+
+    public ScheduleItem ScheduleItem { get; set; } = null!;
+    public User Student { get; set; } = null!;
 }
