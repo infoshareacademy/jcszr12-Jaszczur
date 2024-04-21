@@ -1,20 +1,4 @@
 ﻿<div>
-    @if (TempData.ContainsKey("LoginUnsuccessful"))
-    {
-        <p class="alert alert-danger">@TempData["LoginUnsuccessful"]</p>
-    }
-    @if (TempData.ContainsKey("LoginSuccessful"))
-    {
-        <p class="alert alert-success">@TempData["LoginSuccessful"]</p>
-    }
-    @if (TempData.ContainsKey("RegisterUnsuccessful"))
-    {
-        <p class="alert alert-danger">@TempData["RegisterUnsuccessful"]</p>
-    }
-    @if (TempData.ContainsKey("RegisterSuccessful"))
-    {
-        <p class="alert alert-success">@TempData["RegisterSuccessful"]</p>
-    }
     @if (TempData.ContainsKey(NotificationType.Success))
     {
         <p class="alert alert-success">@TempData[NotificationType.Success]</p>

@@ -3,15 +3,20 @@ using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
+using TutorLizard.Web.Interfaces.Services;
 
 namespace TutorLizard.Web.Controllers
 {
     public class ScheduleItemController : Controller
     {
         private readonly IScheduleItemRepository _scheduleItemRepository;
-        public ScheduleItemController(IScheduleItemRepository scheduleItemRepository)
+        private readonly INotificationService _notificationService;
+
+        public ScheduleItemController(IScheduleItemRepository scheduleItemRepository,
+                                      INotificationService notificationService)
         {
             _scheduleItemRepository = scheduleItemRepository;
+            _notificationService = notificationService;
         }
 
         // GET: ScheduleItemController
@@ -56,7 +61,7 @@ namespace TutorLizard.Web.Controllers
 
                 _scheduleItemRepository.CreateScheduleItem(adId, dateTime);
 
-                TempData["Success"] = "Produkt został dodany";
+                _notificationService.ShowSuccessNotification("Termin został dodany");
                 return RedirectToAction(nameof(Index));
             }
             catch

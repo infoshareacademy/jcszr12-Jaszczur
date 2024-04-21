@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
+using TutorLizard.Web.Interfaces.Services;
 using TutorLizard.Web.Models;
+using TutorLizard.Web.Services;
 
 namespace TutorLizard.Web.Controllers;
 public class UserController : Controller
@@ -12,11 +14,17 @@ public class UserController : Controller
     private readonly IUserRepository _userRepository;
     private readonly IUserService _userService;
     private readonly IUserAuthenticationService _userAuthenticationService;
-    public UserController(IUserRepository userRepository, IUserService userService, IUserAuthenticationService userAuthenticationService)
+    private readonly INotificationService _notificationService;
+
+    public UserController(IUserRepository userRepository,
+                          IUserService userService,
+                          IUserAuthenticationService userAuthenticationService,
+                          INotificationService notificationService)
     {
         _userRepository = userRepository;
         _userService = userService;
         _userAuthenticationService = userAuthenticationService;
+        _notificationService = notificationService;
     }
 
     // GET: User
@@ -134,16 +142,16 @@ public class UserController : Controller
         {
             if (ModelState.IsValid && await _userAuthenticationService.LogInAsync(model.UserName, model.Password))
             {
-                TempData["LoginSuccessful"] = "You are logged in.";
+                _notificationService.ShowSuccessNotification("You are logged in.");
                 return LocalRedirect("/Home/Index");
             }
         }
         catch
         {
-            TempData["LoginUnsuccessful"] = "Could not log in.";
+            _notificationService.ShowFailureNotification("Could not log in.");
             return LocalRedirect("/Home/Index");
         }
-        TempData["LoginUnsuccessful"] = "Could not log in.";
+        _notificationService.ShowFailureNotification("Could not log in.");
         return View();
     }
     [Authorize]
@@ -164,16 +172,16 @@ public class UserController : Controller
         {
             if (ModelState.IsValid && _userAuthenticationService.RegisterUser(model.UserName, UserType.Tutor, model.Email, model.Password)) 
             {
-                TempData["RegisterSuccessful"] = "Registered Successfully";
+                _notificationService.ShowSuccessNotification("Registered Successfully");
                 return LocalRedirect("/Home/Index");
             }
         }
         catch
         {
-            TempData["RegisterUnsuccessful"] = "Could not register.";
+            _notificationService.ShowFailureNotification("Could not register.");
             return LocalRedirect("/Home/Index");
         }
-        TempData["RegisterUnsuccessful"] = "Could not register.";
+        _notificationService.ShowFailureNotification("Could not register.");
         return LocalRedirect("/Home/Index");
     }
 
