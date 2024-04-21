@@ -29,13 +29,15 @@ public class LizardContext : DbContext
             .HasMany(user => user.ScheduleItemRequests)
             .WithOne(request => request.Student)
             .HasForeignKey(request => request.StudentId)
-            .IsRequired();
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<User>()
             .HasMany(user => user.AdRequests)
             .WithOne(request => request.Student)
             .HasForeignKey(request => request.StudentId)
-            .IsRequired();
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Ad>()
             .HasOne(ad => ad.Category)
