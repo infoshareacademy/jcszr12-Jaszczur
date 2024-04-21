@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Cryptography.X509Certificates;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
@@ -84,15 +85,21 @@ public class TutorController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> CreateScheduleItem(int id, int? userId)
+    public async Task<IActionResult> CreateScheduleItem(int id)
     {
         int adId = id;
+        int? userId = _userAuthenticationService.GetLoggedInUserId();
         IsUserTheAdOwnerRequest request = new IsUserTheAdOwnerRequest(adId, userId);
         IsUserTheAdOwnerResponse response = await _tutorService.IsUserTheAdOwner(request);
 
         if (response.IsOwner)
         {
-            return View();
+            CreateScheduleItemRequest model = new CreateScheduleItemRequest
+            {
+                AdId = adId
+            };
+
+            return View(model);
         }
 
         return RedirectToAction(nameof(Index));
@@ -110,12 +117,10 @@ public class TutorController : Controller
             }
 
             int? adId = request.AdId;
-            if (adId is null)
-            {
-                return View(request);
-            }
+
             request.AdId = (int)adId;
 
+            int? userId = _userAuthenticationService.GetLoggedInUserId();
             CreateScheduleItemResponse response = new()
             {
                 Success = true,
@@ -125,7 +130,7 @@ public class TutorController : Controller
             if (response.Success)
             {
                 // TODO
-                return View(adId);
+                return RedirectToAction(nameof(Index));
             }
             else
             {
