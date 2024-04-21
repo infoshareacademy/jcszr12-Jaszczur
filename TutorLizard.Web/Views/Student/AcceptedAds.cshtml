@@ -6,6 +6,6 @@
 <h1>AcceptedAds</h1>
 @foreach(var ad in Model.Ads)
 {
-    <partial name="_AdListItem" model="ad" />
+    <partial name="@PartialNames.AdListItem" model="ad" />
 }
 
