@@ -1,5 +1,6 @@
-using TutorLizard.BusinessLogic.Data;
+using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Data.Repositories.Json;
+using TutorLizard.BusinessLogic.Interfaces.Data;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
@@ -27,6 +28,12 @@ builder.Services
     .ValidateDataAnnotations();
 builder.Services.AddScoped<ITutorService, TutorService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+
+builder.Services.AddDbContext<LizardContext>(configuration =>
+{
+    configuration
+        .UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+});
 
 builder.Services.AddAuthentication("CookieAuth")
     .AddCookie("CookieAuth",options =>
