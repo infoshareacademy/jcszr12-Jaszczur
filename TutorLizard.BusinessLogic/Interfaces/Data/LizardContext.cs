@@ -4,12 +4,16 @@ using TutorLizard.BusinessLogic.Models;
 namespace TutorLizard.BusinessLogic.Interfaces.Data;
 public class LizardContext : DbContext
 {
-    DbSet<Ad> Ads { get; set; }
-    DbSet<AdRequest> AdRequests { get; set; }
-    DbSet<Category> Categories { get; set; }
-    DbSet<ScheduleItem> ScheduleItems { get; set; }
-    DbSet<ScheduleItemRequest> ScheduleItemRequests { get; set; }
-    DbSet<User> Users { get; set; }
+    public LizardContext(DbContextOptions options) : base(options)
+    {
+    }
+
+    DbSet<Ad> Ads { get; set; } = null!;
+    DbSet<AdRequest> AdRequests { get; set; } = null!;
+    DbSet<Category> Categories { get; set; } = null!;
+    DbSet<ScheduleItem> ScheduleItems { get; set; } = null!;
+    DbSet<ScheduleItemRequest> ScheduleItemRequests { get; set; } = null!;
+    DbSet<User> Users { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
