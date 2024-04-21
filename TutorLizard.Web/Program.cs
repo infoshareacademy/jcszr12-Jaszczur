@@ -33,7 +33,8 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddDbContext<LizardContext>(configuration =>
 {
     configuration
-        .UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+        .UseSqlServer(builder.Configuration.GetConnectionString("Default"),
+            b => b.MigrationsAssembly("TutorLizard.Web"));
 });
 
 builder.Services.AddDbRepositories<LizardContext>();
