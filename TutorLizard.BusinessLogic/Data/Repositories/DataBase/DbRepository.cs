@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TutorLizard.BusinessLogic.Data.Repositories.DataBase;
+using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 
-namespace TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
+namespace TutorLizard.BusinessLogic.Data.Repositories.DataBase;
 public class DbRepository<TEntity, UDbContext> : IDbRepository<TEntity>
     where TEntity : class
     where UDbContext : DbContext
