@@ -8,6 +8,7 @@ using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Models.DTOs;
 using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Models.DTOs.Responses;
+using TutorLizard.Web.Interfaces.Services;
 
 namespace TutorLizard.Web.Controllers;
 [Authorize]
@@ -16,14 +17,17 @@ public class TutorController : Controller
     private readonly ITutorService _tutorService;
     private readonly IUserAuthenticationService _userAuthenticationService;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly INotificationService _notificationService;
 
     public TutorController(ITutorService tutorService,
                            IUserAuthenticationService userAuthenticationService,
-                           ICategoryRepository categoryRepository)
+                           ICategoryRepository categoryRepository,
+                           INotificationService notificationService)
     {
         _tutorService = tutorService;
         _userAuthenticationService = userAuthenticationService;
         _categoryRepository = categoryRepository;
+        _notificationService = notificationService;
     }
     public IActionResult Index()
     {
@@ -68,12 +72,12 @@ public class TutorController : Controller
 
             if (response.SuccessfullyCreated)
             {
-                // TODO show notification
+                _notificationService.ShowSuccessNotification("Ogłoszenie zostało dodane");
                 // TODO redirect to created Ad's details
             }
             else
             {
-                // TODO show notification
+                _notificationService.ShowFailureNotification("Wystąpił błąd. Ogłoszenie nie zostało dodane.");
             }
         }
         catch
