@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Models;
 
-namespace TutorLizard.BusinessLogic.Interfaces.Data;
+namespace TutorLizard.BusinessLogic.Data;
 public class LizardContext : DbContext
 {
     public LizardContext(DbContextOptions options) : base(options)
@@ -39,7 +39,7 @@ public class LizardContext : DbContext
 
         modelBuilder.Entity<Ad>()
             .HasOne(ad => ad.Category)
-            .WithMany(category  => category.Ads)
+            .WithMany(category => category.Ads)
             .HasForeignKey(ad => ad.CategoryId)
             .IsRequired();
 
