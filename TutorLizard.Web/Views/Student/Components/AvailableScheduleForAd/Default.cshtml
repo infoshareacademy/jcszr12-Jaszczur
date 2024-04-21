@@ -1,0 +1,33 @@
+﻿@model AvailableScheduleForAdResponse?
+
+
+@if(Model is not null)
+{
+    <h1>Szczegóły ogłoszenia</h1>
+    <div>
+        @if(Model.IsAccepted == true)
+        {
+            <ul>
+                @foreach (var item in Model.Items)
+                {
+                    <li>@item.DateTime</li>
+                     <a href="/Browse/Ads"><button>Zapisz się</button></a>
+                }
+                <h3>Testowe dane</h3>
+                <div>
+                    <ul>
+                        <li>Termin: 10 maja 2024, godzina 15:00, online</li>
+                        <a href="/Browse/Ads"><button>Zapisz się</button></a>
+                    </ul>
+                </div>
+            </ul>
+        }
+
+    </div>
+
+}
+
+
+
+
+

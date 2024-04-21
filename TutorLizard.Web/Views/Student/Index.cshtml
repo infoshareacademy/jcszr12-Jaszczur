@@ -9,4 +9,5 @@
     <li class="list-group-item"><a asp-action="AcceptedAds">Przeglądaj ogłoszenia do których jesteś zaakceptowany</a></li>
 </ul>
 
-@await Component.InvokeAsync(nameof(AcceptedStudentsAdViewComponent))
+@* TODO - pass actual data *@
+@await Component.InvokeAsync(nameof(AvailableScheduleForAd), new { adId = 1 })

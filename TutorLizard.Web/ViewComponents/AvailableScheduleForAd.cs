@@ -5,35 +5,40 @@ using TutorLizard.BusinessLogic.Models.DTOs.Responses;
 
 namespace TutorLizard.Web.ViewComponents
 {
-    public class AcceptedStudentsAdViewComponent : ViewComponent
+    [ViewComponent(Name = "AvailableScheduleForAd")]
+    public class AvailableScheduleForAd : ViewComponent
     {
         private readonly IStudentService _studentService;
         private readonly IUserAuthenticationService _userAuthenticationService;
 
-        public AcceptedStudentsAdViewComponent(IStudentService studentService,
+        public AvailableScheduleForAd(IStudentService studentService,
                                  IUserAuthenticationService userAuthenticationService)
         {
             _studentService = studentService;
             _userAuthenticationService = userAuthenticationService;
         }
 
-        public IViewComponentResult InvokeAsync(int adId)
+        public async Task<IViewComponentResult> InvokeAsync(int adId)
         {
             int? studentId = _userAuthenticationService.GetLoggedInUserId();
             if(studentId is null)
             {
                 return View();
             }
-            AvailableScheduleForAdRequest request = new(adId, (int)studentId);
+            AvailableScheduleForAdRequest request = new(adId, (int)studentId, AvailableScheduleForAdRequest.RequestStatus.Accepted);
 
             AvailableScheduleForAdResponse response = new();
 
-            if (response.IsAccepted)
-            {                
-                return View(response);
+            if (request.Status == AvailableScheduleForAdRequest.RequestStatus.Accepted)
+            {
+                response.IsAccepted = true;
+            }
+            else
+            {
+                response.IsAccepted = false;
             }
 
-            return View();
+            return View(response);
         }
     }
 }

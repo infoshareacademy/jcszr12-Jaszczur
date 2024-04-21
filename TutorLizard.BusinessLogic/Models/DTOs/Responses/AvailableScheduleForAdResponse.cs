@@ -9,7 +9,7 @@ namespace TutorLizard.BusinessLogic.Models.DTOs.Responses
     public class AvailableScheduleForAdResponse
     {
         public List<ScheduleItemDto> Items { get; set; } = new();
-        public bool IsAccepted { get; set; }
+        public bool IsAccepted { get; set; } = true;
 
     }
 }

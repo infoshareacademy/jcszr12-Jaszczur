@@ -11,4 +11,6 @@ public class ScheduleItemDto
         AdId = scheduleItem.AdId;
         DateTime = scheduleItem.DateTime;
     }
+
+
 }
