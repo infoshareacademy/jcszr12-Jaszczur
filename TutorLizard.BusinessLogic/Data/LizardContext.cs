@@ -60,5 +60,10 @@ public class LizardContext : DbContext
             .WithOne(request => request.ScheduleItem)
             .HasForeignKey(request => request.ScheduleItemId)
             .IsRequired();
+
+
+        modelBuilder.Entity<Ad>()
+            .Property(ad => ad.Price)
+            .HasPrecision(7,2);
     }
 }
