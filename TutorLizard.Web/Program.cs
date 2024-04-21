@@ -1,11 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using TutorLizard.BusinessLogic.Data.Repositories.DataBase;
 using TutorLizard.BusinessLogic.Data.Repositories.Json;
+using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Data;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
-using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Options;
 using TutorLizard.BusinessLogic.Services;
 
@@ -37,12 +36,7 @@ builder.Services.AddDbContext<LizardContext>(configuration =>
         .UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
 
-builder.Services.AddScoped<IDbRepository<Ad>, DbRepository<Ad, LizardContext>>();
-builder.Services.AddScoped<IDbRepository<AdRequest>, DbRepository<AdRequest, LizardContext>>();
-builder.Services.AddScoped<IDbRepository<Category>, DbRepository<Category, LizardContext>>();
-builder.Services.AddScoped<IDbRepository<ScheduleItem>, DbRepository<ScheduleItem, LizardContext>>();
-builder.Services.AddScoped<IDbRepository<ScheduleItemRequest>, DbRepository<ScheduleItemRequest, LizardContext>>();
-builder.Services.AddScoped<IDbRepository<User>, DbRepository<User, LizardContext>>();
+builder.Services.AddDbRepositories<LizardContext>();
 
 builder.Services.AddAuthentication("CookieAuth")
     .AddCookie("CookieAuth",options =>
