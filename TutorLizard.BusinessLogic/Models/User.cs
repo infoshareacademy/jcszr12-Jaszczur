@@ -6,27 +6,24 @@ public class User
 {
     public int Id { get; set; }
 
-    [Required(ErrorMessage = "Podaj nazwę użytkownika.")]
-    [Display(Name = "Nazwa użytkownika")]
-    [MinLength(5, ErrorMessage = "Minimalna długość: 5 znaków")]
-    [MaxLength(20, ErrorMessage = "Maksymalna długość: 20 znaków")]
+    [Required]
+    [MinLength(5)]
+    [MaxLength(40)]
     public string Name { get; set; }
 
-    [Display(Name="Typ użytkownika")]
     public UserType UserType { get; set; }
 
-    [Required(ErrorMessage = "Podaj adres email.")]
-    [EmailAddress(ErrorMessage = "Podaj prawidłowy adres email.")]
-    [Display(Name = "Adres email")]
+    [Required]
+    [EmailAddress]
+    [MaxLength(100)]
     public string Email { get; set; }
 
-    [Required(ErrorMessage = "Podaj hasło.")]
+    [Required]
     [DataType(DataType.Password)]
-    [Display(Name = "Hasło")]
-    [MinLength(5, ErrorMessage = "Minimalna długość: 5 znaków")]
+    [MinLength(8)]
+    [MaxLength(100)]
     public string PasswordHash { get; set; }
 
-    [Display(Name = "Data rejestracji")]
     public DateTime DateCreated { get; set; } = DateTime.Now;
 
     public User(int id, string name, UserType userType, string email, string passwordHash)

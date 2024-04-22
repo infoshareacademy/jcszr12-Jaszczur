@@ -19,7 +19,10 @@ public class Category
     [MinLength(1)]
     [MaxLength(20)]
     public string Name { get; set; }
+
+    [MaxLength(150)]
     public string? Description { get; set; }
+    public DateTime DateCreated { get; set; } = DateTime.Now;
 
     // Entity Framework
     public ICollection<Ad> Ads { get; set; } = new List<Ad>();

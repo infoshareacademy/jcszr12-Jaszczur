@@ -20,7 +20,7 @@ public class ScheduleItemRequest
     public int StudentId { get; set; }
     public bool IsAccepted { get; set; }
     public bool IsRemote { get; set; }
-
+    public DateTime DateCreated { get; set; } = DateTime.Now;
     // Entity Framework
     public User User { get; set; } = null!;
     public ScheduleItem ScheduleItem { get; set; } = null!;

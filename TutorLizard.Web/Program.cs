@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Data.Repositories.Json;
-using TutorLizard.BusinessLogic.Entities;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
@@ -44,7 +43,8 @@ builder.Services.AddAuthentication("CookieAuth")
 builder.Services.AddDbContext<JaszczurContext>(configuration =>
 {
     configuration
-        .UseSqlServer(builder.Configuration.GetConnectionString("Jaszczur"))
+        .UseSqlServer(builder.Configuration.GetConnectionString("Default"),
+                    b => b.MigrationsAssembly("TutorLizard.Web"))
         .LogTo(Console.WriteLine, LogLevel.Information);
 });
 

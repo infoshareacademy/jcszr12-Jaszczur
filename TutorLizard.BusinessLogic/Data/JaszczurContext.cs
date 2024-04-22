@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Models;
 
-namespace TutorLizard.BusinessLogic.Entities;
+namespace TutorLizard.BusinessLogic.Data;
 
-public class JaszczurContext :DbContext
+public class JaszczurContext : DbContext
 {
     public JaszczurContext(DbContextOptions<JaszczurContext> options) : base(options)
     {
@@ -21,29 +21,13 @@ public class JaszczurContext :DbContext
             .ValueGeneratedOnAdd();
 
         modelBuilder.Entity<User>()
-            .Property(user => user.Name)
-            .HasMaxLength(20);
-
-        modelBuilder.Entity<User>()
             .Property(user => user.UserType)
-            .HasConversion<int>();
-
-        modelBuilder.Entity<User>()
-            .Property(user => user.Email)
-            .HasMaxLength(50);
-
-        modelBuilder.Entity<User>()
-            .Property(user => user.PasswordHash)
-            .HasMaxLength(50);
-
-        modelBuilder.Entity<User>()
-            .Property(user => user.DateCreated)
-            .HasColumnType("datetime2");
+            .HasConversion<byte>();
 
         modelBuilder.Entity<User>()
             .HasMany(user => user.Ads)
             .WithOne(ad => ad.User)
-            .HasForeignKey(ad =>ad.TutorId)
+            .HasForeignKey(ad => ad.TutorId)
             .HasPrincipalKey(user => user.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
@@ -69,28 +53,8 @@ public class JaszczurContext :DbContext
             .ValueGeneratedOnAdd();
 
         modelBuilder.Entity<Ad>()
-            .Property(ad => ad.Subject)
-            .HasMaxLength(25);
-
-        modelBuilder.Entity<Ad>()
-            .Property(ad => ad.Title)
-            .HasMaxLength(25);
-
-        modelBuilder.Entity<Ad>()
-            .Property(ad => ad.Description)
-            .HasMaxLength(250);
-
-        modelBuilder.Entity<Ad>()
             .Property(ad => ad.Price)
-            .HasColumnType("money");
-
-        modelBuilder.Entity<Ad>()
-            .Property(ad => ad.Location)
-            .HasMaxLength(50);
-
-        modelBuilder.Entity<Ad>()
-            .Property(ad => ad.IsRemote)
-            .HasColumnType("bit");
+            .HasPrecision(7, 2);
 
         modelBuilder.Entity<Ad>()
             .HasOne(ad => ad.Category)
@@ -119,40 +83,12 @@ public class JaszczurContext :DbContext
             .Property(adrequest => adrequest.Id)
             .ValueGeneratedOnAdd();
 
-        modelBuilder.Entity<AdRequest>()
-            .Property(adrequest => adrequest.IsAccepted)
-            .HasColumnType("bit");
-
-        modelBuilder.Entity<AdRequest>()
-            .Property(adrequest => adrequest.Message)
-            .HasMaxLength(150);
-
-        modelBuilder.Entity<AdRequest>()
-            .Property(adrequest => adrequest.ReplyMessage)
-            .HasMaxLength (150);
-
-        modelBuilder.Entity<AdRequest>()
-            .Property(adrequest => adrequest.ReviewDate)
-            .HasColumnType("datetime2");
-
-        modelBuilder.Entity<AdRequest>()
-            .Property(adrequest => adrequest.IsRemote)
-            .HasColumnType("bit");
-
         // Category
         modelBuilder.Entity<Category>()
             .HasKey(category => category.Id);
         modelBuilder.Entity<Category>()
             .Property(category => category.Id)
             .ValueGeneratedOnAdd();
-
-        modelBuilder.Entity<Category>()
-            .Property(category => category.Name)
-            .HasMaxLength(20);
-
-        modelBuilder.Entity<Category>()
-            .Property(category => category.Description)
-            .HasMaxLength(250);
 
         modelBuilder.Entity<Category>()
             .HasMany(category => category.Ads)
@@ -169,10 +105,6 @@ public class JaszczurContext :DbContext
             .ValueGeneratedOnAdd();
 
         modelBuilder.Entity<ScheduleItem>()
-            .Property(item => item.DateTime)
-            .HasColumnType("datetime2");
-
-        modelBuilder.Entity<ScheduleItem>()
             .HasMany(item => item.ScheduleItemRequests)
             .WithOne(itemrequest => itemrequest.ScheduleItem)
             .HasPrincipalKey(item => item.Id)
@@ -185,14 +117,6 @@ public class JaszczurContext :DbContext
         modelBuilder.Entity<ScheduleItemRequest>()
             .Property(itemrequest => itemrequest.Id)
             .ValueGeneratedOnAdd();
-
-        modelBuilder.Entity<ScheduleItemRequest>()
-            .Property(itemrequest => itemrequest.IsAccepted)
-            .HasColumnType("bit");
-
-        modelBuilder.Entity<ScheduleItemRequest>()
-            .Property(itemrequest => itemrequest.IsRemote)
-            .HasColumnType("bit");
     }
 
     public DbSet<User> Users { get; set; }
