@@ -229,7 +229,7 @@ namespace TutorLizard.Web.Migrations
                     b.HasOne("TutorLizard.BusinessLogic.Models.User", "User")
                         .WithMany("Ads")
                         .HasForeignKey("TutorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");

@@ -12,8 +12,8 @@ using TutorLizard.BusinessLogic.Entities;
 namespace TutorLizard.Web.Migrations
 {
     [DbContext(typeof(JaszczurContext))]
-    [Migration("20240422091744_Add-Migration Initial-Migration")]
-    partial class AddMigrationInitialMigration
+    [Migration("20240422092010_Initial-Migration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -232,7 +232,7 @@ namespace TutorLizard.Web.Migrations
                     b.HasOne("TutorLizard.BusinessLogic.Models.User", "User")
                         .WithMany("Ads")
                         .HasForeignKey("TutorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
