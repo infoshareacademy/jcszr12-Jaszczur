@@ -39,5 +39,9 @@ public class AdRequest
     public string Message { get; set; }
     public string? ReplyMessage { get; set; }
     public DateTime ReviewDate { get; set; }
-    public bool IsRemote { get; set; }
+    public bool IsRemote { get; set; }    
+    
+    // Entity Framework
+    public User User { get; set; } = null!;
+    public Ad Ad { get; set; } = null!;
 }

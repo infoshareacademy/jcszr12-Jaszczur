@@ -56,4 +56,10 @@ public class Ad
     [StringLength(25)]
     public string Location { get; set; }
     public bool IsRemote { get; set; }
+
+    // Entity Framework
+    public User User { get; set; } = null!;
+    public Category Category { get; set; } = null!;
+    public ICollection<AdRequest> AdRequests { get; set; } = new List<AdRequest>();
+    public ICollection<ScheduleItem> ScheduleItems { get; set; } = new List<ScheduleItem>();
 }

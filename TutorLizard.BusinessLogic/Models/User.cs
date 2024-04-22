@@ -40,5 +40,10 @@ public class User
     public User()
     {
     }
+
+    // Entity Framework
+    public ICollection<Ad> Ads { get; set; } = new List<Ad>();
+    public ICollection<AdRequest> AdRequests { get; set; } = new List<AdRequest>();
+    public ICollection<ScheduleItemRequest> ScheduleItemRequests { get; set; } = new List<ScheduleItemRequest>();
 }
 public enum UserType { Tutor, Student, Admin } 
