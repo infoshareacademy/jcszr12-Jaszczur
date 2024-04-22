@@ -139,7 +139,6 @@ public class JaszczurContext :DbContext
             .Property(adrequest => adrequest.IsRemote)
             .HasColumnType("bit");
 
-
         // Category
         modelBuilder.Entity<Category>()
             .HasKey(category => category.Id);
