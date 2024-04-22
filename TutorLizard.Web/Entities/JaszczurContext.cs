@@ -40,6 +40,27 @@ public class JaszczurContext :DbContext
             .Property(user => user.DateCreated)
             .HasColumnType("datetime2");
 
+        modelBuilder.Entity<User>()
+            .HasMany(user => user.Ads)
+            .WithOne(ad => ad.User)
+            .HasForeignKey(ad =>ad.TutorId)
+            .HasPrincipalKey(user => user.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<User>()
+            .HasMany(user => user.AdRequests)
+            .WithOne(adrequest => adrequest.User)
+            .HasForeignKey(adrequest => adrequest.StudentId)
+            .HasPrincipalKey(user => user.Id)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<User>()
+            .HasMany(user => user.ScheduleItemRequests)
+            .WithOne(itemrequest => itemrequest.User)
+            .HasPrincipalKey(user => user.Id)
+            .HasForeignKey(itemrequest => itemrequest.StudentId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         // Ad 
         modelBuilder.Entity<Ad>()
             .HasKey(ad => ad.Id);
@@ -78,16 +99,17 @@ public class JaszczurContext :DbContext
             .HasPrincipalKey(category => category.Id);
 
         modelBuilder.Entity<Ad>()
-            .HasOne(ad => ad.User)
-            .WithMany(user => user.Ads)
-            .HasForeignKey(ad => ad.TutorId)
-            .HasPrincipalKey(user => user.Id)
-            .OnDelete(DeleteBehavior.Restrict); 
-        modelBuilder.Entity<Ad>()
             .HasMany(ad => ad.AdRequests)
             .WithOne(adrequest => adrequest.Ad)
             .HasPrincipalKey(ad => ad.Id)
             .HasForeignKey(adrequest => adrequest.AdId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Ad>()
+            .HasMany(ad => ad.ScheduleItems)
+            .WithOne(item => item.Ad)
+            .HasPrincipalKey(ad => ad.Id)
+            .HasForeignKey(item => item.AdId)
             .OnDelete(DeleteBehavior.Cascade);
 
         // AdRequest
@@ -117,19 +139,6 @@ public class JaszczurContext :DbContext
             .Property(adrequest => adrequest.IsRemote)
             .HasColumnType("bit");
 
-        modelBuilder.Entity<AdRequest>()
-            .HasOne(adrequest => adrequest.User)
-            .WithMany(user => user.AdRequests)
-            .HasForeignKey(adrequest => adrequest.StudentId)
-            .HasPrincipalKey(user => user.Id)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<AdRequest>()
-            .HasOne(adrequest => adrequest.Ad)
-            .WithMany(ad => ad.AdRequests)
-            .HasForeignKey(adrequest => adrequest.AdId)
-            .HasPrincipalKey(ad => ad.Id)
-            .OnDelete(DeleteBehavior.Cascade);
 
         // Category
         modelBuilder.Entity<Category>()
@@ -165,10 +174,10 @@ public class JaszczurContext :DbContext
             .HasColumnType("datetime2");
 
         modelBuilder.Entity<ScheduleItem>()
-            .HasOne(item => item.Ad)
-            .WithMany(ad => ad.ScheduleItems)
-            .HasForeignKey(item => item.AdId)
-            .HasPrincipalKey(ad => ad.Id)
+            .HasMany(item => item.ScheduleItemRequests)
+            .WithOne(itemrequest => itemrequest.ScheduleItem)
+            .HasPrincipalKey(item => item.Id)
+            .HasForeignKey(itemrequest => itemrequest.ScheduleItemId)
             .OnDelete(DeleteBehavior.Cascade);
 
         // ScheduleItemRequest
@@ -185,19 +194,6 @@ public class JaszczurContext :DbContext
         modelBuilder.Entity<ScheduleItemRequest>()
             .Property(itemrequest => itemrequest.IsRemote)
             .HasColumnType("bit");
-
-        modelBuilder.Entity<ScheduleItemRequest>()
-            .HasOne(itemrequest => itemrequest.User)
-            .WithMany(user => user.ScheduleItemRequests)
-            .HasForeignKey(itemrequest => itemrequest.StudentId)
-            .HasPrincipalKey(user => user.Id);
-
-        modelBuilder.Entity<ScheduleItemRequest>()
-            .HasOne(itemrequest => itemrequest.ScheduleItem)
-            .WithMany(item => item.ScheduleItemRequests)
-            .HasForeignKey(itemrequest => itemrequest.ScheduleItemId)
-            .HasPrincipalKey(item => item.Id)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 
     public DbSet<User> Users { get; set; }
