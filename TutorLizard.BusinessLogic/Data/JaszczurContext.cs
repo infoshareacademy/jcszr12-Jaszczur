@@ -57,12 +57,6 @@ public class JaszczurContext : DbContext
             .HasPrecision(7, 2);
 
         modelBuilder.Entity<Ad>()
-            .HasOne(ad => ad.Category)
-            .WithMany(category => category.Ads)
-            .HasForeignKey(ad => ad.CategoryId)
-            .HasPrincipalKey(category => category.Id);
-
-        modelBuilder.Entity<Ad>()
             .HasMany(ad => ad.AdRequests)
             .WithOne(adrequest => adrequest.Ad)
             .HasPrincipalKey(ad => ad.Id)
