@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
@@ -9,10 +10,10 @@ using TutorLizard.Web.Models;
 namespace TutorLizard.Web.Controllers;
 public class UserController : Controller
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IDbRepository<User> _userRepository;
     private readonly IUserService _userService;
     private readonly IUserAuthenticationService _userAuthenticationService;
-    public UserController(IUserRepository userRepository, IUserService userService, IUserAuthenticationService userAuthenticationService)
+    public UserController(IDbRepository<User> userRepository, IUserService userService, IUserAuthenticationService userAuthenticationService)
     {
         _userRepository = userRepository;
         _userService = userService;
@@ -20,9 +21,9 @@ public class UserController : Controller
     }
 
     // GET: User
-    public ActionResult Index()
+    public async Task<ActionResult> Index()
     {
-        var model = _userRepository.GetAllUsers();
+        var model = await _userRepository.GetAll().ToListAsync();
         foreach (var user in model)
         {
             user.PasswordHash = "***";
@@ -31,9 +32,9 @@ public class UserController : Controller
     }
 
     // GET: User/Details/5
-    public ActionResult Details(int id)
+    public async Task<ActionResult> Details(int id)
     {
-        var model = _userRepository.GetUserById(id);
+        var model = await _userRepository.GetById(id);
         if (model is null)
             return RedirectToAction(nameof(Index));
         model.PasswordHash = "***";
@@ -49,15 +50,18 @@ public class UserController : Controller
     // POST: User/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Create(User model)
+    public async Task<ActionResult> Create(User model)
     {
+        ModelState.Remove(nameof(BusinessLogic.Models.User.Ads));
+        ModelState.Remove(nameof(BusinessLogic.Models.User.AdRequests));
+        ModelState.Remove(nameof(BusinessLogic.Models.User.ScheduleItemRequests));
         try
         {
             if (ModelState.IsValid)
             {
                 PasswordHasher<User> hasher = new();
                 model.PasswordHash = hasher.HashPassword(model, model.PasswordHash);
-                _userRepository.CreateUser(model.Name, model.UserType, model.Email, model.PasswordHash);
+                await _userRepository.Create(model);
             }
             return RedirectToAction(nameof(Index));
         }
@@ -68,9 +72,9 @@ public class UserController : Controller
     }
 
     // GET: User/Edit/5
-    public ActionResult Edit(int id)
+    public async Task<ActionResult> Edit(int id)
     {
-        var model = _userRepository.GetUserById(id);
+        var model = await _userRepository.GetById(id);
         if (model is null)
             return RedirectToAction(nameof(Index));
         return View(model);
@@ -79,15 +83,24 @@ public class UserController : Controller
     // POST: User/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit(int id, User model)
+    public async Task<ActionResult> Edit(int id, User model)
     {
+        ModelState.Remove(nameof(BusinessLogic.Models.User.Ads));
+        ModelState.Remove(nameof(BusinessLogic.Models.User.AdRequests));
+        ModelState.Remove(nameof(BusinessLogic.Models.User.ScheduleItemRequests));
         try
         {
             if (ModelState.IsValid)
             {
                 PasswordHasher<User> hasher = new();
                 model.PasswordHash = hasher.HashPassword(model, model.PasswordHash);
-                _userRepository.UpdateUser(model);
+                await _userRepository.Update(model.Id, user =>
+                {
+                    user.Name = model.Name;
+                    user.UserType = model.UserType;
+                    user.Email = model.Email;
+                    user.PasswordHash = model.PasswordHash;
+                });
             }                
             return RedirectToAction(nameof(Index));
         }
@@ -98,9 +111,9 @@ public class UserController : Controller
     }
 
     // GET: User/Delete/5
-    public ActionResult Delete(int id)
+    public async Task<ActionResult> Delete(int id)
     {
-        var model = _userRepository.GetUserById(id);
+        var model = await _userRepository.GetById(id);
         if (model is null)
             return RedirectToAction(nameof(Index));
         return View(model);
@@ -109,11 +122,11 @@ public class UserController : Controller
     // POST: User/Delete/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Delete(int id, User model)
+    public async Task<ActionResult> Delete(int id, User model)
     {
         try
         {
-            _userRepository.DeleteUserById(model.Id);
+            await _userRepository.Delete(model.Id);
             return RedirectToAction(nameof(Index));
         }
         catch
