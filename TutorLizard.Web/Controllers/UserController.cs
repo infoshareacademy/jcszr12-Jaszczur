@@ -171,11 +171,12 @@ public class UserController : Controller
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Register(RegisterUserModel model)
+    public async Task<IActionResult> Register(RegisterUserModel model)
     {
         try
         {
-            if (ModelState.IsValid && _userAuthenticationService.RegisterUser(model.UserName, UserType.Tutor, model.Email, model.Password)) 
+            if (ModelState.IsValid 
+                && await _userAuthenticationService.RegisterUser(model.UserName, UserType.Tutor, model.Email, model.Password)) 
             {
                 TempData["RegisterSuccessful"] = "Registered Successfully";
                 return LocalRedirect("/Home/Index");
