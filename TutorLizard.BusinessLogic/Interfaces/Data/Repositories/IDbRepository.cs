@@ -1,5 +1,4 @@
-﻿
-namespace TutorLizard.BusinessLogic.Data.Repositories.DataBase;
+﻿namespace TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 
 public interface IDbRepository<TEntity> where TEntity : class
 {
