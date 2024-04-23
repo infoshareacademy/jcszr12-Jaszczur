@@ -83,4 +83,31 @@ public class TutorController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+
+    public IActionResult ViewPendingAdRequests()
+    {
+        try
+        {
+            int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+            if (tutorId is null)
+            {
+                return RedirectToAction("AccessDenied", "User");
+            }
+
+            TutorsPendingAdRequestsRequest request = new(tutorId);
+
+            TutorsPendingAdRequestsResponse response = new()
+            {
+                // The data is only for tests
+                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true),
+                new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false)]
+            };
+            return View(response);
+        }
+
+        catch
+        {
+            return RedirectToAction("Error", "Home");
+        }
+    }
 }
