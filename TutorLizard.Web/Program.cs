@@ -1,11 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Data;
-using TutorLizard.BusinessLogic.Data.Repositories.DataBase;
 using TutorLizard.BusinessLogic.Data.Repositories.Json;
+using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
-using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Options;
 using TutorLizard.BusinessLogic.Services;
 
@@ -32,7 +31,7 @@ builder.Services.AddScoped<ITutorService, TutorService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 
 builder.Services.AddAuthentication("CookieAuth")
-    .AddCookie("CookieAuth",options =>
+    .AddCookie("CookieAuth", options =>
     {
         options.ExpireTimeSpan = TimeSpan.FromDays(1);
         options.SlidingExpiration = true;
@@ -50,12 +49,7 @@ builder.Services.AddDbContext<JaszczurContext>(configuration =>
         .LogTo(Console.WriteLine, LogLevel.Information);
 });
 
-builder.Services.AddScoped<IDbRepository<Ad>, DbRepository<Ad, JaszczurContext>>();
-builder.Services.AddScoped<IDbRepository<AdRequest>, DbRepository<AdRequest, JaszczurContext>>();
-builder.Services.AddScoped<IDbRepository<Category>, DbRepository<Category, JaszczurContext>>();
-builder.Services.AddScoped<IDbRepository<ScheduleItem>, DbRepository<ScheduleItem, JaszczurContext>>();
-builder.Services.AddScoped<IDbRepository<ScheduleItemRequest>, DbRepository<ScheduleItemRequest, JaszczurContext>>();
-builder.Services.AddScoped<IDbRepository<User>, DbRepository<User, JaszczurContext>>();
+builder.Services.AddTutorLizardDbRepositories<JaszczurContext>();
 
 var app = builder.Build();
 
