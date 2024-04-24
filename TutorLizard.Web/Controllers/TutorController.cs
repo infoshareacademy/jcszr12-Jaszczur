@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.IdentityModel.Tokens;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
@@ -16,14 +18,17 @@ public class TutorController : Controller
     private readonly ITutorService _tutorService;
     private readonly IUserAuthenticationService _userAuthenticationService;
     private readonly ICategoryRepository _categoryRepository;
+    //private readonly IAdRequestRepository _adRequestRepository;
 
     public TutorController(ITutorService tutorService,
                            IUserAuthenticationService userAuthenticationService,
-                           ICategoryRepository categoryRepository)
+                           ICategoryRepository categoryRepository/*,
+                           IAdRequestRepository adRequestRepository*/)
     {
         _tutorService = tutorService;
         _userAuthenticationService = userAuthenticationService;
         _categoryRepository = categoryRepository;
+        //_adRequestRepository = adRequestRepository;
     }
     public IActionResult Index()
     {
@@ -50,11 +55,11 @@ public class TutorController : Controller
     {
         try
         {
-            if(ModelState.IsValid == false)
+            if (ModelState.IsValid == false)
                 return View(request);
 
             int? tutorId = _userAuthenticationService.GetLoggedInUserId();
-            if(tutorId is null)
+            if (tutorId is null)
             {
                 return View(request);
             }
@@ -100,11 +105,48 @@ public class TutorController : Controller
             {
                 // The data is only for tests
                 AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true),
-                new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false)]
+                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false)]
             };
             return View(response);
         }
 
+        catch
+        {
+            return RedirectToAction("Error", "Home");
+        }
+    }
+    [HttpPost]
+    public IActionResult UpdatePendingAdRequest(IFormCollection buttonAction, int adRequestId)
+    {
+        int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+        if (tutorId is null)
+        {
+            return RedirectToAction("AccessDenied", "User");
+        }
+
+        UpdateTutorsPendingAdRequestRequest request = new(adRequestId);
+
+        UpdateTutorsPendingAdRequestResponse response = new();
+
+        try
+        {
+            if (!buttonAction["btnAccept"].IsNullOrEmpty())
+            {
+                // TODO: Move accept logic to a service
+                // _adRequestRepository.GetAdRequestById(adRequestId).IsAccepted = true;
+                // return RedirectToAction("ViewPendingAdRequests");
+            }
+
+            if (!buttonAction["btnReject"].IsNullOrEmpty())
+            {
+                // TODO: Move reject logic to a service
+                // var result = _adRequestRepository.GetAdRequestById(adRequestId);
+                // _adRequestRepository.GetAllAdRequests().Remove(result);
+
+                return RedirectToAction("ViewPendingAdRequests");
+            }
+            return RedirectToPage("ViewPendingAdRequests");
+        }
         catch
         {
             return RedirectToAction("Error", "Home");

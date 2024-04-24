@@ -27,5 +27,11 @@
                 }
             </div>
         </div>
+        <form asp-controller="Tutor" asp-action="UpdatePendingAdRequest" method="post">
+             <div class="form-group my-3">
+                 <input type="submit" id="btnAccept" name="btnAccept" value="Akceptuj" class="btn btn-lg btn-success" />
+                 <input type="submit" id="btnReject" name="btnReject" value="Odrzuæ" class="btn btn-lg btn-danger" />
+             </div>
+        </form>
     </div>
 </div>
