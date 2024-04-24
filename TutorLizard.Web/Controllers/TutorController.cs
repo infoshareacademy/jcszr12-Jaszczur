@@ -134,7 +134,7 @@ public class TutorController : Controller
             {
                 // TODO: Move accept logic to a service
                 // _adRequestRepository.GetAdRequestById(adRequestId).IsAccepted = true;
-                // return RedirectToAction("ViewPendingAdRequests");
+                return RedirectToAction("ViewPendingAdRequests");
             }
 
             if (!buttonAction["btnReject"].IsNullOrEmpty())
