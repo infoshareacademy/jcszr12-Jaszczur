@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
@@ -7,22 +8,22 @@ using TutorLizard.BusinessLogic.Models;
 namespace TutorLizard.Web.Controllers;
 public class CategoryController : Controller
 {
-    private readonly ICategoryRepository _categoryRepository;
-    public CategoryController(ICategoryRepository categoryRepository)
+    private readonly IDbRepository<Category> _categoryRepository;
+    public CategoryController(IDbRepository<Category> categoryRepository)
     {
         _categoryRepository = categoryRepository;
     }
     // GET: CategoryController
-    public ActionResult Index()
+    public async Task<ActionResult> Index()
     {
-        var model = _categoryRepository.GetAllCategories();
+        var model = await _categoryRepository.GetAll().ToListAsync();
         return View(model);
     }
 
     // GET: CategoryController/Details/5
-    public ActionResult Details(int id)
+    public async Task<ActionResult> Details(int id)
     {
-        var model = _categoryRepository.GetCategoryById(id);
+        var model = await _categoryRepository.GetById(id);
         if (model is null)
             return RedirectToAction(nameof(Index));
         return View(model);
@@ -37,14 +38,15 @@ public class CategoryController : Controller
     // POST: CategoryController/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Create(Category model)
+    public async Task<ActionResult> Create(Category model)
     {
+        ModelState.Remove(nameof(Category.Ads));
         try
         {
             if (ModelState.IsValid == false)
                 return View(model);
 
-            _categoryRepository.CreateCategory(model.Name, model.Description);
+            await _categoryRepository.Create(model);
             return RedirectToAction(nameof(Index));
         }
         catch
@@ -54,9 +56,9 @@ public class CategoryController : Controller
     }
 
     // GET: CategoryController/Edit/5
-    public ActionResult Edit(int id)
+    public async Task<ActionResult> Edit(int id)
     {
-        var model = _categoryRepository.GetCategoryById(id);
+        var model = await _categoryRepository.GetById(id);
         if (model is null)
             return RedirectToAction(nameof(Index));
         return View(model);
@@ -65,14 +67,19 @@ public class CategoryController : Controller
     // POST: CategoryController/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit(int id, Category model)
+    public async Task<ActionResult> Edit(int id, Category model)
     {
+        ModelState.Remove(nameof(Category.Ads));
         try
         {
             if (ModelState.IsValid == false)
                 return View(model);
 
-            _categoryRepository.UpdateCategory(model);
+            await _categoryRepository.Update(model.Id, category =>
+            {
+                category.Name = model.Name;
+                category.Description = model.Description;
+            });
             return RedirectToAction(nameof(Index));
         }
         catch
@@ -82,9 +89,9 @@ public class CategoryController : Controller
     }
 
     // GET: CategoryController/Delete/5
-    public ActionResult Delete(int id)
+    public async Task<ActionResult> Delete(int id)
     {
-        var model = _categoryRepository.GetCategoryById(id);
+        var model = await _categoryRepository.GetById(id);
         if (model is null)
             return RedirectToAction(nameof(Index));
         return View(model);
@@ -93,11 +100,11 @@ public class CategoryController : Controller
     // POST: CategoryController/Delete/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Delete(int id, Category model)
+    public async Task<ActionResult> Delete(int id, Category model)
     {
         try
         {
-            _categoryRepository.DeleteCategoryById(id);
+            await _categoryRepository.Delete(id);
             return RedirectToAction(nameof(Index));
         }
         catch

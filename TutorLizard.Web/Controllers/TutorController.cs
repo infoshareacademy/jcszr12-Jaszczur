@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
@@ -16,12 +17,12 @@ public class TutorController : Controller
 {
     private readonly ITutorService _tutorService;
     private readonly IUserAuthenticationService _userAuthenticationService;
-    private readonly ICategoryRepository _categoryRepository;
+    private readonly IDbRepository<Category> _categoryRepository;
     private readonly INotificationService _notificationService;
 
     public TutorController(ITutorService tutorService,
                            IUserAuthenticationService userAuthenticationService,
-                           ICategoryRepository categoryRepository,
+                           IDbRepository<Category> categoryRepository,
                            INotificationService notificationService)
     {
         _tutorService = tutorService;
@@ -37,13 +38,7 @@ public class TutorController : Controller
     public async Task<IActionResult> CreateAd()
     {
         // TODO - move obtaining categories to some service
-        List<CategoryDto> categories = _categoryRepository
-            .GetAllCategories()
-            .Select(c => c.ToDto())
-            .ToList();
-        ViewBag.Categories = new SelectList(items: categories,
-                                            dataValueField: nameof(Category.Id),
-                                            dataTextField: nameof(Category.Name));
+        await AddCategoriesToViewBag();
 
         return View();
     }
@@ -86,5 +81,18 @@ public class TutorController : Controller
         }
 
         return RedirectToAction(nameof(Index));
+    }
+
+    private async Task AddCategoriesToViewBag()
+    {
+        List<Category> categories = await _categoryRepository
+                        .GetAll()
+                        .ToListAsync();
+
+        List<CategoryDto> categoryDtos = categories.Select(c => c.ToDto()).ToList();
+
+        ViewBag.Categories = new SelectList(items: categoryDtos,
+                                            dataValueField: nameof(CategoryDto.Id),
+                                            dataTextField: nameof(CategoryDto.Name));
     }
 }

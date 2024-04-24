@@ -1,6 +1,6 @@
-using TutorLizard.BusinessLogic.Data.Repositories.Json;
-using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
-using TutorLizard.BusinessLogic.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
+using TutorLizard.BusinessLogic.Data;
+using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Options;
 using TutorLizard.BusinessLogic.Services;
@@ -14,14 +14,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
 builder.Services.AddTransient<IBrowseService, BrowseService>();
-builder.Services.AddScoped<IAdRequestRepository, AdRequestJsonRepository>();
-builder.Services.AddScoped<IAdRepository, AdJsonRepository>();
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IScheduleItemRepository, ScheduleItemJsonRepository>();
-builder.Services.AddScoped<IScheduleItemRequestRepository, ScheduleItemRequestJsonRepository>();
-builder.Services.AddScoped<IUserRepository, UserJsonRepository>();
-builder.Services.AddScoped<ICategoryRepository, CategoryJsonRepository>();
 builder.Services
     .AddOptions<DataJsonFilePaths>()
     .Bind(builder.Configuration.GetSection(nameof(DataJsonFilePaths)))
@@ -31,7 +25,7 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 
 builder.Services.AddAuthentication("CookieAuth")
-    .AddCookie("CookieAuth",options =>
+    .AddCookie("CookieAuth", options =>
     {
         options.ExpireTimeSpan = TimeSpan.FromDays(1);
         options.SlidingExpiration = true;
@@ -40,6 +34,16 @@ builder.Services.AddAuthentication("CookieAuth")
         options.LoginPath = "/User/Login";
         options.LogoutPath = "/User/Logout";
     });
+
+builder.Services.AddDbContext<JaszczurContext>(configuration =>
+{
+    configuration
+        .UseSqlServer(builder.Configuration.GetConnectionString("Default"),
+                    b => b.MigrationsAssembly("TutorLizard.Web"))
+        .LogTo(Console.WriteLine, LogLevel.Information);
+});
+
+builder.Services.AddTutorLizardDbRepositories<JaszczurContext>();
 
 var app = builder.Build();
 

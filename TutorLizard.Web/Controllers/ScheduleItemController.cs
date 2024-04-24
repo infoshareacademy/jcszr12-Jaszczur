@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using TutorLizard.BusinessLogic.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.Web.Interfaces.Services;
@@ -9,10 +9,9 @@ namespace TutorLizard.Web.Controllers
 {
     public class ScheduleItemController : Controller
     {
-        private readonly IScheduleItemRepository _scheduleItemRepository;
+        private readonly IDbRepository<ScheduleItem> _scheduleItemRepository;
         private readonly INotificationService _notificationService;
-
-        public ScheduleItemController(IScheduleItemRepository scheduleItemRepository,
+        public ScheduleItemController(IDbRepository<ScheduleItem> scheduleItemRepository,
                                       INotificationService notificationService)
         {
             _scheduleItemRepository = scheduleItemRepository;
@@ -20,17 +19,17 @@ namespace TutorLizard.Web.Controllers
         }
 
         // GET: ScheduleItemController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(_scheduleItemRepository.GetAllScheduleItems());
+            return View(await _scheduleItemRepository.GetAll().ToListAsync());
         }
 
         // GET: ScheduleItemController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            var model = _scheduleItemRepository.GetScheduleItemById(id);
+            var model = await _scheduleItemRepository.GetById(id);
 
-            if(model == null)
+            if (model == null)
             {
                 return RedirectToAction("Index");
             }
@@ -47,8 +46,10 @@ namespace TutorLizard.Web.Controllers
         // POST: ScheduleItemController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ScheduleItem model)
+        public async Task<ActionResult> Create(ScheduleItem model)
         {
+            ModelState.Remove(nameof(ScheduleItem.Ad));
+            ModelState.Remove(nameof(ScheduleItem.ScheduleItemRequests));
             try
             {
                 if (!ModelState.IsValid)
@@ -59,7 +60,7 @@ namespace TutorLizard.Web.Controllers
                 int adId = model.AdId;
                 DateTime dateTime = model.DateTime;
 
-                _scheduleItemRepository.CreateScheduleItem(adId, dateTime);
+                await _scheduleItemRepository.Create(model);
 
                 _notificationService.ShowSuccessNotification("Termin został dodany");
                 return RedirectToAction(nameof(Index));
@@ -71,9 +72,9 @@ namespace TutorLizard.Web.Controllers
         }
 
         // GET: ScheduleItemController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var model = _scheduleItemRepository.GetScheduleItemById(id);
+            var model = await _scheduleItemRepository.GetById(id);
 
             if (model == null)
             {
@@ -86,11 +87,21 @@ namespace TutorLizard.Web.Controllers
         // POST: ScheduleItemController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, ScheduleItem model)
+        public async Task<ActionResult> Edit(int id, ScheduleItem model)
         {
+            ModelState.Remove(nameof(ScheduleItem.Ad));
+            ModelState.Remove(nameof(ScheduleItem.ScheduleItemRequests));
             try
             {
-                _scheduleItemRepository.UpdateScheduleItem(model);
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                await _scheduleItemRepository.Update(model.Id, scheduleItem =>
+                {
+                    scheduleItem.AdId = model.AdId;
+                    scheduleItem.DateTime = model.DateTime;
+                });
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -100,9 +111,9 @@ namespace TutorLizard.Web.Controllers
         }
 
         // GET: ScheduleItemController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var model = _scheduleItemRepository.GetScheduleItemById(id);
+            var model = await _scheduleItemRepository.GetById(id);
 
             if (model == null)
             {
@@ -115,11 +126,11 @@ namespace TutorLizard.Web.Controllers
         // POST: ScheduleItemController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, ScheduleItem model)
+        public async Task<ActionResult> Delete(int id, ScheduleItem model)
         {
             try
             {
-                _scheduleItemRepository.DeleteScheduleItemById(id);
+                await _scheduleItemRepository.Delete(model.Id);
 
                 return RedirectToAction(nameof(Index));
             }

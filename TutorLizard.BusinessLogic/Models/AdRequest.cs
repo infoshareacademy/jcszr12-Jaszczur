@@ -25,19 +25,23 @@ public class AdRequest
 
     public int Id { get; set; }
 
-    [Required(ErrorMessage = "Please provide Ad Id!")]
-    [Range(0, int.MaxValue, ErrorMessage = "Ad Id must be greater than 0!")]
+    [Required]
     public int AdId { get; set; }
 
-    [Required(ErrorMessage = "Please provide your id!")]
-    [Range(0, int.MaxValue, ErrorMessage = "Id must be greater than 0!")]
+    [Required]
     public int StudentId { get; set; }
     public bool IsAccepted { get; set; }
 
-    [Required(ErrorMessage = "Please write a message!")]
-    [MaxLength(150)]
+    [Required]
+    [MaxLength(500)]
     public string Message { get; set; }
+    [MaxLength(500)]
     public string? ReplyMessage { get; set; }
     public DateTime ReviewDate { get; set; }
     public bool IsRemote { get; set; }
+    public DateTime DateCreated { get; set; } = DateTime.Now;
+
+    // Entity Framework
+    public User User { get; set; } = null!;
+    public Ad Ad { get; set; } = null!;
 }
