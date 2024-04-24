@@ -116,10 +116,6 @@ public class TutorController : Controller
                 return View(request);
             }
 
-            int? adId = request.AdId;
-
-            request.AdId = (int)adId;
-
             int? userId = _userAuthenticationService.GetLoggedInUserId();
             CreateScheduleItemResponse response = new()
             {
