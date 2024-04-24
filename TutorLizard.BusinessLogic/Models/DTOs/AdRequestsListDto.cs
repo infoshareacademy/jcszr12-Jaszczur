@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TutorLizard.BusinessLogic.Interfaces.Repositories;
-
-namespace TutorLizard.BusinessLogic.Models.DTOs;
+﻿namespace TutorLizard.BusinessLogic.Models.DTOs;
 
 public class AdRequestsListDto(int id,
                                int studentId,
