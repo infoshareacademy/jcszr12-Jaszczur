@@ -134,7 +134,6 @@ public class TutorController : Controller
             {
                 // TODO: Move accept logic to a service
                 // _adRequestRepository.GetAdRequestById(adRequestId).IsAccepted = true;
-                return RedirectToAction("ViewPendingAdRequests");
             }
 
             if (!buttonAction["btnReject"].IsNullOrEmpty())
@@ -142,8 +141,6 @@ public class TutorController : Controller
                 // TODO: Move reject logic to a service
                 // var result = _adRequestRepository.GetAdRequestById(adRequestId);
                 // _adRequestRepository.GetAllAdRequests().Remove(result);
-
-                return RedirectToAction("ViewPendingAdRequests");
             }
             return RedirectToPage("ViewPendingAdRequests");
         }
