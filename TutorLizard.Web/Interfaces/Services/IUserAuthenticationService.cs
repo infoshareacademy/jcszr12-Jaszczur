@@ -8,5 +8,5 @@ public interface IUserAuthenticationService
     int? GetLoggedInUserId();
     public Task<bool> LogInAsync(string username, string password);
     public Task LogOutAsync();
-    public bool RegisterUser(string username, UserType type, string email, string password);
+    public Task<bool> RegisterUser(string username, UserType type, string email, string password);
 }
