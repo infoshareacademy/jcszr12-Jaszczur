@@ -119,7 +119,8 @@ public class TutorController : Controller
                 return View(request);
             }
 
-            int? userId = request.UserId;
+            int? userId = _userAuthenticationService.GetLoggedInUserId();
+            request.UserId = (int)userId;
             if (userId is null)
             {
                 return RedirectToAction(nameof(Index));
@@ -145,7 +146,5 @@ public class TutorController : Controller
         {
             return View(request);
         }
-
-        return RedirectToAction(nameof(Index));
     }
 }
