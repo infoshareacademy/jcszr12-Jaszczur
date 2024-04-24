@@ -4,13 +4,20 @@ public class ScheduleItemDto
     public int Id { get; set; }
     public int AdId { get; set; }
     public DateTime DateTime { get; set; }
+    public ScheduleItemRequestStatus Status { get; set; }
 
-    public ScheduleItemDto(ScheduleItem scheduleItem)
+    public ScheduleItemDto(ScheduleItem scheduleItem, ScheduleItemRequestStatus status)
     {
         Id = scheduleItem.Id;
         AdId = scheduleItem.AdId;
         DateTime = scheduleItem.DateTime;
+        Status = status;
     }
 
-
+    public enum ScheduleItemRequestStatus
+    {
+        Accepted,
+        Pending,
+        Rejected
+    }
 }

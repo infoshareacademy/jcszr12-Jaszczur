@@ -10,6 +10,5 @@ namespace TutorLizard.BusinessLogic.Models.DTOs.Responses
     {
         public List<ScheduleItemDto> Items { get; set; } = new();
         public bool IsAccepted { get; set; } = true;
-
     }
 }

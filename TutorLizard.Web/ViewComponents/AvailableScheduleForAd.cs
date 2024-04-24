@@ -25,18 +25,9 @@ namespace TutorLizard.Web.ViewComponents
             {
                 return View();
             }
-            AvailableScheduleForAdRequest request = new(adId, (int)studentId, AvailableScheduleForAdRequest.RequestStatus.Accepted);
+            AvailableScheduleForAdRequest request = new(adId, (int)studentId);
 
             AvailableScheduleForAdResponse response = new();
-
-            if (request.Status == AvailableScheduleForAdRequest.RequestStatus.Accepted)
-            {
-                response.IsAccepted = true;
-            }
-            else
-            {
-                response.IsAccepted = false;
-            }
 
             return View(response);
         }
