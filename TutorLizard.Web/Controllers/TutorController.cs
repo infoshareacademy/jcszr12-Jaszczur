@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Security.Cryptography.X509Certificates;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
@@ -89,6 +88,10 @@ public class TutorController : Controller
     {
         int adId = id;
         int? userId = _userAuthenticationService.GetLoggedInUserId();
+        if (userId is null)
+        {
+            return RedirectToAction(nameof(Index));
+        }
         IsUserTheAdOwnerRequest request = new IsUserTheAdOwnerRequest(adId, userId);
         IsUserTheAdOwnerResponse response = await _tutorService.IsUserTheAdOwner(request);
 
@@ -116,7 +119,11 @@ public class TutorController : Controller
                 return View(request);
             }
 
-            int? userId = _userAuthenticationService.GetLoggedInUserId();
+            int? userId = request.UserId;
+            if (userId is null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             CreateScheduleItemResponse response = new()
             {
                 Success = true,
@@ -131,7 +138,7 @@ public class TutorController : Controller
             else
             {
                 // TODO
-                RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
         }
         catch
