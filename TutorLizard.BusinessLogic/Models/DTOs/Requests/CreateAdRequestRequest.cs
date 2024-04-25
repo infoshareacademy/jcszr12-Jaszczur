@@ -15,6 +15,5 @@ public class CreateAdRequestRequest
     public string Message { get; set; }
 
     [DisplayName("Nauczanie zdalne")]
-    [Required(ErrorMessage = "To pole jest wymagane")]
     public bool IsRemote { get; set; }
 }
