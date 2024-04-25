@@ -15,8 +15,6 @@ using TutorLizard.BusinessLogic.Models.DTOs.Responses;
 namespace TutorLizard.Web.Controllers;
 [Authorize]
 public class TutorController : Controller
-{
-    public class TutorController : Controller
     {
         private readonly ITutorService _tutorService;
         private readonly IUserAuthenticationService _userAuthenticationService;
