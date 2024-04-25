@@ -142,7 +142,7 @@ public class TutorController : Controller
                 // var result = _adRequestRepository.GetAdRequestById(adRequestId);
                 // _adRequestRepository.GetAllAdRequests().Remove(result);
             }
-            return RedirectToPage("ViewPendingAdRequests");
+            return RedirectToAction("ViewPendingAdRequests");
         }
         catch
         {
