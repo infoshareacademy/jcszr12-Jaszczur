@@ -81,6 +81,70 @@ public class TutorController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    public async Task<IActionResult> CreateScheduleItem(int id)
+    {
+        int adId = id;
+        int? userId = _userAuthenticationService.GetLoggedInUserId();
+        if (userId is null)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+        IsUserTheAdOwnerRequest request = new IsUserTheAdOwnerRequest(adId, userId);
+        IsUserTheAdOwnerResponse response = await _tutorService.IsUserTheAdOwner(request);
+
+        if (response.IsOwner)
+        {
+            CreateScheduleItemRequest model = new CreateScheduleItemRequest
+            {
+                AdId = adId
+            };
+
+            return View(model);
+        }
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateScheduleItem(CreateScheduleItemRequest request)
+    {
+        try
+        {
+            if (ModelState.IsValid == false)
+            {
+                return View(request);
+            }
+
+            int? userId = _userAuthenticationService.GetLoggedInUserId();
+            if (userId is null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            request.UserId = (int)userId;
+            CreateScheduleItemResponse response = new()
+            {
+                Success = true,
+                CreatedItemId = 1,
+            };
+
+            if (response.Success)
+            {
+                // TODO
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                // TODO
+                return RedirectToAction(nameof(Index));
+            }
+        }
+        catch
+        {
+            return View(request);
+        }
+    }
+
     private async Task AddCategoriesToViewBag()
     {
         List<Category> categories = await _categoryRepository
