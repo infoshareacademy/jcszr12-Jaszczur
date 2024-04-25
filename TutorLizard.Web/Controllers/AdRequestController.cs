@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 
@@ -6,22 +7,22 @@ namespace TutorLizard.Web.Controllers
 {
     public class AdRequestController : Controller
     {
-        private readonly IAdRequestRepository _adRequestRepository;
-        public AdRequestController(IAdRequestRepository adRequestRepository)
+        private readonly IDbRepository<AdRequest> _adRequestRepository;
+        public AdRequestController(IDbRepository<AdRequest> adRequestRepository)
         {
             _adRequestRepository = adRequestRepository;
         }
         // GET: AdRequestController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var model = _adRequestRepository.GetAllAdRequests();
+            var model = await _adRequestRepository.GetAll().ToListAsync();
             return View(model);
         }
 
         // GET: AdRequestController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            var model = _adRequestRepository.GetAdRequestById(id);
+            var model = await _adRequestRepository.GetById(id);
             if (model is null)
                 return RedirectToAction(nameof(Index));
             return View(model);
@@ -36,8 +37,10 @@ namespace TutorLizard.Web.Controllers
         // POST: AdRequestController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(AdRequest model)
+        public async Task<ActionResult> Create(AdRequest model)
         {
+            ModelState.Remove(nameof(AdRequest.Ad));
+            ModelState.Remove(nameof(AdRequest.User));
             try
             {
                 if(!ModelState.IsValid)
@@ -45,7 +48,7 @@ namespace TutorLizard.Web.Controllers
                     return View(model);
                 }
 
-                _adRequestRepository.CreateAdRequest(model.AdId, model.StudentId, model.Message, model.IsRemote);
+                await _adRequestRepository.Create(model);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -55,9 +58,9 @@ namespace TutorLizard.Web.Controllers
         }
 
         // GET: AdRequestController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var model = _adRequestRepository.GetAdRequestById(id);
+            var model = await _adRequestRepository.GetById(id);
             if (model is null)
                 return RedirectToAction(nameof(Index));
             return View(model);
@@ -66,14 +69,24 @@ namespace TutorLizard.Web.Controllers
         // POST: AdRequestController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, AdRequest model)
+        public async Task<ActionResult> Edit(int id, AdRequest model)
         {
+            ModelState.Remove(nameof(AdRequest.Ad));
+            ModelState.Remove(nameof(AdRequest.User));
             try
             {
                 if (ModelState.IsValid == false)
                     return View(model);
 
-                _adRequestRepository.UpdateAdRequest(model);
+                await _adRequestRepository.Update(model.Id, request =>
+                {
+                    request.AdId = model.AdId;
+                    request.StudentId = model.StudentId;
+                    request.IsAccepted = model.IsAccepted;
+                    request.Message = model.Message;
+                    request.ReplyMessage = model.ReplyMessage;
+                    request.IsRemote = model.IsRemote;
+                });
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -83,9 +96,9 @@ namespace TutorLizard.Web.Controllers
         }
 
         // GET: AdRequestController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var model = _adRequestRepository.GetAdRequestById(id);
+            var model = await _adRequestRepository.GetById(id);
             if (model is null)
                 return RedirectToAction(nameof(Index));
             return View(model);
@@ -94,11 +107,11 @@ namespace TutorLizard.Web.Controllers
         // POST: AdRequestController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, AdRequest model)
+        public async Task<ActionResult> Delete(int id, AdRequest model)
         {
             try
             {
-                _adRequestRepository.DeleteAdRequestById(id);    
+                await _adRequestRepository.Delete(model.Id);    
                 return RedirectToAction(nameof(Index));
             }
             catch

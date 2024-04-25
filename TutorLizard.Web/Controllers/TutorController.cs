@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
@@ -15,11 +18,11 @@ public class TutorController : Controller
 {
     private readonly ITutorService _tutorService;
     private readonly IUserAuthenticationService _userAuthenticationService;
-    private readonly ICategoryRepository _categoryRepository;
+    private readonly IDbRepository<Category> _categoryRepository;
 
     public TutorController(ITutorService tutorService,
                            IUserAuthenticationService userAuthenticationService,
-                           ICategoryRepository categoryRepository)
+                           IDbRepository<Category> categoryRepository)
     {
         _tutorService = tutorService;
         _userAuthenticationService = userAuthenticationService;
@@ -33,13 +36,7 @@ public class TutorController : Controller
     public async Task<IActionResult> CreateAd()
     {
         // TODO - move obtaining categories to some service
-        List<CategoryDto> categories = _categoryRepository
-            .GetAllCategories()
-            .Select(c => c.ToDto())
-            .ToList();
-        ViewBag.Categories = new SelectList(items: categories,
-                                            dataValueField: nameof(Category.Id),
-                                            dataTextField: nameof(Category.Name));
+        await AddCategoriesToViewBag();
 
         return View();
     }
@@ -82,6 +79,80 @@ public class TutorController : Controller
         }
 
         return RedirectToAction(nameof(Index));
+    }
+
+    private async Task AddCategoriesToViewBag()
+    {
+        List<Category> categories = await _categoryRepository
+                        .GetAll()
+                        .ToListAsync();
+
+        List<CategoryDto> categoryDtos = categories.Select(c => c.ToDto()).ToList();
+
+        ViewBag.Categories = new SelectList(items: categoryDtos,
+                                            dataValueField: nameof(CategoryDto.Id),
+                                            dataTextField: nameof(CategoryDto.Name));
+    }
+
+    public IActionResult ViewPendingAdRequests()
+    {
+        try
+        {
+            int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+            if (tutorId is null)
+            {
+                return RedirectToAction("AccessDenied", "User");
+            }
+
+            TutorsPendingAdRequestsRequest request = new(tutorId);
+
+            TutorsPendingAdRequestsResponse response = new()
+            {
+                // The data is only for tests
+                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true),
+                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false)]
+            };
+            return View(response);
+        }
+
+        catch
+        {
+            return RedirectToAction("Error", "Home");
+        }
+    }
+    [HttpPost]
+    public IActionResult UpdatePendingAdRequest(IFormCollection form, int adRequestId)
+    {
+        int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+        if (tutorId is null)
+        {
+            return RedirectToAction("AccessDenied", "User");
+        }
+
+        UpdateTutorsPendingAdRequestRequest request = new(adRequestId, form["replyMessage"]);
+
+        UpdateTutorsPendingAdRequestResponse response = new();
+
+        try
+        {
+            if (!form["btnAccept"].IsNullOrEmpty())
+            {
+                // TODO: Move accept logic to a service
+                // _adRequestRepository.GetAdRequestById(adRequestId).IsAccepted = true;
+            }
+
+            if (!form["btnReject"].IsNullOrEmpty())
+            {
+                // TODO: Move reject logic to a service
+                // var result = _adRequestRepository.GetAdRequestById(adRequestId);
+                // _adRequestRepository.GetAllAdRequests().Remove(result);
+            }
+            return RedirectToAction("ViewPendingAdRequests");
+        }
+        catch
+        {
+            return RedirectToAction("Error", "Home");
+        }
     }
 
     public IActionResult TutorsAdsList()
