@@ -122,22 +122,20 @@ public class TutorController : Controller
                 return RedirectToAction(nameof(Index));
             }
             request.UserId = (int)userId;
-            CreateScheduleItemResponse response = new()
-            {
-                Success = true,
-                CreatedItemId = 1,
-            };
+            CreateScheduleItemResponse response = await _tutorService.CreateItem(request);
 
             if (response.Success)
             {
-                // TODO
-                return RedirectToAction(nameof(Index));
+                ViewBag.SuccessMessage = "Utworzono termin";
+                return RedirectToAction(nameof(CreateScheduleItem), new { id = response.CreatedItemId });
+
             }
             else
             {
-                // TODO
-                return RedirectToAction(nameof(Index));
+                ViewBag.ErrorMessage = "Wystąpił błąd";
             }
+
+            return RedirectToAction(nameof(Index));
         }
         catch
         {
