@@ -1,4 +1,6 @@
-﻿<h1>Funkcjonalność ucznia</h1>
+﻿@using TutorLizard.Web.ViewComponents
+
+<h1>Funkcjonalność ucznia</h1>
 
 <ul class="list-group col-md-6 col-xl-3">
     <li class="list-group-item"><a asp-action="AdRequests">Przeglądaj swoje zapytania do ogłoszeń</a></li>
@@ -6,3 +8,5 @@
 <ul class="list-group col-md-6 col-xl-3">
     <li class="list-group-item"><a asp-action="AcceptedAds">Przeglądaj ogłoszenia do których jesteś zaakceptowany</a></li>
 </ul>
+
+@await Component.InvokeAsync(nameof(CreateRequestForAd), new { adId = 19 })
