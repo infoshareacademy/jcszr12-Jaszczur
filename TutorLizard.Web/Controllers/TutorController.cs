@@ -79,6 +79,83 @@ public class TutorController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AcceptScheduleItemRequest(int scheduleItemRequestId, int adId)
+    {
+
+        int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+        if (tutorId is null)
+        {
+            // TODO - show failure notification
+            // TODO redirect to details of ad with Id == adId
+            return RedirectToAction(nameof(Index));
+        }
+        AcceptScheduleItemRequestRequest request = new()
+        {
+            ScheduleItemRequestId = scheduleItemRequestId,
+            TutorId = (int)tutorId
+        };
+
+        // TODO - replace mock response with call to _tutorService
+        AcceptScheduleItemRequestResponse response = new()
+        {
+            Success = true
+        };
+
+        if (response.Success)
+        {
+            // TODO - show success notification
+
+        }
+        else
+        {
+            // TODO - show failure notification
+
+        }
+
+        // TODO redirect to details of ad with Id == adId
+        return RedirectToAction(nameof(Index));
+    }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UnacceptScheduleItemRequest(int scheduleItemRequestId, int adId)
+    {
+        int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+        if (tutorId is null)
+        {
+            // TODO - show failure notification
+            // TODO redirect to details of ad with Id == adId
+            return RedirectToAction(nameof(Index));
+        }
+        UnacceptScheduleItemRequestRequest request = new()
+        {
+            ScheduleItemRequestId = scheduleItemRequestId,
+            TutorId = (int)tutorId
+        };
+
+        // TODO - replace mock response with call to _tutorService
+        UnacceptScheduleItemRequestResponse response = new()
+        {
+            Success = true
+        };
+
+        if (response.Success)
+        {
+            // TODO - show success notification
+
+        }
+        else
+        {
+            // TODO - show failure notification
+
+        }
+
+        // TODO redirect to details of ad with Id == adId
+        return RedirectToAction(nameof(Index));
+    }
+
     private async Task AddCategoriesToViewBag()
     {
         List<Category> categories = await _categoryRepository
