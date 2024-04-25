@@ -145,6 +145,79 @@ public class TutorController : Controller
         }
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AcceptScheduleItemRequest(int scheduleItemRequestId, int adId)
+    {
+
+        int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+        if (tutorId is null)
+        {
+            // TODO - show failure notification
+            return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
+        }
+        AcceptScheduleItemRequestRequest request = new()
+        {
+            ScheduleItemRequestId = scheduleItemRequestId,
+            TutorId = (int)tutorId
+        };
+
+        // TODO - replace mock response with call to _tutorService
+        AcceptScheduleItemRequestResponse response = new()
+        {
+            Success = true
+        };
+
+        if (response.Success)
+        {
+            // TODO - show success notification
+
+        }
+        else
+        {
+            // TODO - show failure notification
+
+        }
+
+        return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
+    }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UnacceptScheduleItemRequest(int scheduleItemRequestId, int adId)
+    {
+        int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+        if (tutorId is null)
+        {
+            // TODO - show failure notification
+            return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
+        }
+        UnacceptScheduleItemRequestRequest request = new()
+        {
+            ScheduleItemRequestId = scheduleItemRequestId,
+            TutorId = (int)tutorId
+        };
+
+        // TODO - replace mock response with call to _tutorService
+        UnacceptScheduleItemRequestResponse response = new()
+        {
+            Success = true
+        };
+
+        if (response.Success)
+        {
+            // TODO - show success notification
+
+        }
+        else
+        {
+            // TODO - show failure notification
+
+        }
+
+        return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
+    }
+
     private async Task AddCategoriesToViewBag()
     {
         List<Category> categories = await _categoryRepository
