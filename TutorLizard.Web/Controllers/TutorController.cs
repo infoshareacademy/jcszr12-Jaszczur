@@ -90,8 +90,7 @@ public class TutorController : Controller
         if (tutorId is null)
         {
             // TODO - show failure notification
-            // TODO redirect to details of ad with Id == adId
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
         }
         AcceptScheduleItemRequestRequest request = new()
         {
@@ -116,8 +115,7 @@ public class TutorController : Controller
 
         }
 
-        // TODO redirect to details of ad with Id == adId
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
     }
     
     [HttpPost]
@@ -128,8 +126,7 @@ public class TutorController : Controller
         if (tutorId is null)
         {
             // TODO - show failure notification
-            // TODO redirect to details of ad with Id == adId
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
         }
         UnacceptScheduleItemRequestRequest request = new()
         {
@@ -154,8 +151,7 @@ public class TutorController : Controller
 
         }
 
-        // TODO redirect to details of ad with Id == adId
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
     }
 
     private async Task AddCategoriesToViewBag()
