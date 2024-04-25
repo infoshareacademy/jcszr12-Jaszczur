@@ -15,20 +15,20 @@ using TutorLizard.BusinessLogic.Models.DTOs.Responses;
 namespace TutorLizard.Web.Controllers;
 [Authorize]
 public class TutorController : Controller
-    {
-        private readonly ITutorService _tutorService;
-        private readonly IUserAuthenticationService _userAuthenticationService;
-        private readonly IDbRepository<Category> _categoryRepository;
+{
+    private readonly ITutorService _tutorService;
+    private readonly IUserAuthenticationService _userAuthenticationService;
+    private readonly IDbRepository<Category> _categoryRepository;
 
-        public TutorController(ITutorService tutorService,
-                               IUserAuthenticationService userAuthenticationService,
-                               IDbRepository<Category> categoryRepository)
-        {
-            _tutorService = tutorService;
-            _userAuthenticationService = userAuthenticationService;
-            _categoryRepository = categoryRepository;
-        }
-        public IActionResult Index()
+    public TutorController(ITutorService tutorService,
+                           IUserAuthenticationService userAuthenticationService,
+                           IDbRepository<Category> categoryRepository)
+    {
+        _tutorService = tutorService;
+        _userAuthenticationService = userAuthenticationService;
+        _categoryRepository = categoryRepository;
+    }
+    public IActionResult Index()
     {
         return View();
     }
