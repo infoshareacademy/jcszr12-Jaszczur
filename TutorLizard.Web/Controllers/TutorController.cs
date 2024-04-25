@@ -116,7 +116,7 @@ public class TutorController : Controller
                 return View(request);
             }
 
-            int? userId = _userAuthenticationService.GetLoggedInUserId();            
+            int? userId = _userAuthenticationService.GetLoggedInUserId();
             if (userId is null)
             {
                 return RedirectToAction(nameof(Index));
@@ -143,8 +143,6 @@ public class TutorController : Controller
         {
             return View(request);
         }
-    }
-        return RedirectToAction(nameof(Index));
     }
 
     private async Task AddCategoriesToViewBag()
