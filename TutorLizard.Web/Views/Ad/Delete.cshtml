@@ -1,15 +1,7 @@
 ﻿@model TutorLizard.BusinessLogic.Models.Ad
-@inject ICategoryRepository categoryRepository
 
 @{
     ViewData["Title"] = "Delete";
-}
-
-@functions {
-    string? CategoryName(int id)
-    {
-        return categoryRepository.GetCategoryById(id)?.Name;
-    }
 }
 
 <h1>Delete</h1>
@@ -53,7 +45,11 @@
             @Html.DisplayNameFor(model => model.CategoryId)
         </dt>
         <dd class = "col-sm-10">
-            @CategoryName(Model.CategoryId)
+            @Html.DisplayFor(model => model.CategoryId)
+            @if(ViewBag.CategoryName is not null)
+            {
+                <span> (@ViewBag.CategoryName)</span>
+            }
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Price)

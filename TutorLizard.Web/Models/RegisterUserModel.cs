@@ -5,10 +5,22 @@ namespace TutorLizard.Web.Models
 {
     public class RegisterUserModel
     {
-        public string? UserName { get; set; }
+        [Required]
+        [MinLength(5)]
+        [MaxLength(40)]
+        public string UserName { get; set; }
+
+        [Required]
         [DataType(DataType.Password)]
-        public string? Password { get; set; }
+        [MinLength(8)]
+        [MaxLength(100)]
+        public string Password { get; set; }
+
         public UserType Type { get; set; }
-        public string? Email { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [MaxLength(100)]
+        public string Email { get; set; }
     }
 }

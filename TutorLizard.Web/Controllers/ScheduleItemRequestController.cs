@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using TutorLizard.BusinessLogic.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 
@@ -8,23 +7,23 @@ namespace TutorLizard.Web.Controllers
 {
     public class ScheduleItemRequestController : Controller
     {
-        private readonly IScheduleItemRequestRepository _scheduleItemRequestRepository;
-        public ScheduleItemRequestController(IScheduleItemRequestRepository scheduleItemRequestRepository)
+        private readonly IDbRepository<ScheduleItemRequest> _scheduleItemRequestRepository;
+        public ScheduleItemRequestController(IDbRepository<ScheduleItemRequest> scheduleItemRequestRepository)
         {
             _scheduleItemRequestRepository = scheduleItemRequestRepository;
         }
 
 
         // GET: ScheduleItemRequestController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(_scheduleItemRequestRepository.GetAllScheduleItemRequests());
+            return View(await _scheduleItemRequestRepository.GetAll().ToListAsync());
         }
 
         // GET: ScheduleItemRequestController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            var model = _scheduleItemRequestRepository.GetScheduleItemRequestById(id);
+            var model = await _scheduleItemRequestRepository.GetById(id);
 
             if (model == null)
             {
@@ -43,8 +42,10 @@ namespace TutorLizard.Web.Controllers
         // POST: ScheduleItemRequestController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ScheduleItemRequest model)
+        public async Task<ActionResult> Create(ScheduleItemRequest model)
         {
+            ModelState.Remove(nameof(ScheduleItemRequest.User));
+            ModelState.Remove(nameof(ScheduleItemRequest.ScheduleItem));
             try
             {
                 if (!ModelState.IsValid)
@@ -52,12 +53,7 @@ namespace TutorLizard.Web.Controllers
                     return View(model);
                 }
 
-                int scheduleItemId = model.ScheduleItemId;
-                int studentId = model.StudentId;
-                bool isAccepted = model.IsAccepted;
-                bool isRemote = model.IsRemote;
-
-                _scheduleItemRequestRepository.CreateScheduleItemRequest(scheduleItemId, studentId, isAccepted, isRemote);
+                await _scheduleItemRequestRepository.Create(model);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -68,9 +64,9 @@ namespace TutorLizard.Web.Controllers
         }
 
         // GET: ScheduleItemRequestController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var model = _scheduleItemRequestRepository.GetScheduleItemRequestById(id);
+            var model = await _scheduleItemRequestRepository.GetById(id);
 
             if (model == null)
             {
@@ -83,11 +79,19 @@ namespace TutorLizard.Web.Controllers
         // POST: ScheduleItemRequestController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, ScheduleItemRequest model)
+        public async Task<ActionResult> Edit(int id, ScheduleItemRequest model)
         {
+            ModelState.Remove(nameof(ScheduleItemRequest.ScheduleItem));
+            ModelState.Remove(nameof(ScheduleItemRequest.User));
             try
             {
-                _scheduleItemRequestRepository.UpdateScheduleItemRequest(model);
+                await _scheduleItemRequestRepository.Update(model.Id, request =>
+                {
+                    request.ScheduleItemId = model.ScheduleItemId;
+                    request.StudentId = model.StudentId;
+                    request.IsAccepted = model.IsAccepted;
+                    request.IsRemote = model.IsRemote;
+                });
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -97,9 +101,9 @@ namespace TutorLizard.Web.Controllers
         }
 
         // GET: ScheduleItemRequestController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var model = _scheduleItemRequestRepository.GetScheduleItemRequestById(id);
+            var model = await _scheduleItemRequestRepository.GetById(id);
 
             if (model == null)
             {
@@ -112,11 +116,11 @@ namespace TutorLizard.Web.Controllers
         // POST: ScheduleItemRequestController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, ScheduleItemRequest model)
+        public async Task<ActionResult> Delete(int id, ScheduleItemRequest model)
         {
             try
             {
-                _scheduleItemRequestRepository.DeleteScheduleItemRequestById(id);
+                await _scheduleItemRequestRepository.Delete(model.Id);
 
                 return RedirectToAction(nameof(Index));
             }

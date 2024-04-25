@@ -18,7 +18,7 @@ public class UserAuthenticationService : IUserAuthenticationService
     }
     public async Task<bool> LogInAsync(string username, string password)
     {
-        var user = _userService.LogIn(username, password);
+        var user = await _userService.LogIn(username, password);
 
         if (user is null)
         {
@@ -60,7 +60,7 @@ public class UserAuthenticationService : IUserAuthenticationService
         await _httpContextAccessor.HttpContext.SignOutAsync("CookieAuth");
     }
 
-    public bool RegisterUser(string username, UserType type, string email, string password)
+    public Task<bool> RegisterUser(string username, UserType type, string email, string password)
     {
         return _userService.RegisterUser(username, type, email, password);
     }
