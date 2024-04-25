@@ -119,12 +119,12 @@ public class TutorController : Controller
                 return View(request);
             }
 
-            int? userId = _userAuthenticationService.GetLoggedInUserId();
-            request.UserId = (int)userId;
+            int? userId = _userAuthenticationService.GetLoggedInUserId();            
             if (userId is null)
             {
                 return RedirectToAction(nameof(Index));
             }
+            request.UserId = (int)userId;
             CreateScheduleItemResponse response = new()
             {
                 Success = true,
