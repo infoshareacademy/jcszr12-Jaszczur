@@ -75,4 +75,41 @@ public class StudentController : Controller
         }
 
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateAdRequest(CreateAdRequestRequest request)
+    {
+        if (ModelState.IsValid == false)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
+        int? studentId = _userAuthenticationService.GetLoggedInUserId();
+        if (studentId is null)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+        request.StudentId = (int)studentId;
+
+        // TODO - replace mock data with call to _studentService
+        CreateAdRequestResponse response = new()
+        {
+            Success = true,
+        };
+
+        if (response.Success)
+        {
+            // TODO - Show success notification
+
+        }
+        else
+        {
+            // TODO - Show failure notification
+
+        }
+
+        // TODO - redirect to details of the ad
+        return RedirectToAction(nameof(Index));
+    }
 }
