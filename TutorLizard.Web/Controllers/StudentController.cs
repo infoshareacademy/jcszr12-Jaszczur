@@ -48,13 +48,13 @@ public class StudentController : Controller
             return RedirectToAction("Error", "Home");
         }
     }
-    
-    public IActionResult AdRequests()
+
+    public IActionResult AdRequests(IFormCollection buttonAction)
     {
         try
         {
             int? studentId = _userAuthenticationService.GetLoggedInUserId();
-            if(studentId is null)
+            if (studentId is null)
             {
                 return RedirectToAction("AccessDenied", "User");
             }
@@ -66,6 +66,13 @@ public class StudentController : Controller
                 //data for tests only
                 AdRequests = [new AdRequestsListDto(1, 1, 1, false, "xyz", "yxz", false)]
             };
+
+            if (!string.IsNullOrWhiteSpace(buttonAction["btnRequest"]))
+            {
+                // TODO - create ScheduleRequest
+                return View(response);
+            }
+
             return View(response);
         }
 
@@ -74,9 +81,5 @@ public class StudentController : Controller
             return RedirectToAction("AccessDenied", "User");
         }
     }
-
-   
-
-
 
 }
