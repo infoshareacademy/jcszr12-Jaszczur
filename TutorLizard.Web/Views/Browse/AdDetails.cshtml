@@ -1,4 +1,5 @@
-﻿@model AdDetailsResponse
+﻿@using TutorLizard.Web.ViewComponents
+@model AdDetailsResponse
 
 <h1>Szczegóły ogłoszenia</h1>
 
@@ -46,7 +47,7 @@
 
 @if(Model.UserRelationship == AdToUserRelationship.Owner)
 {
-    <div><h3>Sekcja dla wystawiającego to ogłoszenie</h3></div>
+    @await Component.InvokeAsync(nameof(TutorsScheduleForAd), new { adId = Model.AdId })
 }
 @if(Model.UserRelationship == AdToUserRelationship.AcceptedStudent)
 {
