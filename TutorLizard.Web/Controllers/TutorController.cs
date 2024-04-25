@@ -16,24 +16,21 @@ namespace TutorLizard.Web.Controllers;
 [Authorize]
 public class TutorController : Controller
 {
-    private readonly ITutorService _tutorService;
-    private readonly IUserAuthenticationService _userAuthenticationService;
-    private readonly IDbRepository<Category> _categoryRepository;
-    private readonly ICategoryRepository _categoryRepository;
-    //private readonly IAdRequestRepository _adRequestRepository;
-
-    public TutorController(ITutorService tutorService,
-                           IUserAuthenticationService userAuthenticationService,
-                           IDbRepository<Category> categoryRepository)
-                           ICategoryRepository categoryRepository/*,
-                           IAdRequestRepository adRequestRepository*/)
+    public class TutorController : Controller
     {
-        _tutorService = tutorService;
-        _userAuthenticationService = userAuthenticationService;
-        _categoryRepository = categoryRepository;
-        //_adRequestRepository = adRequestRepository;
-    }
-    public IActionResult Index()
+        private readonly ITutorService _tutorService;
+        private readonly IUserAuthenticationService _userAuthenticationService;
+        private readonly IDbRepository<Category> _categoryRepository;
+
+        public TutorController(ITutorService tutorService,
+                               IUserAuthenticationService userAuthenticationService,
+                               IDbRepository<Category> categoryRepository)
+        {
+            _tutorService = tutorService;
+            _userAuthenticationService = userAuthenticationService;
+            _categoryRepository = categoryRepository;
+        }
+        public IActionResult Index()
     {
         return View();
     }
@@ -126,7 +123,7 @@ public class TutorController : Controller
         }
     }
     [HttpPost]
-    public IActionResult UpdatePendingAdRequest(IFormCollection buttonAction, int adRequestId)
+    public IActionResult UpdatePendingAdRequest(IFormCollection form, int adRequestId)
     {
         int? tutorId = _userAuthenticationService.GetLoggedInUserId();
         if (tutorId is null)
@@ -134,19 +131,19 @@ public class TutorController : Controller
             return RedirectToAction("AccessDenied", "User");
         }
 
-        UpdateTutorsPendingAdRequestRequest request = new(adRequestId);
+        UpdateTutorsPendingAdRequestRequest request = new(adRequestId, form["replyMessage"]);
 
         UpdateTutorsPendingAdRequestResponse response = new();
 
         try
         {
-            if (!buttonAction["btnAccept"].IsNullOrEmpty())
+            if (!form["btnAccept"].IsNullOrEmpty())
             {
                 // TODO: Move accept logic to a service
                 // _adRequestRepository.GetAdRequestById(adRequestId).IsAccepted = true;
             }
 
-            if (!buttonAction["btnReject"].IsNullOrEmpty())
+            if (!form["btnReject"].IsNullOrEmpty())
             {
                 // TODO: Move reject logic to a service
                 // var result = _adRequestRepository.GetAdRequestById(adRequestId);

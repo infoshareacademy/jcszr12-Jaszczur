@@ -30,7 +30,7 @@
         <form asp-controller="Tutor" asp-action="UpdatePendingAdRequest" method="post">
             <div class="form-group">
                 <label asp-for="ReplyMessage" class="control-label">Wiadomoœæ zwrotna:</label>
-                <textarea asp-for="ReplyMessage" class="form-control"></textarea>
+                <textarea asp-for="ReplyMessage" class="form-control" name="replyMessage"></textarea>
                 <span asp-validation-for="ReplyMessage" class="text-danger"></span>
             </div>
              <div class="form-group my-3">
