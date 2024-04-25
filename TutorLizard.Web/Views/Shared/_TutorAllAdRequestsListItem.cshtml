@@ -1,0 +1,44 @@
+@model AdRequestsListDto
+
+<div class="card my-3">
+
+    <div class="card-body">
+        <h5 class="card-title">@Model.AdId</h5>
+        <div class="row">
+            <div class="col-6 col-sm-3">Og³oszenie:</div>
+            <div class="col-6 col-sm-9">@Model.AdId</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Wiadomoœæ od ucznia:</div>
+            <div class="col-6 col-sm-9">@Model.Message</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Nauczanie zdalne:</div>
+            <div class="col-6 col-sm-9">
+                @if (Model.IsRemote)
+                {
+                    <span>Tak</span>
+                }
+                else
+                {
+                    <span>Nie</span>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-sm-3">Status:</div>
+            <div class="col-6 col-sm-9">
+                @if (Model.IsAccepted)
+                {
+                    <span>Zaakceptowane</span>
+                }
+                else
+                {
+                    <span>Niezaakceptowane</span>
+                }
+            </div>
+        </div>
+    </div>
+</div>

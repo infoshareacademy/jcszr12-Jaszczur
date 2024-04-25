@@ -120,6 +120,7 @@ public class TutorController : Controller
             return RedirectToAction("Error", "Home");
         }
     }
+
     [HttpPost]
     public IActionResult UpdatePendingAdRequest(IFormCollection form, int adRequestId)
     {
@@ -149,6 +150,33 @@ public class TutorController : Controller
             }
             return RedirectToAction("ViewPendingAdRequests");
         }
+        catch
+        {
+            return RedirectToAction("Error", "Home");
+        }
+    }
+
+    public IActionResult ViewAllAdRequests()
+    {
+        try
+        {
+            int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+            if (tutorId is null)
+            {
+                return RedirectToAction("AccessDenied", "User");
+            }
+
+            TutorAllAdRequestsRequest request = new(tutorId);
+
+            TutorAllAdRequestsResponse response = new()
+            {
+                // The data is only for tests
+                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true),
+                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false)]
+            };
+            return View(response);
+        }
+
         catch
         {
             return RedirectToAction("Error", "Home");
