@@ -15,9 +15,11 @@ namespace TutorLizard.BusinessLogic.Models.DTOs.Requests
         }
 
         public CreateScheduleItemRequest(int adId,
+                                         int userId,
                                          DateTime dateTime)
         {
             AdId = adId;
+            UserId = userId;
             DateTime = dateTime;
         }
 
