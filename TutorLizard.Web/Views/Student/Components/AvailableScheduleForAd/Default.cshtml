@@ -24,9 +24,11 @@
                     {
                         <span>Odrzucone</span>
                     }
-                    else
+                    else if (item.Status == ScheduleItemRequestStatus.RequestNotSent)
                     {
-                        <a href="/Browse/Ads"><button>Zapisz się</button></a>
+                        <div class="form-group my-3">
+                            <input type="button" id="btnRequest" name="btnRequest" value="Zapisz się" class="btn btn-lg btn-success" />
+                        </div>
                     }
                 }
             </ul>

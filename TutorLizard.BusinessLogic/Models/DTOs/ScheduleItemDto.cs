@@ -18,6 +18,7 @@ public class ScheduleItemDto
     {
         Accepted,
         Pending,
-        Rejected
+        Rejected,
+        RequestNotSent
     }
 }
