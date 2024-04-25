@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
@@ -45,11 +47,11 @@ public class TutorController : Controller
     {
         try
         {
-            if(ModelState.IsValid == false)
+            if (ModelState.IsValid == false)
                 return View(request);
 
             int? tutorId = _userAuthenticationService.GetLoggedInUserId();
-            if(tutorId is null)
+            if (tutorId is null)
             {
                 return View(request);
             }
@@ -167,5 +169,66 @@ public class TutorController : Controller
         ViewBag.Categories = new SelectList(items: categoryDtos,
                                             dataValueField: nameof(CategoryDto.Id),
                                             dataTextField: nameof(CategoryDto.Name));
+    }
+
+    public IActionResult ViewPendingAdRequests()
+    {
+        try
+        {
+            int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+            if (tutorId is null)
+            {
+                return RedirectToAction("AccessDenied", "User");
+            }
+
+            TutorsPendingAdRequestsRequest request = new(tutorId);
+
+            TutorsPendingAdRequestsResponse response = new()
+            {
+                // The data is only for tests
+                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true),
+                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false)]
+            };
+            return View(response);
+        }
+
+        catch
+        {
+            return RedirectToAction("Error", "Home");
+        }
+    }
+    [HttpPost]
+    public IActionResult UpdatePendingAdRequest(IFormCollection form, int adRequestId)
+    {
+        int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+        if (tutorId is null)
+        {
+            return RedirectToAction("AccessDenied", "User");
+        }
+
+        UpdateTutorsPendingAdRequestRequest request = new(adRequestId, form["replyMessage"]);
+
+        UpdateTutorsPendingAdRequestResponse response = new();
+
+        try
+        {
+            if (!form["btnAccept"].IsNullOrEmpty())
+            {
+                // TODO: Move accept logic to a service
+                // _adRequestRepository.GetAdRequestById(adRequestId).IsAccepted = true;
+            }
+
+            if (!form["btnReject"].IsNullOrEmpty())
+            {
+                // TODO: Move reject logic to a service
+                // var result = _adRequestRepository.GetAdRequestById(adRequestId);
+                // _adRequestRepository.GetAllAdRequests().Remove(result);
+            }
+            return RedirectToAction("ViewPendingAdRequests");
+        }
+        catch
+        {
+            return RedirectToAction("Error", "Home");
+        }
     }
 }

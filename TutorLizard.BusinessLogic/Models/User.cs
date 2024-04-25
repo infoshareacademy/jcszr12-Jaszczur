@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TutorLizard.BusinessLogic.Enums;
 
 namespace TutorLizard.BusinessLogic.Models;
 
@@ -43,4 +44,3 @@ public class User
     public ICollection<AdRequest> AdRequests { get; set; } = new List<AdRequest>();
     public ICollection<ScheduleItemRequest> ScheduleItemRequests { get; set; } = new List<ScheduleItemRequest>();
 }
-public enum UserType { Tutor, Student, Admin } 

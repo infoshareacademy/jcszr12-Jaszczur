@@ -1,4 +1,5 @@
-﻿using TutorLizard.BusinessLogic.Models;
+﻿using TutorLizard.BusinessLogic.Enums;
+
 namespace TutorLizard.BusinessLogic.Interfaces.Services;
 
 public interface IUserAuthenticationService
