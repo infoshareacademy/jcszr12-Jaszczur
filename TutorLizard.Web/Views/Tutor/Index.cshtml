@@ -1,5 +1,9 @@
-﻿<h1>Funkcjonalność nauczyciela</h1>
+﻿@using TutorLizard.Web.ViewComponents
+
+<h1>Funkcjonalność nauczyciela</h1>
 
 <ul class="list-group col-md-6 col-xl-3">
     <li class="list-group-item"><a asp-action="CreateAd">Dodaj ogłoszenie</a></li>
 </ul>
+
+@await Component.InvokeAsync(nameof(TutorsScheduleForAd), new { adId = 19 })
