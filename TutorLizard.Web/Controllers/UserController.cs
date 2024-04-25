@@ -177,7 +177,7 @@ public class UserController : Controller
         try
         {
             if (ModelState.IsValid 
-                && await _userAuthenticationService.RegisterUser(model.UserName, UserType.Tutor, model.Email, model.Password)) 
+                && await _userAuthenticationService.RegisterUser(model.UserName, UserType.Regular, model.Email, model.Password)) 
             {
                 TempData["RegisterSuccessful"] = "Registered Successfully";
                 return LocalRedirect("/Home/Index");
