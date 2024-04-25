@@ -6,5 +6,6 @@ namespace TutorLizard.BusinessLogic.Interfaces.Services;
 
 public interface ITutorService
 {
+    Task<CreateScheduleItemResponse> CreateItem(CreateScheduleItemRequest request);
     Task<IsUserTheAdOwnerResponse> IsUserTheAdOwner(IsUserTheAdOwnerRequest request);
 }
