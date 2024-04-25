@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Models.DTOs.Responses;
@@ -7,11 +9,13 @@ namespace TutorLizard.Web.Controllers;
 public class BrowseController : Controller
 {
     private readonly IBrowseService _browseService;
+    private readonly IUserAuthenticationService _userAuthenticationService;
     private readonly int _pageSize;
 
-    public BrowseController(IBrowseService browseService)
+    public BrowseController(IBrowseService browseService, IUserAuthenticationService userAuthenticationService)
     {
         _browseService = browseService;
+        _userAuthenticationService = userAuthenticationService;
         _pageSize = 10;
     }
     public IActionResult Index()
@@ -158,11 +162,40 @@ public class BrowseController : Controller
 
         return View(response);
     }
-
-    public IActionResult AdDetails(int id)
+    [Authorize]
+    public async Task<IActionResult> AdDetails(int id)
     {
-        // TODO ask service for ad to show based on id
-        return View();
+        var userId = _userAuthenticationService.GetLoggedInUserId();
+        if (userId is null)
+        {
+            return RedirectToAction(nameof(Ads));
+        }
+
+        AdDetailsRequest request = new()
+        {
+            AdId = id,
+            UserId = (int)userId,
+        };
+
+        // TODO replace with actual all to IBrowseService
+        
+        AdDetailsResponse response = new()
+        {
+            AdId = id,
+            TutorId = 1,
+            TutorName = "Nauczyciel 1",
+            Title = "tytuł",
+            CategoryId = 1,
+            CategoryName = "Matematyka",
+            Subject = "tematyka",
+            Location = "Warszawa",
+            Price = 100m,
+            IsRemote = true,
+            Description = "opis",
+            UserRelationship = AdToUserRelationship.Owner
+        };
+
+        return View(response);
     }
 
     public IActionResult Schedule()
