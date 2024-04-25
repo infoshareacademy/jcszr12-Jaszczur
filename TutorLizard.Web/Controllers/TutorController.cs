@@ -218,4 +218,74 @@ public class TutorController : Controller
             return RedirectToAction("Error", "Home");
         }
     }
+
+    public IActionResult TutorsAdsList()
+    {
+        try
+        {
+            int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+            if (tutorId is null)
+            {
+                return RedirectToAction("AccessDenied", "User");
+            }
+
+            TutorsAdsRequest request = new(tutorId);
+
+            TutorsAdsResponse response = new()
+            {
+                // TODO inject actual data, this is only for tests
+
+                AdList = new List<AdListItemDto>
+                {
+                    new AdListItemDto(
+                        id: 1,
+                        tutorId: 101,
+                        tutorName: "Anna",
+                        subject: "Matematyka",
+                        title: "Korepetycje z matematyki",
+                        description: "Lekcje matematyki dla uczniów szkół średnich.",
+                        categoryId: 2,
+                        categoryName: "Mathematics",
+                        price: 50.0m,
+                        location: "Warszawa",
+                        isRemote: true
+                    ),
+                    new AdListItemDto(
+                        id: 2,
+                        tutorId: 102,
+                        tutorName: "Piotr",
+                        subject: "Fizyka",
+                        title: "Korepetycje z fizyki",
+                        description: "Lekcje fizyki dla uczniów szkół średnich.",
+                        categoryId: 3,
+                        categoryName: "Physics",
+                        price: 60.0m,
+                        location: "Kraków",
+                        isRemote: false
+                    ),
+                    new AdListItemDto(
+                        id: 3,
+                        tutorId: 103,
+                        tutorName: "Michał",
+                        subject: "Chemia",
+                        title: "Korepetycje z chemii",
+                        description: "Lekcje chemii dla uczniów szkół średnich.",
+                        categoryId: 4,
+                        categoryName: "Chemistry",
+                        price: 70.0m,
+                        location: "Gdańsk",
+                        isRemote: true
+                    )
+                }
+            };
+            return View(response);
+        }
+        catch
+        {
+            return RedirectToAction("AccessDenied", "User");
+        }
+    }
+
+
+
 }
