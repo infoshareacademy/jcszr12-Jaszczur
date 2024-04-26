@@ -92,11 +92,7 @@ public class StudentController : Controller
         }
         request.StudentId = (int)studentId;
 
-        // TODO - replace mock data with call to _studentService
-        CreateAdRequestResponse response = new()
-        {
-            Success = true,
-        };
+        CreateAdRequestResponse response = await _studentService.CreateAdRequest(request);
 
         if (response.Success)
         {
