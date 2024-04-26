@@ -67,7 +67,8 @@ public class BrowseService : IBrowseService
                 Price = a.Price,
                 IsRemote = a.IsRemote,
                 Description = a.Description,
-                UserRelationship = a.TutorId == request.UserId ? AdToUserRelationship.Owner
+                UserRelationship =
+                    a.TutorId == request.UserId ? AdToUserRelationship.Owner
                     : a.AdRequests.Any(r => r.StudentId == request.UserId && r.IsAccepted ) ? AdToUserRelationship.AcceptedStudent
                     : a.AdRequests.Any(r => r.StudentId == request.UserId) ? AdToUserRelationship.PendingStudent
                     : AdToUserRelationship.None
