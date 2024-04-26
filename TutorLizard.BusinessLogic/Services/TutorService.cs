@@ -33,8 +33,7 @@ public class TutorService : ITutorService
             .Where(adrequest => 
                 adrequest.Ad.TutorId == request.TutorId &&
                 adrequest.ReviewDate == null &&
-                adrequest.IsAccepted == false
-                )
+                adrequest.IsAccepted == false)
             .Select(adrequest => new AdRequestsListDto(adrequest.Id,
                                                        adrequest.StudentId,
                                                        adrequest.AdId,
