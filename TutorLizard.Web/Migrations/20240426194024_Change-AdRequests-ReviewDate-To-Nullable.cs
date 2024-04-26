@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TutorLizard.Web.Migrations
 {
     /// <inheritdoc />
-    public partial class ChangeAdRequestReviewDateToNullable : Migration
+    public partial class ChangeAdRequestsReviewDateToNullable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

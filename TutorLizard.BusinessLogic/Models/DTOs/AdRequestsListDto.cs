@@ -6,7 +6,8 @@ public class AdRequestsListDto(int id,
                                bool isAccepted,
                                string message,
                                string replyMessage,
-                               bool isRemote)
+                               bool isRemote,
+                               DateTime? ReviewDate)
 {
     public int Id { get; set; } = id;
     public int StudentId { get; set;} = studentId;
@@ -15,4 +16,5 @@ public class AdRequestsListDto(int id,
     public string Message { get; set; } = message;
     public string ReplyMessage { get; set; } = replyMessage;
     public bool IsRemote { get; set; } = isRemote;
+    public DateTime? ReviewDate { get; set; } = ReviewDate;
 }

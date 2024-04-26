@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -246,8 +245,8 @@ public class TutorController : Controller
             TutorsPendingAdRequestsResponse response = new()
             {
                 // The data is only for tests
-                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true),
-                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false)]
+                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true, null),
+                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false, null)]
             };
             return View(response);
         }
@@ -305,8 +304,8 @@ public class TutorController : Controller
             TutorAllAdRequestsResponse response = new()
             {
                 // The data is only for tests
-                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true),
-                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false)]
+                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true, null),
+                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false, null)]
             };
             return View(response);
         }

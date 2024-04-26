@@ -12,8 +12,8 @@ using TutorLizard.BusinessLogic.Data;
 namespace TutorLizard.Web.Migrations
 {
     [DbContext(typeof(JaszczurContext))]
-    [Migration("20240426185637_Change-AdRequest-ReviewDate-To-Nullable")]
-    partial class ChangeAdRequestReviewDateToNullable
+    [Migration("20240426194024_Change-AdRequests-ReviewDate-To-Nullable")]
+    partial class ChangeAdRequestsReviewDateToNullable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
