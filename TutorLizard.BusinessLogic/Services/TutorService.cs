@@ -30,7 +30,11 @@ public class TutorService : ITutorService
     public async Task<TutorsPendingAdRequestsResponse> ViewAllPendingAdRequests(TutorsPendingAdRequestsRequest request)
     {
         List<AdRequestsListDto> adRequests = await _adRequestRepository.GetAll()
-            .Where(adrequest => adrequest.Ad.TutorId == request.TutorId)
+            .Where(adrequest => 
+                adrequest.Ad.TutorId == request.TutorId &&
+                adrequest.ReviewDate == null &&
+                adrequest.IsAccepted == false
+                )
             .Select(adrequest => new AdRequestsListDto(adrequest.Id,
                                                        adrequest.StudentId,
                                                        adrequest.AdId,
