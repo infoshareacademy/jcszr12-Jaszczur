@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
@@ -130,5 +131,28 @@ public class TutorService : ITutorService
         {
             Success = true
         };
+    }
+
+    public async Task<TutorAllAdRequestsResponse> ViewAllAdRequests(TutorAllAdRequestsRequest request)
+    {
+        List<AdRequestsListDto> adRequests = await _adRequestRepository.GetAll()
+            .Where(adrequest =>adrequest.Ad.TutorId == request.TutorId)
+            .Select(adrequest => new AdRequestsListDto(adrequest.Id,
+                                                       adrequest.StudentId,
+                                                       adrequest.AdId,
+                                                       adrequest.IsAccepted,
+                                                       adrequest.Message,
+                                                       adrequest.ReplyMessage,
+                                                       adrequest.IsRemote,
+                                                       adrequest.ReviewDate))
+            .ToListAsync();
+
+        TutorsPendingAdRequestsResponse response = new()
+        {
+            AdRequests = adRequests
+        };
+
+
+        return response;
     }
 }

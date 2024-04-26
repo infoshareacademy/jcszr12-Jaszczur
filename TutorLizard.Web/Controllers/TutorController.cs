@@ -285,7 +285,7 @@ public class TutorController : Controller
         }
     }
 
-    public IActionResult ViewAllAdRequests()
+    public async Task<IActionResult> ViewAllAdRequests()
     {
         try
         {
@@ -297,12 +297,8 @@ public class TutorController : Controller
 
             TutorAllAdRequestsRequest request = new(tutorId);
 
-            TutorAllAdRequestsResponse response = new()
-            {
-                // The data is only for tests
-                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true),
-                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false)]
-            };
+            TutorAllAdRequestsResponse response = await _tutorService.ViewAllAdRequests(request);
+
             return View(response);
         }
 
