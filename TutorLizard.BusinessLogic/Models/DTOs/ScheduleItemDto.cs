@@ -5,7 +5,6 @@ public class ScheduleItemDto
     public int AdId { get; set; }
     public DateTime DateTime { get; set; }
     public ScheduleItemRequestStatus Status { get; set; }
-    public List<StudentScheduleItemRequestDto> Requests {  get; set; }
 
     public ScheduleItemDto(ScheduleItem scheduleItem, ScheduleItemRequestStatus status)
     {
@@ -21,12 +20,5 @@ public class ScheduleItemDto
         Pending,
         Rejected,
         RequestNotSent
-    }
-
-    public enum RequestStatus
-    {
-        Accepted,
-        Pending,
-        Rejected
     }
 }
