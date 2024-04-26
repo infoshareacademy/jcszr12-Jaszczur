@@ -192,7 +192,7 @@ public class BrowseController : Controller
             Price = 100m,
             IsRemote = true,
             Description = "opis",
-            UserRelationship = AdToUserRelationship.Owner
+            UserRelationship = AdToUserRelationship.PendingStudent
         };
 
         return View(response);
