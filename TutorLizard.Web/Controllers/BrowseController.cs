@@ -73,9 +73,8 @@ public class BrowseController : Controller
     }
 
     [Authorize]
-    public IActionResult Schedule()
+    public async Task<IActionResult> Schedule()
     {
-        // TODO get userId from HttpContext and ask service for ScheduleItems based on it
         int? userId = _userAuthenticationService.GetLoggedInUserId();
         if (userId is null)
         {
@@ -87,61 +86,7 @@ public class BrowseController : Controller
             UserId = (int)userId
         };
 
-        // TODO - replace mock data with all to service
-        UsersScheduleResponse response = new()
-        {
-            StudentsSchedule =
-            [
-                new()
-                {
-                    Id = 1,
-                    AdId = 1,
-                    AdTitle = "Tytuł ogłoszenia 1",
-                    DateTime = DateTime.Now.AddDays(1),
-                    Status = StudentsScheduleItemSummaryDto.RequestStatus.Accepted,
-                    TutorName = "Nauczyciel 1"
-                },
-                new()
-                {
-                    Id = 2,
-                    AdId = 11,
-                    AdTitle = "Tytuł ogłoszenia 11",
-                    DateTime = DateTime.Now.AddDays(11),
-                    Status = StudentsScheduleItemSummaryDto.RequestStatus.Rejected,
-                    TutorName = "Nauczyciel 2"
-                },
-                new()
-                {
-                    Id = 3,
-                    AdId = 111,
-                    AdTitle = "Tytuł ogłoszenia 111",
-                    DateTime = DateTime.Now.AddDays(5),
-                    Status = StudentsScheduleItemSummaryDto.RequestStatus.Pending,
-                    TutorName = "Nauczyciel 3"
-                }
-            ],
-            TutorsSchedule =
-            [
-                new()
-                {
-                    Id = 4,
-                    AdId = 2,
-                    AcceptedStudentsName = null,
-                    AdTitle = "Tytuł ogłoszenia 2",
-                    DateTime = DateTime.Now.AddHours(1),
-                    RequestCount = 0,
-                },
-                new()
-                {
-                    Id = 5,
-                    AdId = 22,
-                    AcceptedStudentsName = "Uczeń 1138",
-                    AdTitle = "Tytuł ogłoszenia 22",
-                    DateTime = DateTime.Now.AddHours(2),
-                    RequestCount = 15,
-                },
-            ]
-        };
+        UsersScheduleResponse response = await _browseService.GetUsersSchedule(request);
         return View(response);
     }
 }
