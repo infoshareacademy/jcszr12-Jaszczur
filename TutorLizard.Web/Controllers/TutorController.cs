@@ -161,11 +161,7 @@ public class TutorController : Controller
             TutorId = (int)tutorId
         };
 
-        // TODO - replace mock response with call to _tutorService
-        AcceptScheduleItemRequestResponse response = new()
-        {
-            Success = true
-        };
+        AcceptScheduleItemRequestResponse response = await _tutorService.AcceptScheduleItemRequest(request);
 
         if (response.Success)
         {
@@ -197,11 +193,7 @@ public class TutorController : Controller
             TutorId = (int)tutorId
         };
 
-        // TODO - replace mock response with call to _tutorService
-        UnacceptScheduleItemRequestResponse response = new()
-        {
-            Success = true
-        };
+        UnacceptScheduleItemRequestResponse response = await _tutorService.UnacceptScheduleItemRequest(request);
 
         if (response.Success)
         {
