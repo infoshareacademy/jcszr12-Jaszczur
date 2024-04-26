@@ -143,6 +143,71 @@ public class TutorController : Controller
         }
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AcceptScheduleItemRequest(int scheduleItemRequestId, int adId)
+    {
+
+        int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+        if (tutorId is null)
+        {
+            // TODO - show failure notification
+            return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
+        }
+        AcceptScheduleItemRequestRequest request = new()
+        {
+            ScheduleItemRequestId = scheduleItemRequestId,
+            TutorId = (int)tutorId
+        };
+
+        AcceptScheduleItemRequestResponse response = await _tutorService.AcceptScheduleItemRequest(request);
+
+        if (response.Success)
+        {
+            // TODO - show success notification
+
+        }
+        else
+        {
+            // TODO - show failure notification
+
+        }
+
+        return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
+    }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UnacceptScheduleItemRequest(int scheduleItemRequestId, int adId)
+    {
+        int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+        if (tutorId is null)
+        {
+            // TODO - show failure notification
+            return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
+        }
+        UnacceptScheduleItemRequestRequest request = new()
+        {
+            ScheduleItemRequestId = scheduleItemRequestId,
+            TutorId = (int)tutorId
+        };
+
+        UnacceptScheduleItemRequestResponse response = await _tutorService.UnacceptScheduleItemRequest(request);
+
+        if (response.Success)
+        {
+            // TODO - show success notification
+
+        }
+        else
+        {
+            // TODO - show failure notification
+
+        }
+
+        return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
+    }
+
     private async Task AddCategoriesToViewBag()
     {
         List<Category> categories = await _categoryRepository
@@ -182,6 +247,7 @@ public class TutorController : Controller
             return RedirectToAction("Error", "Home");
         }
     }
+
     [HttpPost]
     public IActionResult UpdatePendingAdRequest(IFormCollection form, int adRequestId)
     {
@@ -216,4 +282,101 @@ public class TutorController : Controller
             return RedirectToAction("Error", "Home");
         }
     }
+
+    public IActionResult ViewAllAdRequests()
+    {
+        try
+        {
+            int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+            if (tutorId is null)
+            {
+                return RedirectToAction("AccessDenied", "User");
+            }
+
+            TutorAllAdRequestsRequest request = new(tutorId);
+
+            TutorAllAdRequestsResponse response = new()
+            {
+                // The data is only for tests
+                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true),
+                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false)]
+            };
+            return View(response);
+        }
+
+        catch
+        {
+            return RedirectToAction("Error", "Home");
+        }
+    }
+
+    public IActionResult TutorsAdsList()
+    {
+        try
+        {
+            int? tutorId = _userAuthenticationService.GetLoggedInUserId();
+            if (tutorId is null)
+            {
+                return RedirectToAction("AccessDenied", "User");
+            }
+
+            TutorsAdsRequest request = new(tutorId);
+
+            TutorsAdsResponse response = new()
+            {
+                // TODO inject actual data, this is only for tests
+
+                AdList = new List<AdListItemDto>
+                {
+                    new AdListItemDto(
+                        id: 1,
+                        tutorId: 101,
+                        tutorName: "Anna",
+                        subject: "Matematyka",
+                        title: "Korepetycje z matematyki",
+                        description: "Lekcje matematyki dla uczniów szkół średnich.",
+                        categoryId: 2,
+                        categoryName: "Mathematics",
+                        price: 50.0m,
+                        location: "Warszawa",
+                        isRemote: true
+                    ),
+                    new AdListItemDto(
+                        id: 2,
+                        tutorId: 102,
+                        tutorName: "Piotr",
+                        subject: "Fizyka",
+                        title: "Korepetycje z fizyki",
+                        description: "Lekcje fizyki dla uczniów szkół średnich.",
+                        categoryId: 3,
+                        categoryName: "Physics",
+                        price: 60.0m,
+                        location: "Kraków",
+                        isRemote: false
+                    ),
+                    new AdListItemDto(
+                        id: 3,
+                        tutorId: 103,
+                        tutorName: "Michał",
+                        subject: "Chemia",
+                        title: "Korepetycje z chemii",
+                        description: "Lekcje chemii dla uczniów szkół średnich.",
+                        categoryId: 4,
+                        categoryName: "Chemistry",
+                        price: 70.0m,
+                        location: "Gdańsk",
+                        isRemote: true
+                    )
+                }
+            };
+            return View(response);
+        }
+        catch
+        {
+            return RedirectToAction("AccessDenied", "User");
+        }
+    }
+
+
+
 }

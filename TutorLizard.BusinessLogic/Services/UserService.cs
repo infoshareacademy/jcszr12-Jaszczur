@@ -5,6 +5,7 @@ using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
+using TutorLizard.BusinessLogic.Enums;
 
 namespace TutorLizard.BusinessLogic.Services;
 
