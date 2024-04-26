@@ -51,23 +51,12 @@ public class BrowseController : Controller
             UserId = (int)userId,
         };
 
-        // TODO replace with actual all to IBrowseService
-        
-        AdDetailsResponse response = new()
+        AdDetailsResponse? response = await _browseService.GetAdDetails(request);
+
+        if (response is null)
         {
-            AdId = id,
-            TutorId = 1,
-            TutorName = "Nauczyciel 1",
-            Title = "tytuł",
-            CategoryId = 1,
-            CategoryName = "Matematyka",
-            Subject = "tematyka",
-            Location = "Warszawa",
-            Price = 100m,
-            IsRemote = true,
-            Description = "opis",
-            UserRelationship = AdToUserRelationship.PendingStudent
-        };
+            return RedirectToAction(nameof(Ads));
+        }
 
         return View(response);
     }
