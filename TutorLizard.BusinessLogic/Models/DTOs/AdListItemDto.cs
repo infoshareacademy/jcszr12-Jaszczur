@@ -1,25 +1,44 @@
 ﻿namespace TutorLizard.BusinessLogic.Models.DTOs;
-public class AdListItemDto(int id,
-                                       int tutorId,
-                                       string tutorName,
-                                       string subject,
-                                       string title,
-                                       string description,
-                                       int categoryId,
-                                       string categoryName,
-                                       decimal price,
-                                       string location,
-                                       bool isRemote)
+public class AdListItemDto
 {
-    public int Id { get; set; } = id;
-    public int TutorId { get; set; } = tutorId;
-    public string TutorName { get; set; } = tutorName;
-    public string Subject { get; set; } = subject;
-    public string Title { get; set; } = title;
-    public string Description { get; set; } = description;
-    public int CategoryId { get; set; } = categoryId;
-    public string CategoryName { get; set; } = categoryName;
-    public decimal Price { get; set; } = price;
-    public string Location { get; set; } = location;
-    public bool IsRemote { get; set; } = isRemote;
+    public int Id { get; set; }
+    public int TutorId { get; set; }
+    public string TutorName { get; set; }
+    public string Subject { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public int CategoryId { get; set; }
+    public string CategoryName { get; set; }
+    public decimal Price { get; set; }
+    public string Location { get; set; }
+    public bool IsRemote { get; set; }
+
+    public AdListItemDto(int id,
+                                           int tutorId,
+                                           string tutorName,
+                                           string subject,
+                                           string title,
+                                           string description,
+                                           int categoryId,
+                                           string categoryName,
+                                           decimal price,
+                                           string location,
+                                           bool isRemote)
+    {
+        Id = id;
+        TutorId = tutorId;
+        TutorName = tutorName;
+        Subject = subject;
+        Title = title;
+        Description = description;
+        CategoryId = categoryId;
+        CategoryName = categoryName;
+        Price = price;
+        Location = location;
+        IsRemote = isRemote;
+    }
+    public AdListItemDto()
+    {
+        
+    }
 }

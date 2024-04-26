@@ -23,7 +23,20 @@ public class BrowseService : IBrowseService
             .Include(ad => ad.Category)
             .Skip(resultsToSkip)
             .Take(request.PageSize)
-            .Select(ad => ad.ToAdListItemDto())
+            .Select(ad => new AdListItemDto()
+            {
+                Id = ad.Id,
+                TutorId = ad.TutorId,
+                TutorName = ad.User.Name,
+                Subject = ad.Subject,
+                Title = ad.Title,
+                Description = ad.Description,
+                CategoryId = ad.CategoryId,
+                CategoryName = ad.Category.Name,
+                Price = ad.Price,
+                Location = ad.Location,
+                IsRemote = ad.IsRemote
+            })
             .ToListAsync();
 
         GetBrowseAdsPageResponse response = new()
