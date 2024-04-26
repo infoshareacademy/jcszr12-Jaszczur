@@ -269,21 +269,18 @@ public class TutorController : Controller
 
         UpdateTutorsPendingAdRequestRequest request = new(adRequestId, form["replyMessage"]);
 
-        UpdateTutorsPendingAdRequestResponse response = new();
-
         try
         {
             if (!form["btnAccept"].IsNullOrEmpty())
             {
-                // TODO: Move accept logic to a service
-                // _adRequestRepository.GetAdRequestById(adRequestId).IsAccepted = true;
+                request.Action = UpdateTutorsPendingAdRequestRequest.UpdateAction.Accept;
+                _tutorService.UpdateAdRequest(request);
             }
 
             if (!form["btnReject"].IsNullOrEmpty())
             {
-                // TODO: Move reject logic to a service
-                // var result = _adRequestRepository.GetAdRequestById(adRequestId);
-                // _adRequestRepository.GetAllAdRequests().Remove(result);
+                request.Action = UpdateTutorsPendingAdRequestRequest.UpdateAction.Reject;
+                _tutorService.UpdateAdRequest(request);
             }
             return RedirectToAction("ViewPendingAdRequests");
         }

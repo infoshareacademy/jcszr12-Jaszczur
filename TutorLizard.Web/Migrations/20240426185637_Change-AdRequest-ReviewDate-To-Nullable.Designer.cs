@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TutorLizard.BusinessLogic.Data;
 
@@ -11,9 +12,11 @@ using TutorLizard.BusinessLogic.Data;
 namespace TutorLizard.Web.Migrations
 {
     [DbContext(typeof(JaszczurContext))]
-    partial class JaszczurContextModelSnapshot : ModelSnapshot
+    [Migration("20240426185637_Change-AdRequest-ReviewDate-To-Nullable")]
+    partial class ChangeAdRequestReviewDateToNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

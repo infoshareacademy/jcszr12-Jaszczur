@@ -7,4 +7,5 @@ namespace TutorLizard.BusinessLogic.Interfaces.Services;
 public interface ITutorService
 {
     Task<IsUserTheAdOwnerResponse> IsUserTheAdOwner(IsUserTheAdOwnerRequest request);
+    Task<UpdateTutorsPendingAdRequestResponse> UpdateAdRequest(UpdateTutorsPendingAdRequestRequest request);
 }
