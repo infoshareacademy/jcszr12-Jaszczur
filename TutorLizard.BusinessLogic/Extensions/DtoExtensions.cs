@@ -10,4 +10,19 @@ public static class DtoExtensions
     public static ScheduleItemDto ToDto(this ScheduleItem scheduleItem) => new ScheduleItemDto(scheduleItem);
     public static ScheduleItemRequestDto ToDto(this ScheduleItemRequest scheduleItemRequest) => new ScheduleItemRequestDto(scheduleItemRequest);
     public static UserDto ToDto(this User user) => new UserDto(user);
+
+    public static AdListItemDto ToAdListItemDto(this Ad ad)
+    {
+        return new AdListItemDto(id: ad.Id,
+                                 tutorId: ad.TutorId,
+                                 tutorName: ad.User.Name,
+                                 subject: ad.Subject,
+                                 title: ad.Title,
+                                 description: ad.Description,
+                                 categoryId: ad.CategoryId,
+                                 categoryName: ad.Category.Name,
+                                 price: ad.Price,
+                                 location: ad.Location,
+                                 isRemote: ad.IsRemote);
+    }
 }
