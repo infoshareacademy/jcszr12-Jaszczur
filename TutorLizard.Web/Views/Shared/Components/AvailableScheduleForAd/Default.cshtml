@@ -26,27 +26,27 @@
                     }
                     else if (item.Status == ScheduleItemRequestStatus.RequestNotSent)
                     {
-                        <form asp-controller="Student" asp-action="AdRequests" method="post">
-                            <div class="form-group">
-                            <div class="form-group my-3">
-                                <input type="submit" id="btnRequest" name="btnRequest" value="Zapisz się" class="btn btn-lg btn-success" />
-                            </div>
-                        </form>
+                        @foreach (var request in item.Requests)
+                        {
+                            <form asp-controller="Student" asp-action="CreateScheduleItemRequest" method="post">
+                                <input name="scheduleItemId" value="@Model.ScheduleItemId" type="hidden" />
+                            <input name="scheduleItemRequestId" value="@request.Id" type="hidden" />
+                            <button class="btn btn-danger mt-3">Zapisz się</button>
+                            </form>
+                        }
                     }
                 }
             </ul>
         }
 
-        @*TODO delet the test code when needed*@
+        @*TODO delete the test code when needed*@
         <h3>Testowe dane</h3>
         <div>
             <ul>
                 <li>Termin: 10 maja 2024, godzina 15:00, online</li>
-                <form asp-controller="Student" asp-action="AdRequests" method="post">
-                    <div class="form-group">
-                        <div class="form-group my-3">
-                            <input type="submit" id="btnRequest" name="btnRequest" value="Zapisz się" class="btn btn-lg btn-success" />
-                        </div>
+                <form asp-controller="Student" asp-action="CreateScheduleItemRequest" method="post">
+                    <input name="scheduleItemId" value="@Model.ScheduleItemId" type="hidden" />
+                    <button class="btn btn-danger mt-3">Zapisz się</button>
                 </form>
             </ul>
         </div>

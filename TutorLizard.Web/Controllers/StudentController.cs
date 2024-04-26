@@ -82,4 +82,41 @@ public class StudentController : Controller
         }
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateScheduleItemRequest(int scheduleItemRequestId, int scheduleItemId)
+    {
+
+        int? studentId = _userAuthenticationService.GetLoggedInUserId();
+        if (studentId is null)
+        {
+            // TODO - show failure notification
+            return RedirectToAction(actionName: "Schedule", controllerName: "Browse", routeValues: new { id = scheduleItemId });
+        }
+        CreateScheduleItemRequestRequest request = new()
+        {
+            ScheduleItemRequestId = scheduleItemRequestId,
+            StudentId = (int)studentId
+        };
+
+        // TODO - replace mock response with call to _tutorService
+        CreateScheduleItemRequestResponse response = new()
+        {
+            Success = true
+        };
+
+        if (response.Success)
+        {
+            // TODO - show success notification
+
+        }
+        else
+        {
+            // TODO - show failure notification
+
+        }
+
+        return RedirectToAction(actionName: "Schedule", controllerName: "Browse", routeValues: new { id = scheduleItemId });
+    }
+
 }
