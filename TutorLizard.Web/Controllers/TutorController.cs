@@ -230,7 +230,7 @@ public class TutorController : Controller
                                             dataTextField: nameof(CategoryDto.Name));
     }
 
-    public IActionResult ViewPendingAdRequests()
+    public async Task<IActionResult> ViewPendingAdRequests()
     {
         try
         {
@@ -242,12 +242,8 @@ public class TutorController : Controller
 
             TutorsPendingAdRequestsRequest request = new(tutorId);
 
-            TutorsPendingAdRequestsResponse response = new()
-            {
-                // The data is only for tests
-                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true, null),
-                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false, null)]
-            };
+            TutorsPendingAdRequestsResponse response = await _tutorService.ViewAllPendingAdRequests(request);
+
             return View(response);
         }
 

@@ -1,7 +1,9 @@
-﻿using TutorLizard.BusinessLogic.Extensions;
+﻿using Microsoft.EntityFrameworkCore;
+using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
+using TutorLizard.BusinessLogic.Models.DTOs;
 using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Models.DTOs.Responses;
 
@@ -23,6 +25,28 @@ public class TutorService : ITutorService
             IsOwner = true
         };
         return Task.FromResult(response);
+    }
+
+    public async Task<TutorsPendingAdRequestsResponse> ViewAllPendingAdRequests(TutorsPendingAdRequestsRequest request)
+    {
+        List<AdRequestsListDto> adRequests = await _adRequestRepository.GetAll()
+            .Where(adrequest => adrequest.Ad.TutorId == request.TutorId)
+            .Select(adrequest => new AdRequestsListDto(adrequest.Id,
+                                                       adrequest.StudentId,
+                                                       adrequest.AdId,
+                                                       adrequest.IsAccepted,
+                                                       adrequest.Message,
+                                                       adrequest.ReplyMessage,
+                                                       adrequest.IsRemote,
+                                                       adrequest.ReviewDate))
+            .ToListAsync();
+
+        TutorsPendingAdRequestsResponse response = new()
+        {
+            AdRequests = adRequests
+        };
+
+        return response;
     }
 
     public async Task<UpdateTutorsPendingAdRequestResponse> UpdateAdRequest(UpdateTutorsPendingAdRequestRequest request)
