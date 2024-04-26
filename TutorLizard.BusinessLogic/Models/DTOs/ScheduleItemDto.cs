@@ -22,4 +22,11 @@ public class ScheduleItemDto
         Rejected,
         RequestNotSent
     }
+
+    public enum RequestStatus
+    {
+        Accepted,
+        Pending,
+        Rejected
+    }
 }

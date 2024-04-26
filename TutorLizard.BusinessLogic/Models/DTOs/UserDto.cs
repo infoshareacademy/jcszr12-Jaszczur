@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TutorLizard.BusinessLogic.Enums;
 
 namespace TutorLizard.BusinessLogic.Models.DTOs;
 public class UserDto

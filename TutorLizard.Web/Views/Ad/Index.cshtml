@@ -1,16 +1,7 @@
 ﻿@model IEnumerable<TutorLizard.BusinessLogic.Models.Ad>
-@inject ICategoryRepository categoryRepository
 
 @{
     ViewData["Title"] = "Ads - List";
-}
-
-@functions{
-    string? CategoryName(int id)
-    {
-        // TODO replace direct calls to repository with some service
-        return categoryRepository.GetCategoryById(id)?.Name;
-    }
 }
 
 <h1>Ads</h1>
@@ -70,7 +61,11 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @CategoryName(item.CategoryId)
+                    @Html.DisplayFor(modelItem => item.CategoryId)
+                @if (ViewBag.CategoryName is not null)
+                {
+                    <span> (@ViewBag.CategoryName)</span>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Price)

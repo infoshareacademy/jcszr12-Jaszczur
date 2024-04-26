@@ -4,22 +4,24 @@ using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
+using TutorLizard.BusinessLogic.Enums;
 
 namespace TutorLizard.BusinessLogic.Services;
 
 public class UserService : IUserService
 {
     private readonly PasswordHasher<User> _passwordHasher = new PasswordHasher<User>();
-    private readonly IUserRepository _userRepository;
+    private readonly IDbRepository<User> _userRepository;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IDbRepository<User> userRepository)
     {
         _userRepository = userRepository;
     }
-    public UserDto? LogIn(string username, string password)
+    public async Task<UserDto?> LogIn(string username, string password)
     {
-        var user = _userRepository.GetAllUsers()
-            .FirstOrDefault(user => user.Name == username);
+        var user = await _userRepository.GetAll()
+            .FirstOrDefaultAsync(user => user.Name == username);
 
         if (user == null)
         {
@@ -37,15 +39,22 @@ public class UserService : IUserService
         return null;
     }
 
-    public bool RegisterUser(string userName, UserType type, string email, string password)
+    public async Task<bool> RegisterUser(string userName, UserType type, string email, string password)
     {
-        if (_userRepository.GetAllUsers().Any(user => user.Name == userName))
+        if (await _userRepository.GetAll().AnyAsync(user => user.Name == userName))
             return false;
 
-        var user = _userRepository.CreateUser(userName, type, email, password);
+        User user = new()
+        {
+            Name = userName,
+            UserType = type,
+            Email = email,
+            PasswordHash = password
+        };
+
         user.PasswordHash = _passwordHasher.HashPassword(user, password);
 
-        _userRepository.UpdateUser(user);
+        await _userRepository.Create(user);
 
         return true;
     }
