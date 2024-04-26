@@ -10,10 +10,13 @@ namespace TutorLizard.BusinessLogic.Services;
 public class TutorService : ITutorService
 {
     private readonly IDbRepository<ScheduleItem> _scheduleItemRepository;
+    private readonly IDbRepository<ScheduleItemRequest> _scheduleItemRequestRepository;
 
-    public TutorService(IDbRepository<ScheduleItem> scheduleItemRepository)
+    public TutorService(IDbRepository<ScheduleItem> scheduleItemRepository,
+                        IDbRepository<ScheduleItemRequest> scheduleItemRequestRepository)
     {
         _scheduleItemRepository = scheduleItemRepository;
+        _scheduleItemRequestRepository = scheduleItemRequestRepository;
     }
 
     public Task<IsUserTheAdOwnerResponse> IsUserTheAdOwner(IsUserTheAdOwnerRequest request)
@@ -59,5 +62,73 @@ public class TutorService : ITutorService
         };
 
         return response;
+    }
+
+    public async Task<AcceptScheduleItemRequestResponse> AcceptScheduleItemRequest(AcceptScheduleItemRequestRequest request)
+    {
+        bool isOwner = await _scheduleItemRequestRepository.GetAll()
+            .Where(r => r.Id == request.ScheduleItemRequestId)
+            .Select(r => r.ScheduleItem.Ad.TutorId == request.TutorId)
+            .FirstOrDefaultAsync();
+
+        if (isOwner == false)
+        {
+            return new()
+            {
+                Success = false
+            };
+        }
+
+        var updated = await _scheduleItemRequestRepository.Update(request.ScheduleItemRequestId, r =>
+        {
+            r.IsAccepted = true;
+        });
+
+        if (updated is null)
+        {
+            return new()
+            {
+                Success = false
+            };
+        }
+
+        return new()
+        {
+            Success = true
+        };
+    }
+
+    public async Task<UnacceptScheduleItemRequestResponse> UnacceptScheduleItemRequest(UnacceptScheduleItemRequestRequest request)
+    {
+        bool isOwner = await _scheduleItemRequestRepository.GetAll()
+            .Where(r => r.Id == request.ScheduleItemRequestId)
+            .Select(r => r.ScheduleItem.Ad.TutorId == request.TutorId)
+            .FirstOrDefaultAsync();
+
+        if (isOwner == false)
+        {
+            return new()
+            {
+                Success = false
+            };
+        }
+
+        var updated = await _scheduleItemRequestRepository.Update(request.ScheduleItemRequestId, r =>
+        {
+            r.IsAccepted = false;
+        });
+
+        if (updated is null)
+        {
+            return new()
+            {
+                Success = false
+            };
+        }
+
+        return new()
+        {
+            Success = true
+        };
     }
 }
