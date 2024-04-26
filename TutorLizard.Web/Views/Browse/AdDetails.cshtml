@@ -43,8 +43,6 @@
     </div>
 </div>
 
-<div><a href="javascript:history.back()">Wróć</a></div>
-
 @if(Model.UserRelationship == AdToUserRelationship.Owner)
 {
     @await Component.InvokeAsync(nameof(TutorsScheduleForAd), new { adId = Model.AdId })
@@ -55,7 +53,7 @@
 }
 @if(Model.UserRelationship == AdToUserRelationship.PendingStudent)
 {
-    <div><h3>Sekcja dla ucznia, który wysłał zgłoszenie</h3></div>
+    @await Component.InvokeAsync(nameof(AdRequestStatusForAd), new {adId = Model.AdId})
 }
 @if(Model.UserRelationship == AdToUserRelationship.None)
 {

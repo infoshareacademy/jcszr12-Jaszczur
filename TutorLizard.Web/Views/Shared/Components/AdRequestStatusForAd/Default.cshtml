@@ -1,0 +1,35 @@
+﻿@model AdRequestStatusResponse?
+
+@if(Model is not null)
+{
+    <div>
+        <div><h3>Twoje zgłoszenie</h3></div>
+        <div>
+            <span>Status zgłoszenia: </span>
+            @if(Model.Status == AdRequestStatusResponse.RequestStatus.Accepted)
+            {
+                <span>Zaakceptowane</span>
+            }
+            else if(Model.Status == AdRequestStatusResponse.RequestStatus.Pending)
+            {
+                <span>Oczekuje na akceptację</span>
+            }
+            else if (Model.Status == AdRequestStatusResponse.RequestStatus.Rejected)
+            {
+                <span>Odrzucone</span>
+            }
+        </div>
+        <div>Data wysłania: @Model.DateCreated</div>
+        <div>
+            <div class="h5 mt-3">Twoja wiadomość:</div>
+            <div>@Model.Message</div>
+        </div>
+        @if(Model.ReplyMessage is not null)
+        {
+            <div>
+                <div class="h5 mt-3">Odpowiedź nauczyciela:</div>
+                <div>@Model.ReplyMessage</div>
+            </div>
+        }
+    </div>
+}
