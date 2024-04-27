@@ -55,4 +55,30 @@ public class StudentService : IStudentService
             Ads = adListDtos,
         };
     }
+
+    public async Task<StudentsAdRequestsResponse> ViewAdRequests(StudentsAdRequestsRequest request)
+    {
+        var studentId = request.StudentId;
+
+        var adRequests = await _adRequestRepository.GetAll()
+            .Where(ar => ar.StudentId == studentId && ar.DateCreated != null)
+            .ToListAsync();
+
+        var adRequestsListDtos = adRequests
+            .Select(ar => new AdRequestsListDto
+            {
+                Id = ar.Id,
+                AdId = ar.AdId,
+                StudentId = ar.StudentId,
+                Message = ar.Message,
+                IsRemote = ar.IsRemote,
+                IsAccepted = ar.IsAccepted
+            })
+            .ToList();
+
+        return new StudentsAdRequestsResponse
+        {
+            AdRequests = adRequestsListDtos
+        };
+    }
 }
