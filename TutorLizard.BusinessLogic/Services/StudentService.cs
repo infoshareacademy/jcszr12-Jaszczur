@@ -24,7 +24,15 @@ public class StudentService : IStudentService
             .ToListAsync();
 
         var adRequestsListDtos = adRequests
-            .Select(ar => new AdRequestsListDto())
+            .Select(ar => new AdRequestsListDto
+            {
+                Id = ar.Id,
+                AdId = ar.AdId,
+                StudentId = ar.StudentId,
+                Message = ar.Message,
+                IsRemote = ar.IsRemote,
+                IsAccepted = ar.IsAccepted
+            })
             .ToList();
 
         return new StudentsAdRequestsResponse
