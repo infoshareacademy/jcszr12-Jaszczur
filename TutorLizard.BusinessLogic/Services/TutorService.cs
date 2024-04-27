@@ -11,12 +11,15 @@ public class TutorService : ITutorService
 {
     private readonly IDbRepository<ScheduleItem> _scheduleItemRepository;
     private readonly IDbRepository<ScheduleItemRequest> _scheduleItemRequestRepository;
+    private readonly IDbRepository<Ad> _adRepository;
 
     public TutorService(IDbRepository<ScheduleItem> scheduleItemRepository,
-                        IDbRepository<ScheduleItemRequest> scheduleItemRequestRepository)
+                        IDbRepository<ScheduleItemRequest> scheduleItemRequestRepository,
+                        IDbRepository<Ad> adRepository)
     {
         _scheduleItemRepository = scheduleItemRepository;
         _scheduleItemRequestRepository = scheduleItemRequestRepository;
+        _adRepository = adRepository;
     }
 
     public Task<IsUserTheAdOwnerResponse> IsUserTheAdOwner(IsUserTheAdOwnerRequest request)
@@ -129,6 +132,39 @@ public class TutorService : ITutorService
         return new()
         {
             Success = true
+        };
+    }
+
+    public async Task<CreateAdResponse> CrateAd(CreateAdRequest request)
+    {
+        Ad toCreate = new()
+        {
+            TutorId = request.TutorId,
+            Subject = request.Subject,
+            Title = request.Subject,
+            Description = request.Description,
+            CategoryId = request.CategoryId,
+            Price = request.Price,
+            Location = request.Location,
+            IsRemote = request.IsRemote
+        };
+
+        try
+        {
+            await _adRepository.Create(toCreate);
+        }
+        catch
+        {
+            return new()
+            {
+                SuccessfullyCreated = false
+            };
+        }
+
+        return new()
+        {
+            SuccessfullyCreated = true,
+            CreatedAdId = toCreate.Id
         };
     }
 }
