@@ -11,15 +11,18 @@ public class TutorService : ITutorService
 {
     private readonly IDbRepository<ScheduleItem> _scheduleItemRepository;
     private readonly IDbRepository<ScheduleItemRequest> _scheduleItemRequestRepository;
+    private readonly IDbRepository<Ad> _adRepository;
     private readonly IDbRepository<AdRequest> _adRequestRepository;
 
     public TutorService(IDbRepository<ScheduleItem> scheduleItemRepository,
                         IDbRepository<ScheduleItemRequest> scheduleItemRequestRepository,
-                        IDbRepository<AdRequest> adRequestRepository)
+                        IDbRepository<AdRequest> adRequestRepository,
+                        IDbRepository<Ad> adRepository)
     {
         _scheduleItemRepository = scheduleItemRepository;
         _scheduleItemRequestRepository = scheduleItemRequestRepository;
         _adRequestRepository = adRequestRepository;
+        _adRepository = adRepository;
     }
 
     public Task<IsUserTheAdOwnerResponse> IsUserTheAdOwner(IsUserTheAdOwnerRequest request)
@@ -187,5 +190,38 @@ public class TutorService : ITutorService
             response.IsSuccessful = true;
 
         return response;
+    }
+
+    public async Task<TutorsAdsResponse> ViewTutorsAds(TutorsAdsRequest request)
+    {
+        var tutorId = request.TutorId;
+
+        var tutorsAds = await _adRepository.GetAll()
+            .Include(ad => ad.User)
+            .Include(ad => ad.Category)
+            .Where(ad => ad.TutorId == tutorId)
+            .ToListAsync();
+
+        var adListDtos = tutorsAds
+            .Select(ad => new AdListItemDto
+            {
+                Id = ad.Id,
+                TutorId = ad.TutorId,
+                Subject = ad.Subject,
+                Title = ad.Title,
+                Description = ad.Description,
+                CategoryId = ad.CategoryId,
+                Price = ad.Price,
+                Location = ad.Location,
+                IsRemote = ad.IsRemote,
+                CategoryName = ad.Category.Name,
+                TutorName = ad.User.Name
+            })
+            .ToList();
+
+        return new TutorsAdsResponse
+        {
+            AdList = adListDtos
+        };
     }
 }
