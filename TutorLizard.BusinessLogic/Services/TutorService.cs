@@ -180,12 +180,12 @@ public class TutorService : ITutorService
         }
 
         if (adRequest is null) {
-            UpdateTutorsPendingAdRequestResponse response = new()
+            UpdateTutorsPendingAdRequestResponse updateFailed = new()
             {
                 IsSuccessful = false
             };
             
-            return response;
+            return updateFailed;
         }
 
         UpdateTutorsPendingAdRequestResponse response = new()
