@@ -179,19 +179,12 @@ public class TutorService : ITutorService
                 .Update(request.AdRequestId, entity => entity.IsAccepted = true);
         }
 
-        if (adRequest is null) {
-            UpdateTutorsPendingAdRequestResponse updateFailed = new()
-            {
-                IsSuccessful = false
-            };
-            
-            return updateFailed;
-        }
+        UpdateTutorsPendingAdRequestResponse response = new();
 
-        UpdateTutorsPendingAdRequestResponse response = new()
-        {
-            IsSuccessful = true
-        };
+        if (adRequest is null)
+            response.IsSuccessful = false;
+        else
+            response.IsSuccessful = true;
 
         return response;
     }
