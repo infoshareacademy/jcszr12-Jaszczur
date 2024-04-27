@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
-using Microsoft.EntityFrameworkCore;
-using TutorLizard.BusinessLogic.Extensions;
-using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Models.DTOs;
@@ -145,6 +142,8 @@ public class TutorService : ITutorService
                 adrequest.Ad.TutorId == request.TutorId &&
                 adrequest.ReviewDate == null &&
                 adrequest.IsAccepted == false)
+            .Include(adrequest => adrequest.Ad)
+            .ThenInclude(ad => ad.Category)
             .Select(adrequest => new AdRequestsListDto(adrequest.Id,
                                                        adrequest.StudentId,
                                                        adrequest.AdId,
@@ -152,7 +151,9 @@ public class TutorService : ITutorService
                                                        adrequest.Message,
                                                        adrequest.ReplyMessage,
                                                        adrequest.IsRemote,
-                                                       adrequest.ReviewDate))
+                                                       adrequest.Ad.Title,
+                                                       adrequest.Ad.Subject,
+                                                       adrequest.Ad.Category.Name))
             .ToListAsync();
 
         TutorsPendingAdRequestsResponse response = new()
