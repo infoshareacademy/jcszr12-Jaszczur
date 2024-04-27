@@ -29,6 +29,14 @@ public class TutorService : ITutorService
 
     public async Task<IsUserTheAdOwnerResponse> IsUserTheAdOwner(IsUserTheAdOwnerRequest request)
     {
+        if (request.UserId is null)
+        {
+            return new IsUserTheAdOwnerResponse
+            {
+                IsOwner = false
+            };
+        }
+
         int adId = request.AdId;
         int userId = (int)request.UserId;
 
@@ -41,7 +49,7 @@ public class TutorService : ITutorService
         };
     }
 
-    public async Task<CreateScheduleItemResponse> CreateItem(CreateScheduleItemRequest request)
+    public async Task<CreateScheduleItemResponse> CreateScheduleItem(CreateScheduleItemRequest request)
     {
         int adId = request.AdId;
         int userId = request.UserId;
@@ -58,19 +66,18 @@ public class TutorService : ITutorService
             };
         }
 
-        var lastScheduleItem = await _scheduleItemRepository.GetAll().OrderByDescending(x => x.Id).FirstOrDefaultAsync();
-        int lastItemId = lastScheduleItem?.Id ?? 0;
-
-        int createdItemId = lastItemId + 1;
-
-        var scheduleItem = new ScheduleItem(createdItemId, adId, dateTime);
+        var scheduleItem = new ScheduleItem()
+        {
+            AdId = adId,
+            DateTime = dateTime
+        };
 
         await _scheduleItemRepository.Create(scheduleItem);
 
         return new CreateScheduleItemResponse
         {
             Success = true,
-            CreatedItemId = createdItemId
+            CreatedItemId = scheduleItem.Id
         };
     }
 
