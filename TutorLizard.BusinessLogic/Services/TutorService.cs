@@ -11,12 +11,15 @@ public class TutorService : ITutorService
 {
     private readonly IDbRepository<ScheduleItem> _scheduleItemRepository;
     private readonly IDbRepository<ScheduleItemRequest> _scheduleItemRequestRepository;
+    private readonly IDbRepository<Ad> _adRepository;
 
     public TutorService(IDbRepository<ScheduleItem> scheduleItemRepository,
-                        IDbRepository<ScheduleItemRequest> scheduleItemRequestRepository)
+                        IDbRepository<ScheduleItemRequest> scheduleItemRequestRepository,
+                        IDbRepository<Ad> adRepository)
     {
         _scheduleItemRepository = scheduleItemRepository;
         _scheduleItemRequestRepository = scheduleItemRequestRepository;
+        _adRepository = adRepository;
     }
 
     public Task<IsUserTheAdOwnerResponse> IsUserTheAdOwner(IsUserTheAdOwnerRequest request)
@@ -129,6 +132,41 @@ public class TutorService : ITutorService
         return new()
         {
             Success = true
+        };
+    }
+
+    public async Task<TutorsAdsResponse> ViewTutorsAds(TutorsAdsRequest request)
+    {
+        var tutorId = request.TutorId;
+
+        var tutorsAds = await _adRepository.GetAll()
+            .Include(ad => ad.Category)
+            .ThenInclude(c => c.Name)
+            .Include(ad => ad.User)
+            .ThenInclude(User => User.Name)
+            .Where(ad => ad.TutorId == tutorId)
+            .ToListAsync();
+
+        var adListDtos = tutorsAds
+            .Select(ad => new AdListItemDto
+            {
+                Id = ad.Id,
+                TutorId = ad.TutorId,
+                Subject = ad.Subject,
+                Title = ad.Title,
+                Description = ad.Description,
+                CategoryId = ad.CategoryId,
+                Price = ad.Price,
+                Location = ad.Location,
+                IsRemote = ad.IsRemote,
+                CategoryName = ad.Category.Name,
+                TutorName = ad.User.Name
+            })
+            .ToList();
+
+        return new TutorsAdsResponse
+        {
+            AdList = adListDtos
         };
     }
 }
