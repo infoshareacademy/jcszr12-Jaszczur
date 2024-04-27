@@ -45,6 +45,8 @@ public class StudentService : IStudentService
                 Price = ad.Price,
                 Location = ad.Location,
                 IsRemote = ad.IsRemote,
+                CategoryName = ad.Category.Name,
+                TutorName = ad.User.Name
             })
             .ToList();
 
