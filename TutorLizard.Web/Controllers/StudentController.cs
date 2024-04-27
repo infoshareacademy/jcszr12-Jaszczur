@@ -87,10 +87,7 @@ public class StudentController : Controller
         };
 
         // TODO - replace mock response with call to _tutorService
-        CreateScheduleItemRequestResponse response = new()
-        {
-            Success = true
-        };
+        CreateScheduleItemRequestResponse response = await _studentService.CreateScheduleItemRequest(request);
 
         if (response.Success)
         {
