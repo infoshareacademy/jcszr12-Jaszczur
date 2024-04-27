@@ -6,5 +6,6 @@ namespace TutorLizard.BusinessLogic.Interfaces.Services;
 
 public interface IStudentService
 {
+    Task<StudentsAcceptedAdsResponse> ViewAcceptedAds(StudentsAcceptedAdsRequest request);
     Task<StudentsAdRequestsResponse> ViewAdRequests(StudentsAdRequestsRequest request);
 }
