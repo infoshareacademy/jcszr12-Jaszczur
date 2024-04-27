@@ -207,30 +207,12 @@ public class TutorService : ITutorService
                 .Update(request.AdRequestId, entity => entity.IsAccepted = true);
         }
 
-        if (adRequest is null) {
-            UpdateTutorsPendingAdRequestResponse updateFailed = new()
-            {
-                IsSuccessful = false
-            };
-            
-            return updateFailed;
-        }
+        UpdateTutorsPendingAdRequestResponse response = new();
 
-        UpdateTutorsPendingAdRequestResponse response = new()
-        {
-            UpdatedAdRequestDto =
-            {
-                Id = adRequest.Id,
-                AdId = adRequest.AdId,
-                StudentId = adRequest.StudentId,
-                IsAccepted = adRequest.IsAccepted,
-                Message = adRequest.Message,
-                ReplyMessage = adRequest.ReplyMessage,
-                ReviewDate = adRequest.ReviewDate,
-                IsRemote = adRequest.IsRemote
-            },
-            IsSuccessful = true
-        };
+        if (adRequest is null)
+            response.IsSuccessful = false;
+        else
+            response.IsSuccessful = true;
 
         return response;
     }
