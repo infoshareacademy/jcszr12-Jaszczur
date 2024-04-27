@@ -5,12 +5,6 @@ using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Models.DTOs;
 using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Models.DTOs.Responses;
-using TutorLizard.BusinessLogic.Interfaces.Repositories;
-using TutorLizard.BusinessLogic.Models;
-using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
-using Microsoft.EntityFrameworkCore;
-using System.Net.NetworkInformation;
-using System;
 
 namespace TutorLizard.BusinessLogic.Services;
 public class TutorService : ITutorService
@@ -190,7 +184,7 @@ public class TutorService : ITutorService
     public async Task<TutorsPendingAdRequestsResponse> ViewAllPendingAdRequests(TutorsPendingAdRequestsRequest request)
     {
         List<AdRequestsListDto> adRequests = await _adRequestRepository.GetAll()
-            .Where(adrequest => 
+            .Where(adrequest =>
                 adrequest.Ad.TutorId == request.TutorId &&
                 adrequest.ReviewDate == null &&
                 adrequest.IsAccepted == false)
@@ -221,8 +215,8 @@ public class TutorService : ITutorService
         var adRequest = await _adRequestRepository
             .Update(request.AdRequestId, entity =>
             {
-                 entity.ReviewDate = DateTime.Now;
-                 entity.ReplyMessage = request.ReplyMessage;
+                entity.ReviewDate = DateTime.Now;
+                entity.ReplyMessage = request.ReplyMessage;
             });
 
         if (request.Action == UpdateTutorsPendingAdRequestRequest.UpdateAction.Accept)
