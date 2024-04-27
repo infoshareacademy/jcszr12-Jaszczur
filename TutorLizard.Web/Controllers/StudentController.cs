@@ -63,11 +63,6 @@ public class StudentController : Controller
 
             StudentsAdRequestsResponse response = await _studentService.ViewAdRequests(request);
 
-            if (!string.IsNullOrWhiteSpace(buttonAction["btnRequest"]))
-            {
-                return RedirectToAction("CreateAdRequest");
-            }
-
             return View(response);
         }
 
