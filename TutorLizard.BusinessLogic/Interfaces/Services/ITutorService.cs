@@ -11,4 +11,7 @@ public interface ITutorService
     Task<CreateScheduleItemResponse> CreateItem(CreateScheduleItemRequest request);
     Task<IsUserTheAdOwnerResponse> IsUserTheAdOwner(IsUserTheAdOwnerRequest request);
     Task<UnacceptScheduleItemRequestResponse> UnacceptScheduleItemRequest(UnacceptScheduleItemRequestRequest request);
+    Task<UpdateTutorsPendingAdRequestResponse> UpdateAdRequest(UpdateTutorsPendingAdRequestRequest request);
+    Task<TutorsPendingAdRequestsResponse> ViewAllPendingAdRequests(TutorsPendingAdRequestsRequest request);
+    Task<TutorsAdsResponse> ViewTutorsAds(TutorsAdsRequest request);
 }

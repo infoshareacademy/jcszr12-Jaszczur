@@ -23,7 +23,7 @@ public class StudentController : Controller
         return View();
     }
 
-    public IActionResult AcceptedAds()
+    public async Task<IActionResult> AcceptedAds()
     {
         try
         {
@@ -35,11 +35,8 @@ public class StudentController : Controller
 
             StudentsAcceptedAdsRequest request = new(studentId);
 
-            StudentsAcceptedAdsResponse response = new()
-            {
-                // The data is only for tests
-                Ads = [new AdListItemDto(1, 1, "Jan", "Maths", "Matematyka", "opis", 1, "Math", 60, "Warszawa", true)]
-            };
+            StudentsAcceptedAdsResponse response = await _studentService.ViewAcceptedAds(request);
+
             return View(response);
         }
 
@@ -49,7 +46,7 @@ public class StudentController : Controller
         }
     }
 
-    public IActionResult AdRequests(IFormCollection buttonAction)
+    public async Task<IActionResult> AdRequests(IFormCollection buttonAction)
     {
         try
         {
@@ -61,17 +58,7 @@ public class StudentController : Controller
 
             StudentsAdRequestsRequest request = new(studentId);
 
-            StudentsAdRequestsResponse response = new()
-            {
-                //data for tests only
-                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "xyz", "yxz", false)]
-            };
-
-            if (!string.IsNullOrWhiteSpace(buttonAction["btnRequest"]))
-            {
-                // TODO - create ScheduleRequest
-                return View(response);
-            }
+            StudentsAdRequestsResponse response = await _studentService.ViewAdRequests(request);
 
             return View(response);
         }

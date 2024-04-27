@@ -18,7 +18,7 @@ public class AdRequestDto
     [MaxLength(150)]
     public string Message { get; set; }
     public string? ReplyMessage { get; set; }
-    public DateTime ReviewDate { get; set; }
+    public DateTime? ReviewDate { get; set; }
     public bool IsRemote { get; set; }
 
     public AdRequestDto(AdRequest adRequest)
