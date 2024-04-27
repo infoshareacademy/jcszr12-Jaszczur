@@ -140,10 +140,8 @@ public class TutorService : ITutorService
         var tutorId = request.TutorId;
 
         var tutorsAds = await _adRepository.GetAll()
-            .Include(ad => ad.Category)
-            .ThenInclude(c => c.Name)
             .Include(ad => ad.User)
-            .ThenInclude(User => User.Name)
+            .Include(ad => ad.Category)
             .Where(ad => ad.TutorId == tutorId)
             .ToListAsync();
 
