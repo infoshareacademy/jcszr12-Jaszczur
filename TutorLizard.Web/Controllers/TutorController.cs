@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -223,7 +222,7 @@ public class TutorController : Controller
                                             dataTextField: nameof(CategoryDto.Name));
     }
 
-    public IActionResult ViewPendingAdRequests()
+    public async Task<IActionResult> ViewPendingAdRequests()
     {
         try
         {
@@ -235,12 +234,8 @@ public class TutorController : Controller
 
             TutorsPendingAdRequestsRequest request = new(tutorId);
 
-            TutorsPendingAdRequestsResponse response = new()
-            {
-                // The data is only for tests
-                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true),
-                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false)]
-            };
+            TutorsPendingAdRequestsResponse response = await _tutorService.ViewAllPendingAdRequests(request);
+
             return View(response);
         }
 
@@ -251,7 +246,7 @@ public class TutorController : Controller
     }
 
     [HttpPost]
-    public IActionResult UpdatePendingAdRequest(IFormCollection form, int adRequestId)
+    public async Task<IActionResult> UpdatePendingAdRequest(IFormCollection form, int adRequestId)
     {
         int? tutorId = _userAuthenticationService.GetLoggedInUserId();
         if (tutorId is null)
@@ -261,22 +256,17 @@ public class TutorController : Controller
 
         UpdateTutorsPendingAdRequestRequest request = new(adRequestId, form["replyMessage"]);
 
-        UpdateTutorsPendingAdRequestResponse response = new();
-
         try
         {
             if (!form["btnAccept"].IsNullOrEmpty())
-            {
-                // TODO: Move accept logic to a service
-                // _adRequestRepository.GetAdRequestById(adRequestId).IsAccepted = true;
-            }
+                request.Action = UpdateTutorsPendingAdRequestRequest.UpdateAction.Accept;
+            else if (!form["btnReject"].IsNullOrEmpty())
+                request.Action = UpdateTutorsPendingAdRequestRequest.UpdateAction.Reject;
 
-            if (!form["btnReject"].IsNullOrEmpty())
-            {
-                // TODO: Move reject logic to a service
-                // var result = _adRequestRepository.GetAdRequestById(adRequestId);
-                // _adRequestRepository.GetAllAdRequests().Remove(result);
-            }
+            var response = await _tutorService.UpdateAdRequest(request);
+            if (!response.IsSuccessful)
+                RedirectToAction(nameof(AdRequest));
+
             return RedirectToAction("ViewPendingAdRequests");
         }
         catch
@@ -299,9 +289,6 @@ public class TutorController : Controller
 
             TutorAllAdRequestsResponse response = new()
             {
-                // The data is only for tests
-                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true),
-                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false)]
             };
             return View(response);
         }

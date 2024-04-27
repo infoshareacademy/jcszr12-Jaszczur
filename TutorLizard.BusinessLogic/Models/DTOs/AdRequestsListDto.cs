@@ -1,27 +1,24 @@
 ﻿namespace TutorLizard.BusinessLogic.Models.DTOs;
 
-public class AdRequestsListDto
+public class AdRequestsListDto(int id,
+                               int studentId,
+                               int adId,
+                               bool isAccepted,
+                               string message,
+                               string replyMessage,
+                               bool isRemote,
+                               string AdTitle,
+                               string AdSubject,
+                               string CategoryName)
 {
-    public int Id { get; set; }
-    public int StudentId { get; set; }
-    public int AdId { get; set; }
-    public bool IsAccepted { get; set; }
-    public string Message { get; set; }
-    public string ReplyMessage { get; set; }
-    public bool IsRemote { get; set; }
-
-    public AdRequestsListDto()
-    {
-    }
-
-    public AdRequestsListDto(int id, int studentId, int adId, bool isAccepted, string message, string replyMessage, bool isRemote)
-    {
-        Id = id;
-        StudentId = studentId;
-        AdId = adId;
-        IsAccepted = isAccepted;
-        Message = message;
-        ReplyMessage = replyMessage;
-        IsRemote = isRemote;
-    }
+    public int Id { get; set; } = id;
+    public int StudentId { get; set;} = studentId;
+    public int AdId { get; set;} = adId;
+    public bool IsAccepted { get; set; } = isAccepted;
+    public string Message { get; set; } = message;
+    public string? ReplyMessage { get; set; } = replyMessage;
+    public bool IsRemote { get; set; } = isRemote;
+    public string AdTitle { get; set; } = AdTitle;
+    public string AdSubject { get; set; } = AdSubject;
+    public string CategoryName { get; set; } = CategoryName;
 }
