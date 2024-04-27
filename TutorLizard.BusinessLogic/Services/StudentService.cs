@@ -23,19 +23,34 @@ public class StudentService : IStudentService
         var studentId = request.StudentId;
 
         var acceptedAdRequests = await _adRequestRepository.GetAll()
-            .Where(ar =>  ar.StudentId == studentId && ar.IsAccepted)
+            .Include(ar => ar.Ad)
+            .ThenInclude(ad => ad.Category)
+            .Include(ar => ar.Ad)
+            .ThenInclude(Ad => Ad.User)
+            .Where(ar => ar.StudentId == studentId && ar.IsAccepted)
             .ToListAsync();
 
         var acceptedAds = acceptedAdRequests
             .Select(ar => ar.Ad).ToList();
 
         var adListDtos = acceptedAds
-            .Select(ad => new AdListItemDto())
+            .Select(ad => new AdListItemDto
+            {
+                Id = ad.Id,
+                TutorId = ad.TutorId,
+                Subject = ad.Subject,
+                Title = ad.Title,
+                Description = ad.Description,
+                CategoryId = ad.CategoryId,
+                Price = ad.Price,
+                Location = ad.Location,
+                IsRemote = ad.IsRemote,
+            })
             .ToList();
 
         return new StudentsAcceptedAdsResponse
         {
-            Ads = adListDtos
+            Ads = adListDtos,
         };
     }
 }
