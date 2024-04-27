@@ -15,6 +15,7 @@ using System;
 namespace TutorLizard.BusinessLogic.Services;
 public class TutorService : ITutorService
 {
+    private readonly IDbRepository<ScheduleItem> _scheduleItemRepository;
     private readonly IDbRepository<ScheduleItemRequest> _scheduleItemRequestRepository;
     private readonly IDbRepository<Ad> _adRepository;
     private readonly IDbRepository<AdRequest> _adRequestRepository;
@@ -271,5 +272,10 @@ public class TutorService : ITutorService
         {
             AdList = adListDtos
         };
+    }
+
+    public Task<CreateScheduleItemResponse> CreateItem(CreateScheduleItemRequest request)
+    {
+        throw new NotImplementedException();
     }
 }
