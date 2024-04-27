@@ -1,7 +1,4 @@
-﻿using Azure.Core;
-using Microsoft.EntityFrameworkCore;
-using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
@@ -57,6 +54,7 @@ public class StudentService : IStudentService
         {
             Ads = adListDtos,
         };
+    }
 
     public async Task<StudentsAdRequestsResponse> ViewAdRequests(StudentsAdRequestsRequest request)
     {
