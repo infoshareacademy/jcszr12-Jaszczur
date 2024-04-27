@@ -330,7 +330,7 @@ public class TutorController : Controller
         }
         catch
         {
-            return RedirectToAction("AccessDenied", "User");
+            return RedirectToAction("Error", "Home");
         }
     }
 
