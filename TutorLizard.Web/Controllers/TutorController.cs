@@ -291,9 +291,6 @@ public class TutorController : Controller
 
             TutorAllAdRequestsResponse response = new()
             {
-                // The data is only for tests
-                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true, null),
-                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false, null)]
             };
             return View(response);
         }
