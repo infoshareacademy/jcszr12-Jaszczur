@@ -138,11 +138,16 @@ public class TutorService : ITutorService
 
     public async Task<TutorAllAdRequestsResponse> ViewAllAdRequests(TutorAllAdRequestsRequest request)
     {
-        List<AdRequestsListDto> adRequests = await _adRequestRepository.GetAll()
+        List<AdRequest> adRequests = await _adRequestRepository.GetAll()
             .Include(adrequest => adrequest.Ad)
             .ThenInclude(ad => ad.Category)
-            .Where(adrequest =>adrequest.Ad.TutorId == request.TutorId)
-            .Select(adrequest => new AdRequestsListDto(adrequest.Id,
+            .Where(adrequest => adrequest.Ad.TutorId == request.TutorId)
+            .ToListAsync();
+
+        TutorAllAdRequestsResponse response = new()
+        {
+            AdRequests = adRequests
+                        .Select(adrequest => new AdRequestsListDto(adrequest.Id,
                                                        adrequest.StudentId,
                                                        adrequest.AdId,
                                                        adrequest.IsAccepted,
@@ -152,11 +157,7 @@ public class TutorService : ITutorService
                                                        adrequest.Ad.Title,
                                                        adrequest.Ad.Subject,
                                                        adrequest.Ad.Category.Name))
-            .ToListAsync();
-
-        TutorAllAdRequestsResponse response = new()
-        {
-            AdRequests = adRequests
+                        .ToList()
         };
 
 
