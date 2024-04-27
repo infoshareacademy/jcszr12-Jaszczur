@@ -16,7 +16,7 @@ public class TutorService : ITutorService
 
     public TutorService(IDbRepository<ScheduleItem> scheduleItemRepository,
                         IDbRepository<ScheduleItemRequest> scheduleItemRequestRepository,
-                        IDbRepository<AdRequest> adRequestRepository)
+                        IDbRepository<AdRequest> adRequestRepository,
                         IDbRepository<Ad> adRepository)
     {
         _scheduleItemRepository = scheduleItemRepository;
