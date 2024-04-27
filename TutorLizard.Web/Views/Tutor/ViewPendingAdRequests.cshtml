@@ -7,8 +7,5 @@
 <h1>PendingAdRequests</h1>
 @foreach (var adrequest in Model.AdRequests)
 {
-    @if (!adrequest.IsAccepted)
-    {
-        <partial name="_PendingAdRequestsListItem" model="adrequest" />
-    }
+   <partial name="_PendingAdRequestsListItem" model="adrequest" />
 }
