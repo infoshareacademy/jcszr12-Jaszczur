@@ -13,4 +13,5 @@ public interface ITutorService
     Task<UpdateTutorsPendingAdRequestResponse> UpdateAdRequest(UpdateTutorsPendingAdRequestRequest request);
     Task<TutorsPendingAdRequestsResponse> ViewAllPendingAdRequests(TutorsPendingAdRequestsRequest request);
     Task<TutorAllAdRequestsResponse> ViewAllAdRequests(TutorAllAdRequestsRequest request);
+    Task<TutorsAdsResponse> ViewTutorsAds(TutorsAdsRequest request);
 }
