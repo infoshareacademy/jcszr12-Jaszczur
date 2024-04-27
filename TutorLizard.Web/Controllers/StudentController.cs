@@ -23,7 +23,7 @@ public class StudentController : Controller
         return View();
     }
 
-    public IActionResult AcceptedAds()
+    public async Task<IActionResult> AcceptedAds()
     {
         try
         {
@@ -35,11 +35,8 @@ public class StudentController : Controller
 
             StudentsAcceptedAdsRequest request = new(studentId);
 
-            StudentsAcceptedAdsResponse response = new()
-            {
-                // The data is only for tests
-                Ads = [new AdListItemDto(1, 1, "Jan", "Maths", "Matematyka", "opis", 1, "Math", 60, "Warszawa", true)]
-            };
+            StudentsAcceptedAdsResponse response = await _studentService.ViewAcceptedAds(request);
+
             return View(response);
         }
 
@@ -48,22 +45,21 @@ public class StudentController : Controller
             return RedirectToAction("Error", "Home");
         }
     }
-    
-    public IActionResult AdRequests()
+
+    public async Task<IActionResult> AdRequests(IFormCollection buttonAction)
     {
         try
         {
             int? studentId = _userAuthenticationService.GetLoggedInUserId();
-            if(studentId is null)
+            if (studentId is null)
             {
                 return RedirectToAction("AccessDenied", "User");
             }
 
             StudentsAdRequestsRequest request = new(studentId);
 
-            StudentsAdRequestsResponse response = new()
-            {
-            };
+            StudentsAdRequestsResponse response = await _studentService.ViewAdRequests(request);
+
             return View(response);
         }
 
@@ -71,8 +67,45 @@ public class StudentController : Controller
         {
             return RedirectToAction("AccessDenied", "User");
         }
-
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateScheduleItemRequest(int scheduleItemRequestId, int scheduleItemId)
+    {
+
+        int? studentId = _userAuthenticationService.GetLoggedInUserId();
+        if (studentId is null)
+        {
+            // TODO - show failure notification
+            return RedirectToAction(actionName: "Schedule", controllerName: "Browse", routeValues: new { id = scheduleItemId });
+        }
+        CreateScheduleItemRequestRequest request = new()
+        {
+            ScheduleItemRequestId = scheduleItemRequestId,
+            StudentId = (int)studentId
+        };
+
+        // TODO - replace mock response with call to _tutorService
+        CreateScheduleItemRequestResponse response = new()
+        {
+            Success = true
+        };
+
+        if (response.Success)
+        {
+            // TODO - show success notification
+
+        }
+        else
+        {
+            // TODO - show failure notification
+
+        }
+
+        return RedirectToAction(actionName: "Schedule", controllerName: "Browse", routeValues: new { id = scheduleItemId });
+    }
+
 
     [HttpPost]
     [ValidateAntiForgeryToken]
