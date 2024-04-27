@@ -190,17 +190,6 @@ public class TutorService : ITutorService
 
         UpdateTutorsPendingAdRequestResponse response = new()
         {
-            UpdatedAdRequestDto =
-            {
-                Id = adRequest.Id,
-                AdId = adRequest.AdId,
-                StudentId = adRequest.StudentId,
-                IsAccepted = adRequest.IsAccepted,
-                Message = adRequest.Message,
-                ReplyMessage = adRequest.ReplyMessage,
-                ReviewDate = adRequest.ReviewDate,
-                IsRemote = adRequest.IsRemote
-            },
             IsSuccessful = true
         };
 
