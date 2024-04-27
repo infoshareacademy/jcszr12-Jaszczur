@@ -61,6 +61,8 @@ public class StudentService : IStudentService
         var studentId = request.StudentId;
 
         var adRequests = await _adRequestRepository.GetAll()
+            .Include(ar => ar.Ad)
+            .ThenInclude(ad => ad.Category)
             .Where(ar => ar.StudentId == studentId && ar.DateCreated != null)
             .ToListAsync();
 
@@ -72,7 +74,11 @@ public class StudentService : IStudentService
                 StudentId = ar.StudentId,
                 Message = ar.Message,
                 IsRemote = ar.IsRemote,
-                IsAccepted = ar.IsAccepted
+                IsAccepted = ar.IsAccepted,
+                AdSubject = ar.Ad.Subject,
+                AdTitle = ar.Ad.Title,
+                CategoryName = ar.Ad.Category.Name,
+                ReplyMessage = ar.ReplyMessage
             })
             .ToList();
 
