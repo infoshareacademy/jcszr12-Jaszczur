@@ -16,7 +16,7 @@ public class AdRequestsListDto(int id,
     public int AdId { get; set;} = adId;
     public bool IsAccepted { get; set; } = isAccepted;
     public string Message { get; set; } = message;
-    public string ReplyMessage { get; set; } = replyMessage;
+    public string? ReplyMessage { get; set; } = replyMessage;
     public bool IsRemote { get; set; } = isRemote;
     public string AdTitle { get; set; } = AdTitle;
     public string AdSubject { get; set; } = AdSubject;

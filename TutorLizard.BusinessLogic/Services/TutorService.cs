@@ -179,7 +179,16 @@ public class TutorService : ITutorService
                 .Update(request.AdRequestId, entity => entity.IsAccepted = true);
         }
 
-        UpdateTutorsPendingAdRequestResponse response = new() 
+        if (adRequest is null) {
+            UpdateTutorsPendingAdRequestResponse response = new()
+            {
+                IsSuccessful = false
+            };
+            
+            return response;
+        }
+
+        UpdateTutorsPendingAdRequestResponse response = new()
         {
             UpdatedAdRequestDto =
             {
@@ -190,10 +199,11 @@ public class TutorService : ITutorService
                 Message = adRequest.Message,
                 ReplyMessage = adRequest.ReplyMessage,
                 ReviewDate = adRequest.ReviewDate,
-                IsRemote = adRequest.IsRemote 
-            }
+                IsRemote = adRequest.IsRemote
+            },
+            IsSuccessful = true
         };
-        
+
         return response;
     }
 }

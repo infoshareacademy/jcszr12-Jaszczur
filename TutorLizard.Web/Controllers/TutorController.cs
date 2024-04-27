@@ -246,7 +246,7 @@ public class TutorController : Controller
     }
 
     [HttpPost]
-    public IActionResult UpdatePendingAdRequest(IFormCollection form, int adRequestId)
+    public async Task<IActionResult> UpdatePendingAdRequest(IFormCollection form, int adRequestId)
     {
         int? tutorId = _userAuthenticationService.GetLoggedInUserId();
         if (tutorId is null)
@@ -259,16 +259,14 @@ public class TutorController : Controller
         try
         {
             if (!form["btnAccept"].IsNullOrEmpty())
-            {
                 request.Action = UpdateTutorsPendingAdRequestRequest.UpdateAction.Accept;
-                _tutorService.UpdateAdRequest(request);
-            }
-
-            if (!form["btnReject"].IsNullOrEmpty())
-            {
+            else if (!form["btnReject"].IsNullOrEmpty())
                 request.Action = UpdateTutorsPendingAdRequestRequest.UpdateAction.Reject;
-                _tutorService.UpdateAdRequest(request);
-            }
+
+            var response = await _tutorService.UpdateAdRequest(request);
+            if (!response.IsSuccessful)
+                RedirectToAction(nameof(AdRequest));
+
             return RedirectToAction("ViewPendingAdRequests");
         }
         catch
