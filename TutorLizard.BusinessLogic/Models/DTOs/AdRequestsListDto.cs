@@ -6,13 +6,19 @@ public class AdRequestsListDto(int id,
                                bool isAccepted,
                                string message,
                                string replyMessage,
-                               bool isRemote)
+                               bool isRemote,
+                               string AdTitle,
+                               string AdSubject,
+                               string CategoryName)
 {
     public int Id { get; set; } = id;
     public int StudentId { get; set;} = studentId;
     public int AdId { get; set;} = adId;
     public bool IsAccepted { get; set; } = isAccepted;
     public string Message { get; set; } = message;
-    public string ReplyMessage { get; set; } = replyMessage;
+    public string? ReplyMessage { get; set; } = replyMessage;
     public bool IsRemote { get; set; } = isRemote;
+    public string AdTitle { get; set; } = AdTitle;
+    public string AdSubject { get; set; } = AdSubject;
+    public string CategoryName { get; set; } = CategoryName;
 }

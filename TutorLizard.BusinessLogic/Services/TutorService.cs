@@ -12,12 +12,15 @@ public class TutorService : ITutorService
 {
     private readonly IDbRepository<ScheduleItem> _scheduleItemRepository;
     private readonly IDbRepository<ScheduleItemRequest> _scheduleItemRequestRepository;
+    private readonly IDbRepository<AdRequest> _adRequestRepository;
 
     public TutorService(IDbRepository<ScheduleItem> scheduleItemRepository,
-                        IDbRepository<ScheduleItemRequest> scheduleItemRequestRepository)
+                        IDbRepository<ScheduleItemRequest> scheduleItemRequestRepository,
+                        IDbRepository<AdRequest> adRequestRepository)
     {
         _scheduleItemRepository = scheduleItemRepository;
         _scheduleItemRequestRepository = scheduleItemRequestRepository;
+        _adRequestRepository = adRequestRepository;
     }
 
     public Task<IsUserTheAdOwnerResponse> IsUserTheAdOwner(IsUserTheAdOwnerRequest request)
@@ -152,6 +155,78 @@ public class TutorService : ITutorService
             AdRequests = adRequests
         };
 
+
+        return response;
+    }
+
+    public async Task<TutorsPendingAdRequestsResponse> ViewAllPendingAdRequests(TutorsPendingAdRequestsRequest request)
+    {
+        List<AdRequestsListDto> adRequests = await _adRequestRepository.GetAll()
+            .Where(adrequest => 
+                adrequest.Ad.TutorId == request.TutorId &&
+                adrequest.ReviewDate == null &&
+                adrequest.IsAccepted == false)
+            .Include(adrequest => adrequest.Ad)
+            .ThenInclude(ad => ad.Category)
+            .Select(adrequest => new AdRequestsListDto(adrequest.Id,
+                                                       adrequest.StudentId,
+                                                       adrequest.AdId,
+                                                       adrequest.IsAccepted,
+                                                       adrequest.Message,
+                                                       adrequest.ReplyMessage,
+                                                       adrequest.IsRemote,
+                                                       adrequest.Ad.Title,
+                                                       adrequest.Ad.Subject,
+                                                       adrequest.Ad.Category.Name))
+            .ToListAsync();
+
+        TutorsPendingAdRequestsResponse response = new()
+        {
+            AdRequests = adRequests
+        };
+
+        return response;
+    }
+
+    public async Task<UpdateTutorsPendingAdRequestResponse> UpdateAdRequest(UpdateTutorsPendingAdRequestRequest request)
+    {
+        var adRequest = await _adRequestRepository
+            .Update(request.AdRequestId, entity =>
+            {
+                 entity.ReviewDate = DateTime.Now;
+                 entity.ReplyMessage = request.ReplyMessage;
+            });
+
+        if (request.Action == UpdateTutorsPendingAdRequestRequest.UpdateAction.Accept)
+        {
+            adRequest = await _adRequestRepository
+                .Update(request.AdRequestId, entity => entity.IsAccepted = true);
+        }
+
+        if (adRequest is null) {
+            UpdateTutorsPendingAdRequestResponse updateFailed = new()
+            {
+                IsSuccessful = false
+            };
+            
+            return updateFailed;
+        }
+
+        UpdateTutorsPendingAdRequestResponse response = new()
+        {
+            UpdatedAdRequestDto =
+            {
+                Id = adRequest.Id,
+                AdId = adRequest.AdId,
+                StudentId = adRequest.StudentId,
+                IsAccepted = adRequest.IsAccepted,
+                Message = adRequest.Message,
+                ReplyMessage = adRequest.ReplyMessage,
+                ReviewDate = adRequest.ReviewDate,
+                IsRemote = adRequest.IsRemote
+            },
+            IsSuccessful = true
+        };
 
         return response;
     }
