@@ -12,6 +12,7 @@ public class AdRequestsListDto
     public string AdTitle { get; set; }
     public string AdSubject { get; set; }
     public string CategoryName { get; set; }
+    public DateTime? ReviewDate { get; set; }
 
     public AdRequestsListDto()
     {
@@ -23,11 +24,12 @@ public class AdRequestsListDto
                                    int adId,
                                    bool isAccepted,
                                    string message,
-                                   string replyMessage,
+                                   string? replyMessage,
                                    bool isRemote,
                                    string adTitle,
                                    string adSubject,
-                                   string categoryName)
+                                   string categoryName,
+                                   DateTime? reviewDate)
     {
         Id = id;
         StudentId = studentId;
@@ -39,5 +41,6 @@ public class AdRequestsListDto
         AdTitle = adTitle;
         AdSubject = adSubject;
         CategoryName = categoryName;
+        ReviewDate = reviewDate;
     }
 }

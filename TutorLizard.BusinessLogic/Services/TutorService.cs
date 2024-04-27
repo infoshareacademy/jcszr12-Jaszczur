@@ -151,7 +151,8 @@ public class TutorService : ITutorService
                                                        adrequest.IsRemote,
                                                        adrequest.Ad.Title,
                                                        adrequest.Ad.Subject,
-                                                       adrequest.Ad.Category.Name))
+                                                       adrequest.Ad.Category.Name,
+                                                       adrequest.ReviewDate))
             .ToListAsync();
 
         TutorAllAdRequestsResponse response = new()
@@ -180,7 +181,8 @@ public class TutorService : ITutorService
                                                        adrequest.IsRemote,
                                                        adrequest.Ad.Title,
                                                        adrequest.Ad.Subject,
-                                                       adrequest.Ad.Category.Name))
+                                                       adrequest.Ad.Category.Name,
+                                                       adrequest.ReviewDate))
             .ToListAsync();
 
         TutorsPendingAdRequestsResponse response = new()
