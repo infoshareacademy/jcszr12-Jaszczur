@@ -172,6 +172,66 @@ public class StudentService : IStudentService
         return response;
     }
 
+    public async Task<CreateAdRequestResponse> CreateAdRequest(CreateAdRequestRequest request)
+    {
+        Ad? ad = await _adRepository.GetById(request.AdId);
+
+        if (ad is null)
+        {
+            return new()
+            {
+                Success = false
+            };
+        }
+
+        bool userIsOwnerOfAd = ad.TutorId == request.StudentId;
+
+        if (userIsOwnerOfAd)
+        {
+            return new()
+            {
+                Success = false
+            };
+        }
+
+        var userAlreadySentRequest = await _adRequestRepository.GetAll()
+            .AnyAsync(r => r.StudentId == request.StudentId);
+
+        if (userAlreadySentRequest)
+        {
+            return new()
+            {
+                Success = false
+            };
+        }
+
+        AdRequest toCreate = new()
+        {
+            AdId = request.AdId,
+            IsAccepted = false,
+            IsRemote = request.IsRemote,
+            Message = request.Message,
+            StudentId = request.StudentId
+        };
+
+        try
+        {
+            await _adRequestRepository.Create(toCreate);
+        }
+        catch
+        {
+            return new()
+            {
+                Success = false
+            };
+        }
+
+        return new()
+        {
+            Success = true
+        };
+    }
+
     public async Task<AvailableScheduleForAdResponse> GetAvailableScheduleForAd(AvailableScheduleForAdRequest request)
     {
         List<ScheduleItemDto> items = await _scheduleItemRepository.GetAll()
