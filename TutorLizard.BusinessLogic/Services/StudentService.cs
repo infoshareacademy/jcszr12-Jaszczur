@@ -89,7 +89,7 @@ public class StudentService : IStudentService
         };
     }
 
-    public async Task<AdRequestStatusResponse> ViewAdRequestDetails(AdRequestStatusRequest request)
+    public async Task<AdRequestStatusResponse> ViewAdRequestStatus(AdRequestStatusRequest request)
     {
         var adRequestDetails = await _adRequestRepository.GetAll()
             .Include(adrequest => adrequest.Ad)
