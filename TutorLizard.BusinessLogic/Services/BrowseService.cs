@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TutorLizard.BusinessLogic.Extensions;
+using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Models.DTOs;
@@ -67,6 +67,34 @@ public class BrowseService : IBrowseService
             PageSize = request.PageSize,
             TotalPages = totalPages
         };
+
+        return response;
+    }
+
+    public async Task<AdDetailsResponse?> GetAdDetails(AdDetailsRequest request)
+    {
+        AdDetailsResponse? response = await _adRepository.GetAll()
+            .Where(a => a.Id == request.AdId)
+            .Select(a => new AdDetailsResponse
+            {
+                AdId = a.Id,
+                TutorId = a.TutorId,
+                TutorName = a.User.Name,
+                Title = a.Title,
+                CategoryId = a.CategoryId,
+                CategoryName = a.Category.Name,
+                Subject = a.Subject,
+                Location = a.Location,
+                Price = a.Price,
+                IsRemote = a.IsRemote,
+                Description = a.Description,
+                UserRelationship =
+                    a.TutorId == request.UserId ? AdToUserRelationship.Owner
+                    : a.AdRequests.Any(r => r.StudentId == request.UserId && r.IsAccepted ) ? AdToUserRelationship.AcceptedStudent
+                    : a.AdRequests.Any(r => r.StudentId == request.UserId) ? AdToUserRelationship.PendingStudent
+                    : AdToUserRelationship.None
+            })
+            .FirstOrDefaultAsync();
 
         return response;
     }
