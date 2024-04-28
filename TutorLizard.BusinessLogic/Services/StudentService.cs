@@ -11,11 +11,48 @@ public class StudentService : IStudentService
 {
     private readonly IDbRepository<Ad> _adRepository;
     private readonly IDbRepository<AdRequest> _adRequestRepository;
+    private readonly IDbRepository<ScheduleItem> _scheduleItemRepository;
+    private readonly IDbRepository<ScheduleItemRequest> _scheduleItemRequestRepository;
     public StudentService(IDbRepository<Ad> adRepository,
-                          IDbRepository<AdRequest> adRequestRepository)
+                          IDbRepository<AdRequest> adRequestRepository,
+                          IDbRepository<ScheduleItem> scheduleItemRepository,
+                          IDbRepository<ScheduleItemRequest> scheduleItemRequestRepository)
     {
         _adRepository = adRepository;
         _adRequestRepository = adRequestRepository;
+        _scheduleItemRepository = scheduleItemRepository;
+        _scheduleItemRequestRepository = scheduleItemRequestRepository;
+    }
+
+    public async Task<CreateScheduleItemRequestResponse> CreateScheduleItemRequest(CreateScheduleItemRequestRequest request)
+    {
+        int studentId = request.StudentId;
+        int scheduleItemId = request.ScheduleItemId;
+
+        ScheduleItem? scheduleItem = await _scheduleItemRepository.GetById(scheduleItemId);
+        bool isOwner = scheduleItem != null && scheduleItem.Ad.TutorId == studentId;
+
+        if (isOwner)
+        {
+            return new CreateScheduleItemRequestResponse
+            {
+                Success = false
+            };
+        }
+
+        var scheduleItemRequest = new ScheduleItemRequest()
+        {
+            ScheduleItemId = scheduleItemId,
+            DateCreated = DateTime.UtcNow
+        };
+
+        await _scheduleItemRequestRepository.Create(scheduleItemRequest);
+
+        return new CreateScheduleItemRequestResponse 
+        { 
+            Success = true,
+            CreatedScheduleItemRequestId = scheduleItemRequest.Id
+        };
     }
 
     public async Task<StudentsAcceptedAdsResponse> ViewAcceptedAds(StudentsAcceptedAdsRequest request)
