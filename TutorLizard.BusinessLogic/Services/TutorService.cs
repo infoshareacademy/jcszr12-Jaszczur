@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
@@ -138,6 +139,33 @@ public class TutorService : ITutorService
         };
     }
 
+    public async Task<TutorAllAdRequestsResponse> ViewAllAdRequests(TutorAllAdRequestsRequest request)
+    {
+        List<AdRequestsListDto> adRequestsList = await _adRequestRepository.GetAll()
+            .Include(adrequest => adrequest.Ad)
+            .ThenInclude(ad => ad.Category)
+            .Where(adrequest => adrequest.Ad.TutorId == request.TutorId)
+            .Select(adrequest => new AdRequestsListDto(adrequest.Id,
+                                                       adrequest.StudentId,
+                                                       adrequest.AdId,
+                                                       adrequest.IsAccepted,
+                                                       adrequest.Message,
+                                                       adrequest.ReplyMessage,
+                                                       adrequest.IsRemote,
+                                                       adrequest.Ad.Title,
+                                                       adrequest.Ad.Subject,
+                                                       adrequest.Ad.Category.Name,
+                                                       adrequest.ReviewDate))
+            .ToListAsync();
+
+        TutorAllAdRequestsResponse response = new()
+        {
+            AdRequests = adRequestsList
+        };
+
+        return response;
+    }
+
     public async Task<TutorsPendingAdRequestsResponse> ViewAllPendingAdRequests(TutorsPendingAdRequestsRequest request)
     {
         List<AdRequestsListDto> adRequests = await _adRequestRepository.GetAll()
@@ -156,7 +184,8 @@ public class TutorService : ITutorService
                                                        adrequest.IsRemote,
                                                        adrequest.Ad.Title,
                                                        adrequest.Ad.Subject,
-                                                       adrequest.Ad.Category.Name))
+                                                       adrequest.Ad.Category.Name,
+                                                       adrequest.ReviewDate))
             .ToListAsync();
 
         TutorsPendingAdRequestsResponse response = new()

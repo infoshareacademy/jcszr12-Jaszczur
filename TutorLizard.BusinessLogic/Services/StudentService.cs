@@ -78,7 +78,8 @@ public class StudentService : IStudentService
                 AdSubject = ar.Ad.Subject,
                 AdTitle = ar.Ad.Title,
                 CategoryName = ar.Ad.Category.Name,
-                ReplyMessage = ar.ReplyMessage
+                ReplyMessage = ar.ReplyMessage,
+                ReviewDate = ar.ReviewDate
             })
             .ToList();
 
