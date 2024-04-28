@@ -17,7 +17,7 @@ public class BrowseController : Controller
     {
         _browseService = browseService;
         _userAuthenticationService = userAuthenticationService;
-        _pageSize = 10;
+        _pageSize = 1;
     }
     public IActionResult Index()
     {
@@ -29,10 +29,17 @@ public class BrowseController : Controller
         // TODO ask service for ads to show (using request)
 
         // TODO customize routing, so that parameter is page, not id
-        int pageNumber = id;
+        int pageNumber = id > 0 ? id : 1;
+        int pageSize = _pageSize > 0 ? _pageSize : 1;
         GetBrowseAdsPageRequest request = new(pageNumber, _pageSize);
 
         GetBrowseAdsPageResponse response = await _browseService.GetBrowseAdsPage(request);
+
+        if (response.Success == false)
+        {
+            // TODO Add failure notification
+            return RedirectToAction("Index", "Home");
+        }
 
         return View(response);
     }
@@ -51,23 +58,12 @@ public class BrowseController : Controller
             UserId = (int)userId,
         };
 
-        // TODO replace with actual all to IBrowseService
-        
-        AdDetailsResponse response = new()
+        AdDetailsResponse? response = await _browseService.GetAdDetails(request);
+
+        if (response is null)
         {
-            AdId = id,
-            TutorId = 1,
-            TutorName = "Nauczyciel 1",
-            Title = "tytuł",
-            CategoryId = 1,
-            CategoryName = "Matematyka",
-            Subject = "tematyka",
-            Location = "Warszawa",
-            Price = 100m,
-            IsRemote = true,
-            Description = "opis",
-            UserRelationship = AdToUserRelationship.PendingStudent
-        };
+            return RedirectToAction(nameof(Ads));
+        }
 
         return View(response);
     }
