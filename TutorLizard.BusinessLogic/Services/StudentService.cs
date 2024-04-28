@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
@@ -11,11 +12,52 @@ public class StudentService : IStudentService
 {
     private readonly IDbRepository<Ad> _adRepository;
     private readonly IDbRepository<AdRequest> _adRequestRepository;
+    private readonly IDbRepository<ScheduleItem> _scheduleItemRepository;
+    private readonly IDbRepository<ScheduleItemRequest> _scheduleItemRequestRepository;
     public StudentService(IDbRepository<Ad> adRepository,
-                          IDbRepository<AdRequest> adRequestRepository)
+                          IDbRepository<AdRequest> adRequestRepository,
+                          IDbRepository<ScheduleItem> scheduleItemRepository,
+                          IDbRepository<ScheduleItemRequest> scheduleItemRequestRepository)
     {
         _adRepository = adRepository;
         _adRequestRepository = adRequestRepository;
+        _scheduleItemRepository = scheduleItemRepository;
+        _scheduleItemRequestRepository = scheduleItemRequestRepository;
+    }
+
+    public async Task<CreateScheduleItemRequestResponse> CreateScheduleItemRequest(CreateScheduleItemRequestRequest request)
+    {
+        int studentId = request.StudentId;
+        int scheduleItemId = request.ScheduleItemId;
+
+        ScheduleItem? scheduleItem = await _scheduleItemRepository.GetById(scheduleItemId);
+
+        bool isOwner = _scheduleItemRepository.GetAll()
+            .Any(si => si.Id == request.ScheduleItemId && si.Ad.TutorId == request.StudentId);
+
+        if (isOwner)
+        {
+            return new CreateScheduleItemRequestResponse
+            {
+                Success = false
+            };
+        }
+
+        var scheduleItemRequest = new ScheduleItemRequest()
+        {
+            ScheduleItemId = scheduleItemId,
+            DateCreated = DateTime.UtcNow,
+            StudentId = studentId,
+            IsAccepted = false
+        };
+
+        await _scheduleItemRequestRepository.Create(scheduleItemRequest);
+
+        return new CreateScheduleItemRequestResponse 
+        { 
+            Success = true,
+            CreatedScheduleItemRequestId = scheduleItemRequest.Id,
+        };
     }
 
     public async Task<StudentsAcceptedAdsResponse> ViewAcceptedAds(StudentsAcceptedAdsRequest request)
@@ -153,6 +195,7 @@ public class StudentService : IStudentService
         }
 
         var userAlreadySentRequest = await _adRequestRepository.GetAll()
+            .Where(r => r.AdId == request.AdId)
             .AnyAsync(r => r.StudentId == request.StudentId);
 
         if (userAlreadySentRequest)
@@ -188,5 +231,34 @@ public class StudentService : IStudentService
         {
             Success = true
         };
+    }
+
+    public async Task<AvailableScheduleForAdResponse> GetAvailableScheduleForAd(AvailableScheduleForAdRequest request)
+    {
+        List<ScheduleItemDto> items = await _scheduleItemRepository.GetAll()
+            .Where(si => si.Ad.AdRequests.Any(ar => ar.StudentId == request.StudentId && ar.IsAccepted))
+            .Select(si => new ScheduleItemDto()
+            {
+                AdId = si.AdId,
+                DateTime = si.DateTime,
+                Id = si.Id,
+                Status = si.ScheduleItemRequests.Any(sir => sir.StudentId == request.StudentId && sir.IsAccepted) ? ScheduleItemDto.ScheduleItemRequestStatus.Accepted
+                    : si.ScheduleItemRequests.Any(sir => sir.StudentId == request.StudentId) ? ScheduleItemDto.ScheduleItemRequestStatus.Pending
+                    : ScheduleItemDto.ScheduleItemRequestStatus.RequestNotSent
+            })
+            .ToListAsync();
+
+        bool isAccepted = await _adRequestRepository.GetAll()
+            .Where(ar => ar.AdId == request.AdId)
+            .AnyAsync(ar => ar.StudentId == request.StudentId && ar.IsAccepted);
+
+        AvailableScheduleForAdResponse response = new()
+        {
+            AdId = request.AdId,
+            IsAccepted = isAccepted,
+            Items = items
+        };
+
+        return response;
     }
 }

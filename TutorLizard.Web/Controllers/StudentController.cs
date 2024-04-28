@@ -73,7 +73,7 @@ public class StudentController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateScheduleItemRequest(int scheduleItemRequestId, int scheduleItemId)
+    public async Task<IActionResult> CreateScheduleItemRequest(int scheduleItemId, int adId)
     {
 
         int? studentId = _userAuthenticationService.GetLoggedInUserId();
@@ -84,25 +84,20 @@ public class StudentController : Controller
         }
         CreateScheduleItemRequestRequest request = new()
         {
-            ScheduleItemRequestId = scheduleItemRequestId,
-            StudentId = (int)studentId
+            StudentId = (int)studentId,
+            ScheduleItemId = scheduleItemId
         };
 
-        // TODO - replace mock response with call to _tutorService
-        CreateScheduleItemRequestResponse response = new()
-        {
-            Success = true
-        };
+        CreateScheduleItemRequestResponse response = await _studentService.CreateScheduleItemRequest(request);
 
         if (response.Success)
         {
-            // TODO - show success notification
-
+            ViewBag.SuccessMessage = "Wysłano prośbę";
+            return RedirectToAction("AdDetails", "Browse", new {id = adId });
         }
         else
         {
-            // TODO - show failure notification
-
+            ViewBag.ErrorMessage = "Wystąpił błąd";
         }
 
         return RedirectToAction(actionName: "Schedule", controllerName: "Browse", routeValues: new { id = scheduleItemId });

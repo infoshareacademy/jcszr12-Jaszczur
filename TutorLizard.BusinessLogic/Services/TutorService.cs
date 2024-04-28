@@ -22,6 +22,7 @@ public class TutorService : ITutorService
     {
         _scheduleItemRepository = scheduleItemRepository;
         _scheduleItemRequestRepository = scheduleItemRequestRepository;
+        _adRequestRepository = adRequestRepository;
         _adRepository = adRepository;
     }
 
