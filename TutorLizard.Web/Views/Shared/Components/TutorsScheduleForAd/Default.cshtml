@@ -5,8 +5,9 @@
     <div>
         <div><h3>Terminy</h3></div>
         <div>
-            @* TODO - make this button redirect to CreateScheduleItem view with proper id of the ad *@
-            <button class="btn btn-primary">Dodaj termin</button>
+            <ul class="list-group col-md-6 col-xl-3">
+                <li class="list-group-item"><a href="@Url.Action("CreateScheduleItem", "Tutor", new { id = Model.AdId })" class="btn btn-primary">Dodaj termin</a></li>
+            </ul>
         </div>
         @foreach(var scheduleItem in Model.ScheduleItems)
         {

@@ -78,6 +78,7 @@ public class TutorController : Controller
 
     public async Task<IActionResult> CreateScheduleItem(int id)
     {
+        Console.WriteLine("CreateScheduleItem action called!");
         int adId = id;
         int? userId = _userAuthenticationService.GetLoggedInUserId();
         if (userId is null)
@@ -97,7 +98,7 @@ public class TutorController : Controller
             return View(model);
         }
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("AdDetails", "Browse", new { id = adId });
     }
 
     [HttpPost]
@@ -117,22 +118,19 @@ public class TutorController : Controller
                 return RedirectToAction(nameof(Index));
             }
             request.UserId = (int)userId;
-            CreateScheduleItemResponse response = new()
-            {
-                Success = true,
-                CreatedItemId = 1,
-            };
+            CreateScheduleItemResponse response = await _tutorService.CreateScheduleItem(request);
 
             if (response.Success)
             {
-                // TODO
-                return RedirectToAction(nameof(Index));
+                ViewBag.SuccessMessage = "Utworzono termin";
+                return RedirectToAction("AdDetails", "Browse", new { id = request.AdId });
             }
             else
             {
-                // TODO
-                return RedirectToAction(nameof(Index));
+                ViewBag.ErrorMessage = "Wystąpił błąd";
             }
+
+            return RedirectToAction(nameof(Index));
         }
         catch
         {
