@@ -123,8 +123,7 @@ public class TutorController : Controller
             if (response.Success)
             {
                 ViewBag.SuccessMessage = "Utworzono termin";
-                return RedirectToAction(nameof(CreateScheduleItem), new { id = response.CreatedItemId });
-
+                return RedirectToAction("AdDetails", "Browse", new { id = request.AdId });
             }
             else
             {
