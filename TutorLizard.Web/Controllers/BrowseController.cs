@@ -17,7 +17,7 @@ public class BrowseController : Controller
     {
         _browseService = browseService;
         _userAuthenticationService = userAuthenticationService;
-        _pageSize = 1;
+        _pageSize = 10;
     }
     public IActionResult Index()
     {
