@@ -15,4 +15,5 @@ public class AdRequestStatusResponse
         Rejected,
         Pending
     }
+    public bool IsSuccessful { get; set; }
 }

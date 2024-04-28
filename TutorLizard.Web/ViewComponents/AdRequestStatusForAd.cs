@@ -31,17 +31,10 @@ public class AdRequestStatusForAd : ViewComponent
             StudentId = (int)studentId
         };
 
-        // TODO - replace mock data with call to _studentService
-        AdRequestStatusResponse response = new()
-        {
-            Id = 1,
-            AdId = adId,
-            DateCreated = DateTime.Now.AddMinutes(-30),
-            Message = "Twoja wiadomość do nauczyciela",
-            ReplyMessage = "Odpowiedź od nauczyciela",
-            ReviewDate = DateTime.Now,
-            Status = AdRequestStatusResponse.RequestStatus.Pending
-        };
+        AdRequestStatusResponse response = await _studentService.ViewPendingAdRequest(request);
+
+        if (!response.IsSuccessful)
+            return View();
 
         return View(response);
     }

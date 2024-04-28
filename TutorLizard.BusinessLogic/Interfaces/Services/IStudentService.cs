@@ -8,4 +8,5 @@ public interface IStudentService
 {
     Task<StudentsAcceptedAdsResponse> ViewAcceptedAds(StudentsAcceptedAdsRequest request);
     Task<StudentsAdRequestsResponse> ViewAdRequests(StudentsAdRequestsRequest request);
+    Task<AdRequestStatusResponse> ViewPendingAdRequest(AdRequestStatusRequest request);
 }

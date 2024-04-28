@@ -87,4 +87,30 @@ public class StudentService : IStudentService
             AdRequests = adRequestsListDtos
         };
     }
+
+    public async Task<AdRequestStatusResponse> ViewPendingAdRequest(AdRequestStatusRequest request)
+    {
+        var adRequestDetails = await _adRequestRepository.GetAll()
+            .Include(adrequest => adrequest.Ad)
+            .Where(adrequest => adrequest.StudentId == request.StudentId
+                  && adrequest.Ad.Id == adrequest.AdId
+                  && adrequest.IsAccepted == false)
+            .FirstOrDefaultAsync();
+
+        if (adRequestDetails is null)
+            return new AdRequestStatusResponse() { IsSuccessful = false }; 
+
+        AdRequestStatusResponse response = new AdRequestStatusResponse()
+        {
+            Id = adRequestDetails.Id,
+            AdId = adRequestDetails.AdId,
+            Message = adRequestDetails.Message,
+            ReplyMessage = adRequestDetails.ReplyMessage,
+            DateCreated = adRequestDetails.DateCreated,
+            ReviewDate = adRequestDetails.ReviewDate,
+            Status = adRequestDetails.ReviewDate != null ? AdRequestStatusResponse.RequestStatus.Pending : AdRequestStatusResponse.RequestStatus.Rejected
+        };
+
+        return response;
+    }
 }
