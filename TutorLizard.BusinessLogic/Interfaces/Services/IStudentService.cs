@@ -11,4 +11,5 @@ public interface IStudentService
     Task<AdRequestStatusResponse> ViewAdRequestStatus(AdRequestStatusRequest request);
     Task<StudentCancelAdRequestResponse> DeleteAdRequest(StudentCancelAdRequestRequest request);
     Task<CreateScheduleItemRequestResponse> CreateScheduleItemRequest(CreateScheduleItemRequestRequest request);
+    Task<AvailableScheduleForAdResponse> GetAvailableScheduleForAd(AvailableScheduleForAdRequest request);
 }

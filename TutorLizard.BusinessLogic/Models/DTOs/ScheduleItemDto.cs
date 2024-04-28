@@ -14,6 +14,11 @@ public class ScheduleItemDto
         Status = status;
     }
 
+    public ScheduleItemDto()
+    {
+        
+    }
+
     public enum ScheduleItemRequestStatus
     {
         Accepted,
