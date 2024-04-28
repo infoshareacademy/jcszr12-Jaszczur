@@ -98,7 +98,7 @@ public class TutorController : Controller
             return View(model);
         }
 
-        return RedirectToAction("Schedule", "Browse", new { id = adId });
+        return RedirectToAction("AdDetails", "Browse", new { id = adId });
     }
 
     [HttpPost]
