@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TutorLizard.BusinessLogic.Extensions;
+using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Models.DTOs;
@@ -20,10 +20,30 @@ public class BrowseService : IBrowseService
     }
     public async Task<GetBrowseAdsPageResponse> GetBrowseAdsPage(GetBrowseAdsPageRequest request)
     {
-        int resultsToSkip = (request.PageNumber - 1) * request.PageSize;
+        if (request.PageSize < 1 || request.PageNumber < 1)
+        {
+            return new()
+            {
+                Success = false,
+                PageNumber = request.PageNumber,
+                PageSize = request.PageSize,
+                TotalPages = 0
+            };
+        }
+
+        int adCount = await _adRepository.GetAll()
+            .CountAsync();
+
+        int totalPages = adCount / request.PageSize;
+        if (adCount % request.PageSize != 0)
+        {
+            totalPages++;
+        }
+
+        request.PageNumber = Math.Min(request.PageNumber, totalPages);
+
+        int resultsToSkip = Math.Max((request.PageNumber - 1) * request.PageSize, 0);
         List<AdListItemDto> ads = await _adRepository.GetAll()
-            .Include(ad => ad.User)
-            .Include(ad => ad.Category)
             .Skip(resultsToSkip)
             .Take(request.PageSize)
             .Select(ad => new AdListItemDto()
@@ -44,11 +64,40 @@ public class BrowseService : IBrowseService
 
         GetBrowseAdsPageResponse response = new()
         {
+            Success = true,
             Ads = ads,
             PageNumber = request.PageNumber,
             PageSize = request.PageSize,
-            TotalPages = 1
+            TotalPages = totalPages
         };
+
+        return response;
+    }
+
+    public async Task<AdDetailsResponse?> GetAdDetails(AdDetailsRequest request)
+    {
+        AdDetailsResponse? response = await _adRepository.GetAll()
+            .Where(a => a.Id == request.AdId)
+            .Select(a => new AdDetailsResponse
+            {
+                AdId = a.Id,
+                TutorId = a.TutorId,
+                TutorName = a.User.Name,
+                Title = a.Title,
+                CategoryId = a.CategoryId,
+                CategoryName = a.Category.Name,
+                Subject = a.Subject,
+                Location = a.Location,
+                Price = a.Price,
+                IsRemote = a.IsRemote,
+                Description = a.Description,
+                UserRelationship =
+                    a.TutorId == request.UserId ? AdToUserRelationship.Owner
+                    : a.AdRequests.Any(r => r.StudentId == request.UserId && r.IsAccepted ) ? AdToUserRelationship.AcceptedStudent
+                    : a.AdRequests.Any(r => r.StudentId == request.UserId) ? AdToUserRelationship.PendingStudent
+                    : AdToUserRelationship.None
+            })
+            .FirstOrDefaultAsync();
 
         return response;
     }

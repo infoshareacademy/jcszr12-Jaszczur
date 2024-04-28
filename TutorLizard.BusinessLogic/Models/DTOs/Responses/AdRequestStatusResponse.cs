@@ -6,7 +6,7 @@ public class AdRequestStatusResponse
     public string Message { get; set; }
     public string? ReplyMessage { get; set; }
     public DateTime DateCreated { get; set; }
-    public DateTime ReviewDate { get; set; }
+    public DateTime? ReviewDate { get; set; }
     public RequestStatus Status { get; set; }
 
     public enum RequestStatus
@@ -15,4 +15,5 @@ public class AdRequestStatusResponse
         Rejected,
         Pending
     }
+    public bool IsSuccessful { get; set; }
 }

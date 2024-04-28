@@ -1,6 +1,6 @@
 ﻿namespace TutorLizard.BusinessLogic.Models.DTOs.Responses;
 
-public class UpdateTutorsPendingAdRequestResponse()
+public class StudentCancelAdRequestResponse
 {
     public bool IsSuccessful { get; set; }
 }
