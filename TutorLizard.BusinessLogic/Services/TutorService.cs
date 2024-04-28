@@ -224,4 +224,37 @@ public class TutorService : ITutorService
             AdList = adListDtos
         };
     }
+
+    public async Task<CreateAdResponse> CrateAd(CreateAdRequest request)
+    {
+        Ad toCreate = new()
+        {
+            TutorId = request.TutorId,
+            Subject = request.Subject,
+            Title = request.Subject,
+            Description = request.Description,
+            CategoryId = request.CategoryId,
+            Price = request.Price,
+            Location = request.Location,
+            IsRemote = request.IsRemote
+        };
+
+        try
+        {
+            await _adRepository.Create(toCreate);
+        }
+        catch
+        {
+            return new()
+            {
+                SuccessfullyCreated = false
+            };
+        }
+
+        return new()
+        {
+            SuccessfullyCreated = true,
+            CreatedAdId = toCreate.Id
+        };
+    }
 }
