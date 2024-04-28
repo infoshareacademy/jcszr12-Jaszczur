@@ -9,5 +9,6 @@ namespace TutorLizard.BusinessLogic.Models.DTOs.Responses
     public class CreateScheduleItemRequestResponse
     {
         public bool Success { get; set; }
+        public int CreatedScheduleItemRequestId { get; set; }
     }
 }

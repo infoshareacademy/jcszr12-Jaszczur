@@ -10,5 +10,6 @@ namespace TutorLizard.BusinessLogic.Models.DTOs.Requests
     {
         public int StudentId { get; set; }
         public int ScheduleItemRequestId { get; set; }
+        public int ScheduleItemId { get; set; }
     }
 }
