@@ -78,6 +78,7 @@ public class TutorController : Controller
 
     public async Task<IActionResult> CreateScheduleItem(int id)
     {
+        Console.WriteLine("CreateScheduleItem action called!");
         int adId = id;
         int? userId = _userAuthenticationService.GetLoggedInUserId();
         if (userId is null)
@@ -97,7 +98,7 @@ public class TutorController : Controller
             return View(model);
         }
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("Schedule", "Browse", new { id = adId });
     }
 
     [HttpPost]
