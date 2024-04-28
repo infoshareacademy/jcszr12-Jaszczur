@@ -110,7 +110,7 @@ public class StudentService : IStudentService
             ReplyMessage = adRequestDetails.ReplyMessage,
             DateCreated = adRequestDetails.DateCreated,
             ReviewDate = adRequestDetails.ReviewDate,
-            Status = adRequestDetails.ReviewDate != null ? AdRequestStatusResponse.RequestStatus.Pending : AdRequestStatusResponse.RequestStatus.Rejected,
+            Status = adRequestDetails.ReviewDate == null ? AdRequestStatusResponse.RequestStatus.Pending : AdRequestStatusResponse.RequestStatus.Rejected,
             IsSuccessful = true
         };
 
