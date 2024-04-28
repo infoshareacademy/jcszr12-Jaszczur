@@ -87,6 +87,7 @@ public class StudentService : IStudentService
         {
             AdRequests = adRequestsListDtos
         };
+    }
 
     public async Task<CreateAdRequestResponse> CreateAdRequest(CreateAdRequestRequest request)
     {
