@@ -195,6 +195,7 @@ public class StudentService : IStudentService
         }
 
         var userAlreadySentRequest = await _adRequestRepository.GetAll()
+            .Where(r => r.AdId == request.AdId)
             .AnyAsync(r => r.StudentId == request.StudentId);
 
         if (userAlreadySentRequest)
