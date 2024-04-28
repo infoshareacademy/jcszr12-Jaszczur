@@ -10,4 +10,5 @@ public interface IStudentService
     Task<StudentsAdRequestsResponse> ViewAdRequests(StudentsAdRequestsRequest request);
     Task<AdRequestStatusResponse> ViewAdRequestStatus(AdRequestStatusRequest request);
     Task<StudentCancelAdRequestResponse> DeleteAdRequest(StudentCancelAdRequestRequest request);
+    Task<CreateAdRequestResponse> CreateAdRequest(CreateAdRequestRequest request);
 }
