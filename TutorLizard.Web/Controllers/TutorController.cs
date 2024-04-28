@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -219,7 +218,7 @@ public class TutorController : Controller
                                             dataTextField: nameof(CategoryDto.Name));
     }
 
-    public IActionResult ViewPendingAdRequests()
+    public async Task<IActionResult> ViewPendingAdRequests()
     {
         try
         {
@@ -231,12 +230,8 @@ public class TutorController : Controller
 
             TutorsPendingAdRequestsRequest request = new(tutorId);
 
-            TutorsPendingAdRequestsResponse response = new()
-            {
-                // The data is only for tests
-                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true),
-                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false)]
-            };
+            TutorsPendingAdRequestsResponse response = await _tutorService.ViewAllPendingAdRequests(request);
+
             return View(response);
         }
 
@@ -247,7 +242,7 @@ public class TutorController : Controller
     }
 
     [HttpPost]
-    public IActionResult UpdatePendingAdRequest(IFormCollection form, int adRequestId)
+    public async Task<IActionResult> UpdatePendingAdRequest(IFormCollection form, int adRequestId)
     {
         int? tutorId = _userAuthenticationService.GetLoggedInUserId();
         if (tutorId is null)
@@ -257,22 +252,17 @@ public class TutorController : Controller
 
         UpdateTutorsPendingAdRequestRequest request = new(adRequestId, form["replyMessage"]);
 
-        UpdateTutorsPendingAdRequestResponse response = new();
-
         try
         {
             if (!form["btnAccept"].IsNullOrEmpty())
-            {
-                // TODO: Move accept logic to a service
-                // _adRequestRepository.GetAdRequestById(adRequestId).IsAccepted = true;
-            }
+                request.Action = UpdateTutorsPendingAdRequestRequest.UpdateAction.Accept;
+            else if (!form["btnReject"].IsNullOrEmpty())
+                request.Action = UpdateTutorsPendingAdRequestRequest.UpdateAction.Reject;
 
-            if (!form["btnReject"].IsNullOrEmpty())
-            {
-                // TODO: Move reject logic to a service
-                // var result = _adRequestRepository.GetAdRequestById(adRequestId);
-                // _adRequestRepository.GetAllAdRequests().Remove(result);
-            }
+            var response = await _tutorService.UpdateAdRequest(request);
+            if (!response.IsSuccessful)
+                RedirectToAction(nameof(AdRequest));
+
             return RedirectToAction("ViewPendingAdRequests");
         }
         catch
@@ -295,9 +285,6 @@ public class TutorController : Controller
 
             TutorAllAdRequestsResponse response = new()
             {
-                // The data is only for tests
-                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "message", "reply message", true),
-                    new AdRequestsListDto(2, 22, 2, true, "message", "reply message", false)]
             };
             return View(response);
         }
@@ -308,7 +295,7 @@ public class TutorController : Controller
         }
     }
 
-    public IActionResult TutorsAdsList()
+    public async Task<IActionResult> TutorsAdsList()
     {
         try
         {
@@ -320,58 +307,13 @@ public class TutorController : Controller
 
             TutorsAdsRequest request = new(tutorId);
 
-            TutorsAdsResponse response = new()
-            {
-                // TODO inject actual data, this is only for tests
+            TutorsAdsResponse response = await _tutorService.ViewTutorsAds(request);
 
-                AdList = new List<AdListItemDto>
-                {
-                    new AdListItemDto(
-                        id: 1,
-                        tutorId: 101,
-                        tutorName: "Anna",
-                        subject: "Matematyka",
-                        title: "Korepetycje z matematyki",
-                        description: "Lekcje matematyki dla uczniów szkół średnich.",
-                        categoryId: 2,
-                        categoryName: "Mathematics",
-                        price: 50.0m,
-                        location: "Warszawa",
-                        isRemote: true
-                    ),
-                    new AdListItemDto(
-                        id: 2,
-                        tutorId: 102,
-                        tutorName: "Piotr",
-                        subject: "Fizyka",
-                        title: "Korepetycje z fizyki",
-                        description: "Lekcje fizyki dla uczniów szkół średnich.",
-                        categoryId: 3,
-                        categoryName: "Physics",
-                        price: 60.0m,
-                        location: "Kraków",
-                        isRemote: false
-                    ),
-                    new AdListItemDto(
-                        id: 3,
-                        tutorId: 103,
-                        tutorName: "Michał",
-                        subject: "Chemia",
-                        title: "Korepetycje z chemii",
-                        description: "Lekcje chemii dla uczniów szkół średnich.",
-                        categoryId: 4,
-                        categoryName: "Chemistry",
-                        price: 70.0m,
-                        location: "Gdańsk",
-                        isRemote: true
-                    )
-                }
-            };
             return View(response);
         }
         catch
         {
-            return RedirectToAction("AccessDenied", "User");
+            return RedirectToAction("Error", "Home");
         }
     }
 

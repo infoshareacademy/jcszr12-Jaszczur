@@ -37,7 +37,7 @@ public class AdRequest
     public string Message { get; set; }
     [MaxLength(500)]
     public string? ReplyMessage { get; set; }
-    public DateTime ReviewDate { get; set; }
+    public DateTime? ReviewDate { get; set; } = null!;
     public bool IsRemote { get; set; }
     public DateTime DateCreated { get; set; } = DateTime.Now;
 

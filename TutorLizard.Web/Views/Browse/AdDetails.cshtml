@@ -49,7 +49,7 @@
 }
 @if(Model.UserRelationship == AdToUserRelationship.AcceptedStudent)
 {
-    <div><h3>Sekcja dla zapisanego ucznia</h3></div>
+    @await Component.InvokeAsync(nameof(AvailableScheduleForAd), new {adId = Model.AdId})
 }
 @if(Model.UserRelationship == AdToUserRelationship.PendingStudent)
 {
