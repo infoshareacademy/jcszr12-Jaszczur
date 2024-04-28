@@ -32,4 +32,13 @@
             </div>
         }
     </div>
+    @* if (Model.Status == AdRequestStatusResponse.RequestStatus.Pending)
+    {
+        <div>
+                <form asp-controller="Student" asp-action="CancelAdRequest">
+                    <input name="adRequestId" value="@Model.Id" type="hidden" />
+                    <button class="btn btn-danger mt-3">Cofnij zapytanie</button>
+                </form>
+        </div>
+    } *@
 }
