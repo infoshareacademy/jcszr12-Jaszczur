@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models.DTOs;
 using TutorLizard.BusinessLogic.Models.DTOs.Requests;
@@ -137,6 +139,24 @@ public class StudentController : Controller
         }
 
         // TODO - redirect to details of the ad
+        return RedirectToAction(nameof(Index));
+    }
+    [HttpDelete]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CancelAdRequest(int adRequestId)
+    {
+        StudentCancelAdRequestRequest request = new StudentCancelAdRequestRequest(adRequestId);
+        StudentCancelAdRequestResponse response = await _studentService.DeleteAdRequest(request);
+
+        if (response.IsSuccessful)
+        {
+            // TODO - Show success notification
+        }
+        else
+        {
+            // TODO - Show failure notification
+        }
+
         return RedirectToAction(nameof(Index));
     }
 }

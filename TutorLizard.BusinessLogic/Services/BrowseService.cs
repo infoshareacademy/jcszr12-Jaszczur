@@ -39,7 +39,7 @@ public class BrowseService : IBrowseService
 
         request.PageNumber = Math.Min(request.PageNumber, totalPages);
 
-        int resultsToSkip = (request.PageNumber - 1) * request.PageSize;
+        int resultsToSkip = Math.Max((request.PageNumber - 1) * request.PageSize, 0);
         List<AdListItemDto> ads = await _adRepository.GetAll()
             .Skip(resultsToSkip)
             .Take(request.PageSize)
