@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models.DTOs;
 using TutorLizard.BusinessLogic.Models.DTOs.Requests;
@@ -23,7 +25,7 @@ public class StudentController : Controller
         return View();
     }
 
-    public IActionResult AcceptedAds()
+    public async Task<IActionResult> AcceptedAds()
     {
         try
         {
@@ -35,11 +37,8 @@ public class StudentController : Controller
 
             StudentsAcceptedAdsRequest request = new(studentId);
 
-            StudentsAcceptedAdsResponse response = new()
-            {
-                // The data is only for tests
-                Ads = [new AdListItemDto(1, 1, "Jan", "Maths", "Matematyka", "opis", 1, "Math", 60, "Warszawa", true)]
-            };
+            StudentsAcceptedAdsResponse response = await _studentService.ViewAcceptedAds(request);
+
             return View(response);
         }
 
@@ -48,24 +47,21 @@ public class StudentController : Controller
             return RedirectToAction("Error", "Home");
         }
     }
-    
-    public IActionResult AdRequests()
+
+    public async Task<IActionResult> AdRequests(IFormCollection buttonAction)
     {
         try
         {
             int? studentId = _userAuthenticationService.GetLoggedInUserId();
-            if(studentId is null)
+            if (studentId is null)
             {
                 return RedirectToAction("AccessDenied", "User");
             }
 
             StudentsAdRequestsRequest request = new(studentId);
 
-            StudentsAdRequestsResponse response = new()
-            {
-                //data for tests only
-                AdRequests = [new AdRequestsListDto(1, 1, 1, false, "xyz", "yxz", false)]
-            };
+            StudentsAdRequestsResponse response = await _studentService.ViewAdRequests(request);
+
             return View(response);
         }
 
@@ -73,6 +69,98 @@ public class StudentController : Controller
         {
             return RedirectToAction("AccessDenied", "User");
         }
+    }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateScheduleItemRequest(int scheduleItemRequestId, int scheduleItemId)
+    {
+
+        int? studentId = _userAuthenticationService.GetLoggedInUserId();
+        if (studentId is null)
+        {
+            // TODO - show failure notification
+            return RedirectToAction(actionName: "Schedule", controllerName: "Browse", routeValues: new { id = scheduleItemId });
+        }
+        CreateScheduleItemRequestRequest request = new()
+        {
+            ScheduleItemRequestId = scheduleItemRequestId,
+            StudentId = (int)studentId
+        };
+
+        // TODO - replace mock response with call to _tutorService
+        CreateScheduleItemRequestResponse response = new()
+        {
+            Success = true
+        };
+
+        if (response.Success)
+        {
+            // TODO - show success notification
+
+        }
+        else
+        {
+            // TODO - show failure notification
+
+        }
+
+        return RedirectToAction(actionName: "Schedule", controllerName: "Browse", routeValues: new { id = scheduleItemId });
+    }
+
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateAdRequest(CreateAdRequestRequest request)
+    {
+        if (ModelState.IsValid == false)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
+        int? studentId = _userAuthenticationService.GetLoggedInUserId();
+        if (studentId is null)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+        request.StudentId = (int)studentId;
+
+        // TODO - replace mock data with call to _studentService
+        CreateAdRequestResponse response = new()
+        {
+            Success = true,
+        };
+
+        if (response.Success)
+        {
+            // TODO - Show success notification
+
+        }
+        else
+        {
+            // TODO - Show failure notification
+
+        }
+
+        // TODO - redirect to details of the ad
+        return RedirectToAction(nameof(Index));
+    }
+    [HttpDelete]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CancelAdRequest(int adRequestId)
+    {
+        StudentCancelAdRequestRequest request = new StudentCancelAdRequestRequest(adRequestId);
+        StudentCancelAdRequestResponse response = await _studentService.DeleteAdRequest(request);
+
+        if (response.IsSuccessful)
+        {
+            // TODO - Show success notification
+        }
+        else
+        {
+            // TODO - Show failure notification
+        }
+
+        return RedirectToAction(nameof(Index));
     }
 }

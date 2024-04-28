@@ -104,7 +104,7 @@ namespace TutorLizard.Web.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<DateTime>("ReviewDate")
+                    b.Property<DateTime?>("ReviewDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("StudentId")

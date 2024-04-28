@@ -31,17 +31,17 @@ public class CreateAdRequest
 
     [DisplayName("Tematyka")]
     [Required(ErrorMessage = "To pole jest wymagane")]
-    [StringLength(25, ErrorMessage ="Maksymalna długość: 25 znaków")]
+    [StringLength(50, ErrorMessage ="Maksymalna długość: 50 znaków")]
     public string Subject { get; set; }
 
     [DisplayName("Tytuł ogłoszenia")]
     [Required(ErrorMessage = "To pole jest wymagane")]
-    [StringLength(25, ErrorMessage = "Maksymalna długość: 25 znaków")]
+    [StringLength(50, ErrorMessage = "Maksymalna długość: 50 znaków")]
     public string Title { get; set; }
 
     [DisplayName("Opis ogłoszenia")]
     [Required(ErrorMessage = "To pole jest wymagane")]
-    [StringLength(250, ErrorMessage = "Maksymalna długość: 250 znaków")]
+    [StringLength(3000, ErrorMessage = "Maksymalna długość: 3000 znaków")]
     public string Description { get; set; }
 
     [DisplayName("Kategoria")]
@@ -56,6 +56,7 @@ public class CreateAdRequest
 
     [DisplayName("Lokalizacja")]
     [Required(ErrorMessage = "To pole jest wymagane")]
+    [StringLength(50, ErrorMessage = "Maksymalna długość: 50 znaków")]
     public string Location { get; set; }
 
     [DisplayName("Nauczanie zdalne")]
