@@ -270,7 +270,7 @@ public class TutorController : Controller
         }
     }
 
-    public IActionResult ViewAllAdRequests()
+    public async Task<IActionResult> ViewAllAdRequests()
     {
         try
         {
@@ -282,9 +282,8 @@ public class TutorController : Controller
 
             TutorAllAdRequestsRequest request = new(tutorId);
 
-            TutorAllAdRequestsResponse response = new()
-            {
-            };
+            TutorAllAdRequestsResponse response = await _tutorService.ViewAllAdRequests(request);
+
             return View(response);
         }
 
