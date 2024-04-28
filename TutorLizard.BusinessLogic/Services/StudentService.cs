@@ -95,6 +95,7 @@ public class StudentService : IStudentService
             .Where(adrequest => adrequest.StudentId == request.StudentId
                   && adrequest.Ad.Id == adrequest.AdId
                   && adrequest.IsAccepted == false)
+            .OrderByDescending(adrequest => adrequest.DateCreated)
             .FirstOrDefaultAsync();
 
         if (adRequestDetails is null)
@@ -111,6 +112,19 @@ public class StudentService : IStudentService
             Status = adRequestDetails.ReviewDate != null ? AdRequestStatusResponse.RequestStatus.Pending : AdRequestStatusResponse.RequestStatus.Rejected,
             IsSuccessful = true
         };
+
+        return response;
+    }
+
+    public async Task<StudentCancelAdRequestResponse> DeleteAdRequest(StudentCancelAdRequestRequest request)
+    {
+        var deletedAdRequest = await _adRequestRepository.Delete(request.Id);
+
+        StudentCancelAdRequestResponse response = new StudentCancelAdRequestResponse();
+        if (deletedAdRequest == null)
+            response.IsSuccessful = false;
+        else
+            response.IsSuccessful = true;
 
         return response;
     }
