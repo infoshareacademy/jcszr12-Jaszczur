@@ -73,7 +73,7 @@ public class StudentController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateScheduleItemRequest(int scheduleItemRequestId, int scheduleItemId)
+    public async Task<IActionResult> CreateScheduleItemRequest(int scheduleItemId, int adId)
     {
 
         int? studentId = _userAuthenticationService.GetLoggedInUserId();
@@ -84,8 +84,8 @@ public class StudentController : Controller
         }
         CreateScheduleItemRequestRequest request = new()
         {
-            ScheduleItemRequestId = scheduleItemRequestId,
-            StudentId = (int)studentId
+            StudentId = (int)studentId,
+            ScheduleItemId = scheduleItemId
         };
 
         CreateScheduleItemRequestResponse response = await _studentService.CreateScheduleItemRequest(request);
@@ -93,7 +93,7 @@ public class StudentController : Controller
         if (response.Success)
         {
             ViewBag.SuccessMessage = "Wysłano prośbę";
-            return RedirectToAction(nameof(CreateScheduleItemRequest), new { id = response.CreatedScheduleItemRequestId });
+            return RedirectToAction("AdDetails", "Browse", new {id = adId });
         }
         else
         {
