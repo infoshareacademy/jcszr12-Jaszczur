@@ -117,7 +117,7 @@ public class TutorController : Controller
                 return RedirectToAction(nameof(Index));
             }
             request.UserId = (int)userId;
-            CreateScheduleItemResponse response = await _tutorService.CreateItem(request);
+            CreateScheduleItemResponse response = await _tutorService.CreateScheduleItem(request);
 
             if (response.Success)
             {
