@@ -1,5 +1,4 @@
-﻿@using static TutorLizard.BusinessLogic.Models.DTOs.AdRequestDto
-@model AdRequestStatusResponse?
+﻿@model AdRequestStatusResponse?
 
 @if(Model is not null)
 {
@@ -33,7 +32,7 @@
             </div>
         }
     </div>
-    if (Model.Status == AdRequestStatusResponse.RequestStatus.Pending)
+    @* if (Model.Status == AdRequestStatusResponse.RequestStatus.Pending)
     {
         <div>
                 <form asp-controller="Student" asp-action="CancelAdRequest">
@@ -41,5 +40,5 @@
                     <button class="btn btn-danger mt-3">Cofnij zapytanie</button>
                 </form>
         </div>
-    }
+    } *@
 }
