@@ -86,18 +86,16 @@ public class StudentController : Controller
             StudentId = (int)studentId
         };
 
-        // TODO - replace mock response with call to _tutorService
         CreateScheduleItemRequestResponse response = await _studentService.CreateScheduleItemRequest(request);
 
         if (response.Success)
         {
-            // TODO - show success notification
-
+            ViewBag.SuccessMessage = "Wysłano prośbę";
+            return RedirectToAction(nameof(CreateScheduleItemRequest), new { id = response.CreatedScheduleItemRequestId });
         }
         else
         {
-            // TODO - show failure notification
-
+            ViewBag.ErrorMessage = "Wystąpił błąd";
         }
 
         return RedirectToAction(actionName: "Schedule", controllerName: "Browse", routeValues: new { id = scheduleItemId });
