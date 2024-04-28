@@ -122,9 +122,9 @@ public class StudentService : IStudentService
 
         StudentCancelAdRequestResponse response = new StudentCancelAdRequestResponse();
         if (deletedAdRequest == null)
-            response.IsSuccessful = false;
-        else
             response.IsSuccessful = true;
+        else
+            response.IsSuccessful = false;
 
         return response;
     }
