@@ -56,16 +56,12 @@ public class TutorController : Controller
             }
             request.TutorId = (int)tutorId;
 
-            CreateAdResponse response = new()
-            {
-                SuccessfullyCreated = true,
-                CreatedAdId = 1
-            };
+            CreateAdResponse response = await _tutorService.CrateAd(request);
 
             if (response.SuccessfullyCreated)
             {
                 // TODO show notification
-                // TODO redirect to created Ad's details
+                return RedirectToAction("AdDetails", "Browse", new { id = response.CreatedAdId });
             }
             else
             {

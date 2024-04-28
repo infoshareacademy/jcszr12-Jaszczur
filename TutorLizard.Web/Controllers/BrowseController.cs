@@ -17,7 +17,7 @@ public class BrowseController : Controller
     {
         _browseService = browseService;
         _userAuthenticationService = userAuthenticationService;
-        _pageSize = 10;
+        _pageSize = 1;
     }
     public IActionResult Index()
     {
@@ -29,10 +29,17 @@ public class BrowseController : Controller
         // TODO ask service for ads to show (using request)
 
         // TODO customize routing, so that parameter is page, not id
-        int pageNumber = id;
+        int pageNumber = id > 0 ? id : 1;
+        int pageSize = _pageSize > 0 ? _pageSize : 1;
         GetBrowseAdsPageRequest request = new(pageNumber, _pageSize);
 
         GetBrowseAdsPageResponse response = await _browseService.GetBrowseAdsPage(request);
+
+        if (response.Success == false)
+        {
+            // TODO Add failure notification
+            return RedirectToAction("Index", "Home");
+        }
 
         return View(response);
     }

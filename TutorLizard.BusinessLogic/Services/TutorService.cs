@@ -268,8 +268,36 @@ public class TutorService : ITutorService
         };
     }
 
-    public Task<CreateScheduleItemResponse> CreateItem(CreateScheduleItemRequest request)
+    public async Task<CreateAdResponse> CrateAd(CreateAdRequest request)
     {
-        throw new NotImplementedException();
+        Ad toCreate = new()
+        {
+            TutorId = request.TutorId,
+            Subject = request.Subject,
+            Title = request.Subject,
+            Description = request.Description,
+            CategoryId = request.CategoryId,
+            Price = request.Price,
+            Location = request.Location,
+            IsRemote = request.IsRemote
+        };
+
+        try
+        {
+            await _adRepository.Create(toCreate);
+        }
+        catch
+        {
+            return new()
+            {
+                SuccessfullyCreated = false
+            };
+        }
+
+        return new()
+        {
+            SuccessfullyCreated = true,
+            CreatedAdId = toCreate.Id
+        };
     }
 }
