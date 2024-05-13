@@ -20,8 +20,9 @@ public class AccountController : Controller
         return View();
     }
 
-    public IActionResult Login()
+    public IActionResult Login([FromQuery] string? returnUrl)
     {
+        TempData["returnUrl"] = returnUrl;
         return View();
     }
 
@@ -29,12 +30,20 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginModel model)
     {
+        string? returnUrl = TempData.ContainsKey("returnUrl") ?
+            TempData["returnUrl"] as string
+            : null;
+
         try
         {
             if (ModelState.IsValid && await _userAuthenticationService.LogInAsync(model.UserName, model.Password))
             {
                 TempData["LoginSuccessful"] = "You are logged in.";
-                return LocalRedirect("/Home/Index");
+                if (string.IsNullOrEmpty(returnUrl))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                return Redirect(returnUrl);
             }
         }
         catch
