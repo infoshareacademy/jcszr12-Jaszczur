@@ -26,10 +26,10 @@ builder.Services.AddAuthentication("CookieAuth")
     {
         options.ExpireTimeSpan = TimeSpan.FromDays(1);
         options.SlidingExpiration = true;
-        options.AccessDeniedPath = "/User/AccessDenied";
+        options.AccessDeniedPath = "/Account/AccessDenied";
         options.Cookie.Name = "CookieAuth";
-        options.LoginPath = "/User/Login";
-        options.LogoutPath = "/User/Logout";
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
     });
 
 builder.Services.AddDbContext<JaszczurContext>(configuration =>
