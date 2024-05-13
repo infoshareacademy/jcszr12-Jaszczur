@@ -1,0 +1,54 @@
+@model AdRequestsListDto
+
+<div class="card my-3">
+
+    <div class="card-body">
+        <h5 class="card-title">@Model.AdId</h5>
+        <div class="row">
+            <div class="col-6 col-sm-3">Og³oszenie:</div>
+            <div class="col-6 col-sm-9">@Model.AdId</div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-sm-3">Tytu³ og³oszenia:</div>
+            <div class="col-6 col-sm-9">@Model.AdTitle</div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-sm-3">Przedmiot og³oszenia:</div>
+            <div class="col-6 col-sm-9">@Model.AdSubject</div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-sm-3">Nazwa kategorii:</div>
+            <div class="col-6 col-sm-9">@Model.CategoryName</div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-sm-3">Wiadomoœæ od ucznia:</div>
+            <div class="col-6 col-sm-9">@Model.Message</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Nauczanie zdalne:</div>
+            <div class="col-6 col-sm-9">
+                @if (Model.IsRemote)
+                {
+                    <span>Tak</span>
+                }
+                else
+                {
+                    <span>Nie</span>
+                }
+            </div>
+        </div>
+        <form asp-controller="Tutor" asp-action="UpdatePendingAdRequest" method="post">
+            <div class="form-group">
+                <label asp-for="ReplyMessage" class="control-label">Wiadomoœæ zwrotna:</label>
+                <textarea asp-for="ReplyMessage" class="form-control" name="replyMessage"></textarea>
+                <span asp-validation-for="ReplyMessage" class="text-danger"></span>
+            </div>
+             <div class="form-group my-3">
+                 <input type="submit" id="btnAccept" name="btnAccept" value="Akceptuj" class="btn btn-lg btn-success" />
+                 <input type="submit" id="btnReject" name="btnReject" value="Odrzuæ" class="btn btn-lg btn-danger" />
+             </div>
+            <input type="hidden" name="adRequestId" value="@Model.Id" />
+        </form>
+    </div>
+</div>

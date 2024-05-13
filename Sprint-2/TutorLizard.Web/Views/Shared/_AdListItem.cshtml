@@ -1,0 +1,57 @@
+﻿@model AdListItemDto
+
+<div class="card my-3">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Title</h5>
+        <div class="row">
+            <div class="col-6 col-sm-3">Kategoria:</div>
+            <div class="col-6 col-sm-9">@Model.CategoryName</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Tematyka:</div>
+            <div class="col-6 col-sm-9">@Model.Subject</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Lokalizacja:</div>
+            <div class="col-6 col-sm-9">@Model.Location</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Wystawione przez:</div>
+            <div class="col-6 col-sm-9">@Model.TutorName</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Cena:</div>
+            <div class="col-6 col-sm-9">@Html.DisplayFor(model => model.Price) zł/h</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-sm-3">Nauczanie zdalne:</div>
+            <div class="col-6 col-sm-9">
+                @if(Model.IsRemote)
+                {
+                    <span>Tak</span>
+                }
+                else
+                {
+                    <span>Nie</span>
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <p class="card-text">@Model.Description</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <a asp-action="AdDetails" asp-controller="Browse" asp-route-id="@Model.Id" class="card-link">Szczegóły ogłoszenia</a>
+            </div>
+        </div>
+    </div>
+</div>

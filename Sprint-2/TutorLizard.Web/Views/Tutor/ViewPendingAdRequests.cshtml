@@ -1,0 +1,11 @@
+﻿@model TutorsPendingAdRequestsResponse
+
+@{
+    ViewData["Title"] = "ViewPendingAdRequests";
+}
+
+<h1>PendingAdRequests</h1>
+@foreach (var adrequest in Model.AdRequests)
+{
+   <partial name="_PendingAdRequestsListItem" model="adrequest" />
+}
