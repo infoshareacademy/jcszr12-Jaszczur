@@ -22,7 +22,10 @@ public class AccountController : Controller
 
     public IActionResult Login([FromQuery] string? returnUrl)
     {
-        TempData["returnUrl"] = returnUrl;
+        if (returnUrl is not null)
+        {
+            TempData["returnUrl"] = returnUrl;
+        }
         return View();
     }
 
@@ -52,7 +55,7 @@ public class AccountController : Controller
             return LocalRedirect("/Home/Index");
         }
         TempData["LoginUnsuccessful"] = "Could not log in.";
-        return View();
+        return View(new { returnUrl = returnUrl });
     }
     [Authorize]
     public async Task<IActionResult> Logout()
