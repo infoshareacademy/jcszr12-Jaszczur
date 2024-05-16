@@ -5,7 +5,13 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TutorLizard.BusinessLogic", "TutorLizard.BusinessLogic\TutorLizard.BusinessLogic.csproj", "{4EB834BE-5462-49E8-A007-4CEDFF6942D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutorLizard.Web", "TutorLizard.Web\TutorLizard.Web.csproj", "{DEBF1D43-13D4-4362-BFCE-54E7156B65B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TutorLizard.Web", "TutorLizard.Web\TutorLizard.Web.csproj", "{DEBF1D43-13D4-4362-BFCE-54E7156B65B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DD9B1FDE-1E39-4C45-A1A0-8D3AE694CB2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutorLizard.BusinessLogic.Tests", "Tests\TutorLizard.BusinessLogic.Tests\TutorLizard.BusinessLogic.Tests.csproj", "{1F175297-3AF6-430A-B36E-353FC1B9F9F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutorLizard.Web.Tests", "Tests\TutorLizard.Web.Tests\TutorLizard.Web.Tests.csproj", "{8CA651DA-9229-4722-80D0-6F49E06DDBD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +27,21 @@ Global
 		{DEBF1D43-13D4-4362-BFCE-54E7156B65B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEBF1D43-13D4-4362-BFCE-54E7156B65B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEBF1D43-13D4-4362-BFCE-54E7156B65B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F175297-3AF6-430A-B36E-353FC1B9F9F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F175297-3AF6-430A-B36E-353FC1B9F9F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F175297-3AF6-430A-B36E-353FC1B9F9F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F175297-3AF6-430A-B36E-353FC1B9F9F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CA651DA-9229-4722-80D0-6F49E06DDBD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CA651DA-9229-4722-80D0-6F49E06DDBD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CA651DA-9229-4722-80D0-6F49E06DDBD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CA651DA-9229-4722-80D0-6F49E06DDBD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1F175297-3AF6-430A-B36E-353FC1B9F9F1} = {DD9B1FDE-1E39-4C45-A1A0-8D3AE694CB2F}
+		{8CA651DA-9229-4722-80D0-6F49E06DDBD3} = {DD9B1FDE-1E39-4C45-A1A0-8D3AE694CB2F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B7EED87D-4CE0-4032-B462-AA398B62FD46}
