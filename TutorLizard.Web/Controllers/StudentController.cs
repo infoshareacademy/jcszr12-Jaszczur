@@ -32,7 +32,7 @@ public class StudentController : Controller
             int? studentId = _userAuthenticationService.GetLoggedInUserId();
             if (studentId is null)
             {
-                return RedirectToAction("AccessDenied", "User");
+                return Forbid();
             }
 
             StudentsAcceptedAdsRequest request = new(studentId);
@@ -55,7 +55,7 @@ public class StudentController : Controller
             int? studentId = _userAuthenticationService.GetLoggedInUserId();
             if (studentId is null)
             {
-                return RedirectToAction("AccessDenied", "User");
+                return Forbid();
             }
 
             StudentsAdRequestsRequest request = new(studentId);
@@ -67,7 +67,7 @@ public class StudentController : Controller
 
         catch
         {
-            return RedirectToAction("AccessDenied", "User");
+            return Forbid();
         }
     }
 

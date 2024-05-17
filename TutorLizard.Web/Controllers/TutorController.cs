@@ -223,7 +223,7 @@ public class TutorController : Controller
             int? tutorId = _userAuthenticationService.GetLoggedInUserId();
             if (tutorId is null)
             {
-                return RedirectToAction("AccessDenied", "User");
+                return Forbid();
             }
 
             TutorsPendingAdRequestsRequest request = new(tutorId);
@@ -245,7 +245,7 @@ public class TutorController : Controller
         int? tutorId = _userAuthenticationService.GetLoggedInUserId();
         if (tutorId is null)
         {
-            return RedirectToAction("AccessDenied", "User");
+            return Forbid();
         }
 
         UpdateTutorsPendingAdRequestRequest request = new(adRequestId, form["replyMessage"]);
@@ -276,7 +276,7 @@ public class TutorController : Controller
             int? tutorId = _userAuthenticationService.GetLoggedInUserId();
             if (tutorId is null)
             {
-                return RedirectToAction("AccessDenied", "User");
+                return Forbid();
             }
 
             TutorAllAdRequestsRequest request = new(tutorId);
@@ -299,7 +299,7 @@ public class TutorController : Controller
             int? tutorId = _userAuthenticationService.GetLoggedInUserId();
             if (tutorId is null)
             {
-                return RedirectToAction("AccessDenied", "User");
+                return Forbid();
             }
 
             TutorsAdsRequest request = new(tutorId);
