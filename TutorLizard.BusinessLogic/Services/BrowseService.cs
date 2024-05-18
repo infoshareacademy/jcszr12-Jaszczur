@@ -102,7 +102,7 @@ public class BrowseService : IBrowseService
         return response;
     }
 
-    public async Task<UsersScheduleResponse> GetUsersSchedule(UsersScheduleRequest request)
+    public async Task<GetUsersScheduleResponse> GetUsersSchedule(GetUsersScheduleRequest request)
     {
         List<TutorsScheduleItemSummaryDto> tutorsSchedule = await _scheduleItemRepository.GetAll()
             .Where(i => i.Ad.TutorId == request.UserId)
@@ -137,7 +137,7 @@ public class BrowseService : IBrowseService
             })
             .ToListAsync();
 
-        UsersScheduleResponse response = new()
+        GetUsersScheduleResponse response = new()
         {
             TutorsSchedule = tutorsSchedule,
             StudentsSchedule = studentsSchedule

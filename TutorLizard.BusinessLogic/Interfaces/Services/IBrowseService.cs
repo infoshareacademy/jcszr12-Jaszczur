@@ -7,5 +7,5 @@ public interface IBrowseService
 {
     Task<GetAdDetailsResponse?> GetAdDetails(GetAdDetailsRequest request);
     Task<GetBrowseAdsPageResponse> GetBrowseAdsPage(GetBrowseAdsPageRequest request);
-    Task<UsersScheduleResponse> GetUsersSchedule(UsersScheduleRequest request);
+    Task<GetUsersScheduleResponse> GetUsersSchedule(GetUsersScheduleRequest request);
 }

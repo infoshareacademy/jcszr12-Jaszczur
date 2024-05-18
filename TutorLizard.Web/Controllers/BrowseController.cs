@@ -73,12 +73,12 @@ public class BrowseController : Controller
             return RedirectToAction(nameof(Index));
         }
 
-        UsersScheduleRequest request = new()
+        GetUsersScheduleRequest request = new()
         {
             UserId = (int)userId
         };
 
-        UsersScheduleResponse response = await _browseService.GetUsersSchedule(request);
+        GetUsersScheduleResponse response = await _browseService.GetUsersSchedule(request);
         return View(response);
     }
 }
