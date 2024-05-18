@@ -26,10 +26,7 @@ public class BrowseControllerTests
     {
         // Arrange
         List<GetBrowseAdsPageRequest> requests = [];
-        GetBrowseAdsPageResponse response = _fixture
-            .Build<GetBrowseAdsPageResponse>()
-                .With(r => r.Success, true)
-            .Create();
+        GetBrowseAdsPageResponse response = CreateGetBrowseAdsPageResponse(success: true);
 
         _mockBrowseService
             .Setup(x => x.GetBrowseAdsPage(Capture.In(requests)))
@@ -51,10 +48,7 @@ public class BrowseControllerTests
     {
         // Arrange
         List<GetBrowseAdsPageRequest> requests = [];
-        GetBrowseAdsPageResponse response = _fixture
-            .Build<GetBrowseAdsPageResponse>()
-                .With(r => r.Success, true)
-            .Create();
+        GetBrowseAdsPageResponse response = CreateGetBrowseAdsPageResponse(success: true);
 
         _mockBrowseService
             .Setup(x => x.GetBrowseAdsPage(Capture.In(requests)))
@@ -72,10 +66,8 @@ public class BrowseControllerTests
     {
         // Arrange
         int pageNumber = 1;
-        GetBrowseAdsPageResponse response = _fixture
-            .Build<GetBrowseAdsPageResponse>()
-                .With(r => r.Success, false)
-            .Create();
+        GetBrowseAdsPageResponse response = CreateGetBrowseAdsPageResponse(success: false);
+
         _mockBrowseService
            .Setup(x => x.GetBrowseAdsPage(It.IsAny<GetBrowseAdsPageRequest>()))
            .Returns(Task.FromResult(response));
@@ -92,10 +84,8 @@ public class BrowseControllerTests
     {
         // Arrange
         int pageNumber = 1;
-        GetBrowseAdsPageResponse response = _fixture
-            .Build<GetBrowseAdsPageResponse>()
-                .With(r => r.Success, true)
-            .Create();
+        GetBrowseAdsPageResponse response = CreateGetBrowseAdsPageResponse(success: true);
+
         _mockBrowseService
            .Setup(x => x.GetBrowseAdsPage(It.IsAny<GetBrowseAdsPageRequest>()))
            .Returns(Task.FromResult(response));
@@ -112,9 +102,7 @@ public class BrowseControllerTests
     {
         // Arrage
         int id = 1;
-        _mockUserAuthenticationService
-            .Setup(x => x.GetLoggedInUserId())
-            .Returns((int?)null);
+        SetupMockGetLoggedInUserId(null);
 
         // Act
         var result = await _browseController.AdDetails(id);
@@ -136,10 +124,8 @@ public class BrowseControllerTests
             UserId = userId
         };
 
-        _mockUserAuthenticationService
-            .Setup(x => x.GetLoggedInUserId())
-            .Returns(userId);
-        
+        SetupMockGetLoggedInUserId(userId);
+
         List<GetAdDetailsRequest> requests = [];
         GetAdDetailsResponse response = _fixture.Create<GetAdDetailsResponse>();
         _mockBrowseService
@@ -160,9 +146,7 @@ public class BrowseControllerTests
         int id = 1;
         int userId = 19;
 
-        _mockUserAuthenticationService
-            .Setup(x => x.GetLoggedInUserId())
-            .Returns(userId);
+        SetupMockGetLoggedInUserId(userId);
 
         _mockBrowseService
             .Setup(x => x.GetAdDetails(It.IsAny<GetAdDetailsRequest>()))
@@ -182,9 +166,7 @@ public class BrowseControllerTests
         int id = 1;
         int userId = 19;
 
-        _mockUserAuthenticationService
-            .Setup(x => x.GetLoggedInUserId())
-            .Returns(userId);
+        SetupMockGetLoggedInUserId(userId);
 
         GetAdDetailsResponse response = _fixture.Create<GetAdDetailsResponse>();
         _mockBrowseService
@@ -202,9 +184,7 @@ public class BrowseControllerTests
     public async Task Schedule_WhenUserIdIsNull_ShouldReturnRedirectToAction()
     {
         // Arrange
-        _mockUserAuthenticationService
-            .Setup(x => x.GetLoggedInUserId())
-            .Returns((int?)null);
+        SetupMockGetLoggedInUserId(null);
 
         // Act
         var result = await _browseController.Schedule();
@@ -218,9 +198,7 @@ public class BrowseControllerTests
     {
         // Arrange
         int userId = 19;
-        _mockUserAuthenticationService
-            .Setup(x => x.GetLoggedInUserId())
-            .Returns(userId);
+        SetupMockGetLoggedInUserId(userId);
 
         GetUsersScheduleResponse response = _fixture.Create<GetUsersScheduleResponse>();
         _mockBrowseService
@@ -245,9 +223,7 @@ public class BrowseControllerTests
     public async Task Schedule_WhenUserIdIsNotNull_ShouldSendCorrectRequest(int userId)
     {
         // Arrange
-        _mockUserAuthenticationService
-            .Setup(x => x.GetLoggedInUserId())
-            .Returns(userId);
+        SetupMockGetLoggedInUserId(userId);
 
         List<GetUsersScheduleRequest> requests = [];
         GetUsersScheduleResponse response = _fixture.Create<GetUsersScheduleResponse>();
@@ -265,5 +241,20 @@ public class BrowseControllerTests
 
         // Assert
         Assert.Equivalent(expected, requests.Single());
+    }
+
+    private void SetupMockGetLoggedInUserId(int? userId)
+    {
+        _mockUserAuthenticationService
+           .Setup(x => x.GetLoggedInUserId())
+           .Returns(userId);
+    }
+
+    private GetBrowseAdsPageResponse CreateGetBrowseAdsPageResponse(bool success)
+    {
+        return _fixture
+                    .Build<GetBrowseAdsPageResponse>()
+                        .With(r => r.Success, success)
+                    .Create();
     }
 }
