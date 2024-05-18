@@ -152,4 +152,49 @@ public class BrowseControllerTests
         // Assert
         Assert.Equivalent(expected, requests.Single());
     }
+
+    [Fact]
+    public async Task AdDetails_WhenResponseIsNull_ShouldReturnRedirectToAction()
+    {
+        // Arrange
+        int id = 1;
+        int userId = 19;
+
+        _mockUserAuthenticationService
+            .Setup(x => x.GetLoggedInUserId())
+            .Returns(userId);
+
+        _mockBrowseService
+            .Setup(x => x.GetAdDetails(It.IsAny<GetAdDetailsRequest>()))
+            .Returns(Task.FromResult<GetAdDetailsResponse?>(null));
+
+        // Act
+        var result = await _browseController.AdDetails(id);
+
+        // Assert
+        Assert.IsType<RedirectToActionResult>(result);
+    }
+
+    [Fact]
+    public async Task AdDetails_WhenResponseIsNull_ShouldReturnView()
+    {
+        // Arrange
+        int id = 1;
+        int userId = 19;
+
+        _mockUserAuthenticationService
+            .Setup(x => x.GetLoggedInUserId())
+            .Returns(userId);
+
+        GetAdDetailsResponse response = _fixture.Create<GetAdDetailsResponse>();
+        _mockBrowseService
+            .Setup(x => x.GetAdDetails(It.IsAny<GetAdDetailsRequest>()))
+            .Returns(Task.FromResult<GetAdDetailsResponse?>(response));
+
+        // Act
+        var result = await _browseController.AdDetails(id);
+
+        // Assert
+        Assert.IsType<ViewResult>(result);
+    }
 }
