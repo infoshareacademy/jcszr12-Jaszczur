@@ -197,4 +197,73 @@ public class BrowseControllerTests
         // Assert
         Assert.IsType<ViewResult>(result);
     }
+
+    [Fact]
+    public async Task Schedule_WhenUserIdIsNull_ShouldReturnRedirectToAction()
+    {
+        // Arrange
+        _mockUserAuthenticationService
+            .Setup(x => x.GetLoggedInUserId())
+            .Returns((int?)null);
+
+        // Act
+        var result = await _browseController.Schedule();
+
+        // Assert
+        Assert.IsType<RedirectToActionResult>(result);
+    }
+
+    [Fact]
+    public async Task Schedule_WhenUserIdIsNotNull_ShouldReturnRedirectView()
+    {
+        // Arrange
+        int userId = 19;
+        _mockUserAuthenticationService
+            .Setup(x => x.GetLoggedInUserId())
+            .Returns(userId);
+
+        GetUsersScheduleResponse response = _fixture.Create<GetUsersScheduleResponse>();
+        _mockBrowseService
+            .Setup(x => x.GetUsersSchedule(It.IsAny<GetUsersScheduleRequest>()))
+            .Returns(Task.FromResult(response));
+
+        // Act
+        var result = await _browseController.Schedule();
+
+        // Assert
+        Assert.IsType<ViewResult>(result);
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(19)]
+    [InlineData(1000)]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(int.MaxValue)]
+    [InlineData(int.MinValue)]
+    public async Task Schedule_WhenUserIdIsNotNull_ShouldSendCorrectRequest(int userId)
+    {
+        // Arrange
+        _mockUserAuthenticationService
+            .Setup(x => x.GetLoggedInUserId())
+            .Returns(userId);
+
+        List<GetUsersScheduleRequest> requests = [];
+        GetUsersScheduleResponse response = _fixture.Create<GetUsersScheduleResponse>();
+        _mockBrowseService
+            .Setup(x => x.GetUsersSchedule(Capture.In(requests)))
+            .Returns(Task.FromResult(response));
+
+        GetUsersScheduleRequest expected = new()
+        {
+            UserId = userId
+        };
+
+        // Act
+        await _browseController.Schedule();
+
+        // Assert
+        Assert.Equivalent(expected, requests.Single());
+    }
 }
