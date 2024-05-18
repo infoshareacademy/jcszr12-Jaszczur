@@ -124,7 +124,7 @@ public class BrowseControllerTests
     }
 
     [Fact]
-    public async Task AdDetails_WhenUserIsNotNull_ShouldSendCorrectRequest()
+    public async Task AdDetails_WhenUserIdIsNotNull_ShouldSendCorrectRequest()
     {
         // Arrange
         int id = 1;
