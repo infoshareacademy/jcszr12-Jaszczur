@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models.DTOs.Requests;
@@ -64,5 +65,45 @@ public class BrowseControllerTests
 
         // Assert
         Assert.Equal(expectedUsedPageNumber, requests.Single().PageNumber);
+    }
+
+    [Fact]
+    public async Task Ads_WhenResponseIsUnsuccessful_ShouldReturnRedirectToAction()
+    {
+        // Arrange
+        int pageNumber = 1;
+        GetBrowseAdsPageResponse response = _fixture
+            .Build<GetBrowseAdsPageResponse>()
+                .With(r => r.Success, false)
+            .Create();
+        _mockBrowseService
+           .Setup(x => x.GetBrowseAdsPage(It.IsAny<GetBrowseAdsPageRequest>()))
+           .Returns(Task.FromResult(response));
+
+        // Act
+        var result = await _browseController.Ads(pageNumber);
+
+        // Assert
+        Assert.IsType<RedirectToActionResult>(result);
+    }
+
+    [Fact]
+    public async Task Ads_WhenResponseIsSuccessful_ShouldReturnView()
+    {
+        // Arrange
+        int pageNumber = 1;
+        GetBrowseAdsPageResponse response = _fixture
+            .Build<GetBrowseAdsPageResponse>()
+                .With(r => r.Success, true)
+            .Create();
+        _mockBrowseService
+           .Setup(x => x.GetBrowseAdsPage(It.IsAny<GetBrowseAdsPageRequest>()))
+           .Returns(Task.FromResult(response));
+
+        // Act
+        var result = await _browseController.Ads(pageNumber);
+
+        // Assert
+        Assert.IsType<ViewResult>(result);
     }
 }
