@@ -106,4 +106,20 @@ public class BrowseControllerTests
         // Assert
         Assert.IsType<ViewResult>(result);
     }
+
+    [Fact]
+    public async Task AdDetails_WhenUserIdIsNull_ShouldReturnRedirectToAction()
+    {
+        // Arrage
+        int id = 1;
+        _mockUserAuthenticationService
+            .Setup(x => x.GetLoggedInUserId())
+            .Returns((int?)null);
+
+        // Act
+        var result = await _browseController.AdDetails(id);
+
+        // Assert
+        Assert.IsType<RedirectToActionResult>(result);
+    }
 }
