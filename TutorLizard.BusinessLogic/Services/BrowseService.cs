@@ -74,11 +74,11 @@ public class BrowseService : IBrowseService
         return response;
     }
 
-    public async Task<AdDetailsResponse?> GetAdDetails(AdDetailsRequest request)
+    public async Task<GetAdDetailsResponse?> GetAdDetails(GetAdDetailsRequest request)
     {
-        AdDetailsResponse? response = await _adRepository.GetAll()
+        GetAdDetailsResponse? response = await _adRepository.GetAll()
             .Where(a => a.Id == request.AdId)
-            .Select(a => new AdDetailsResponse
+            .Select(a => new GetAdDetailsResponse
             {
                 AdId = a.Id,
                 TutorId = a.TutorId,

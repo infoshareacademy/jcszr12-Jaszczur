@@ -48,13 +48,13 @@ public class BrowseController : Controller
             return RedirectToAction(nameof(Ads));
         }
 
-        AdDetailsRequest request = new()
+        GetAdDetailsRequest request = new()
         {
             AdId = id,
             UserId = (int)userId,
         };
 
-        AdDetailsResponse? response = await _browseService.GetAdDetails(request);
+        GetAdDetailsResponse? response = await _browseService.GetAdDetails(request);
 
         if (response is null)
         {
