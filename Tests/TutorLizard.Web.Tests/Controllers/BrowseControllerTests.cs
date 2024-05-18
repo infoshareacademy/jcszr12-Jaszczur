@@ -122,4 +122,34 @@ public class BrowseControllerTests
         // Assert
         Assert.IsType<RedirectToActionResult>(result);
     }
+
+    [Fact]
+    public async Task AdDetails_WhenUserIsNotNull_ShouldSendCorrectRequest()
+    {
+        // Arrange
+        int id = 1;
+        int userId = 19;
+
+        GetAdDetailsRequest expected = new()
+        {
+            AdId = id,
+            UserId = userId
+        };
+
+        _mockUserAuthenticationService
+            .Setup(x => x.GetLoggedInUserId())
+            .Returns(userId);
+        
+        List<GetAdDetailsRequest> requests = [];
+        GetAdDetailsResponse response = _fixture.Create<GetAdDetailsResponse>();
+        _mockBrowseService
+            .Setup(x => x.GetAdDetails(Capture.In(requests)))
+            .Returns(Task.FromResult<GetAdDetailsResponse?>(response));
+
+        // Act
+        await _browseController.AdDetails(id);
+
+        // Assert
+        Assert.Equivalent(expected, requests.Single());
+    }
 }
