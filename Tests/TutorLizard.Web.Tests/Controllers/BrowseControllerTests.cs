@@ -40,4 +40,29 @@ public class BrowseControllerTests
         // Assert
         Assert.Equal(expectedUsedPageNumber, requests.Single().PageNumber);
     }
+
+    [Theory]
+    [InlineData(1, 1)]
+    [InlineData(2, 2)]
+    [InlineData(100, 100)]
+    [InlineData(int.MaxValue, int.MaxValue)]
+    public async Task Ads_WhenProvidedValidPageNumber_ShouldAskForCorrectPage(int pageNumber, int expectedUsedPageNumber)
+    {
+        // Arrange
+        List<GetBrowseAdsPageRequest> requests = [];
+        GetBrowseAdsPageResponse response = _fixture
+            .Build<GetBrowseAdsPageResponse>()
+                .With(r => r.Success, true)
+            .Create();
+
+        _mockBrowseService
+            .Setup(x => x.GetBrowseAdsPage(Capture.In(requests)))
+            .Returns(Task.FromResult(response));
+
+        // Act
+        await _browseController.Ads(pageNumber);
+
+        // Assert
+        Assert.Equal(expectedUsedPageNumber, requests.Single().PageNumber);
+    }
 }
