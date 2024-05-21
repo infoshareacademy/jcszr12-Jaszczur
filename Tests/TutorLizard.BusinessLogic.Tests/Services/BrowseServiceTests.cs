@@ -355,40 +355,342 @@ public class BrowseServiceTests : IDisposable
         Assert.True(Enum.IsDefined(response.UserRelationship));
     }
 
-    private List<Ad> CreateTestAds(int adCount)
+    [Fact]
+    public async Task GetUsersSchedule_WhenUserHasNoAds_ShouldReturnEmptyTutorsSchedule()
     {
-        User user = _fixture
-            .Build<User>()
-                .Without(user => user.Ads)
-                .Without(user => user.AdRequests)
-                .Without(user => user.ScheduleItemRequests)
-            .Create();
+        // Arrange
+        int scheduleItemCount = 100;
+        SetupMockGetAllScheduleItems(scheduleItemCount);
 
-        Category category = _fixture
-            .Build<Category>()
-                .Without(category => category.Ads)
-            .Create();
+        int usersAdCount = 0;
+        int usersScheduleItemRequestCount = 10;
+        User userWithoutAds = CreateTestUserAndAddToDb(usersAdCount, usersScheduleItemRequestCount);
 
-        List<Ad> ads = _fixture
-            .Build<Ad>()
-                .Without(ad => ad.Id)
-                .Without(ad => ad.AdRequests)
-                .Without(ad => ad.ScheduleItems)
-                .With(ad => ad.User, user)
-                .With(ad => ad.Category, category)
-                .With(ad => ad.Price, Math.Abs(_fixture.Create<decimal>()))
-            .CreateMany(adCount)
-            .ToList();
+        int userId = userWithoutAds.Id;
+        UsersScheduleRequest request = new()
+        {
+            UserId = userId
+        };
 
-        return ads;
+        // Act
+        var response = await _browseService.GetUsersSchedule(request);
+
+        // Assert
+        Assert.Empty(response.TutorsSchedule);
+    }
+
+    [Fact]
+    public async Task GetUsersSchedule_WhenUserHasNoScheduleItemRequests_ShouldReturnEmptyStudentsSchedule()
+    {
+        // Arrange
+        int scheduleItemCount = 100;
+        SetupMockGetAllScheduleItems(scheduleItemCount);
+
+        int usersAdCount = 10;
+        int usersScheduleItemRequestCount = 0;
+        User userWithoutAdRequests = CreateTestUserAndAddToDb(usersAdCount, usersScheduleItemRequestCount);
+
+        int userId = userWithoutAdRequests.Id;
+        UsersScheduleRequest request = new()
+        {
+            UserId = userId,
+        };
+
+        // Act
+        var response = await _browseService.GetUsersSchedule(request);
+
+        // Assert
+        Assert.Empty(response.StudentsSchedule);
+    }
+
+    [Fact]
+    public async Task GetUsersSchedule_WhenUserHasAdsWithScheduleItems_ShouldReturnCorrectTutorsSchedule()
+    {
+        // Arrange
+        int scheduleItemCount = 50;
+        SetupMockGetAllScheduleItems(scheduleItemCount);
+
+        int adCount = 5;
+        CreateAdsForScheduleItems(adCount);
+
+        int scheduleItemRequestCount = 100;
+        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
+
+        int usersInitialAdCount = 0;
+        int usersScheduleItemRequestCount = 0;
+        User user = CreateTestUserAndAddToDb(usersInitialAdCount, usersScheduleItemRequestCount);
+
+        int usersFinalAdCount = 2;
+        while (user.Ads.Count < usersFinalAdCount)
+        {
+            ChangeUserInRandomAdInDb(user);
+        }
+
+        UsersScheduleRequest request = new()
+        {
+            UserId = user.Id
+        };
+
+        // Act
+        var response = await _browseService.GetUsersSchedule(request);
+
+        // Assert
+        Assert.Equal(user.Ads.Sum(ad => ad.ScheduleItems.Count), response.TutorsSchedule.Count);
+
+        foreach(var actual in response.TutorsSchedule)
+        {
+            var expected = user.Ads
+                .SelectMany(ad => ad.ScheduleItems)
+                .FirstOrDefault(item => item.Id == actual.Id);
+
+            Assert.NotNull(expected);
+            Assert.Equal(expected.Id, actual.Id);
+            Assert.Equal(expected.AdId, actual.AdId);
+            Assert.Equal(expected.Ad.Title, actual.AdTitle);
+            Assert.Equal(expected.DateTime, actual.DateTime);
+            Assert.Equal(expected.ScheduleItemRequests.Count, actual.RequestCount);
+        }
+    }
+
+    [Fact]
+    public async Task GetUsersSchedule_WhenUserHasScheduleItemRequests_ShouldReturnCorrectStudentsSchedule()
+    {
+        // Arrange
+        int scheduleItemCount = 50;
+        SetupMockGetAllScheduleItems(scheduleItemCount);
+
+        int adCount = 5;
+        CreateAdsForScheduleItems(adCount);
+
+        int scheduleItemRequestCount = 100;
+        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
+
+        int usersAdCount = 0;
+        int usersInitialScheduleItemRequestCount = 0;
+        User user = CreateTestUserAndAddToDb(usersAdCount, usersInitialScheduleItemRequestCount);
+
+        int usersFinalScheduleItemRequestCount = 20;
+        while (user.ScheduleItemRequests.Count < usersFinalScheduleItemRequestCount)
+        {
+            ChangeUserInRandomScheduleItemRequestInDb(user);
+        }
+
+        UsersScheduleRequest request = new()
+        {
+            UserId = user.Id
+        };
+
+        // Act
+        var response = await _browseService.GetUsersSchedule(request);
+
+        // Assert
+        Assert.Equal(user.ScheduleItemRequests.Count, response.StudentsSchedule.Count);
+
+        foreach (var actual in response.StudentsSchedule)
+        {
+            var expected = user.ScheduleItemRequests
+                .Select(request => request.ScheduleItem)
+                .FirstOrDefault(request => request.Id == actual.Id);
+
+            Assert.NotNull(expected);
+            Assert.Equal(expected.Id, actual.Id);
+            Assert.Equal(expected.AdId, actual.AdId);
+            Assert.Equal(expected.Ad.Id, actual.AdId);
+            Assert.Equal(expected.Ad.Title, actual.AdTitle);
+            Assert.Equal(expected.Ad.User.Name, actual.TutorName);
+            Assert.Equal(expected.DateTime, actual.DateTime);
+        }
+    }
+
+    [Fact]
+    public async Task GetUsersSchedule_WhenNoStudentIsAccepted_ShouldReturnNullAcceptedStudentsName()
+    {
+        // Arrange
+        int scheduleItemCount = 1;
+        SetupMockGetAllScheduleItems(scheduleItemCount);
+
+        int adCount = 1;
+        CreateAdsForScheduleItems(adCount);
+
+        int scheduleItemRequestCount = 1;
+        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
+
+        int usersInitialAdCount = 0;
+        int usersScheduleItemRequestCount = 0;
+        User user = CreateTestUserAndAddToDb(usersInitialAdCount, usersScheduleItemRequestCount);
+
+        int usersFinalAdCount = 1;
+        while (user.Ads.Count < usersFinalAdCount)
+        {
+            ChangeUserInRandomAdInDb(user);
+        }
+
+        UsersScheduleRequest request = new()
+        {
+            UserId = user.Id
+        };
+
+        var scheduleItemRequest = user.Ads.First()
+            .ScheduleItems.First()
+            .ScheduleItemRequests.First();
+        scheduleItemRequest.IsAccepted = false;
+        _dbContext.SaveChanges();
+
+        // Act
+        var response = await _browseService.GetUsersSchedule(request);
+        var actual = response.TutorsSchedule.First().AcceptedStudentsName;
+
+        // Assert
+        Assert.Null(null);
+    }
+
+    [Fact]
+    public async Task GetUsersSchedule_WhenAStudentIsAccepted_ShouldReturnStudentsName()
+    {
+        // Arrange
+        int scheduleItemCount = 1;
+        SetupMockGetAllScheduleItems(scheduleItemCount);
+
+        int adCount = 1;
+        CreateAdsForScheduleItems(adCount);
+
+        int scheduleItemRequestCount = 1;
+        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
+
+        int usersInitialAdCount = 0;
+        int usersScheduleItemRequestCount = 0;
+        User user = CreateTestUserAndAddToDb(usersInitialAdCount, usersScheduleItemRequestCount);
+
+        int usersFinalAdCount = 1;
+        while (user.Ads.Count < usersFinalAdCount)
+        {
+            ChangeUserInRandomAdInDb(user);
+        }
+
+        UsersScheduleRequest request = new()
+        {
+            UserId = user.Id
+        };
+
+        var scheduleItemRequest = user.Ads.First()
+            .ScheduleItems.First()
+            .ScheduleItemRequests.First();
+        scheduleItemRequest.IsAccepted = true;
+        _dbContext.SaveChanges();
+
+        string expected = scheduleItemRequest.User.Name;
+
+        // Act
+        var response = await _browseService.GetUsersSchedule(request);
+        var actual = response.TutorsSchedule.First().AcceptedStudentsName;
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public async Task GetUsersSchedule_WhenRequestIsAccepted_ShouldReturnCorrectStatus()
+    {
+        // Arrange
+        int scheduleItemCount = 1;
+        SetupMockGetAllScheduleItems(scheduleItemCount);
+
+        int adCount = 1;
+        CreateAdsForScheduleItems(adCount);
+
+        int scheduleItemRequestCount = 1;
+        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
+
+        int usersAdCount = 0;
+        int usersInitialScheduleItemRequestCount = 0;
+        User user = CreateTestUserAndAddToDb(usersAdCount, usersInitialScheduleItemRequestCount);
+
+        int usersFinalScheduleItemRequestCount = 1;
+        while (user.ScheduleItemRequests.Count < usersFinalScheduleItemRequestCount)
+        {
+            ChangeUserInRandomScheduleItemRequestInDb(user);
+        }
+
+        UsersScheduleRequest request = new()
+        {
+            UserId = user.Id
+        };
+
+        var scheduleItemRequest = user
+            .ScheduleItemRequests.First();
+
+        scheduleItemRequest.IsAccepted = true;
+        _dbContext.SaveChanges();
+
+        var expected = StudentsScheduleItemSummaryDto.RequestStatus.Accepted;
+
+        // Act
+        var response = await _browseService.GetUsersSchedule(request);
+        var actual = response.StudentsSchedule.First().Status;
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public async Task GetUsersSchedule_WhenRequestIsPending_ShouldReturnCorrectStatus()
+    {
+        // Arrange
+        int scheduleItemCount = 1;
+        SetupMockGetAllScheduleItems(scheduleItemCount);
+
+        int adCount = 1;
+        CreateAdsForScheduleItems(adCount);
+
+        int scheduleItemRequestCount = 1;
+        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
+
+        int usersAdCount = 0;
+        int usersInitialScheduleItemRequestCount = 0;
+        User user = CreateTestUserAndAddToDb(usersAdCount, usersInitialScheduleItemRequestCount);
+
+        int usersFinalScheduleItemRequestCount = 1;
+        while (user.ScheduleItemRequests.Count < usersFinalScheduleItemRequestCount)
+        {
+            ChangeUserInRandomScheduleItemRequestInDb(user);
+        }
+
+        UsersScheduleRequest request = new()
+        {
+            UserId = user.Id
+        };
+
+        var scheduleItemRequest = user
+            .ScheduleItemRequests.First();
+
+        scheduleItemRequest.IsAccepted = false;
+        _dbContext.SaveChanges();
+
+        var expected = StudentsScheduleItemSummaryDto.RequestStatus.Pending;
+
+        // Act
+        var response = await _browseService.GetUsersSchedule(request);
+        var actual = response.StudentsSchedule.First().Status;
+
+        // Assert
+        Assert.Equal(expected, actual);
     }
 
     private void SetupMockGetAllAds(List<Ad> ads)
     {
-        var adsInDb = AddAdsToInMemoryDb(ads);
+        var adsInDb = AddEntitiesToInMemoryDb(ads);
         _mockAdRepository
             .Setup(x => x.GetAll())
             .Returns(adsInDb);
+    }
+
+    private void SetupMockGetAllScheduleItems(int scheduleItemCount)
+    {
+        var scheduleItems = CreateTestScheduleItems(scheduleItemCount);
+        var scheduleItemsInDb = AddEntitiesToInMemoryDb(scheduleItems);
+        _mockScheduleItemRepository
+            .Setup(x => x.GetAll())
+            .Returns(scheduleItemsInDb);
     }
 
     private void SetupMockGetAdById(Ad? ad)
@@ -397,12 +699,162 @@ public class BrowseServiceTests : IDisposable
             .Setup(x => x.GetById(It.IsAny<int>()))
             .Returns(Task.FromResult(ad));
     }
-    private IQueryable<Ad> AddAdsToInMemoryDb(List<Ad> ads)
+
+    private User CreateTestUserAndAddToDb(int usersAdCount, int usersScheduleItemRequestCount)
     {
-        _dbContext.Ads.AddRange(ads);
+        User user = CreateTestUser();
+        user.Ads = CreateTestAds(usersAdCount);
+        user.ScheduleItemRequests = CreateTestScheduleItemRequests(usersScheduleItemRequestCount);
+        AddEntitiesToInMemoryDb([user]);
+        return user;
+    }
+    private User CreateTestUser()
+    {
+        User user = _fixture
+            .Build<User>()
+                .Without(user => user.Ads)
+                .Without(user => user.AdRequests)
+                .Without(user => user.ScheduleItemRequests)
+            .Create();
+
+        return user;
+    }
+
+    private List<Ad> CreateTestAds(int adCount)
+    {
+        List<Ad> ads = _fixture
+            .Build<Ad>()
+                .Without(ad => ad.Id)
+                .Without(ad => ad.AdRequests)
+                .Without(ad => ad.ScheduleItems)
+                .With(ad => ad.User, CreateTestUser())
+                .With(ad => ad.Category, CreateTestCategory())
+                .With(ad => ad.Price, Math.Abs(_fixture.Create<decimal>()))
+            .CreateMany(adCount)
+            .ToList();
+
+        return ads;
+    }
+
+    private List<ScheduleItem> CreateTestScheduleItems(int scheduleItemCount)
+    {
+        var ads = CreateTestAds(scheduleItemCount);
+
+        List<ScheduleItem> scheduleItems = _fixture
+            .Build<ScheduleItem>()
+                .Without(item => item.Id)
+                .Without(item => item.Ad)
+                .Without(item => item.ScheduleItemRequests)
+            .CreateMany(scheduleItemCount)
+            .ToList();
+
+        return scheduleItems;
+    }
+    private Category CreateTestCategory()
+    {
+        Category category = _fixture
+            .Build<Category>()
+                .Without(category => category.Ads)
+            .Create();
+
+        return category;
+    }
+
+    private List<ScheduleItemRequest> CreateTestScheduleItemRequests(int requestCount)
+    {
+        List <ScheduleItemRequest> requests = _fixture
+            .Build<ScheduleItemRequest>()
+                .Without(request => request.Id)
+                .Without(request => request.ScheduleItem)
+                .With(request => request.User, CreateTestUser())
+            .CreateMany(requestCount)
+            .ToList();
+
+        return requests;
+    }
+
+    private void CreateAdsForScheduleItems(int adCount)
+    {
+        var ads = CreateTestAds(adCount);
+        AddEntitiesToInMemoryDb(ads);
+
+        ChangeAdToRandomInAllScheduleItems();
+
+        _dbContext.SaveChanges();
+    }
+
+    private void CreateScheduleItemRequestsForScheduleItems(int scheduleItemRequestCount)
+    {
+        var scheduleItemRequests = CreateTestScheduleItemRequests(scheduleItemRequestCount);
+        AddEntitiesToInMemoryDb(scheduleItemRequests);
+
+        ChangeScheduleItemToRandomInAllScheduleItemRequests();
+
+        _dbContext.SaveChanges();
+    }
+
+    private void ChangeUserInRandomAdInDb(User user)
+    {
+        List<Ad> ads = _dbContext.Ads.ToList();
+
+        Ad ad = ads[Random.Shared.Next(ads.Count)];
+
+        ad.User = user;
+        _dbContext.SaveChanges();
+    }
+
+    private void ChangeUserInRandomScheduleItemRequestInDb(User user)
+    {
+        List<ScheduleItem> scheduleItems = _dbContext.ScheduleItems.ToList();
+
+        ScheduleItem scheduleItem = scheduleItems[Random.Shared.Next(scheduleItems.Count)];
+
+        ScheduleItemRequest? request = scheduleItem.ScheduleItemRequests.FirstOrDefault();
+
+        if (request is not null)
+        {
+            request.User = user;
+        }
+        
+        _dbContext.SaveChanges();
+    }
+
+    private void ChangeAdToRandomInAllScheduleItems()
+    {
+        List<ScheduleItem> scheduleItems = _dbContext.ScheduleItems.ToList();
+        List<Ad> ads = _dbContext.Ads.ToList();
+
+        foreach(ScheduleItem item in scheduleItems)
+        {
+            item.Ad = ads[Random.Shared.Next(ads.Count)];
+        }
+
+        _dbContext.SaveChanges();
+    }
+
+    private void ChangeScheduleItemToRandomInAllScheduleItemRequests()
+    {
+        List<ScheduleItemRequest> scheduleItemRequests = _dbContext.ScheduleItemRequests.ToList();
+        List<ScheduleItem> scheduleItems = _dbContext.ScheduleItems.ToList();
+
+        foreach (ScheduleItemRequest request in scheduleItemRequests)
+        {
+            request.ScheduleItem = scheduleItems[Random.Shared.Next(scheduleItems.Count)];
+        }
+
+        _dbContext.SaveChanges();
+    }
+
+    private IQueryable<TEntity> AddEntitiesToInMemoryDb<TEntity>(List<TEntity> entities)
+        where TEntity : class
+    {
+        _dbContext
+            .Set<TEntity>()
+            .AddRange(entities);
         _dbContext.SaveChanges();
 
-        return _dbContext.Ads
+        return _dbContext
+            .Set<TEntity>()
             .AsQueryable();
     }
 
