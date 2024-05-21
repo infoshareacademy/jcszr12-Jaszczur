@@ -36,7 +36,7 @@ public class BrowseService : IBrowseService
             .CountAsync();
 
         int totalPages = adCount / request.PageSize;
-        if (adCount % request.PageSize != 0)
+        if (adCount == 0 || adCount % request.PageSize != 0)
         {
             totalPages++;
         }
