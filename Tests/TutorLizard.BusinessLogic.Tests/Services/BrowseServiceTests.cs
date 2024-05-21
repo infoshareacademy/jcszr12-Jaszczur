@@ -408,23 +408,12 @@ public class BrowseServiceTests : IDisposable
     {
         // Arrange
         int scheduleItemCount = 50;
-        SetupMockGetAllScheduleItems(scheduleItemCount);
-
         int adCount = 5;
-        CreateAdsForScheduleItems(adCount);
-
         int scheduleItemRequestCount = 100;
-        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
-
-        int usersInitialAdCount = 0;
-        int usersScheduleItemRequestCount = 0;
-        User user = CreateTestUserAndAddToDb(usersInitialAdCount, usersScheduleItemRequestCount);
+        SetupMockScheduleData(scheduleItemCount, adCount, scheduleItemRequestCount);
 
         int usersFinalAdCount = 2;
-        while (user.Ads.Count < usersFinalAdCount)
-        {
-            ChangeUserInRandomAdInDb(user);
-        }
+        User user = CreateUserAndGiveHimExistingAds(usersFinalAdCount);
 
         UsersScheduleRequest request = new()
         {
@@ -437,7 +426,7 @@ public class BrowseServiceTests : IDisposable
         // Assert
         Assert.Equal(user.Ads.Sum(ad => ad.ScheduleItems.Count), response.TutorsSchedule.Count);
 
-        foreach(var actual in response.TutorsSchedule)
+        foreach (var actual in response.TutorsSchedule)
         {
             var expected = user.Ads
                 .SelectMany(ad => ad.ScheduleItems)
@@ -452,28 +441,19 @@ public class BrowseServiceTests : IDisposable
         }
     }
 
+    
+
     [Fact]
     public async Task GetUsersSchedule_WhenUserHasScheduleItemRequests_ShouldReturnCorrectStudentsSchedule()
     {
         // Arrange
         int scheduleItemCount = 50;
-        SetupMockGetAllScheduleItems(scheduleItemCount);
-
         int adCount = 5;
-        CreateAdsForScheduleItems(adCount);
-
         int scheduleItemRequestCount = 100;
-        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
-
-        int usersAdCount = 0;
-        int usersInitialScheduleItemRequestCount = 0;
-        User user = CreateTestUserAndAddToDb(usersAdCount, usersInitialScheduleItemRequestCount);
+        SetupMockScheduleData(scheduleItemCount, adCount, scheduleItemRequestCount);
 
         int usersFinalScheduleItemRequestCount = 20;
-        while (user.ScheduleItemRequests.Count < usersFinalScheduleItemRequestCount)
-        {
-            ChangeUserInRandomScheduleItemRequestInDb(user);
-        }
+        User user = CreateUserAndGiveHimExistingScheduleItemRequests(usersFinalScheduleItemRequestCount);
 
         UsersScheduleRequest request = new()
         {
@@ -507,23 +487,12 @@ public class BrowseServiceTests : IDisposable
     {
         // Arrange
         int scheduleItemCount = 1;
-        SetupMockGetAllScheduleItems(scheduleItemCount);
-
         int adCount = 1;
-        CreateAdsForScheduleItems(adCount);
-
         int scheduleItemRequestCount = 1;
-        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
-
-        int usersInitialAdCount = 0;
-        int usersScheduleItemRequestCount = 0;
-        User user = CreateTestUserAndAddToDb(usersInitialAdCount, usersScheduleItemRequestCount);
+        SetupMockScheduleData(scheduleItemCount, adCount, scheduleItemRequestCount);
 
         int usersFinalAdCount = 1;
-        while (user.Ads.Count < usersFinalAdCount)
-        {
-            ChangeUserInRandomAdInDb(user);
-        }
+        User user = CreateUserAndGiveHimExistingAds(usersFinalAdCount);
 
         UsersScheduleRequest request = new()
         {
@@ -549,23 +518,12 @@ public class BrowseServiceTests : IDisposable
     {
         // Arrange
         int scheduleItemCount = 1;
-        SetupMockGetAllScheduleItems(scheduleItemCount);
-
         int adCount = 1;
-        CreateAdsForScheduleItems(adCount);
-
         int scheduleItemRequestCount = 1;
-        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
-
-        int usersInitialAdCount = 0;
-        int usersScheduleItemRequestCount = 0;
-        User user = CreateTestUserAndAddToDb(usersInitialAdCount, usersScheduleItemRequestCount);
+        SetupMockScheduleData(scheduleItemCount, adCount, scheduleItemRequestCount);
 
         int usersFinalAdCount = 1;
-        while (user.Ads.Count < usersFinalAdCount)
-        {
-            ChangeUserInRandomAdInDb(user);
-        }
+        User user = CreateUserAndGiveHimExistingAds(usersFinalAdCount);
 
         UsersScheduleRequest request = new()
         {
@@ -593,23 +551,12 @@ public class BrowseServiceTests : IDisposable
     {
         // Arrange
         int scheduleItemCount = 1;
-        SetupMockGetAllScheduleItems(scheduleItemCount);
-
         int adCount = 1;
-        CreateAdsForScheduleItems(adCount);
-
         int scheduleItemRequestCount = 1;
-        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
-
-        int usersAdCount = 0;
-        int usersInitialScheduleItemRequestCount = 0;
-        User user = CreateTestUserAndAddToDb(usersAdCount, usersInitialScheduleItemRequestCount);
+        SetupMockScheduleData(scheduleItemCount, adCount, scheduleItemRequestCount);
 
         int usersFinalScheduleItemRequestCount = 1;
-        while (user.ScheduleItemRequests.Count < usersFinalScheduleItemRequestCount)
-        {
-            ChangeUserInRandomScheduleItemRequestInDb(user);
-        }
+        User user = CreateUserAndGiveHimExistingScheduleItemRequests(usersFinalScheduleItemRequestCount);
 
         UsersScheduleRequest request = new()
         {
@@ -637,23 +584,12 @@ public class BrowseServiceTests : IDisposable
     {
         // Arrange
         int scheduleItemCount = 1;
-        SetupMockGetAllScheduleItems(scheduleItemCount);
-
         int adCount = 1;
-        CreateAdsForScheduleItems(adCount);
-
         int scheduleItemRequestCount = 1;
-        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
-
-        int usersAdCount = 0;
-        int usersInitialScheduleItemRequestCount = 0;
-        User user = CreateTestUserAndAddToDb(usersAdCount, usersInitialScheduleItemRequestCount);
+        SetupMockScheduleData(scheduleItemCount, adCount, scheduleItemRequestCount);
 
         int usersFinalScheduleItemRequestCount = 1;
-        while (user.ScheduleItemRequests.Count < usersFinalScheduleItemRequestCount)
-        {
-            ChangeUserInRandomScheduleItemRequestInDb(user);
-        }
+        User user = CreateUserAndGiveHimExistingScheduleItemRequests(usersFinalScheduleItemRequestCount);
 
         UsersScheduleRequest request = new()
         {
@@ -674,6 +610,39 @@ public class BrowseServiceTests : IDisposable
 
         // Assert
         Assert.Equal(expected, actual);
+    }
+
+    private void SetupMockScheduleData(int scheduleItemCount, int adCount, int scheduleItemRequestCount)
+    {
+        SetupMockGetAllScheduleItems(scheduleItemCount);
+
+        CreateAdsForScheduleItems(adCount);
+
+        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
+    }
+
+    private User CreateUserAndGiveHimExistingScheduleItemRequests(int usersFinalScheduleItemRequestCount)
+    {
+        User user = CreateTestUserAndAddToDb();
+
+        while (user.ScheduleItemRequests.Count < usersFinalScheduleItemRequestCount)
+        {
+            ChangeUserInRandomScheduleItemRequestInDb(user);
+        }
+
+        return user;
+    }
+
+    private User CreateUserAndGiveHimExistingAds(int usersFinalAdCount)
+    {
+        User user = CreateTestUserAndAddToDb();
+
+        while (user.Ads.Count < usersFinalAdCount)
+        {
+            ChangeUserInRandomAdInDb(user);
+        }
+
+        return user;
     }
 
     private void SetupMockGetAllAds(List<Ad> ads)
@@ -700,7 +669,7 @@ public class BrowseServiceTests : IDisposable
             .Returns(Task.FromResult(ad));
     }
 
-    private User CreateTestUserAndAddToDb(int usersAdCount, int usersScheduleItemRequestCount)
+    private User CreateTestUserAndAddToDb(int usersAdCount = 0, int usersScheduleItemRequestCount = 0)
     {
         User user = CreateTestUser();
         user.Ads = CreateTestAds(usersAdCount);
@@ -750,6 +719,7 @@ public class BrowseServiceTests : IDisposable
 
         return scheduleItems;
     }
+
     private Category CreateTestCategory()
     {
         Category category = _fixture
