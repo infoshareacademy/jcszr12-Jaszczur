@@ -92,11 +92,11 @@ public class BrowseServiceTests : IDisposable
 
         // Act
         var response = await _browseService.GetBrowseAdsPage(request);
-        int actualAdCount = response.Ads.Count;
+        int actualResponseAdCount = response.Ads.Count;
 
         // Assert
         Assert.True(response.Success);
-        Assert.Equal(expectedResponseAdCount, actualAdCount);
+        Assert.Equal(expectedResponseAdCount, actualResponseAdCount);
     }
 
     [Theory]
@@ -114,11 +114,11 @@ public class BrowseServiceTests : IDisposable
 
         // Act
         var response = await _browseService.GetBrowseAdsPage(request);
-        int actualAdCount = response.TotalPages;
+        int actualTotalPages = response.TotalPages;
 
         // Assert
         Assert.True(response.Success);
-        Assert.Equal(expectedTotalPages, actualAdCount);
+        Assert.Equal(expectedTotalPages, actualTotalPages);
     }
 
     [Theory]
