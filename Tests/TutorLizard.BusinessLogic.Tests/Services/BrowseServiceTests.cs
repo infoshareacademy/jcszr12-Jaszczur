@@ -18,6 +18,7 @@ public class BrowseServiceTests : IDisposable
     private readonly Mock<IDbRepository<ScheduleItem>> _mockScheduleItemRepository = new();
     private readonly Fixture _fixture = new();
     private readonly JaszczurContext _dbContext;
+
     public BrowseServiceTests()
     {
         _browseService = new(_mockAdRepository.Object, _mockScheduleItemRepository.Object);
@@ -38,7 +39,7 @@ public class BrowseServiceTests : IDisposable
     {
         // Arrange
         GetBrowseAdsPageRequest request = new(pageNumber, pageSize);
-        GetBrowseAdsPageResponse expected = new()
+        GetBrowseAdsPageResponse expectedResponse = new()
         {
             Success = false,
             PageNumber = pageNumber,
@@ -47,10 +48,10 @@ public class BrowseServiceTests : IDisposable
         };
 
         // Act
-        var actual = await _browseService.GetBrowseAdsPage(request);
+        var actualResponse = await _browseService.GetBrowseAdsPage(request);
 
         // Assert
-        Assert.Equivalent(expected, actual);
+        Assert.Equivalent(expectedResponse, actualResponse);
     }
 
     [Fact]
@@ -91,10 +92,11 @@ public class BrowseServiceTests : IDisposable
 
         // Act
         var response = await _browseService.GetBrowseAdsPage(request);
+        int actualAdCount = response.Ads.Count;
 
         // Assert
         Assert.True(response.Success);
-        Assert.Equal(expectedResponseAdCount, response.Ads.Count);
+        Assert.Equal(expectedResponseAdCount, actualAdCount);
     }
 
     [Theory]
@@ -112,10 +114,11 @@ public class BrowseServiceTests : IDisposable
 
         // Act
         var response = await _browseService.GetBrowseAdsPage(request);
+        int actualAdCount = response.TotalPages;
 
         // Assert
         Assert.True(response.Success);
-        Assert.Equal(expectedTotalPages, response.TotalPages);
+        Assert.Equal(expectedTotalPages, actualAdCount);
     }
 
     [Theory]
@@ -204,12 +207,15 @@ public class BrowseServiceTests : IDisposable
             UserId = userId
         };
 
+        var expectedRelationship = AdToUserRelationship.Owner;
+
         // Act
         var response = await _browseService.GetAdDetails(request);
+        var actualRelationship = response!.UserRelationship;
 
         // Assert
         Assert.NotNull(response);
-        Assert.Equal(AdToUserRelationship.Owner, response.UserRelationship);
+        Assert.Equal(expectedRelationship, actualRelationship);
     }
 
     [Fact]
@@ -241,12 +247,15 @@ public class BrowseServiceTests : IDisposable
             UserId = userId
         };
 
+        var expectedRelationship = AdToUserRelationship.AcceptedStudent;
+
         // Act
         var response = await _browseService.GetAdDetails(request);
+        var actualRelationship = response!.UserRelationship;
 
         // Assert
         Assert.NotNull(response);
-        Assert.Equal(AdToUserRelationship.AcceptedStudent, response.UserRelationship);
+        Assert.Equal(expectedRelationship, actualRelationship);
     }
 
     [Fact]
@@ -278,16 +287,19 @@ public class BrowseServiceTests : IDisposable
             UserId = userId
         };
 
+        var expectedRelationship = AdToUserRelationship.PendingStudent;
+
         // Act
         var response = await _browseService.GetAdDetails(request);
+        var actualRelationship = response!.UserRelationship;
 
         // Assert
         Assert.NotNull(response);
-        Assert.Equal(AdToUserRelationship.PendingStudent, response.UserRelationship);
+        Assert.Equal(expectedRelationship, actualRelationship);
     }
 
     [Fact]
-    public async Task GetAdDetails_WhenUserIsHasNoRelationshipToAd_ShouldReturnCorrectUserRelationship()
+    public async Task GetAdDetails_WhenUserHasNoRelationshipToAd_ShouldReturnCorrectUserRelationship()
     {
         // Arrange
         var ads = CreateTestAds(1);
@@ -306,12 +318,15 @@ public class BrowseServiceTests : IDisposable
             UserId = userId
         };
 
+        var expectedRelationship = AdToUserRelationship.None;
+
         // Act
         var response = await _browseService.GetAdDetails(request);
+        var actualRelationship = response!.UserRelationship;
 
         // Assert
         Assert.NotNull(response);
-        Assert.Equal(AdToUserRelationship.None, response.UserRelationship);
+        Assert.Equal(expectedRelationship, actualRelationship);
     }
 
     [Fact]
@@ -420,11 +435,14 @@ public class BrowseServiceTests : IDisposable
             UserId = user.Id
         };
 
+        int expectedAdCount = user.Ads.Sum(ad => ad.ScheduleItems.Count);
+
         // Act
         var response = await _browseService.GetUsersSchedule(request);
+        int actualAdCount = response.TutorsSchedule.Count;
 
         // Assert
-        Assert.Equal(user.Ads.Sum(ad => ad.ScheduleItems.Count), response.TutorsSchedule.Count);
+        Assert.Equal(expectedAdCount, actualAdCount);
 
         foreach (var actual in response.TutorsSchedule)
         {
@@ -499,7 +517,8 @@ public class BrowseServiceTests : IDisposable
             UserId = user.Id
         };
 
-        var scheduleItemRequest = user.Ads.First()
+        var scheduleItemRequest = user
+            .Ads.First()
             .ScheduleItems.First()
             .ScheduleItemRequests.First();
         scheduleItemRequest.IsAccepted = false;
@@ -507,10 +526,10 @@ public class BrowseServiceTests : IDisposable
 
         // Act
         var response = await _browseService.GetUsersSchedule(request);
-        var actual = response.TutorsSchedule.First().AcceptedStudentsName;
+        var actualName = response.TutorsSchedule.First().AcceptedStudentsName;
 
         // Assert
-        Assert.Null(null);
+        Assert.Null(actualName);
     }
 
     [Fact]
@@ -530,20 +549,21 @@ public class BrowseServiceTests : IDisposable
             UserId = user.Id
         };
 
-        var scheduleItemRequest = user.Ads.First()
+        var scheduleItemRequest = user
+            .Ads.First()
             .ScheduleItems.First()
             .ScheduleItemRequests.First();
         scheduleItemRequest.IsAccepted = true;
         _dbContext.SaveChanges();
 
-        string expected = scheduleItemRequest.User.Name;
+        string expectedName = scheduleItemRequest.User.Name;
 
         // Act
         var response = await _browseService.GetUsersSchedule(request);
-        var actual = response.TutorsSchedule.First().AcceptedStudentsName;
+        var actualName = response.TutorsSchedule.First().AcceptedStudentsName;
 
         // Assert
-        Assert.Equal(expected, actual);
+        Assert.Equal(expectedName, actualName);
     }
 
     [Fact]
@@ -569,14 +589,14 @@ public class BrowseServiceTests : IDisposable
         scheduleItemRequest.IsAccepted = true;
         _dbContext.SaveChanges();
 
-        var expected = StudentsScheduleItemSummaryDto.RequestStatus.Accepted;
+        var expectedStatus = StudentsScheduleItemSummaryDto.RequestStatus.Accepted;
 
         // Act
         var response = await _browseService.GetUsersSchedule(request);
-        var actual = response.StudentsSchedule.First().Status;
+        var actualStatus = response.StudentsSchedule.First().Status;
 
         // Assert
-        Assert.Equal(expected, actual);
+        Assert.Equal(expectedStatus, actualStatus);
     }
 
     [Fact]
@@ -602,14 +622,14 @@ public class BrowseServiceTests : IDisposable
         scheduleItemRequest.IsAccepted = false;
         _dbContext.SaveChanges();
 
-        var expected = StudentsScheduleItemSummaryDto.RequestStatus.Pending;
+        var expectedStatus = StudentsScheduleItemSummaryDto.RequestStatus.Pending;
 
         // Act
         var response = await _browseService.GetUsersSchedule(request);
-        var actual = response.StudentsSchedule.First().Status;
+        var actualStatus = response.StudentsSchedule.First().Status;
 
         // Assert
-        Assert.Equal(expected, actual);
+        Assert.Equal(expectedStatus, actualStatus);
     }
 
     private void SetupMockScheduleData(int scheduleItemCount, int adCount, int scheduleItemRequestCount)
