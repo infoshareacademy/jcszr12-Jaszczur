@@ -8,23 +8,16 @@ using TutorLizard.BusinessLogic.Services;
 
 namespace TutorLizard.BusinessLogic.Tests.Services.Browse;
 
-public abstract class BrowseServiceTestsBase : IDisposable
+public abstract class BrowseServiceTestsBase : TestsWithInMemoryDbBase
 {
     protected BrowseService BrowseService;
-    protected JaszczurContext DbContext;
     protected Fixture Fixture = new();
     protected Mock<IDbRepository<Ad>> MockAdRepository = new();
     protected Mock<IDbRepository<ScheduleItem>> MockScheduleItemRepository = new();
 
-    public BrowseServiceTestsBase()
+    protected BrowseServiceTestsBase() : base()
     {
         BrowseService = new(MockAdRepository.Object, MockScheduleItemRepository.Object);
-        DbContext = SetupInMemoryDbContext();
-    }
-
-    public void Dispose()
-    {
-        DbContext.Dispose();
     }
 
     protected void SetupMockGetAllAds(List<Ad> ads)
@@ -137,13 +130,5 @@ public abstract class BrowseServiceTestsBase : IDisposable
         return DbContext
             .Set<TEntity>()
             .AsQueryable();
-    }
-
-    private JaszczurContext SetupInMemoryDbContext()
-    {
-        DbContextOptionsBuilder<JaszczurContext> dbBuilder = new();
-        dbBuilder.UseInMemoryDatabase(databaseName: $"FakeDb{Guid.NewGuid()}");
-        JaszczurContext context = new(dbBuilder.Options);
-        return context;
     }
 }
