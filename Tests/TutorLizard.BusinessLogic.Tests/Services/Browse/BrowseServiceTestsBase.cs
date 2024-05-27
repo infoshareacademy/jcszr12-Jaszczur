@@ -27,89 +27,37 @@ public abstract class BrowseServiceTestsBase : IDisposable
         DbContext.Dispose();
     }
 
-    private IQueryable<TEntity> AddEntitiesToInMemoryDb<TEntity>(List<TEntity> entities)
-        where TEntity : class
+    protected void SetupMockGetAllAds(List<Ad> ads)
     {
-        DbContext
-            .Set<TEntity>()
-            .AddRange(entities);
-        DbContext.SaveChanges();
-
-        return DbContext
-            .Set<TEntity>()
-            .AsQueryable();
+        var adsInDb = AddEntitiesToInMemoryDb(ads);
+        MockAdRepository
+            .Setup(x => x.GetAll())
+            .Returns(adsInDb);
     }
 
-    private void ChangeAdToRandomInAllScheduleItems()
+    protected void SetupMockGetAdById(Ad? ad)
     {
-        List<ScheduleItem> scheduleItems = DbContext.ScheduleItems.ToList();
-        List<Ad> ads = DbContext.Ads.ToList();
-
-        foreach (ScheduleItem item in scheduleItems)
-        {
-            item.Ad = ads[Random.Shared.Next(ads.Count)];
-        }
-
-        DbContext.SaveChanges();
+        MockAdRepository
+            .Setup(x => x.GetById(It.IsAny<int>()))
+            .Returns(Task.FromResult(ad));
     }
 
-    private void ChangeScheduleItemToRandomInAllScheduleItemRequests()
+    protected void SetupMockGetAllScheduleItems(int scheduleItemCount)
     {
-        List<ScheduleItemRequest> scheduleItemRequests = DbContext.ScheduleItemRequests.ToList();
-        List<ScheduleItem> scheduleItems = DbContext.ScheduleItems.ToList();
-
-        foreach (ScheduleItemRequest request in scheduleItemRequests)
-        {
-            request.ScheduleItem = scheduleItems[Random.Shared.Next(scheduleItems.Count)];
-        }
-
-        DbContext.SaveChanges();
+        var scheduleItems = CreateTestScheduleItems(scheduleItemCount);
+        var scheduleItemsInDb = AddEntitiesToInMemoryDb(scheduleItems);
+        MockScheduleItemRepository
+            .Setup(x => x.GetAll())
+            .Returns(scheduleItemsInDb);
     }
 
-    private void ChangeUserInRandomAdInDb(User user)
+    protected User CreateTestUserAndAddToDb(int usersAdCount = 0, int usersScheduleItemRequestCount = 0)
     {
-        List<Ad> ads = DbContext.Ads.ToList();
-
-        Ad ad = ads[Random.Shared.Next(ads.Count)];
-
-        ad.User = user;
-        DbContext.SaveChanges();
-    }
-
-    private void ChangeUserInRandomScheduleItemRequestInDb(User user)
-    {
-        List<ScheduleItem> scheduleItems = DbContext.ScheduleItems.ToList();
-
-        ScheduleItem scheduleItem = scheduleItems[Random.Shared.Next(scheduleItems.Count)];
-
-        ScheduleItemRequest? request = scheduleItem.ScheduleItemRequests.FirstOrDefault();
-
-        if (request is not null)
-        {
-            request.User = user;
-        }
-
-        DbContext.SaveChanges();
-    }
-
-    private void CreateAdsForScheduleItems(int adCount)
-    {
-        var ads = CreateTestAds(adCount);
-        AddEntitiesToInMemoryDb(ads);
-
-        ChangeAdToRandomInAllScheduleItems();
-
-        DbContext.SaveChanges();
-    }
-
-    private void CreateScheduleItemRequestsForScheduleItems(int scheduleItemRequestCount)
-    {
-        var scheduleItemRequests = CreateTestScheduleItemRequests(scheduleItemRequestCount);
-        AddEntitiesToInMemoryDb(scheduleItemRequests);
-
-        ChangeScheduleItemToRandomInAllScheduleItemRequests();
-
-        DbContext.SaveChanges();
+        User user = CreateTestUser();
+        user.Ads = CreateTestAds(usersAdCount);
+        user.ScheduleItemRequests = CreateTestScheduleItemRequests(usersScheduleItemRequestCount);
+        AddEntitiesToInMemoryDb([user]);
+        return user;
     }
 
     protected List<Ad> CreateTestAds(int adCount)
@@ -128,7 +76,19 @@ public abstract class BrowseServiceTestsBase : IDisposable
         return ads;
     }
 
-    private Category CreateTestCategory()
+    protected User CreateTestUser()
+    {
+        User user = Fixture
+            .Build<User>()
+                .Without(user => user.Ads)
+                .Without(user => user.AdRequests)
+                .Without(user => user.ScheduleItemRequests)
+            .Create();
+
+        return user;
+    }
+
+    protected Category CreateTestCategory()
     {
         Category category = Fixture
             .Build<Category>()
@@ -138,7 +98,7 @@ public abstract class BrowseServiceTestsBase : IDisposable
         return category;
     }
 
-    private List<ScheduleItemRequest> CreateTestScheduleItemRequests(int requestCount)
+    protected List<ScheduleItemRequest> CreateTestScheduleItemRequests(int requestCount)
     {
         List<ScheduleItemRequest> requests = Fixture
             .Build<ScheduleItemRequest>()
@@ -151,7 +111,7 @@ public abstract class BrowseServiceTestsBase : IDisposable
         return requests;
     }
 
-    private List<ScheduleItem> CreateTestScheduleItems(int scheduleItemCount)
+    protected List<ScheduleItem> CreateTestScheduleItems(int scheduleItemCount)
     {
         var ads = CreateTestAds(scheduleItemCount);
 
@@ -165,89 +125,25 @@ public abstract class BrowseServiceTestsBase : IDisposable
 
         return scheduleItems;
     }
-    private User CreateTestUser()
-    {
-        User user = Fixture
-            .Build<User>()
-                .Without(user => user.Ads)
-                .Without(user => user.AdRequests)
-                .Without(user => user.ScheduleItemRequests)
-            .Create();
 
-        return user;
+    protected IQueryable<TEntity> AddEntitiesToInMemoryDb<TEntity>(List<TEntity> entities)
+        where TEntity : class
+    {
+        DbContext
+            .Set<TEntity>()
+            .AddRange(entities);
+        DbContext.SaveChanges();
+
+        return DbContext
+            .Set<TEntity>()
+            .AsQueryable();
     }
 
-    protected User CreateTestUserAndAddToDb(int usersAdCount = 0, int usersScheduleItemRequestCount = 0)
-    {
-        User user = CreateTestUser();
-        user.Ads = CreateTestAds(usersAdCount);
-        user.ScheduleItemRequests = CreateTestScheduleItemRequests(usersScheduleItemRequestCount);
-        AddEntitiesToInMemoryDb([user]);
-        return user;
-    }
-
-    protected User CreateUserAndGiveHimExistingAds(int usersFinalAdCount)
-    {
-        User user = CreateTestUserAndAddToDb();
-
-        while (user.Ads.Count < usersFinalAdCount)
-        {
-            ChangeUserInRandomAdInDb(user);
-        }
-
-        return user;
-    }
-
-    protected User CreateUserAndGiveHimExistingScheduleItemRequests(int usersFinalScheduleItemRequestCount)
-    {
-        User user = CreateTestUserAndAddToDb();
-
-        while (user.ScheduleItemRequests.Count < usersFinalScheduleItemRequestCount)
-        {
-            ChangeUserInRandomScheduleItemRequestInDb(user);
-        }
-
-        return user;
-    }
-
-    protected JaszczurContext SetupInMemoryDbContext()
+    private JaszczurContext SetupInMemoryDbContext()
     {
         DbContextOptionsBuilder<JaszczurContext> dbBuilder = new();
         dbBuilder.UseInMemoryDatabase(databaseName: $"FakeDb{Guid.NewGuid()}");
         JaszczurContext context = new(dbBuilder.Options);
         return context;
-    }
-
-    protected void SetupMockGetAdById(Ad? ad)
-    {
-        MockAdRepository
-            .Setup(x => x.GetById(It.IsAny<int>()))
-            .Returns(Task.FromResult(ad));
-    }
-
-    protected void SetupMockGetAllAds(List<Ad> ads)
-    {
-        var adsInDb = AddEntitiesToInMemoryDb(ads);
-        MockAdRepository
-            .Setup(x => x.GetAll())
-            .Returns(adsInDb);
-    }
-
-    protected void SetupMockGetAllScheduleItems(int scheduleItemCount)
-    {
-        var scheduleItems = CreateTestScheduleItems(scheduleItemCount);
-        var scheduleItemsInDb = AddEntitiesToInMemoryDb(scheduleItems);
-        MockScheduleItemRepository
-            .Setup(x => x.GetAll())
-            .Returns(scheduleItemsInDb);
-    }
-
-    protected void SetupMockScheduleData(int scheduleItemCount, int adCount, int scheduleItemRequestCount)
-    {
-        SetupMockGetAllScheduleItems(scheduleItemCount);
-
-        CreateAdsForScheduleItems(adCount);
-
-        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
     }
 }

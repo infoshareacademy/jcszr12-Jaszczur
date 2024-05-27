@@ -95,8 +95,6 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
         }
     }
 
-
-
     [Fact]
     public async Task GetUsersSchedule_WhenUserHasScheduleItemRequests_ShouldReturnCorrectStudentsSchedule()
     {
@@ -266,5 +264,110 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
 
         // Assert
         Assert.Equal(expectedStatus, actualStatus);
+    }
+
+    private void SetupMockScheduleData(int scheduleItemCount, int adCount, int scheduleItemRequestCount)
+    {
+        SetupMockGetAllScheduleItems(scheduleItemCount);
+
+        CreateAdsForScheduleItems(adCount);
+
+        CreateScheduleItemRequestsForScheduleItems(scheduleItemRequestCount);
+    }
+
+    private User CreateUserAndGiveHimExistingAds(int usersFinalAdCount)
+    {
+        User user = CreateTestUserAndAddToDb();
+
+        while (user.Ads.Count < usersFinalAdCount)
+        {
+            ChangeUserInRandomAdInDb(user);
+        }
+
+        return user;
+    }
+
+    private User CreateUserAndGiveHimExistingScheduleItemRequests(int usersFinalScheduleItemRequestCount)
+    {
+        User user = CreateTestUserAndAddToDb();
+
+        while (user.ScheduleItemRequests.Count < usersFinalScheduleItemRequestCount)
+        {
+            ChangeUserInRandomScheduleItemRequestInDb(user);
+        }
+
+        return user;
+    }
+
+    private void ChangeUserInRandomAdInDb(User user)
+    {
+        List<Ad> ads = DbContext.Ads.ToList();
+
+        Ad ad = ads[Random.Shared.Next(ads.Count)];
+
+        ad.User = user;
+        DbContext.SaveChanges();
+    }
+
+    private void ChangeUserInRandomScheduleItemRequestInDb(User user)
+    {
+        List<ScheduleItem> scheduleItems = DbContext.ScheduleItems.ToList();
+
+        ScheduleItem scheduleItem = scheduleItems[Random.Shared.Next(scheduleItems.Count)];
+
+        ScheduleItemRequest? request = scheduleItem.ScheduleItemRequests.FirstOrDefault();
+
+        if (request is not null)
+        {
+            request.User = user;
+        }
+
+        DbContext.SaveChanges();
+    }
+
+    private void CreateAdsForScheduleItems(int adCount)
+    {
+        var ads = CreateTestAds(adCount);
+        AddEntitiesToInMemoryDb(ads);
+
+        ChangeAdToRandomInAllScheduleItems();
+
+        DbContext.SaveChanges();
+    }
+
+    private void CreateScheduleItemRequestsForScheduleItems(int scheduleItemRequestCount)
+    {
+        var scheduleItemRequests = CreateTestScheduleItemRequests(scheduleItemRequestCount);
+        AddEntitiesToInMemoryDb(scheduleItemRequests);
+
+        ChangeScheduleItemToRandomInAllScheduleItemRequests();
+
+        DbContext.SaveChanges();
+    }
+
+    private void ChangeAdToRandomInAllScheduleItems()
+    {
+        List<ScheduleItem> scheduleItems = DbContext.ScheduleItems.ToList();
+        List<Ad> ads = DbContext.Ads.ToList();
+
+        foreach (ScheduleItem item in scheduleItems)
+        {
+            item.Ad = ads[Random.Shared.Next(ads.Count)];
+        }
+
+        DbContext.SaveChanges();
+    }
+
+    private void ChangeScheduleItemToRandomInAllScheduleItemRequests()
+    {
+        List<ScheduleItemRequest> scheduleItemRequests = DbContext.ScheduleItemRequests.ToList();
+        List<ScheduleItem> scheduleItems = DbContext.ScheduleItems.ToList();
+
+        foreach (ScheduleItemRequest request in scheduleItemRequests)
+        {
+            request.ScheduleItem = scheduleItems[Random.Shared.Next(scheduleItems.Count)];
+        }
+
+        DbContext.SaveChanges();
     }
 }
