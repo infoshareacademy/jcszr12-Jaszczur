@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoFixture;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Models.DTOs.Responses;
@@ -83,5 +84,13 @@ public class BrowseControllerAdsTests : BrowseControllerTestsBase
 
         // Assert
         Assert.IsType<ViewResult>(result);
+    }
+
+    private GetBrowseAdsPageResponse CreateGetBrowseAdsPageResponse(bool success)
+    {
+        return Fixture
+                    .Build<GetBrowseAdsPageResponse>()
+                        .With(r => r.Success, success)
+                    .Create();
     }
 }
