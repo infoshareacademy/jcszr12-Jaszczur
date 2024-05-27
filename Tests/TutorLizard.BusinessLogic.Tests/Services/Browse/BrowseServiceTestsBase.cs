@@ -8,7 +8,7 @@ using TutorLizard.BusinessLogic.Services;
 
 namespace TutorLizard.BusinessLogic.Tests.Services.Browse;
 
-public abstract class BrowseServiceTestsBase
+public abstract class BrowseServiceTestsBase : IDisposable
 {
     protected BrowseService BrowseService;
     protected JaszczurContext DbContext;
