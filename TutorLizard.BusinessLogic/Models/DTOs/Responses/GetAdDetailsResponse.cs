@@ -1,7 +1,7 @@
 ﻿using TutorLizard.BusinessLogic.Enums;
 
 namespace TutorLizard.BusinessLogic.Models.DTOs.Responses;
-public class AdDetailsResponse
+public class GetAdDetailsResponse
 {
     public int AdId { get; set; }
     public int TutorId { get; set; }
