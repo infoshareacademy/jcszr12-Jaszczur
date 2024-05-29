@@ -10,9 +10,9 @@ namespace TutorLizard.Web.Controllers
     public class ScheduleItemController : Controller
     {
         private readonly IDbRepository<ScheduleItem> _scheduleItemRepository;
-        private readonly INotificationService _notificationService;
+        private readonly IUiMessagesService _notificationService;
         public ScheduleItemController(IDbRepository<ScheduleItem> scheduleItemRepository,
-                                      INotificationService notificationService)
+                                      IUiMessagesService notificationService)
         {
             _scheduleItemRepository = scheduleItemRepository;
             _notificationService = notificationService;
@@ -62,7 +62,7 @@ namespace TutorLizard.Web.Controllers
 
                 await _scheduleItemRepository.Create(model);
 
-                _notificationService.ShowSuccessNotification("Termin został dodany");
+                _notificationService.ShowSuccessMessage("Termin został dodany");
                 return RedirectToAction(nameof(Index));
             }
             catch

@@ -22,7 +22,7 @@ builder.Services
     .ValidateDataAnnotations();
 builder.Services.AddScoped<ITutorService, TutorService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
-builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IUiMessagesService, UiMessagesService>();
 
 builder.Services.AddAuthentication("CookieAuth")
     .AddCookie("CookieAuth", options =>

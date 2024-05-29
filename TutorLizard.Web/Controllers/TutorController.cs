@@ -19,17 +19,17 @@ public class TutorController : Controller
     private readonly ITutorService _tutorService;
     private readonly IUserAuthenticationService _userAuthenticationService;
     private readonly IDbRepository<Category> _categoryRepository;
-    private readonly INotificationService _notificationService;
+    private readonly IUiMessagesService _uiMessagesService;
 
     public TutorController(ITutorService tutorService,
                            IUserAuthenticationService userAuthenticationService,
                            IDbRepository<Category> categoryRepository,
-                           INotificationService notificationService)
+                           IUiMessagesService uiMessagesService)
     {
         _tutorService = tutorService;
         _userAuthenticationService = userAuthenticationService;
         _categoryRepository = categoryRepository;
-        _notificationService = notificationService;
+        _uiMessagesService = uiMessagesService;
     }
     public IActionResult Index()
     {
@@ -64,12 +64,12 @@ public class TutorController : Controller
 
             if (response.SuccessfullyCreated)
             {
-                _notificationService.ShowSuccessNotification("Ogłoszenie zostało dodane");
-                // TODO redirect to created Ad's details
+                _uiMessagesService.ShowSuccessMessage("Ogłoszenie zostało dodane");
+                return RedirectToAction("AdDetails", "Browse", new { id = response.CreatedAdId });
             }
             else
             {
-                _notificationService.ShowFailureNotification("Wystąpił błąd. Ogłoszenie nie zostało dodane.");
+                _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Ogłoszenie nie zostało dodane.");
             }
         }
         catch
@@ -82,7 +82,6 @@ public class TutorController : Controller
 
     public async Task<IActionResult> CreateScheduleItem(int id)
     {
-        Console.WriteLine("CreateScheduleItem action called!");
         int adId = id;
         int? userId = _userAuthenticationService.GetLoggedInUserId();
         if (userId is null)
@@ -126,15 +125,14 @@ public class TutorController : Controller
 
             if (response.Success)
             {
-                ViewBag.SuccessMessage = "Utworzono termin";
-                return RedirectToAction("AdDetails", "Browse", new { id = request.AdId });
+                _uiMessagesService.ShowSuccessMessage("Utworzono termin");
             }
             else
             {
-                ViewBag.ErrorMessage = "Wystąpił błąd";
+                _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Tworzenie terminu nieudane.");
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("AdDetails", "Browse", new { id = request.AdId });
         }
         catch
         {
@@ -146,11 +144,10 @@ public class TutorController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> AcceptScheduleItemRequest(int scheduleItemRequestId, int adId)
     {
-
         int? tutorId = _userAuthenticationService.GetLoggedInUserId();
         if (tutorId is null)
         {
-            // TODO - show failure notification
+            _uiMessagesService.ShowFailureMessage("Wystąpił bląd. Zgłoszenie na termin nie zostąło zaakceptowane.");
             return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
         }
         AcceptScheduleItemRequestRequest request = new()
@@ -164,12 +161,11 @@ public class TutorController : Controller
         if (response.Success)
         {
             // TODO - show success notification
-
+            _uiMessagesService.ShowSuccessMessage("Zgłoszenie na termin zostało zaakceptowane.");
         }
         else
         {
-            // TODO - show failure notification
-
+            _uiMessagesService.ShowFailureMessage("Wystąpił bląd. Zgłoszenie na termin nie zostąło zaakceptowane.");
         }
 
         return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
@@ -182,7 +178,7 @@ public class TutorController : Controller
         int? tutorId = _userAuthenticationService.GetLoggedInUserId();
         if (tutorId is null)
         {
-            // TODO - show failure notification
+            _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Anulowanie akceptacji zgłoszenia na termin nieudane.");
             return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
         }
         UnacceptScheduleItemRequestRequest request = new()
@@ -195,13 +191,11 @@ public class TutorController : Controller
 
         if (response.Success)
         {
-            // TODO - show success notification
-
+            _uiMessagesService.ShowSuccessMessage("Akceptacja zgłoszenia na termin została anulowana.");
         }
         else
         {
-            // TODO - show failure notification
-
+            _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Anulowanie akceptacji zgłoszenia na termin nieudane.");
         }
 
         return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
@@ -263,7 +257,26 @@ public class TutorController : Controller
 
             var response = await _tutorService.UpdateAdRequest(request);
             if (!response.IsSuccessful)
+            {
+                if(request.Action == UpdateTutorsPendingAdRequestRequest.UpdateAction.Accept)
+                {
+                    _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Akceptacja zgłoszenia nieudana.");
+                }
+                else if (request.Action == UpdateTutorsPendingAdRequestRequest.UpdateAction.Reject)
+                {
+                    _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Odrzucenie zgłoszenia nieudane.");
+                }
                 RedirectToAction(nameof(AdRequest));
+            }
+
+            if(request.Action == UpdateTutorsPendingAdRequestRequest.UpdateAction.Accept)
+            {
+                _uiMessagesService.ShowSuccessMessage("Ogłoszenie zaakceptowane.");
+            }
+            else if (request.Action == UpdateTutorsPendingAdRequestRequest.UpdateAction.Reject)
+            {
+                _uiMessagesService.ShowSuccessMessage("Ogłoszenie odrzucone.");
+            }
 
             return RedirectToAction("ViewPendingAdRequests");
         }
@@ -317,7 +330,4 @@ public class TutorController : Controller
             return RedirectToAction("Error", "Home");
         }
     }
-
-
-
 }

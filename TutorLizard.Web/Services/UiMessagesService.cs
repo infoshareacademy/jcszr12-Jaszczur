@@ -4,28 +4,27 @@ using TutorLizard.Web.Strings;
 
 namespace TutorLizard.Web.Services;
 
-public class NotificationService : INotificationService
+public class UiMessagesService : IUiMessagesService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ITempDataDictionaryFactory _tempDataFactory;
-    public NotificationService(IHttpContextAccessor httpContextAccessor, ITempDataDictionaryFactory tempDataFactory)
+    public UiMessagesService(IHttpContextAccessor httpContextAccessor, ITempDataDictionaryFactory tempDataFactory)
     {
         _httpContextAccessor = httpContextAccessor;
         _tempDataFactory = tempDataFactory;
-
     }
 
-    public void ShowSuccessNotification(string message)
+    public void ShowSuccessMessage(string message)
     {
-        ShowNotification(message, NotificationType.Success);
+        ShowMessage(message, MessageType.Success);
     }
 
-    public void ShowFailureNotification(string message)
+    public void ShowFailureMessage(string message)
     {
-        ShowNotification(message, NotificationType.Failure);
+        ShowMessage(message, MessageType.Failure);
     }
 
-    public void ShowNotification(string message, string notificationType)
+    public void ShowMessage(string message, string notificationType)
     {
         if (_httpContextAccessor.HttpContext is null)
             return;

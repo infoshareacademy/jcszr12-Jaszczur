@@ -6,6 +6,7 @@ using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models.DTOs;
 using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Models.DTOs.Responses;
+using TutorLizard.Web.Interfaces.Services;
 
 namespace TutorLizard.Web.Controllers;
 [Authorize]
@@ -13,12 +14,15 @@ public class StudentController : Controller
 {
     private readonly IStudentService _studentService;
     private readonly IUserAuthenticationService _userAuthenticationService;
+    private readonly IUiMessagesService _uiMessagesService;
 
     public StudentController(IStudentService studentService,
-                             IUserAuthenticationService userAuthenticationService)
+                             IUserAuthenticationService userAuthenticationService,
+                             IUiMessagesService uiMessagesService)
     {
         _studentService = studentService;
         _userAuthenticationService = userAuthenticationService;
+        _uiMessagesService = uiMessagesService;
     }
     public IActionResult Index()
     {
@@ -79,7 +83,7 @@ public class StudentController : Controller
         int? studentId = _userAuthenticationService.GetLoggedInUserId();
         if (studentId is null)
         {
-            // TODO - show failure notification
+            _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Wysłanie zgłoszenia do terminu nieudane.");
             return RedirectToAction(actionName: "Schedule", controllerName: "Browse", routeValues: new { id = scheduleItemId });
         }
         CreateScheduleItemRequestRequest request = new()
@@ -92,12 +96,12 @@ public class StudentController : Controller
 
         if (response.Success)
         {
-            ViewBag.SuccessMessage = "Wysłano prośbę";
+            _uiMessagesService.ShowSuccessMessage("Zgłoszenie do terminu wysłane.");
             return RedirectToAction("AdDetails", "Browse", new {id = adId });
         }
         else
         {
-            ViewBag.ErrorMessage = "Wystąpił błąd";
+            _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Wysłanie zgłoszenia do terminu nieudane.");
         }
 
         return RedirectToAction(actionName: "Schedule", controllerName: "Browse", routeValues: new { id = scheduleItemId });
@@ -124,17 +128,14 @@ public class StudentController : Controller
 
         if (response.Success)
         {
-            // TODO - Show success notification
-
+            _uiMessagesService.ShowSuccessMessage("Zgłoszenie do ogłoszenia wysłane.");
         }
         else
         {
-            // TODO - Show failure notification
-
+            _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Wysłanie zgłoszenia do ogłoszenia nieudane.");
         }
 
-        // TODO - redirect to details of the ad
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("AdDetails", "Browse", new { id = request.AdId });
     }
     [HttpDelete]
     [ValidateAntiForgeryToken]
@@ -145,11 +146,12 @@ public class StudentController : Controller
 
         if (response.IsSuccessful)
         {
-            // TODO - Show success notification
+            _uiMessagesService.ShowSuccessMessage("Anulowano zgłoszenie do ogłoszenia.");
         }
         else
         {
             // TODO - Show failure notification
+            _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Anulowanie zgłoszenia do ogłoszenia nieudane.");
         }
 
         return RedirectToAction(nameof(Index));
