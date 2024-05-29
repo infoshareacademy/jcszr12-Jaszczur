@@ -150,7 +150,6 @@ public class StudentController : Controller
         }
         else
         {
-            // TODO - Show failure notification
             _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Anulowanie zgłoszenia do ogłoszenia nieudane.");
         }
 

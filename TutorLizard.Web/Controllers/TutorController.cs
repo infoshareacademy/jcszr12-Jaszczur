@@ -160,7 +160,6 @@ public class TutorController : Controller
 
         if (response.Success)
         {
-            // TODO - show success notification
             _uiMessagesService.ShowSuccessMessage("Zgłoszenie na termin zostało zaakceptowane.");
         }
         else
