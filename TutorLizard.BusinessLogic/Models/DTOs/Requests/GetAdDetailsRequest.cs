@@ -1,5 +1,5 @@
 ﻿namespace TutorLizard.BusinessLogic.Models.DTOs.Requests;
-public class AdDetailsRequest
+public class GetAdDetailsRequest
 {
     public int AdId { get; set; }
     public int UserId { get; set; }

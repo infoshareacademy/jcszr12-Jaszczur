@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Services;
-using TutorLizard.BusinessLogic.Models.DTOs;
 using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Models.DTOs.Responses;
 
@@ -26,12 +24,10 @@ public class BrowseController : Controller
 
     public async Task<IActionResult> Ads(int id = 1)
     {
-        // TODO ask service for ads to show (using request)
-
         // TODO customize routing, so that parameter is page, not id
         int pageNumber = id > 0 ? id : 1;
         int pageSize = _pageSize > 0 ? _pageSize : 1;
-        GetBrowseAdsPageRequest request = new(pageNumber, _pageSize);
+        GetBrowseAdsPageRequest request = new(pageNumber, pageSize);
 
         GetBrowseAdsPageResponse response = await _browseService.GetBrowseAdsPage(request);
 
@@ -52,13 +48,13 @@ public class BrowseController : Controller
             return RedirectToAction(nameof(Ads));
         }
 
-        AdDetailsRequest request = new()
+        GetAdDetailsRequest request = new()
         {
             AdId = id,
             UserId = (int)userId,
         };
 
-        AdDetailsResponse? response = await _browseService.GetAdDetails(request);
+        GetAdDetailsResponse? response = await _browseService.GetAdDetails(request);
 
         if (response is null)
         {
@@ -77,12 +73,12 @@ public class BrowseController : Controller
             return RedirectToAction(nameof(Index));
         }
 
-        UsersScheduleRequest request = new()
+        GetUsersScheduleRequest request = new()
         {
             UserId = (int)userId
         };
 
-        UsersScheduleResponse response = await _browseService.GetUsersSchedule(request);
+        GetUsersScheduleResponse response = await _browseService.GetUsersSchedule(request);
         return View(response);
     }
 }
