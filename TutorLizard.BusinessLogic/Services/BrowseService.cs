@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
+using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Models.DTOs;
 using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Models.DTOs.Responses;
 
-namespace TutorLizard.BusinessLogic.Interfaces.Services;
+namespace TutorLizard.BusinessLogic.Services;
 public class BrowseService : IBrowseService
 {
     private readonly IDbRepository<Ad> _adRepository;
@@ -35,7 +36,7 @@ public class BrowseService : IBrowseService
             .CountAsync();
 
         int totalPages = adCount / request.PageSize;
-        if (adCount % request.PageSize != 0)
+        if (adCount == 0 || adCount % request.PageSize != 0)
         {
             totalPages++;
         }
