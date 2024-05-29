@@ -11,7 +11,7 @@ public class BrowseServiceGetAdDetailsTests : BrowseServiceTestsBase
         // Arrange
         int adId = 1;
         int userId = 19;
-        AdDetailsRequest request = new()
+        GetAdDetailsRequest request = new()
         {
             AdId = adId,
             UserId = userId
@@ -39,7 +39,7 @@ public class BrowseServiceGetAdDetailsTests : BrowseServiceTestsBase
 
         int adId = ad.Id;
         int userId = ad.TutorId;
-        AdDetailsRequest request = new()
+        GetAdDetailsRequest request = new()
         {
             AdId = adId,
             UserId = userId
@@ -79,7 +79,7 @@ public class BrowseServiceGetAdDetailsTests : BrowseServiceTestsBase
 
         int adId = ad.Id;
 
-        AdDetailsRequest request = new()
+        GetAdDetailsRequest request = new()
         {
             AdId = adId,
             UserId = userId
@@ -119,7 +119,7 @@ public class BrowseServiceGetAdDetailsTests : BrowseServiceTestsBase
 
         int adId = ad.Id;
 
-        AdDetailsRequest request = new()
+        GetAdDetailsRequest request = new()
         {
             AdId = adId,
             UserId = userId
@@ -150,7 +150,7 @@ public class BrowseServiceGetAdDetailsTests : BrowseServiceTestsBase
 
         int adId = ad.Id;
 
-        AdDetailsRequest request = new()
+        GetAdDetailsRequest request = new()
         {
             AdId = adId,
             UserId = userId
@@ -179,7 +179,7 @@ public class BrowseServiceGetAdDetailsTests : BrowseServiceTestsBase
 
         int adId = ad.Id;
         int userId = 19;
-        AdDetailsRequest request = new()
+        GetAdDetailsRequest request = new()
         {
             AdId = adId,
             UserId = userId

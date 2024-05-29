@@ -18,7 +18,7 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
         User userWithoutAds = CreateTestUserAndAddToDb(usersAdCount, usersScheduleItemRequestCount);
 
         int userId = userWithoutAds.Id;
-        UsersScheduleRequest request = new()
+        GetUsersScheduleRequest request = new()
         {
             UserId = userId
         };
@@ -42,7 +42,7 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
         User userWithoutAdRequests = CreateTestUserAndAddToDb(usersAdCount, usersScheduleItemRequestCount);
 
         int userId = userWithoutAdRequests.Id;
-        UsersScheduleRequest request = new()
+        GetUsersScheduleRequest request = new()
         {
             UserId = userId,
         };
@@ -66,7 +66,7 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
         int usersFinalAdCount = 2;
         User user = CreateUserAndGiveHimExistingAds(usersFinalAdCount);
 
-        UsersScheduleRequest request = new()
+        GetUsersScheduleRequest request = new()
         {
             UserId = user.Id
         };
@@ -107,7 +107,7 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
         int usersFinalScheduleItemRequestCount = 20;
         User user = CreateUserAndGiveHimExistingScheduleItemRequests(usersFinalScheduleItemRequestCount);
 
-        UsersScheduleRequest request = new()
+        GetUsersScheduleRequest request = new()
         {
             UserId = user.Id
         };
@@ -146,7 +146,7 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
         int usersFinalAdCount = 1;
         User user = CreateUserAndGiveHimExistingAds(usersFinalAdCount);
 
-        UsersScheduleRequest request = new()
+        GetUsersScheduleRequest request = new()
         {
             UserId = user.Id
         };
@@ -178,7 +178,7 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
         int usersFinalAdCount = 1;
         User user = CreateUserAndGiveHimExistingAds(usersFinalAdCount);
 
-        UsersScheduleRequest request = new()
+        GetUsersScheduleRequest request = new()
         {
             UserId = user.Id
         };
@@ -212,7 +212,7 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
         int usersFinalScheduleItemRequestCount = 1;
         User user = CreateUserAndGiveHimExistingScheduleItemRequests(usersFinalScheduleItemRequestCount);
 
-        UsersScheduleRequest request = new()
+        GetUsersScheduleRequest request = new()
         {
             UserId = user.Id
         };
@@ -245,7 +245,7 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
         int usersFinalScheduleItemRequestCount = 1;
         User user = CreateUserAndGiveHimExistingScheduleItemRequests(usersFinalScheduleItemRequestCount);
 
-        UsersScheduleRequest request = new()
+        GetUsersScheduleRequest request = new()
         {
             UserId = user.Id
         };
