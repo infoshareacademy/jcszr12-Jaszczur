@@ -24,11 +24,11 @@ public class UiMessagesService : IUiMessagesService
         ShowMessage(message, MessageType.Failure);
     }
 
-    public void ShowMessage(string message, string notificationType)
+    public void ShowMessage(string message, string messageType)
     {
         if (_httpContextAccessor.HttpContext is null)
             return;
 
-        _tempDataFactory.GetTempData(_httpContextAccessor.HttpContext)[notificationType] = message;
+        _tempDataFactory.GetTempData(_httpContextAccessor.HttpContext)[messageType] = message;
     }
 }
