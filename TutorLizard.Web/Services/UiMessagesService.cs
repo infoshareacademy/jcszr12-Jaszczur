@@ -29,6 +29,9 @@ public class UiMessagesService : IUiMessagesService
         if (_httpContextAccessor.HttpContext is null)
             return;
 
+        message ??= "";
+        messageType ??= "";
+
         _tempDataFactory.GetTempData(_httpContextAccessor.HttpContext)[messageType] = message;
     }
 }
