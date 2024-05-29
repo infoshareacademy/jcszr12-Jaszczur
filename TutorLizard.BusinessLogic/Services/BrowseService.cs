@@ -10,10 +10,13 @@ namespace TutorLizard.BusinessLogic.Interfaces.Services;
 public class BrowseService : IBrowseService
 {
     private readonly IDbRepository<Ad> _adRepository;
+    private readonly IDbRepository<ScheduleItem> _scheduleItemRepository;
 
-    public BrowseService(IDbRepository<Ad> adRepository)
+    public BrowseService(IDbRepository<Ad> adRepository,
+                         IDbRepository<ScheduleItem> _scheduleItemRepository)
     {
         _adRepository = adRepository;
+        this._scheduleItemRepository = _scheduleItemRepository;
     }
     public async Task<GetBrowseAdsPageResponse> GetBrowseAdsPage(GetBrowseAdsPageRequest request)
     {
@@ -71,11 +74,11 @@ public class BrowseService : IBrowseService
         return response;
     }
 
-    public async Task<AdDetailsResponse?> GetAdDetails(AdDetailsRequest request)
+    public async Task<GetAdDetailsResponse?> GetAdDetails(GetAdDetailsRequest request)
     {
-        AdDetailsResponse? response = await _adRepository.GetAll()
+        GetAdDetailsResponse? response = await _adRepository.GetAll()
             .Where(a => a.Id == request.AdId)
-            .Select(a => new AdDetailsResponse
+            .Select(a => new GetAdDetailsResponse
             {
                 AdId = a.Id,
                 TutorId = a.TutorId,
@@ -95,6 +98,50 @@ public class BrowseService : IBrowseService
                     : AdToUserRelationship.None
             })
             .FirstOrDefaultAsync();
+
+        return response;
+    }
+
+    public async Task<GetUsersScheduleResponse> GetUsersSchedule(GetUsersScheduleRequest request)
+    {
+        List<TutorsScheduleItemSummaryDto> tutorsSchedule = await _scheduleItemRepository.GetAll()
+            .Where(i => i.Ad.TutorId == request.UserId)
+            .Select(i => new TutorsScheduleItemSummaryDto()
+            {
+                Id = i.Id,
+                AdId = i.AdId,
+                AdTitle = i.Ad.Title,
+                DateTime = i.DateTime,
+                RequestCount = i.ScheduleItemRequests.Count,
+                AcceptedStudentsName =
+                    i.ScheduleItemRequests.Any(r => r.IsAccepted) ?
+                        i.ScheduleItemRequests.First(r => r.IsAccepted).User.Name
+                        : null,
+            })
+            .ToListAsync();
+
+
+        List<StudentsScheduleItemSummaryDto> studentsSchedule = await _scheduleItemRepository.GetAll()
+            .Where(i => i.ScheduleItemRequests.Any(r => r.StudentId == request.UserId))
+            .Select(i => new StudentsScheduleItemSummaryDto()
+            {
+                Id = i.Id,
+                AdId = i.AdId,
+                AdTitle = i.Ad.Title,
+                TutorName = i.Ad.User.Name,
+                DateTime = i.DateTime,
+                Status =
+                    i.ScheduleItemRequests.Any(r => r.StudentId == request.UserId && r.IsAccepted) ? StudentsScheduleItemSummaryDto.RequestStatus.Accepted
+                    : i.ScheduleItemRequests.Any(r => r.IsAccepted) ? StudentsScheduleItemSummaryDto.RequestStatus.Rejected
+                    : StudentsScheduleItemSummaryDto.RequestStatus.Pending
+            })
+            .ToListAsync();
+
+        GetUsersScheduleResponse response = new()
+        {
+            TutorsSchedule = tutorsSchedule,
+            StudentsSchedule = studentsSchedule
+        };
 
         return response;
     }

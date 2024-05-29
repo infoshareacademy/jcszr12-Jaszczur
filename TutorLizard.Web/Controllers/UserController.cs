@@ -1,32 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
-using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
-using TutorLizard.Web.Interfaces.Services;
-using TutorLizard.Web.Models;
-using TutorLizard.Web.Services;
 
 namespace TutorLizard.Web.Controllers;
 public class UserController : Controller
 {
     private readonly IDbRepository<User> _userRepository;
-    private readonly IUserService _userService;
-    private readonly IUserAuthenticationService _userAuthenticationService;
-    private readonly INotificationService _notificationService;
-
-    public UserController(IDbRepository<User> userRepository,
-                          IUserService userService,
-                          IUserAuthenticationService userAuthenticationService,
-                          INotificationService notificationService)
+    public UserController(IDbRepository<User> userRepository)
     {
         _userRepository = userRepository;
-        _userService = userService;
-        _userAuthenticationService = userAuthenticationService;
-        _notificationService = notificationService;
     }
 
     // GET: User
@@ -110,7 +94,7 @@ public class UserController : Controller
                     user.Email = model.Email;
                     user.PasswordHash = model.PasswordHash;
                 });
-            }                
+            }
             return RedirectToAction(nameof(Index));
         }
         catch
@@ -143,66 +127,4 @@ public class UserController : Controller
             return View();
         }
     }
-    public IActionResult Login()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginModel model)
-    {
-        try
-        {
-            if (ModelState.IsValid && await _userAuthenticationService.LogInAsync(model.UserName, model.Password))
-            {
-                _notificationService.ShowSuccessNotification("You are logged in.");
-                return LocalRedirect("/Home/Index");
-            }
-        }
-        catch
-        {
-            _notificationService.ShowFailureNotification("Could not log in.");
-            return LocalRedirect("/Home/Index");
-        }
-        _notificationService.ShowFailureNotification("Could not log in.");
-        return View();
-    }
-    [Authorize]
-    public async Task<IActionResult> Logout()
-    {
-        await _userAuthenticationService.LogOutAsync();
-        return RedirectToAction("Index", "Home");
-    }
-    public IActionResult Register()
-    {
-        return View();
-    }
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterUserModel model)
-    {
-        try
-        {
-            if (ModelState.IsValid 
-                && await _userAuthenticationService.RegisterUser(model.UserName, UserType.Regular, model.Email, model.Password)) 
-            {
-                _notificationService.ShowSuccessNotification("Registered Successfully");
-                return LocalRedirect("/Home/Index");
-            }
-        }
-        catch
-        {
-            _notificationService.ShowFailureNotification("Could not register.");
-            return LocalRedirect("/Home/Index");
-        }
-        _notificationService.ShowFailureNotification("Could not register.");
-        return LocalRedirect("/Home/Index");
-    }
-
-    public IActionResult AccessDenied()
-    {
-        return View("AccesDenied");
-    }
-
 }

@@ -1,5 +1,5 @@
 ﻿@using TutorLizard.Web.ViewComponents
-@model AdDetailsResponse
+@model GetAdDetailsResponse
 
 <h1>Szczegóły ogłoszenia</h1>
 
@@ -57,5 +57,5 @@
 }
 @if(Model.UserRelationship == AdToUserRelationship.None)
 {
-    <div><h3>Sekcja dla użytkownika, który może wysłać zgłoszenie</h3></div>
+    @await Component.InvokeAsync(nameof(CreateRequestForAd), new { adId = Model.AdId })
 }

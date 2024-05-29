@@ -1,5 +1,4 @@
-﻿using Azure;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
@@ -26,14 +25,58 @@ public class TutorService : ITutorService
         _adRepository = adRepository;
     }
 
-    public Task<IsUserTheAdOwnerResponse> IsUserTheAdOwner(IsUserTheAdOwnerRequest request)
+    public async Task<IsUserTheAdOwnerResponse> IsUserTheAdOwner(IsUserTheAdOwnerRequest request)
     {
-        // TODO add logic (this is only for tests)
-        var response = new IsUserTheAdOwnerResponse
+        if (request.UserId is null)
         {
-            IsOwner = true
+            return new IsUserTheAdOwnerResponse
+            {
+                IsOwner = false
+            };
+        }
+
+        int adId = request.AdId;
+        int userId = (int)request.UserId;
+
+        Ad? ad = await _adRepository.GetById(adId);
+        bool isOwner = ad != null && ad.TutorId == userId;
+
+        return new IsUserTheAdOwnerResponse
+        {
+            IsOwner = isOwner,
         };
-        return Task.FromResult(response);
+    }
+
+    public async Task<CreateScheduleItemResponse> CreateScheduleItem(CreateScheduleItemRequest request)
+    {
+        int adId = request.AdId;
+        int userId = request.UserId;
+        DateTime dateTime = request.DateTime;
+
+        Ad? ad = await _adRepository.GetById(adId);
+        bool isOwner = ad != null && ad.TutorId == userId;
+
+        if (!isOwner)
+        {
+            return new CreateScheduleItemResponse
+            {
+                Success = false
+            };
+        }
+
+        var scheduleItem = new ScheduleItem()
+        {
+            AdId = adId,
+            DateTime = dateTime
+        };
+
+        await _scheduleItemRepository.Create(scheduleItem);
+
+        return new CreateScheduleItemResponse
+        {
+            Success = true,
+            CreatedItemId = scheduleItem.Id
+        };
     }
 
     public async Task<TutorsScheduleForAdResponse> GetTutorsScheduleForAd(TutorsScheduleForAdRequest request)
@@ -169,7 +212,7 @@ public class TutorService : ITutorService
     public async Task<TutorsPendingAdRequestsResponse> ViewAllPendingAdRequests(TutorsPendingAdRequestsRequest request)
     {
         List<AdRequestsListDto> adRequests = await _adRequestRepository.GetAll()
-            .Where(adrequest => 
+            .Where(adrequest =>
                 adrequest.Ad.TutorId == request.TutorId &&
                 adrequest.ReviewDate == null &&
                 adrequest.IsAccepted == false)
@@ -201,8 +244,8 @@ public class TutorService : ITutorService
         var adRequest = await _adRequestRepository
             .Update(request.AdRequestId, entity =>
             {
-                 entity.ReviewDate = DateTime.Now;
-                 entity.ReplyMessage = request.ReplyMessage;
+                entity.ReviewDate = DateTime.Now;
+                entity.ReplyMessage = request.ReplyMessage;
             });
 
         if (request.Action == UpdateTutorsPendingAdRequestRequest.UpdateAction.Accept)

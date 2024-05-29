@@ -1,0 +1,10 @@
+﻿@model StudentsAdRequestsResponse
+@{
+    ViewData["Title"] = "AdRequests";
+}
+    
+<h1>AdRequests</h1>
+@foreach(var adRequest in Model.AdRequests)
+{
+    <partial name="_AdRequests" model="adRequest" />
+}
