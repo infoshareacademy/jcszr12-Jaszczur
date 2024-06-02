@@ -48,7 +48,8 @@ public class StudentService : IStudentService
             ScheduleItemId = scheduleItemId,
             DateCreated = DateTime.UtcNow,
             StudentId = studentId,
-            IsAccepted = false
+            IsAccepted = false,
+            IsRemote = request.IsRemote
         };
 
         await _scheduleItemRequestRepository.Create(scheduleItemRequest);
