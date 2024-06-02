@@ -30,7 +30,15 @@ namespace TutorLizard.Web.ViewComponents
 
             AvailableScheduleForAdResponse response = await _studentService.GetAvailableScheduleForAd(request);
 
-            return View(response);
+            var filteredScheduleItems = response.Items.Where(item => item.AdId == adId).ToList();
+
+            var filteredResponse = new AvailableScheduleForAdResponse
+            {
+                AdId = adId,
+                Items = filteredScheduleItems
+            };
+
+            return View(filteredResponse);
         }
     }
 }
