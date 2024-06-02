@@ -54,10 +54,11 @@ public class StudentService : IStudentService
 
         await _scheduleItemRequestRepository.Create(scheduleItemRequest);
 
+
         return new CreateScheduleItemRequestResponse
         {
             Success = true,
-            CreatedScheduleItemRequestId = scheduleItemRequest.Id,
+            CreatedScheduleItemRequestId = scheduleItemRequest.Id
         };
     }
 
