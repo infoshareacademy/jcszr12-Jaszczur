@@ -12,29 +12,43 @@ namespace TutorLizard.BusinessLogic.Tests.Services.Student
         public async Task CreateScheduleItemRequest_WhenIsRemoteIsTrue_ShouldSetIsRemoteToTrue()
         {
             // Arrange
-            var scheduleItem = new ScheduleItem { Id = 1 };
-            var studentId = 1;
-            var isRemote = true;
-
+            var scheduleItem = new ScheduleItem { Id = 1, Ad = new Ad { TutorId = 2 } };
             SetupMockGetScheduleItemById(scheduleItem);
 
             var request = new CreateScheduleItemRequestRequest
             {
-                StudentId = studentId,
-                ScheduleItemId = scheduleItem.Id,
-                IsRemote = isRemote
+                StudentId = 2,
+                ScheduleItemId = 1,
+                IsRemote = true
             };
 
             // Act
-            var response = await StudentService.CreateScheduleItemRequest(request);
+            await StudentService.CreateScheduleItemRequest(request);
 
             // Assert
-            Assert.True(response.Success);
-            Assert.NotNull(response.CreatedScheduleItemRequestId);
+            MockScheduleItemRequestRepository.Verify(repo => repo.Create(It.Is<ScheduleItemRequest>(req => req.IsRemote == true)), Times.Once);
+     
+        }
 
-            var createdScheduleItemRequest = DbContext.ScheduleItemRequests.FirstOrDefault();
-            Assert.NotNull(createdScheduleItemRequest);
-            Assert.True(createdScheduleItemRequest.IsRemote);
+        [Fact]
+        public async Task CreateScheduleItemRequest_WhenIsRemoteIsFalse_ShouldSetIsRemoteToFalse()
+        {
+            // Arrange
+            var scheduleItem = new ScheduleItem { Id = 1, Ad = new Ad { TutorId = 2 } };
+            SetupMockGetScheduleItemById(scheduleItem);
+
+            var request = new CreateScheduleItemRequestRequest
+            {
+                StudentId = 2,
+                ScheduleItemId = 1,
+                IsRemote = false
+            };
+
+            // Act
+            await StudentService.CreateScheduleItemRequest(request);
+
+            // Assert
+            MockScheduleItemRequestRepository.Verify(repo => repo.Create(It.Is<ScheduleItemRequest>(req => req.IsRemote == false)), Times.Once);
         }
 
         [Fact]
