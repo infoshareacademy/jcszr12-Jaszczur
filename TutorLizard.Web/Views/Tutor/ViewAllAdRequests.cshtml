@@ -7,5 +7,5 @@
 <h1>AdRequests</h1>
 @foreach (var adrequest in Model.AdRequests)
 {
-    <partial name="_TutorAllAdRequestsListItem" model="adrequest" />
+    <partial name="@PartialNames.TutorAllAdRequestsListItem" model="adrequest" />
 }

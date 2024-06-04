@@ -3,18 +3,23 @@ using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Models.DTOs.Responses;
+using TutorLizard.Web.Interfaces.Services;
 
 namespace TutorLizard.Web.Controllers;
 public class BrowseController : Controller
 {
     private readonly IBrowseService _browseService;
     private readonly IUserAuthenticationService _userAuthenticationService;
+    private readonly IUiMessagesService _uiMessagesService;
     private readonly int _pageSize;
 
-    public BrowseController(IBrowseService browseService, IUserAuthenticationService userAuthenticationService)
+    public BrowseController(IBrowseService browseService,
+                            IUserAuthenticationService userAuthenticationService,
+                            IUiMessagesService uiMessagesService)
     {
         _browseService = browseService;
         _userAuthenticationService = userAuthenticationService;
+        _uiMessagesService = uiMessagesService;
         _pageSize = 10;
     }
     public IActionResult Index()
@@ -33,7 +38,7 @@ public class BrowseController : Controller
 
         if (response.Success == false)
         {
-            // TODO Add failure notification
+            _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Nie udało się się załadować ogłoszeń.");
             return RedirectToAction("Index", "Home");
         }
 
