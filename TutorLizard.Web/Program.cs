@@ -6,6 +6,7 @@ using TutorLizard.BusinessLogic.Options;
 using TutorLizard.BusinessLogic.Services;
 using TutorLizard.Web.Interfaces.Services;
 using TutorLizard.Web.Services;
+using TutorLizard.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
+
 builder.Services.AddTransient<IBrowseService, BrowseService>();
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -66,9 +71,15 @@ app.UseCookiePolicy(new CookiePolicyOptions
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAntiforgery();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode()
+    .AddAdditionalAssemblies(typeof(TutorLizard.Blazor.Components._Imports).Assembly);
 
 app.Run();
