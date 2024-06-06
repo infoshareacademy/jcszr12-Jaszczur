@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Net.Mail;
 using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.Web.Interfaces.Services;
@@ -81,7 +83,10 @@ public class AccountController : Controller
             if (ModelState.IsValid
                 && await _userAuthenticationService.RegisterUser(model.UserName, UserType.Regular, model.Email, model.Password))
             {
-                _uiMessagesService.ShowSuccessMessage("Użytkownik zarejestrowany.");
+                string activationCode = GenerateActivationCode();
+                SendActivationEmail(model.Email, activationCode);
+
+                _uiMessagesService.ShowSuccessMessage("Wysłano mail aktywacyjny.");
                 return LocalRedirect("/Home/Index");
             }
         }
@@ -94,7 +99,40 @@ public class AccountController : Controller
         return LocalRedirect("/Home/Index");
     }
 
-    public IActionResult AccessDenied()
+    private string GenerateActivationCode()
+    {
+        return Guid.NewGuid().ToString();
+    }
+
+        public void SendActivationEmail(string userEmail, string activationCode)
+{
+    var fromAddress = new MailAddress("lizardtutoring@gmail.com", "Tutor Lizard");
+    var toAddress = new MailAddress(userEmail);
+    const string fromPassword = "pvez johg nzwc enjg";
+    string subject = "Aktywacja konta";
+    string body = $"Cześć tu zespół Tutor Lizard, \naby aktywować swoje konto, kliknij poniższy link: \nhttp://localhost:7092/activation/{activationCode}";
+
+    var smtp = new SmtpClient
+    {
+        Host = "smtp.gmail.com",
+        Port = 587,
+        EnableSsl = true,
+        DeliveryMethod = SmtpDeliveryMethod.Network,
+        UseDefaultCredentials = false,
+        Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+    };
+    using (var message = new MailMessage(fromAddress, toAddress)
+    {
+        Subject = subject,
+        Body = body
+    })
+    {
+        smtp.Send(message);
+    }
+}
+
+
+public IActionResult AccessDenied()
     {
         return View();
     }
