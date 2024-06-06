@@ -48,12 +48,20 @@ public class AccountController : Controller
         {
             if (ModelState.IsValid && await _userAuthenticationService.LogInAsync(model.UserName, model.Password))
             {
-                _uiMessagesService.ShowSuccessMessage("Jesteś zalogowany/a.");
-                if (string.IsNullOrEmpty(returnUrl))
+                if (await _userAuthenticationService.IsUserActive(model.UserName))
                 {
-                    return RedirectToAction("Index", "Home");
+                    _uiMessagesService.ShowSuccessMessage("Jesteś zalogowany/a.");
+                    if (string.IsNullOrEmpty(returnUrl))
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    return Redirect(returnUrl);
                 }
-                return Redirect(returnUrl);
+                else
+                {
+                    _uiMessagesService.ShowFailureMessage("Logowanie nieudane");
+                    return LocalRedirect("/Home/Index");
+                }
             }
         }
         catch
@@ -64,6 +72,7 @@ public class AccountController : Controller
         _uiMessagesService.ShowFailureMessage("Logowanie nieudane.");
         return RedirectToAction(nameof(Login), new { returnUrl = returnUrl });
     }
+
     [Authorize]
     public async Task<IActionResult> Logout()
     {
@@ -74,18 +83,30 @@ public class AccountController : Controller
     {
         return View();
     }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterUserModel model)
     {
         try
         {
-            if (ModelState.IsValid
-                && await _userAuthenticationService.RegisterUser(model.UserName, UserType.Regular, model.Email, model.Password))
+            if (!ModelState.IsValid)
             {
-                string activationCode = GenerateActivationCode();
-                SendActivationEmail(model.Email, activationCode);
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (var error in errors)
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
+                return View(model);
+            }
 
+            string activationCode = GenerateActivationCode();
+            bool registrationResult = await _userAuthenticationService.RegisterUser(
+                model.UserName, UserType.Regular, model.Email, model.Password, activationCode);
+
+            if (registrationResult)
+            {
+                _userAuthenticationService.SendActivationEmail(model.Email, activationCode);
                 _uiMessagesService.ShowSuccessMessage("Wysłano mail aktywacyjny.");
                 return LocalRedirect("/Home/Index");
             }
@@ -104,35 +125,21 @@ public class AccountController : Controller
         return Guid.NewGuid().ToString();
     }
 
-        public void SendActivationEmail(string userEmail, string activationCode)
-{
-    var fromAddress = new MailAddress("lizardtutoring@gmail.com", "Tutor Lizard");
-    var toAddress = new MailAddress(userEmail);
-    const string fromPassword = "pvez johg nzwc enjg";
-    string subject = "Aktywacja konta";
-    string body = $"Cześć tu zespół Tutor Lizard, \naby aktywować swoje konto, kliknij poniższy link: \nhttp://localhost:7092/activation/{activationCode}";
-
-    var smtp = new SmtpClient
+    [HttpGet]
+    public IActionResult ActivateAccount(string activationCode)
     {
-        Host = "smtp.gmail.com",
-        Port = 587,
-        EnableSsl = true,
-        DeliveryMethod = SmtpDeliveryMethod.Network,
-        UseDefaultCredentials = false,
-        Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-    };
-    using (var message = new MailMessage(fromAddress, toAddress)
-    {
-        Subject = subject,
-        Body = body
-    })
-    {
-        smtp.Send(message);
+        if (_userAuthenticationService.ActivateUser(activationCode))
+        {
+            return View("Account/ActivateAccount");
+        }
+        else
+        {
+            _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Rejestracja nieudana.");
+            return LocalRedirect("/Home/Index");
+        }
     }
-}
 
-
-public IActionResult AccessDenied()
+    public IActionResult AccessDenied()
     {
         return View();
     }

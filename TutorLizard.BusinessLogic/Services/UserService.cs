@@ -39,7 +39,7 @@ public class UserService : IUserService
         return null;
     }
 
-    public async Task<bool> RegisterUser(string userName, UserType type, string email, string password)
+    public async Task<bool> RegisterUser(string userName, UserType type, string email, string password, string activationCode)
     {
         if (await _userRepository.GetAll().AnyAsync(user => user.Name == userName))
             return false;
@@ -49,7 +49,9 @@ public class UserService : IUserService
             Name = userName,
             UserType = type,
             Email = email,
-            PasswordHash = password
+            PasswordHash = password,
+            ActivationCode = activationCode,
+            IsActive = false
         };
 
         user.PasswordHash = _passwordHasher.HashPassword(user, password);
