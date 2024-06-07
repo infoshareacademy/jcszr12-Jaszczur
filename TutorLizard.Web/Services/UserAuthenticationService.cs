@@ -6,6 +6,7 @@ using System.Security.Claims;
 using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Services;
+using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 
 namespace TutorLizard.BusinessLogic.Services;
 
@@ -21,6 +22,7 @@ public class UserAuthenticationService : IUserAuthenticationService
         _userService = userService;
         _dbContext = dbContext;
     }
+
     public async Task<bool> LogInAsync(string username, string password)
     {
         var user = await _userService.LogIn(username, password);

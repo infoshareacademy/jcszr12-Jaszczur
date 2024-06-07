@@ -44,5 +44,5 @@ public class User
     public ICollection<Ad> Ads { get; set; } = new List<Ad>();
     public ICollection<AdRequest> AdRequests { get; set; } = new List<AdRequest>();
     public ICollection<ScheduleItemRequest> ScheduleItemRequests { get; set; } = new List<ScheduleItemRequest>();
-    public string ActivationCode { get; set; }
+    public string? ActivationCode { get; set; }
 }
