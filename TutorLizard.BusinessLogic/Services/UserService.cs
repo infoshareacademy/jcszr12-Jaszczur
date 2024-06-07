@@ -23,7 +23,7 @@ public class UserService : IUserService
         var user = await _userRepository.GetAll()
             .FirstOrDefaultAsync(user => user.Name == username);
 
-        if (user == null)
+        if (user == null || user.IsActive == false)
         {
             return null;
         }

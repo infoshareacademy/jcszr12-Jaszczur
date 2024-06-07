@@ -5,6 +5,7 @@ namespace TutorLizard.BusinessLogic.Models.DTOs;
 public class UserDto
 {
     public int Id { get; set; }
+    public bool? IsActive { get; set; }
 
     [Required(ErrorMessage = "Podaj nazwę użytkownika.")]
     [Display(Name = "Nazwa użytkownika")]
