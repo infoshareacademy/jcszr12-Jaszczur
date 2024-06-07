@@ -99,7 +99,7 @@ public class UserAuthenticationService : IUserAuthenticationService
         var toAddress = new MailAddress(userEmail);
         const string fromPassword = "pvez johg nzwc enjg";
         string subject = "Aktywacja konta";
-        string body = $"Cześć tu zespół Tutor Lizard, \naby aktywować swoje konto, kliknij poniższy link: \nhttp://localhost:7092/Account/ActivateAccount/{activationCode}";
+        string body = $"Cześć tu zespół Tutor Lizard, \naby aktywować swoje konto, kliknij poniższy link: \nhttp://localhost:7092/Account/ActivateAccount?activationCode={activationCode}";
 
         var smtp = new SmtpClient
         {
@@ -128,7 +128,7 @@ public class UserAuthenticationService : IUserAuthenticationService
         if (user != null)
         {
             user.IsActive = true;
-            user.ActivationCode = null;
+            user.ActivationCode = "DEACTIVATED";
             await _dbContext.SaveChangesAsync();
             return true;
         }
