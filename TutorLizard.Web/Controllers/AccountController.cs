@@ -132,11 +132,12 @@ public class AccountController : Controller
 
         if (isActivated)
         {
-            return View("Account/ActivateAccount");
+            _uiMessagesService.ShowSuccessMessage("Atywacja udana.");
+            return View("ActivateAccount");
         }
         else
         {
-            _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Rejestracja nieudana.");
+            _uiMessagesService.ShowFailureMessage("Aktywacja konta nie powiodła się.");
             return LocalRedirect("/Home/Index");
         }
     }
