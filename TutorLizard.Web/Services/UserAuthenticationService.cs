@@ -138,16 +138,13 @@ public class UserAuthenticationService : IUserAuthenticationService
 
     public async Task<bool> IsUserActive(string userName)
     {
-        int? userId = GetLoggedInUserId();
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Name == userName);
 
-        if (userId.HasValue)
+        if (user != null)
         {
-            var user = await _dbContext.Users.FindAsync(userId.Value);
-            if (user != null && user.Name == userName)
-            {
-                return (bool)user.IsActive;
-            }
+            return (bool)user.IsActive;
         }
         return false;
     }
+
 }
