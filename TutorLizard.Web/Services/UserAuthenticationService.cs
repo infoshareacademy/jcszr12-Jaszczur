@@ -7,6 +7,7 @@ using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace TutorLizard.BusinessLogic.Services;
 
@@ -119,19 +120,21 @@ public class UserAuthenticationService : IUserAuthenticationService
         }
     }
 
-    public bool ActivateUser(string activationCode)
+    public async Task<bool> ActivateUserAsync(string activationCode)
     {
-        var user = _dbContext.Users.FirstOrDefault(u => u.ActivationCode == activationCode);
+        var user = await _dbContext.Users
+            .FirstOrDefaultAsync(u => u.ActivationCode == activationCode && u.IsActive == false);
 
         if (user != null)
         {
             user.IsActive = true;
             user.ActivationCode = null;
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return true;
         }
         return false;
     }
+
 
     public async Task<bool> IsUserActive(string userName)
     {

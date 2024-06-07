@@ -126,9 +126,11 @@ public class AccountController : Controller
     }
 
     [HttpGet]
-    public IActionResult ActivateAccount(string activationCode)
+    public async Task<IActionResult> ActivateAccount(string activationCode)
     {
-        if (_userAuthenticationService.ActivateUser(activationCode))
+        bool isActivated = await _userAuthenticationService.ActivateUserAsync(activationCode);
+
+        if (isActivated)
         {
             return View("Account/ActivateAccount");
         }
@@ -138,6 +140,7 @@ public class AccountController : Controller
             return LocalRedirect("/Home/Index");
         }
     }
+
 
     public IActionResult AccessDenied()
     {
