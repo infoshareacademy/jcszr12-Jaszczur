@@ -59,9 +59,14 @@ public class AccountController : Controller
                 }
                 else
                 {
-                    _uiMessagesService.ShowFailureMessage("Logowanie nieudane");
+                    _uiMessagesService.ShowFailureMessage("Logowanie nieudane. Konto nie jest aktywne.");
                     return LocalRedirect("/Home/Index");
                 }
+            }
+            else
+            {
+                _uiMessagesService.ShowFailureMessage("Logowanie nieudane. Nieprawidłowa nazwa użytkownika lub hasło.");
+                return RedirectToAction(nameof(Login), new { returnUrl = returnUrl });
             }
         }
         catch
@@ -69,8 +74,6 @@ public class AccountController : Controller
             _uiMessagesService.ShowFailureMessage("Logowanie nieudane.");
             return LocalRedirect("/Home/Index");
         }
-        _uiMessagesService.ShowFailureMessage("Logowanie nieudane.");
-        return RedirectToAction(nameof(Login), new { returnUrl = returnUrl });
     }
 
     [Authorize]
