@@ -91,4 +91,109 @@ public class TutorServiceTestsBase : TestsWithInMemoryDbBase
             .Set<TEntity>()
             .AsQueryable();
     }
+
+    protected User CreateTestUserAndAddToDb(int usersAdCount = 0, int usersScheduleItemRequestCount = 0)
+    {
+        User user = CreateTestUser();
+        user.Ads = CreateTestAds(usersAdCount);
+        user.ScheduleItemRequests = CreateTestScheduleItemRequests(usersScheduleItemRequestCount);
+        AddEntitiesToInMemoryDb([user]);
+        return user;
+    }
+
+    protected List<Ad> CreateTestAds(int adCount)
+    {
+        List<Ad> ads = Fixture
+            .Build<Ad>()
+                .Without(ad => ad.Id)
+                .Without(ad => ad.AdRequests)
+                .Without(ad => ad.ScheduleItems)
+                .With(ad => ad.User, CreateTestUser())
+                .With(ad => ad.Category, CreateTestCategory())
+                .With(ad => ad.Price, Math.Abs(Fixture.Create<decimal>()))
+            .CreateMany(adCount)
+            .ToList();
+
+        return ads;
+    }
+
+    protected List<AdRequest> CreateTestAdRequests(int adRequestCount)
+    {
+        List<AdRequest> adreqs = Fixture
+            .Build<AdRequest>()
+                .Without(adreq => adreq.Id)
+                .Without(adreq => adreq.User)
+                .Without(adreq => adreq.Ad)
+                .With(adreq=> adreq.User, CreateTestUser())
+                .With(adreq => adreq.Message, Fixture.Create<string>())
+                .With(adreq => adreq.IsRemote, Fixture.Create<bool>())
+                .With(adreq => adreq.IsRemote, Fixture.Create<bool>())
+            .CreateMany(adRequestCount)
+            .ToList();
+
+        return adreqs;
+    }
+
+    protected User CreateTestUser()
+    {
+        User user = Fixture
+            .Build<User>()
+                .Without(user => user.Ads)
+                .Without(user => user.AdRequests)
+                .Without(user => user.ScheduleItemRequests)
+            .Create();
+
+        return user;
+    }
+
+    protected Category CreateTestCategory()
+    {
+        Category category = Fixture
+            .Build<Category>()
+                .Without(category => category.Ads)
+            .Create();
+
+        return category;
+    }
+    protected List<ScheduleItemRequest> CreateTestScheduleItemRequests(int requestCount)
+    {
+        List<ScheduleItemRequest> requests = Fixture
+            .Build<ScheduleItemRequest>()
+                .Without(request => request.Id)
+                .Without(request => request.ScheduleItem)
+                .With(request => request.User, CreateTestUser())
+            .CreateMany(requestCount)
+            .ToList();
+
+        return requests;
+    }
+
+    protected List<ScheduleItem> CreateTestScheduleItems(int scheduleItemCount)
+    {
+        var ads = CreateTestAds(scheduleItemCount);
+
+        List<ScheduleItem> scheduleItems = Fixture
+            .Build<ScheduleItem>()
+                .Without(item => item.Id)
+                .Without(item => item.Ad)
+                .Without(item => item.ScheduleItemRequests)
+            .CreateMany(scheduleItemCount)
+            .ToList();
+
+        return scheduleItems;
+    }
+    protected List<ScheduleItem> CreateTestScheduleItemsAsQuerable(int scheduleItemCount)
+    {
+        var ads = CreateTestAds(scheduleItemCount);
+
+        List<ScheduleItem> scheduleItems = Fixture
+            .Build<ScheduleItem>()
+                .Without(item => item.Id)
+                .Without(item => item.Ad)
+                .Without(item => item.ScheduleItemRequests)
+            .CreateMany(scheduleItemCount)
+            .ToList();
+
+        return scheduleItems;
+    }
 }
