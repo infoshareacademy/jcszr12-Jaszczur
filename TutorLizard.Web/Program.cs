@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Services;
+using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Options;
 using TutorLizard.BusinessLogic.Services;
 
@@ -31,6 +34,12 @@ builder.Services.AddAuthentication("CookieAuth")
         options.LoginPath = "/Account/Login";
         options.LogoutPath = "/Account/Logout";
     });
+builder.Services.AddAuthentication()
+    .AddGoogle(options =>
+    {
+        options.ClientId = builder.Configuration["Auth:Google:ClientId"];
+        options.ClientSecret = builder.Configuration["Auth:Google:ClientSecret"];
+    });
 
 builder.Services.AddDbContext<JaszczurContext>(configuration =>
 {
@@ -41,6 +50,8 @@ builder.Services.AddDbContext<JaszczurContext>(configuration =>
 });
 
 builder.Services.AddTutorLizardDbRepositories<JaszczurContext>();
+
+
 
 var app = builder.Build();
 

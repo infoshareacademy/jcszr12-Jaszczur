@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations;
 using TutorLizard.BusinessLogic.Enums;
 
 namespace TutorLizard.BusinessLogic.Models;
 
-public class User
+public class User : IdentityUser
 {
     public int Id { get; set; }
 
