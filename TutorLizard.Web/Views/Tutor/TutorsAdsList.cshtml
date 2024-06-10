@@ -6,5 +6,5 @@
 <h1>TutorsAdsList</h1>
 @foreach(var adListItem in Model.AdList)
 {
-    <partial name="_AdListItem" model="adListItem" />
+    <partial name="@PartialNames.AdListItem" model="adListItem" />
 }

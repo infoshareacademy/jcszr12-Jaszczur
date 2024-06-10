@@ -236,7 +236,7 @@ public class StudentService : IStudentService
     public async Task<AvailableScheduleForAdResponse> GetAvailableScheduleForAd(AvailableScheduleForAdRequest request)
     {
         List<ScheduleItemDto> items = await _scheduleItemRepository.GetAll()
-            .Where(si => si.Ad.AdRequests.Any(ar => ar.StudentId == request.StudentId && ar.IsAccepted))
+            .Where(si => si.Ad.AdRequests.Any(ar => ar.StudentId == request.StudentId && ar.IsAccepted) && si.AdId == request.AdId)
             .Select(si => new ScheduleItemDto()
             {
                 AdId = si.AdId,
