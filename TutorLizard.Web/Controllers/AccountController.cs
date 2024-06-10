@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Services;
+using TutorLizard.Web.Interfaces.Services;
 using TutorLizard.Web.Models;
 
 namespace TutorLizard.Web.Controllers;
@@ -12,10 +13,13 @@ namespace TutorLizard.Web.Controllers;
 public class AccountController : Controller
 {
     private readonly IUserAuthenticationService _userAuthenticationService;
+    private readonly IUiMessagesService _uiMessagesService;
 
-    public AccountController(IUserAuthenticationService userAuthenticationService)
+    public AccountController(IUserAuthenticationService userAuthenticationService,
+                             IUiMessagesService uiMessagesService)
     {
         _userAuthenticationService = userAuthenticationService;
+        _uiMessagesService = uiMessagesService;
     }
 
     public IActionResult Index()
@@ -79,11 +83,13 @@ public class AccountController : Controller
             TempData["returnUrl"] as string
             : null;
 
+        TempData["returnUrl"] = "";
+
         try
         {
             if (ModelState.IsValid && await _userAuthenticationService.LogInAsync(model.UserName, model.Password))
             {
-                TempData["LoginSuccessful"] = "You are logged in.";
+                _uiMessagesService.ShowSuccessMessage("Jesteś zalogowany/a.");
                 if (string.IsNullOrEmpty(returnUrl))
                 {
                     return RedirectToAction("Index", "Home");
@@ -93,11 +99,11 @@ public class AccountController : Controller
         }
         catch
         {
-            TempData["LoginUnsuccessful"] = "Could not log in.";
+            _uiMessagesService.ShowFailureMessage("Logowanie nieudane.");
             return LocalRedirect("/Home/Index");
         }
-        TempData["LoginUnsuccessful"] = "Could not log in.";
-        return View(new { returnUrl = returnUrl });
+        _uiMessagesService.ShowFailureMessage("Logowanie nieudane.");
+        return RedirectToAction(nameof(Login), new { returnUrl = returnUrl });
     }
     [Authorize]
     public async Task<IActionResult> Logout()
@@ -120,16 +126,16 @@ public class AccountController : Controller
             if (ModelState.IsValid
                 && await _userAuthenticationService.RegisterUser(model.UserName, UserType.Regular, model.Email, model.Password))
             {
-                TempData["RegisterSuccessful"] = "Registered Successfully";
+                _uiMessagesService.ShowSuccessMessage("Użytkownik zarejestrowany.");
                 return LocalRedirect("/Home/Index");
             }
         }
         catch
         {
-            TempData["RegisterUnsuccessful"] = "Could not register.";
+            _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Rejestracja nieudana.");
             return LocalRedirect("/Home/Index");
         }
-        TempData["RegisterUnsuccessful"] = "Could not register.";
+        _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Rejestracja nieudana.");
         return LocalRedirect("/Home/Index");
     }
 

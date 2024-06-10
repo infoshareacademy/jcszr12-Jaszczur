@@ -5,6 +5,8 @@ using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Options;
 using TutorLizard.BusinessLogic.Services;
+using TutorLizard.Web.Interfaces.Services;
+using TutorLizard.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,7 @@ builder.Services
     .ValidateDataAnnotations();
 builder.Services.AddScoped<ITutorService, TutorService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IUiMessagesService, UiMessagesService>();
 
 builder.Services.AddAuthentication(options =>
     {

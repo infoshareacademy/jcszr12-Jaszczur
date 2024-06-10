@@ -8,7 +8,7 @@
 
 @foreach (var ad in Model.Ads)
 {
-    <partial name="_AdListItem" model="ad" />
+    <partial name="@PartialNames.AdListItem" model="ad" />
 }
 
 <div class="row text-center">
