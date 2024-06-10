@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-using TutorLizard.BusinessLogic.Enums;
+using TutorLizard.Shared.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 
 namespace TutorLizard.BusinessLogic.Services;

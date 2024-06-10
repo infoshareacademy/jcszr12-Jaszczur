@@ -2,9 +2,9 @@
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
-using TutorLizard.BusinessLogic.Models.DTOs;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
-using TutorLizard.BusinessLogic.Models.DTOs.Responses;
+using TutorLizard.Shared.Models.DTOs;
+using TutorLizard.Shared.Models.DTOs.Requests;
+using TutorLizard.Shared.Models.DTOs.Responses;
 
 namespace TutorLizard.BusinessLogic.Services;
 public class TutorService : ITutorService

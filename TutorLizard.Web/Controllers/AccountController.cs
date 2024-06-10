@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Services;
+using TutorLizard.Shared.Enums;
 using TutorLizard.Web.Interfaces.Services;
 using TutorLizard.Web.Models;
 

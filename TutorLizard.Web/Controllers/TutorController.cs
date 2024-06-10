@@ -7,9 +7,9 @@ using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
-using TutorLizard.BusinessLogic.Models.DTOs;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
-using TutorLizard.BusinessLogic.Models.DTOs.Responses;
+using TutorLizard.Shared.Models.DTOs;
+using TutorLizard.Shared.Models.DTOs.Requests;
+using TutorLizard.Shared.Models.DTOs.Responses;
 using TutorLizard.Web.Interfaces.Services;
 
 namespace TutorLizard.Web.Controllers;
@@ -318,7 +318,7 @@ public class TutorController : Controller
                 return Forbid();
             }
 
-            TutorsAdsRequest request = new(tutorId);
+            TutorsAdsRequest request = new((int)tutorId);
 
             TutorsAdsResponse response = await _tutorService.ViewTutorsAds(request);
 

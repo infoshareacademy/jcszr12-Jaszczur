@@ -1,30 +1,18 @@
 ﻿using TutorLizard.BusinessLogic.Models;
-using TutorLizard.BusinessLogic.Models.DTOs;
+using TutorLizard.Shared.Models.DTOs;
 
 namespace TutorLizard.BusinessLogic.Extensions;
 public static class DtoExtensions
 {
-    private static readonly ScheduleItemDto.ScheduleItemRequestStatus status;
+    public static CategoryDto ToDto(this Category category)
+        => new CategoryDto(category.Id,
+                           category.Name,
+                           category.Description);
 
-    public static AdDto ToDto(this Ad ad) => new AdDto(ad);
-    public static AdRequestDto ToDto(this AdRequest adRequest) => new AdRequestDto(adRequest);
-    public static CategoryDto ToDto(this Category category) => new CategoryDto(category);
-    public static ScheduleItemDto ToDto(this ScheduleItem scheduleItem) => new ScheduleItemDto(scheduleItem, status);
-    public static ScheduleItemRequestDto ToDto(this ScheduleItemRequest scheduleItemRequest) => new ScheduleItemRequestDto(scheduleItemRequest);
-    public static UserDto ToDto(this User user) => new UserDto(user);
-
-    public static AdListItemDto ToAdListItemDto(this Ad ad)
-    {
-        return new AdListItemDto(id: ad.Id,
-                                 tutorId: ad.TutorId,
-                                 tutorName: ad.User.Name,
-                                 subject: ad.Subject,
-                                 title: ad.Title,
-                                 description: ad.Description,
-                                 categoryId: ad.CategoryId,
-                                 categoryName: ad.Category.Name,
-                                 price: ad.Price,
-                                 location: ad.Location,
-                                 isRemote: ad.IsRemote);
-    }
+    public static UserDto ToDto(this User user)
+        => new UserDto(user.Id,
+                       user.Name,
+                       user.UserType,
+                       user.Email,
+                       user.DateCreated);
 }

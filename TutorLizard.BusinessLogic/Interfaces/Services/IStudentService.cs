@@ -1,6 +1,5 @@
-﻿using TutorLizard.BusinessLogic.Models;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
-using TutorLizard.BusinessLogic.Models.DTOs.Responses;
+﻿using TutorLizard.Shared.Models.DTOs.Requests;
+using TutorLizard.Shared.Models.DTOs.Responses;
 
 namespace TutorLizard.BusinessLogic.Interfaces.Services;
 

@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Interfaces.Services;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
-using TutorLizard.BusinessLogic.Models.DTOs.Responses;
+using TutorLizard.Shared.Models.DTOs.Requests;
+using TutorLizard.Shared.Models.DTOs.Responses;
 
 namespace TutorLizard.Web.ViewComponents
 {
@@ -22,7 +21,7 @@ namespace TutorLizard.Web.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(int adId)
         {
             int? studentId = _userAuthenticationService.GetLoggedInUserId();
-            if(studentId is null)
+            if (studentId is null)
             {
                 return View();
             }

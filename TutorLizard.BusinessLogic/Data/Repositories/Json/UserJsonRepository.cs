@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using TutorLizard.BusinessLogic.Enums;
+using TutorLizard.Shared.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Options;

@@ -1,4 +1,4 @@
-﻿using TutorLizard.BusinessLogic.Enums;
+﻿using TutorLizard.Shared.Enums;
 
 namespace TutorLizard.BusinessLogic.Interfaces.Services;
 

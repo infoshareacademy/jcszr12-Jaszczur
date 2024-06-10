@@ -1,5 +1,5 @@
-﻿using TutorLizard.BusinessLogic.Enums;
-using TutorLizard.BusinessLogic.Models.DTOs;
+﻿using TutorLizard.Shared.Enums;
+using TutorLizard.Shared.Models.DTOs;
 
 namespace TutorLizard.BusinessLogic.Interfaces.Services;
 

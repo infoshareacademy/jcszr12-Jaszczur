@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 using TutorLizard.BusinessLogic.Interfaces.Services;
-using TutorLizard.BusinessLogic.Models.DTOs;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
-using TutorLizard.BusinessLogic.Models.DTOs.Responses;
+using TutorLizard.Shared.Models.DTOs.Requests;
+using TutorLizard.Shared.Models.DTOs.Responses;
 using TutorLizard.Web.Interfaces.Services;
 
 namespace TutorLizard.Web.Controllers;
@@ -97,7 +94,7 @@ public class StudentController : Controller
         if (response.Success)
         {
             _uiMessagesService.ShowSuccessMessage("Zgłoszenie do terminu wysłane.");
-            return RedirectToAction("AdDetails", "Browse", new {id = adId });
+            return RedirectToAction("AdDetails", "Browse", new { id = adId });
         }
         else
         {

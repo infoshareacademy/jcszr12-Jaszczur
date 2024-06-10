@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using TutorLizard.BusinessLogic.Models.DTOs;
+using TutorLizard.Shared.Models.DTOs;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
-using TutorLizard.BusinessLogic.Enums;
+using TutorLizard.Shared.Enums;
 
 namespace TutorLizard.BusinessLogic.Services;
 

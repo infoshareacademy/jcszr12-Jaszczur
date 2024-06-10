@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Interfaces.Services;
-using TutorLizard.BusinessLogic.Models.DTOs.Responses;
+using TutorLizard.Shared.Models.DTOs.Requests;
+using TutorLizard.Shared.Models.DTOs.Responses;
 
 namespace TutorLizard.Web.ViewComponents;
 [ViewComponent(Name = nameof(AdRequestStatusForAd))]
