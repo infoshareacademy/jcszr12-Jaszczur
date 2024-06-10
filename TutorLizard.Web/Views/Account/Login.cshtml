@@ -26,31 +26,13 @@
                 <input type="submit" value="Login" class="btn btn-primary" />
             </div>
         </form>
-        <div class="row pt-2">
-            <div class="col-md-4">
-                <h5>External Login</h5>
-
-                @if(Model.AuthenticationSchemes.Count() == 0)
-                {
-                    <div>No external login provides available</div>
-                } else
-                {
-                    <form asp-action="ExternalLogin">
-                        <div>
-                            @foreach(var provider in Model.AuthenticationSchemes)
-                            {
-                                <button type="submit" 
-                                    class="btn btn-primary" 
-                                    name="provider" 
-                                    value="@provider.Name" 
-                                    title="Login using your @provider.Name">
-                                    @provider.DisplayName
-                                </button>
-                            }
-                        </div>
-                    </form>
-                }
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2>Login using Google</h2>
+        </div>
+        <div class="col-5 text-end"?>
+            <a asp-controller="Account" asp-action="GoogleLogin" class="btn btn-primary">Sign In with Google</a>
         </div>
     </div>
 </div>

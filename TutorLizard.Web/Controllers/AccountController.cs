@@ -1,24 +1,21 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Services;
-using TutorLizard.BusinessLogic.Models;
 using TutorLizard.Web.Models;
 
 namespace TutorLizard.Web.Controllers;
+
 public class AccountController : Controller
 {
     private readonly IUserAuthenticationService _userAuthenticationService;
-    private SignInManager<User> _signInManager;
-    private UserManager<User> _userManager;
 
-    public AccountController(IUserAuthenticationService userAuthenticationService, SignInManager<User> signInManager, UserManager<User> userManager)
+    public AccountController(IUserAuthenticationService userAuthenticationService)
     {
         _userAuthenticationService = userAuthenticationService;
-        _signInManager = signInManager;
-        _userManager = userManager;
     }
 
     public IActionResult Index()
@@ -33,14 +30,43 @@ public class AccountController : Controller
             TempData["returnUrl"] = returnUrl;
         }
 
-        var loginViewModel = new LoginModel()
-        {
-            AuthenticationSchemes = await _signInManager.GetExternalAuthenticationSchemesAsync()
-        };
-
-        return View(loginViewModel);
+        return View();
     }
 
+    public async Task GoogleLogin()
+    {
+        await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme,
+            new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("GoogleResponse")
+            });
+    }
+
+    public async Task<IActionResult> GoogleResponse()
+    {
+        var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+
+        if (result?.Succeeded != true)
+        {
+            return RedirectToAction("Login");
+        }
+
+        var claims = result.Principal.Identities.FirstOrDefault()?.Claims.ToList();
+
+        var claimNameIdentifier = claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        var claimEmail = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+
+        
+        var loggedIn = await _userAuthenticationService.LogInAsync(claimNameIdentifier, claimEmail);
+
+        if (!loggedIn)
+        {
+            return RedirectToAction("Login");
+        }
+
+        return RedirectToAction("Index", "Home");
+    }
+    
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginModel model)
@@ -104,71 +130,5 @@ public class AccountController : Controller
     public IActionResult AccessDenied()
     {
         return View();
-    }
-
-    public IActionResult ExternalLogin(string provider, string returnUrl = "")
-    {
-        var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
-
-        var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-
-        return new ChallengeResult(provider, properties);
-    }
-
-    public async Task<IActionResult> ExternalLoginCallback(string returnUrl = "", string remoteError = "")
-    {
-        var loginViewModel = new LoginModel()
-        {
-            AuthenticationSchemes = await _signInManager.GetExternalAuthenticationSchemesAsync()
-        };
-
-        if (!string.IsNullOrEmpty(remoteError))
-        {
-            ModelState.AddModelError("", $"Error from external login provider: {remoteError}");
-            return View("Login", loginViewModel);
-        }
-
-        var info = await _signInManager.GetExternalLoginInfoAsync();
-        if (info is null)
-        {
-            ModelState.AddModelError("", $"Error from external login provider: {remoteError}");
-            return View("Login", loginViewModel);
-        }
-
-        var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider,
-                                                                         info.ProviderKey,
-                                                                         isPersistent: false,
-                                                                         bypassTwoFactor: true);
-
-        if (signInResult.Succeeded)
-        {
-            return RedirectToAction("Index", "Home");
-        } 
-        else
-        {
-            var userEmail = info.Principal.FindFirstValue(ClaimTypes.Email);
-
-            if(!string.IsNullOrEmpty(userEmail))
-            {
-                var user = await _userManager.FindByEmailAsync(userEmail);
-
-                if (user is null)
-                {
-                    user = new User() 
-                    { 
-                        Name = userEmail,
-                        Email = userEmail,
-                        UserType = UserType.Regular
-                    };
-                
-                    await _userManager.CreateAsync(user);
-                }
-
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                return RedirectToAction("Index", "Home");
-            }
-        }
-        ModelState.AddModelError("", $"Something went wrong");
-        return View("Login", loginViewModel);
     }
 }

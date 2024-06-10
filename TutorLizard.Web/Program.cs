@@ -1,10 +1,8 @@
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
-using System;
 using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Services;
-using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Options;
 using TutorLizard.BusinessLogic.Services;
 
@@ -24,7 +22,17 @@ builder.Services
 builder.Services.AddScoped<ITutorService, TutorService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 
-builder.Services.AddAuthentication("CookieAuth")
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultScheme = "CookieAuth";
+        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+    })
+    .AddGoogle(options =>
+    {
+        options.ClientId = builder.Configuration["Auth:Google:ClientId"];
+        options.ClientSecret = builder.Configuration["Auth:Google:ClientSecret"];
+        options.SaveTokens = true;
+    })
     .AddCookie("CookieAuth", options =>
     {
         options.ExpireTimeSpan = TimeSpan.FromDays(1);
@@ -34,12 +42,7 @@ builder.Services.AddAuthentication("CookieAuth")
         options.LoginPath = "/Account/Login";
         options.LogoutPath = "/Account/Logout";
     });
-builder.Services.AddAuthentication()
-    .AddGoogle(options =>
-    {
-        options.ClientId = builder.Configuration["Auth:Google:ClientId"];
-        options.ClientSecret = builder.Configuration["Auth:Google:ClientSecret"];
-    });
+
 
 builder.Services.AddDbContext<JaszczurContext>(configuration =>
 {
@@ -68,12 +71,15 @@ app.UseStaticFiles();
 
 app.UseCookiePolicy(new CookiePolicyOptions
 {
-    MinimumSameSitePolicy = SameSiteMode.Strict
+    MinimumSameSitePolicy = SameSiteMode.None,
+    Secure = CookieSecurePolicy.Always
 });
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+app.UseHttpsRedirection();
 
 app.MapControllerRoute(
     name: "default",
