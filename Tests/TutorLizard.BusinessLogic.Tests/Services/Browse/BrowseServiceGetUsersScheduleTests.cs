@@ -1,7 +1,7 @@
 ﻿using TutorLizard.BusinessLogic.Models;
-using TutorLizard.BusinessLogic.Models.DTOs;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Services;
+using TutorLizard.Shared.Models.DTOs;
+using TutorLizard.Shared.Models.DTOs.Requests;
 
 namespace TutorLizard.BusinessLogic.Tests.Services.Browse;
 public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
