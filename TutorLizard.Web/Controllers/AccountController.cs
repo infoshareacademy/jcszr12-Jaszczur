@@ -38,7 +38,11 @@ public class AccountController : Controller
         await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme,
             new AuthenticationProperties
             {
-                RedirectUri = Url.Action("GoogleResponse")
+                RedirectUri = Url.Action("GoogleResponse"),
+                Items =
+                {
+                    { "prompt", "select_account" }
+                }
             });
     }
 
@@ -99,6 +103,8 @@ public class AccountController : Controller
     public async Task<IActionResult> Logout()
     {
         await _userAuthenticationService.LogOutAsync();
+        await HttpContext.SignOutAsync();
+
         return RedirectToAction("Index", "Home");
     }
     public IActionResult Register()
