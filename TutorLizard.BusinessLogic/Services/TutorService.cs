@@ -79,7 +79,7 @@ public class TutorService : ITutorService
         };
     }
 
-    public async Task<TutorsScheduleForAdResponse> GetTutorsScheduleForAd(TutorsScheduleForAdRequest request)
+    public async Task<GetTutorsScheduleForAdResponse> GetTutorsScheduleForAd(GetTutorsScheduleForAdRequest request)
     {
         List<TutorsScheduleItemDto> scheduleItems = await _scheduleItemRepository.GetAll()
             .Where(item => item.AdId == request.AdId)
@@ -105,7 +105,7 @@ public class TutorService : ITutorService
             .ToListAsync();
 
 
-        TutorsScheduleForAdResponse response = new()
+        GetTutorsScheduleForAdResponse response = new()
         {
             AdId = request.AdId,
             ScheduleItems = scheduleItems
@@ -182,7 +182,7 @@ public class TutorService : ITutorService
         };
     }
 
-    public async Task<TutorAllAdRequestsResponse> ViewAllAdRequests(TutorAllAdRequestsRequest request)
+    public async Task<GetTutorsAllAdRequestsResponse> GetTutorsAllAdRequests(GetTutorsAllAdRequestsRequest request)
     {
         List<AdRequestsListDto> adRequestsList = await _adRequestRepository.GetAll()
             .Include(adrequest => adrequest.Ad)
@@ -201,7 +201,7 @@ public class TutorService : ITutorService
                                                        adrequest.ReviewDate))
             .ToListAsync();
 
-        TutorAllAdRequestsResponse response = new()
+        GetTutorsAllAdRequestsResponse response = new()
         {
             AdRequests = adRequestsList
         };
@@ -209,7 +209,7 @@ public class TutorService : ITutorService
         return response;
     }
 
-    public async Task<TutorsPendingAdRequestsResponse> ViewAllPendingAdRequests(TutorsPendingAdRequestsRequest request)
+    public async Task<GetTutorsPendingAdRequestsResponse> GetTutorsPendingAdRequests(GetTutorsPendingAdRequestsRequest request)
     {
         List<AdRequestsListDto> adRequests = await _adRequestRepository.GetAll()
             .Where(adrequest =>
@@ -231,7 +231,7 @@ public class TutorService : ITutorService
                                                        adrequest.ReviewDate))
             .ToListAsync();
 
-        TutorsPendingAdRequestsResponse response = new()
+        GetTutorsPendingAdRequestsResponse response = new()
         {
             AdRequests = adRequests
         };
@@ -239,7 +239,7 @@ public class TutorService : ITutorService
         return response;
     }
 
-    public async Task<UpdateTutorsPendingAdRequestResponse> UpdateAdRequest(UpdateTutorsPendingAdRequestRequest request)
+    public async Task<UpdateAdRequestResponse> UpdateAdRequest(UpdateAdRequestRequest request)
     {
         var adRequest = await _adRequestRepository
             .Update(request.AdRequestId, entity =>
@@ -248,13 +248,13 @@ public class TutorService : ITutorService
                 entity.ReplyMessage = request.ReplyMessage;
             });
 
-        if (request.Action == UpdateTutorsPendingAdRequestRequest.UpdateAction.Accept)
+        if (request.Action == UpdateAdRequestRequest.UpdateAction.Accept)
         {
             adRequest = await _adRequestRepository
                 .Update(request.AdRequestId, entity => entity.IsAccepted = true);
         }
 
-        UpdateTutorsPendingAdRequestResponse response = new();
+        UpdateAdRequestResponse response = new();
 
         if (adRequest is null)
             response.IsSuccessful = false;
@@ -264,7 +264,7 @@ public class TutorService : ITutorService
         return response;
     }
 
-    public async Task<TutorsAdsResponse> ViewTutorsAds(TutorsAdsRequest request)
+    public async Task<GetTutorsAdsResponse> GetTutorsAds(GetTutorsAdsRequest request)
     {
         var tutorId = request.TutorId;
 
@@ -291,7 +291,7 @@ public class TutorService : ITutorService
             })
             .ToList();
 
-        return new TutorsAdsResponse
+        return new GetTutorsAdsResponse
         {
             AdList = adListDtos
         };

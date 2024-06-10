@@ -7,11 +7,11 @@ using TutorLizard.Shared.Models.DTOs.Responses;
 
 namespace TutorLizard.Shared.Models.DTOs.Requests
 {
-    public class TutorsAdsRequest
+    public class GetTutorsAdsRequest
     {
         public int TutorId { get; set; }
 
-        public TutorsAdsRequest(int tutorId)
+        public GetTutorsAdsRequest(int tutorId)
         {
             TutorId = tutorId;
         }

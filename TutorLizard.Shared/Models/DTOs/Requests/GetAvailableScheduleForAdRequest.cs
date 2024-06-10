@@ -1,10 +1,10 @@
 ﻿namespace TutorLizard.Shared.Models.DTOs.Requests
 {
-    public class AvailableScheduleForAdRequest
+    public class GetAvailableScheduleForAdRequest
     {
         public int AdId { get; set; }
         public int StudentId { get; set; }
-        public AvailableScheduleForAdRequest(int adId, int studentId)
+        public GetAvailableScheduleForAdRequest(int adId, int studentId)
         {
             AdId = adId;
             StudentId = studentId;

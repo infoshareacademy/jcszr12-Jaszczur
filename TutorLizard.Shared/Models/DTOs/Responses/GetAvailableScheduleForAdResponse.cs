@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TutorLizard.Shared.Models.DTOs.Responses
 {
-    public class AvailableScheduleForAdResponse
+    public class GetAvailableScheduleForAdResponse
     {
         public List<ScheduleItemDto> Items { get; set; } = new();
         public bool IsAccepted { get; set; } = true;

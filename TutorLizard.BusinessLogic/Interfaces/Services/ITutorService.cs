@@ -7,12 +7,12 @@ public interface ITutorService
 {
     Task<AcceptScheduleItemRequestResponse> AcceptScheduleItemRequest(AcceptScheduleItemRequestRequest request);
     Task<CreateAdResponse> CrateAd(CreateAdRequest request);
-    Task<TutorsScheduleForAdResponse> GetTutorsScheduleForAd(TutorsScheduleForAdRequest request);
+    Task<GetTutorsScheduleForAdResponse> GetTutorsScheduleForAd(GetTutorsScheduleForAdRequest request);
     Task<CreateScheduleItemResponse> CreateScheduleItem(CreateScheduleItemRequest request);
     Task<IsUserTheAdOwnerResponse> IsUserTheAdOwner(IsUserTheAdOwnerRequest request);
     Task<UnacceptScheduleItemRequestResponse> UnacceptScheduleItemRequest(UnacceptScheduleItemRequestRequest request);
-    Task<UpdateTutorsPendingAdRequestResponse> UpdateAdRequest(UpdateTutorsPendingAdRequestRequest request);
-    Task<TutorsPendingAdRequestsResponse> ViewAllPendingAdRequests(TutorsPendingAdRequestsRequest request);
-    Task<TutorAllAdRequestsResponse> ViewAllAdRequests(TutorAllAdRequestsRequest request);
-    Task<TutorsAdsResponse> ViewTutorsAds(TutorsAdsRequest request);
+    Task<UpdateAdRequestResponse> UpdateAdRequest(UpdateAdRequestRequest request);
+    Task<GetTutorsPendingAdRequestsResponse> GetTutorsPendingAdRequests(GetTutorsPendingAdRequestsRequest request);
+    Task<GetTutorsAllAdRequestsResponse> GetTutorsAllAdRequests(GetTutorsAllAdRequestsRequest request);
+    Task<GetTutorsAdsResponse> GetTutorsAds(GetTutorsAdsRequest request);
 }

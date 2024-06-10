@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace TutorLizard.Shared.Models.DTOs.Responses
 {
-    public class StudentsAcceptedAdsResponse
+    public class GetTutorsAdsResponse
     {
-        public List<AdListItemDto> Ads { get; set; } = new();
+        public List<AdListItemDto> AdList { get; set; } = new();
     }
 }

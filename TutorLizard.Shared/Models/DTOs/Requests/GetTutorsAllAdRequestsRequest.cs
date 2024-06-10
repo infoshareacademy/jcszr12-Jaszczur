@@ -1,9 +1,9 @@
 ﻿namespace TutorLizard.Shared.Models.DTOs.Requests;
 
-public class TutorsPendingAdRequestsRequest
+public class GetTutorsAllAdRequestsRequest
 {
     public int TutorId { get; set; }
-    public TutorsPendingAdRequestsRequest(int? tutorId)
+    public GetTutorsAllAdRequestsRequest(int? tutorId)
     {
         TutorId = (int)tutorId;
     }

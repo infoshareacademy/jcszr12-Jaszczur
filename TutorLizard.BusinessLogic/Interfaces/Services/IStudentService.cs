@@ -5,11 +5,11 @@ namespace TutorLizard.BusinessLogic.Interfaces.Services;
 
 public interface IStudentService
 {
-    Task<StudentsAcceptedAdsResponse> ViewAcceptedAds(StudentsAcceptedAdsRequest request);
-    Task<StudentsAdRequestsResponse> ViewAdRequests(StudentsAdRequestsRequest request);
-    Task<AdRequestStatusResponse> ViewAdRequestStatus(AdRequestStatusRequest request);
-    Task<StudentCancelAdRequestResponse> DeleteAdRequest(StudentCancelAdRequestRequest request);
+    Task<GetStudentsAcceptedAdsResponse> GetStudentsAcceptedAds(GetStudentsAcceptedAdsRequest request);
+    Task<GetStudentsAdRequestsResponse> GetStudentsAdRequests(GetStudentsAdRequestsRequest request);
+    Task<GetAdRequestStatusResponse> GetAdRequestStatus(GetAdRequestStatusRequest request);
+    Task<DeleteAdRequestResponse> DeleteAdRequest(DeleteAdRequestRequest request);
     Task<CreateScheduleItemRequestResponse> CreateScheduleItemRequest(CreateScheduleItemRequestRequest request);
-    Task<AvailableScheduleForAdResponse> GetAvailableScheduleForAd(AvailableScheduleForAdRequest request);
+    Task<GetAvailableScheduleForAdResponse> GetAvailableScheduleForAd(GetAvailableScheduleForAdRequest request);
     Task<CreateAdRequestResponse> CreateAdRequest(CreateAdRequestRequest request);
 }

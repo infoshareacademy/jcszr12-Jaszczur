@@ -25,9 +25,9 @@ namespace TutorLizard.Web.ViewComponents
             {
                 return View();
             }
-            AvailableScheduleForAdRequest request = new(adId, (int)studentId);
+            GetAvailableScheduleForAdRequest request = new(adId, (int)studentId);
 
-            AvailableScheduleForAdResponse response = await _studentService.GetAvailableScheduleForAd(request);
+            GetAvailableScheduleForAdResponse response = await _studentService.GetAvailableScheduleForAd(request);
 
             return View(response);
         }

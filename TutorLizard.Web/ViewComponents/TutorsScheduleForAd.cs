@@ -25,13 +25,13 @@ public class TutorsScheduleForAd : ViewComponent
         {
             return View();
         }
-        TutorsScheduleForAdRequest request = new()
+        GetTutorsScheduleForAdRequest request = new()
         {
             AdId = adId,
             TutorId = (int)tutorId
         };
 
-        TutorsScheduleForAdResponse response = await _tutorService.GetTutorsScheduleForAd(request);
+        GetTutorsScheduleForAdResponse response = await _tutorService.GetTutorsScheduleForAd(request);
 
         return View(response);
     }

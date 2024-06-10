@@ -2,10 +2,10 @@
 
 namespace TutorLizard.Shared.Models.DTOs.Requests
 {
-	public class StudentsAdRequestsRequest
+	public class GetStudentsAdRequestsRequest
 	{
 		public int StudentId { get; set; }
-		public StudentsAdRequestsRequest(int? studentId)
+		public GetStudentsAdRequestsRequest(int? studentId)
 		{
 			StudentId = (int)studentId;
 		}

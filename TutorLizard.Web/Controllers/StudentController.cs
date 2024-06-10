@@ -36,9 +36,9 @@ public class StudentController : Controller
                 return Forbid();
             }
 
-            StudentsAcceptedAdsRequest request = new(studentId);
+            GetStudentsAcceptedAdsRequest request = new(studentId);
 
-            StudentsAcceptedAdsResponse response = await _studentService.ViewAcceptedAds(request);
+            GetStudentsAcceptedAdsResponse response = await _studentService.GetStudentsAcceptedAds(request);
 
             return View(response);
         }
@@ -59,9 +59,9 @@ public class StudentController : Controller
                 return Forbid();
             }
 
-            StudentsAdRequestsRequest request = new(studentId);
+            GetStudentsAdRequestsRequest request = new(studentId);
 
-            StudentsAdRequestsResponse response = await _studentService.ViewAdRequests(request);
+            GetStudentsAdRequestsResponse response = await _studentService.GetStudentsAdRequests(request);
 
             return View(response);
         }
@@ -138,8 +138,8 @@ public class StudentController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> CancelAdRequest(int adRequestId)
     {
-        StudentCancelAdRequestRequest request = new StudentCancelAdRequestRequest(adRequestId);
-        StudentCancelAdRequestResponse response = await _studentService.DeleteAdRequest(request);
+        DeleteAdRequestRequest request = new DeleteAdRequestRequest(adRequestId);
+        DeleteAdRequestResponse response = await _studentService.DeleteAdRequest(request);
 
         if (response.IsSuccessful)
         {

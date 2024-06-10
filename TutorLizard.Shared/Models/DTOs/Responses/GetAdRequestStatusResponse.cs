@@ -1,5 +1,5 @@
 ﻿namespace TutorLizard.Shared.Models.DTOs.Responses;
-public class AdRequestStatusResponse
+public class GetAdRequestStatusResponse
 {
     public int Id { get; set; }
     public int AdId { get; set; }

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace TutorLizard.Shared.Models.DTOs.Requests
 {
-    public class StudentsAcceptedAdsRequest
+    public class GetStudentsAcceptedAdsRequest
     {
         public int StudentId { get; set; }
-        public StudentsAcceptedAdsRequest(int? studentId)
+        public GetStudentsAcceptedAdsRequest(int? studentId)
         {
             StudentId = (int)studentId;
         }

@@ -25,13 +25,13 @@ public class AdRequestStatusForAd : ViewComponent
             return View();
         }
 
-        AdRequestStatusRequest request = new()
+        GetAdRequestStatusRequest request = new()
         {
             AdId = adId,
             StudentId = (int)studentId
         };
 
-        AdRequestStatusResponse response = await _studentService.ViewAdRequestStatus(request);
+        GetAdRequestStatusResponse response = await _studentService.GetAdRequestStatus(request);
 
         if (!response.IsSuccessful)
             return View();
