@@ -109,7 +109,6 @@ public class AccountController : Controller
     public async Task<IActionResult> Logout()
     {
         await _userAuthenticationService.LogOutAsync();
-        await HttpContext.SignOutAsync();
 
         return RedirectToAction("Index", "Home");
     }
