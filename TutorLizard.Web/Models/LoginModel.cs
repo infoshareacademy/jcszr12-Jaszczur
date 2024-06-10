@@ -11,7 +11,4 @@ public class LoginModel
     [Required]
     [DataType(DataType.Password)]
     public string Password { get; set; }
-
-    // Third-Party Login Providers
-    public IEnumerable<AuthenticationScheme> AuthenticationSchemes { get; set; }
 }
