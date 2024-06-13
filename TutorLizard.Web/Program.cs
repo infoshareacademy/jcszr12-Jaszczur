@@ -31,16 +31,24 @@ builder.Services.AddScoped<ITutorService, TutorService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IUiMessagesService, UiMessagesService>();
 
-builder.Services.AddAuthentication(options =>
+builder.Services.AddAuthentication(options => 
     {
         options.DefaultScheme = "CookieAuth";
-        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
     })
     .AddGoogle(options =>
     {
         options.ClientId = builder.Configuration["Auth:Google:ClientId"];
         options.ClientSecret = builder.Configuration["Auth:Google:ClientSecret"];
         options.SaveTokens = true;
+        options.Events = new Microsoft.AspNetCore.Authentication.OAuth.OAuthEvents
+        {
+            OnRemoteFailure = context =>
+            {
+                context.HandleResponse();
+                context.Response.Redirect("/Account/Login");
+                return Task.FromResult(0);
+            }
+        };
     })
     .AddCookie("CookieAuth", options =>
     {

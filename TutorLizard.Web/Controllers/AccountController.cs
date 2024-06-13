@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Authentication;
 using System.Security.Claims;
 using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Services;
@@ -52,27 +53,34 @@ public class AccountController : Controller
 
     public async Task<IActionResult> GoogleResponse()
     {
-        var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
-
-        if (result?.Succeeded != true)
+        try
         {
+            var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+
+            if (result?.Succeeded != true)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var claims = result.Principal.Identities.FirstOrDefault()?.Claims.ToList();
+
+            var claimNameIdentifier = claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var claimEmail = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+
+            var loggedIn = await _userAuthenticationService.LogInAsync(claimNameIdentifier, claimEmail);
+
+            if (!loggedIn)
+            {
+                return RedirectToAction("Login");
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+        catch (Exception ex)
+        {
+            _uiMessagesService.ShowFailureMessage("Logowanie nieudane.");
             return RedirectToAction("Login");
         }
-
-        var claims = result.Principal.Identities.FirstOrDefault()?.Claims.ToList();
-
-        var claimNameIdentifier = claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-        var claimEmail = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
-
-        
-        var loggedIn = await _userAuthenticationService.LogInAsync(claimNameIdentifier, claimEmail);
-
-        if (!loggedIn)
-        {
-            return RedirectToAction("Login");
-        }
-
-        return RedirectToAction("Index", "Home");
     }
     
     [HttpPost]
