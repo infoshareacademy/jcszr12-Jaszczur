@@ -103,9 +103,8 @@ public class AccountController : Controller
                 return View(model);
             }
 
-            string activationCode = GenerateActivationCode();
-            bool registrationResult = await _userAuthenticationService.RegisterUser(
-                model.UserName, UserType.Regular, model.Email, model.Password, activationCode);
+            var (registrationResult, activationCode) = await _userAuthenticationService.RegisterUser(
+                model.UserName, UserType.Regular, model.Email, model.Password);
 
             if (registrationResult)
             {
@@ -121,11 +120,6 @@ public class AccountController : Controller
         }
         _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Rejestracja nieudana.");
         return LocalRedirect("/Home/Index");
-    }
-
-    private string GenerateActivationCode()
-    {
-        return Guid.NewGuid().ToString();
     }
 
     [HttpGet]

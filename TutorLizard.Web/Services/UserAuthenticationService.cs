@@ -74,9 +74,17 @@ public class UserAuthenticationService : IUserAuthenticationService
         await _httpContextAccessor.HttpContext.SignOutAsync("CookieAuth");
     }
 
-    public Task<bool> RegisterUser(string username, UserType type, string email, string password, string activationCode)
+    public async Task<(bool, string)> RegisterUser(string username, UserType type, string email, string password)
     {
-        return _userService.RegisterUser(username, type, email, password, activationCode);
+        string activationCode = GenerateActivationCode();
+        bool result = await _userService.RegisterUser(username, type, email, password, activationCode);
+
+        return (result, activationCode);
+    }
+
+    private string GenerateActivationCode()
+    {
+        return Guid.NewGuid().ToString();
     }
 
     public int? GetLoggedInUserId()
