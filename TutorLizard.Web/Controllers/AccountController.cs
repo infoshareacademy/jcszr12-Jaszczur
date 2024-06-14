@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -65,12 +66,27 @@ public class AccountController : Controller
             var claims = result.Principal.Identities.FirstOrDefault()?.Claims.ToList();
 
             var claimNameIdentifier = claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var claimName = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
             var claimEmail = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
 
-            var loggedIn = await _userAuthenticationService.LogInAsync(claimNameIdentifier, claimEmail);
+            if(await _userAuthenticationService.IsGoogleUserRegistered(claimNameIdentifier))
+            {
+                try
+                {
+                    await _userAuthenticationService.RegisterUserWithGoogle(claimName, claimEmail, claimNameIdentifier);
+                }
+                catch (Exception ex)
+                {
+                    _uiMessagesService.ShowFailureMessage("Rejestracja użytkownika za pomocą konta google się nie powiodła");
+                    return RedirectToAction("Login");
+                }
+            }
+
+            var loggedIn = await _userAuthenticationService.LogInWithGoogleAsync(claimName,claimNameIdentifier);
 
             if (!loggedIn)
             {
+                _uiMessagesService.ShowFailureMessage("Logowanie nieudane.");
                 return RedirectToAction("Login");
             }
 
