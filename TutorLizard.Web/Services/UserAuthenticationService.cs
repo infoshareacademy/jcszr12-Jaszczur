@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Net.Mail;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Enums;
-using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using TutorLizard.BusinessLogic.Interfaces.Services;
+using TutorLizard.BusinessLogic.Models;
 using TutorLizard.Web.Models;
-using Microsoft.Extensions.Options;
-using TutorLizard.BusinessLogic.Models.DTOs;
 
 namespace TutorLizard.BusinessLogic.Services;
 
@@ -21,13 +20,15 @@ public class UserAuthenticationService : IUserAuthenticationService
     private readonly IUserService _userService;
     private readonly JaszczurContext _dbContext;
     private readonly EmailSettings _emailSettings;
+    private readonly IDbRepository<User> _userRepository;
 
-    public UserAuthenticationService(IHttpContextAccessor httpContextAccessor, IUserService userService, JaszczurContext dbContext, IOptions<EmailSettings> emailSettings)
+    public UserAuthenticationService(IHttpContextAccessor httpContextAccessor, IUserService userService, JaszczurContext dbContext, IOptions<EmailSettings> emailSettings, IDbRepository<User> userRepository)
     {
         _httpContextAccessor = httpContextAccessor;
         _userService = userService;
         _dbContext = dbContext;
         _emailSettings = emailSettings.Value;
+        _userRepository = userRepository;
     }
 
     public async Task<Models.DTOs.LogInResult> LogInAsync(string username, string password)
@@ -135,7 +136,8 @@ public class UserAuthenticationService : IUserAuthenticationService
 
     public async Task<ActivationResult> ActivateUserAsync(string activationCode)
     {
-        var user = await _dbContext.Users
+
+        var user = await _userRepository.GetAll()
             .FirstOrDefaultAsync(u => u.ActivationCode == activationCode && u.IsActive == false);
 
         if (user != null)
