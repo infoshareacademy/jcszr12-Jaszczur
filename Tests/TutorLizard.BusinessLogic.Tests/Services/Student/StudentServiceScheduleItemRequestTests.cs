@@ -12,12 +12,23 @@ namespace TutorLizard.BusinessLogic.Tests.Services.Student
         public async Task CreateScheduleItemRequest_WhenIsRemoteIsTrue_ShouldSetIsRemoteToTrue()
         {
             // Arrange
-            var scheduleItem = new ScheduleItem { Id = 1, Ad = new Ad { TutorId = 2 } };
+            var ad = new Ad
+            {
+                Description = "Test Description",
+                Location = "Test Location",
+                Subject = "Test Subject",
+                Title = "Test Title",
+                TutorId = 2
+            };
+            var scheduleItem = new ScheduleItem { Id = 1, Ad = ad };
             SetupMockGetScheduleItemById(scheduleItem);
+
+            var scheduleItems = new List<ScheduleItem> { scheduleItem };
+            SetupMockGetAllScheduleItems(scheduleItems);
 
             var request = new CreateScheduleItemRequestRequest
             {
-                StudentId = 2,
+                StudentId = 3,
                 ScheduleItemId = 1,
                 IsRemote = true
             };
