@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using TutorLizard.Web.Models;
 using Microsoft.Extensions.Options;
+using TutorLizard.BusinessLogic.Models.DTOs;
 
 namespace TutorLizard.BusinessLogic.Services;
 
@@ -29,41 +30,39 @@ public class UserAuthenticationService : IUserAuthenticationService
         _emailSettings = emailSettings.Value;
     }
 
-    public async Task<bool> LogInAsync(string username, string password)
+    public async Task<Models.DTOs.LogInResult> LogInAsync(string username, string password)
     {
-        var user = await _userService.LogIn(username, password);
+        var logInResult = await _userService.LogIn(username, password);
 
-        if (user is null)
+        if (logInResult.ResultCode == Models.DTOs.LogInResultCode.Success && logInResult.User != null)
         {
-            return false;
+            var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Email, logInResult.User.Email),
+            new Claim(ClaimTypes.Name, logInResult.User.Name),
+            new Claim(ClaimTypes.NameIdentifier, logInResult.User.Id.ToString()),
+            new Claim(ClaimTypes.Role, logInResult.User.UserType.ToString())
+        };
+
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties
+            {
+                AllowRefresh = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                IsPersistent = true,
+            };
+
+            if (_httpContextAccessor.HttpContext != null)
+            {
+                await _httpContextAccessor.HttpContext.SignInAsync("CookieAuth",
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+            }
         }
 
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Name, user.Name),
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Role, user.UserType.ToString())
-        };
-
-        var claimsIdentity = new ClaimsIdentity(
-            claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-        var authProperties = new AuthenticationProperties
-        {
-            AllowRefresh = true,
-            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-            IsPersistent = true,
-        };
-
-        if (_httpContextAccessor.HttpContext is null)
-            return false;
-
-        await _httpContextAccessor.HttpContext.SignInAsync("CookieAuth",
-            new ClaimsPrincipal(claimsIdentity),
-            authProperties);
-
-        return true;
+        return logInResult;
     }
 
     public async Task LogOutAsync()
@@ -158,15 +157,5 @@ public class UserAuthenticationService : IUserAuthenticationService
     }
 
 
-    public async Task<bool> IsUserActive(string userName)
-    {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Name == userName);
-
-        if (user != null)
-        {
-            return (bool)user.IsActive;
-        }
-        return false;
-    }
 
 }

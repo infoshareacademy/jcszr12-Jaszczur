@@ -18,25 +18,42 @@ public class UserService : IUserService
     {
         _userRepository = userRepository;
     }
-    public async Task<UserDto?> LogIn(string username, string password)
+    public async Task<LogInResult> LogIn(string username, string password)
     {
         var user = await _userRepository.GetAll()
             .FirstOrDefaultAsync(user => user.Name == username);
 
-        if (user == null || user.IsActive == false)
+        if (user == null)
         {
-            return null;
+            return new LogInResult
+            {
+                ResultCode = LogInResultCode.UserNotFound
+            };
         }
 
-        var result = _passwordHasher
-            .VerifyHashedPassword(user,
-            user.PasswordHash,
-            password);
+        if (!user.IsActive.HasValue || !user.IsActive.Value)
+        {
+            return new LogInResult
+            {
+                ResultCode = LogInResultCode.InactiveAccount
+            };
+        }
+
+        var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
 
         if (result == PasswordVerificationResult.Success)
-            return user.ToDto();
+        {
+            return new LogInResult
+            {
+                ResultCode = LogInResultCode.Success,
+                User = user.ToDto()
+            };
+        }
 
-        return null;
+        return new LogInResult
+        {
+            ResultCode = LogInResultCode.InvalidPassword
+        };
     }
 
     public async Task<bool> RegisterUser(string userName, UserType type, string email, string password, string activationCode)

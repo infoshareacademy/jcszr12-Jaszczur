@@ -4,8 +4,10 @@ using System.Net;
 using System.Net.Mail;
 using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Services;
+using TutorLizard.BusinessLogic.Models.DTOs;
 using TutorLizard.Web.Interfaces.Services;
 using TutorLizard.Web.Models;
+
 
 namespace TutorLizard.Web.Controllers;
 public class AccountController : Controller
@@ -46,26 +48,36 @@ public class AccountController : Controller
 
         try
         {
-            if (ModelState.IsValid && await _userAuthenticationService.LogInAsync(model.UserName, model.Password))
+            if (ModelState.IsValid)
             {
-                if (await _userAuthenticationService.IsUserActive(model.UserName))
+                var logInResult = await _userAuthenticationService.LogInAsync(model.UserName, model.Password);
+
+                switch (logInResult.ResultCode)
                 {
-                    _uiMessagesService.ShowSuccessMessage("Jesteś zalogowany/a.");
-                    if (string.IsNullOrEmpty(returnUrl))
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                    return Redirect(returnUrl);
-                }
-                else
-                {
-                    _uiMessagesService.ShowFailureMessage("Logowanie nieudane. Konto nie jest aktywne.");
-                    return LocalRedirect("/Home/Index");
+                    case BusinessLogic.Models.DTOs.LogInResultCode.Success:
+                        _uiMessagesService.ShowSuccessMessage("Jesteś zalogowany/a.");
+                        if (string.IsNullOrEmpty(returnUrl))
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        return Redirect(returnUrl);
+
+                    case BusinessLogic.Models.DTOs.LogInResultCode.UserNotFound:
+                    case BusinessLogic.Models.DTOs.LogInResultCode.InvalidPassword:
+                        _uiMessagesService.ShowFailureMessage("Logowanie nieudane. Nieprawidłowa nazwa użytkownika lub hasło.");
+                        return RedirectToAction(nameof(Login), new { returnUrl = returnUrl });
+
+                    case BusinessLogic.Models.DTOs.LogInResultCode.InactiveAccount:
+                        _uiMessagesService.ShowFailureMessage("Logowanie nieudane. Konto nie jest aktywne.");
+                        return LocalRedirect("/Home/Index");
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
             else
             {
-                _uiMessagesService.ShowFailureMessage("Logowanie nieudane. Nieprawidłowa nazwa użytkownika lub hasło.");
+                _uiMessagesService.ShowFailureMessage("Logowanie nieudane. Proszę wypełnić poprawnie formularz.");
                 return RedirectToAction(nameof(Login), new { returnUrl = returnUrl });
             }
         }
