@@ -1,11 +1,10 @@
 ﻿using Moq;
-using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Services;
 
 namespace TutorLizard.BusinessLogic.Tests.Services.Student
-{   
+{
     public class StudentServiceScheduleItemRequestTests : StudentServiceTestBase
     {
         [Fact]
@@ -33,12 +32,17 @@ namespace TutorLizard.BusinessLogic.Tests.Services.Student
                 IsRemote = true
             };
 
+            MockScheduleItemRequestRepository
+                .Setup(x => x.Create(It.Is<ScheduleItemRequest>(req => req.IsRemote == true)))
+                .Returns((ScheduleItemRequest req) => Task.FromResult(req))
+                .Verifiable(Times.Once);
+
             // Act
             await StudentService.CreateScheduleItemRequest(request);
 
             // Assert
-            MockScheduleItemRequestRepository.Verify(repo => repo.Create(It.Is<ScheduleItemRequest>(req => req.IsRemote == true)), Times.Once);
-     
+            MockScheduleItemRequestRepository.VerifyAll();
+
         }
 
         [Fact]
