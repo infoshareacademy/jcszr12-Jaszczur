@@ -8,6 +8,9 @@ using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using TutorLizard.Web.Models;
+using Microsoft.Extensions.Options;
 
 namespace TutorLizard.BusinessLogic.Services;
 
@@ -16,12 +19,14 @@ public class UserAuthenticationService : IUserAuthenticationService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IUserService _userService;
     private readonly JaszczurContext _dbContext;
+    private readonly EmailSettings _emailSettings;
 
-    public UserAuthenticationService(IHttpContextAccessor httpContextAccessor, IUserService userService, JaszczurContext dbContext)
+    public UserAuthenticationService(IHttpContextAccessor httpContextAccessor, IUserService userService, JaszczurContext dbContext, IOptions<EmailSettings> emailSettings)
     {
         _httpContextAccessor = httpContextAccessor;
         _userService = userService;
         _dbContext = dbContext;
+        _emailSettings = emailSettings.Value;
     }
 
     public async Task<bool> LogInAsync(string username, string password)
@@ -95,9 +100,10 @@ public class UserAuthenticationService : IUserAuthenticationService
 
     public void SendActivationEmail(string userEmail, string activationCode)
     {
-        var fromAddress = new MailAddress("lizardtutoring@gmail.com", "Tutor Lizard");
+        var fromAddress = new MailAddress(_emailSettings.FromAddress, "Tutor Lizard");
         var toAddress = new MailAddress(userEmail);
-        const string fromPassword = "pvez johg nzwc enjg";
+        var fromPassword = _emailSettings.FromPassword;
+
         string subject = "Aktywacja konta";
         string body = $"Cześć tu zespół Tutor Lizard, \naby aktywować swoje konto, kliknij poniższy link: \nhttp://localhost:7092/Account/ActivateAccount?activationCode={activationCode}";
 

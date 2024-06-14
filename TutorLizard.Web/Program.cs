@@ -5,6 +5,7 @@ using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Options;
 using TutorLizard.BusinessLogic.Services;
 using TutorLizard.Web.Interfaces.Services;
+using TutorLizard.Web.Models;
 using TutorLizard.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,7 +44,9 @@ builder.Services.AddDbContext<JaszczurContext>(configuration =>
         .LogTo(Console.WriteLine, LogLevel.Information);
 });
 
+
 builder.Services.AddTutorLizardDbRepositories<JaszczurContext>();
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 var app = builder.Build();
 
