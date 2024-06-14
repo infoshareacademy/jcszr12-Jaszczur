@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using TutorLizard.BusinessLogic.Interfaces.Services;
+using TutorLizard.BusinessLogic.Models.DTOs;
 using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Models.DTOs.Responses;
 using TutorLizard.Web.Interfaces.Services;
+using TutorLizard.Web.Models;
 
 namespace TutorLizard.Web.Controllers;
 public class BrowseController : Controller
@@ -11,16 +14,19 @@ public class BrowseController : Controller
     private readonly IBrowseService _browseService;
     private readonly IUserAuthenticationService _userAuthenticationService;
     private readonly IUiMessagesService _uiMessagesService;
+    private readonly ICategoryService _categoryService;
     private readonly int _pageSize;
 
     public BrowseController(IBrowseService browseService,
                             IUserAuthenticationService userAuthenticationService,
-                            IUiMessagesService uiMessagesService)
+                            IUiMessagesService uiMessagesService,
+                            ICategoryService categoryService)
     {
         _browseService = browseService;
         _userAuthenticationService = userAuthenticationService;
         _uiMessagesService = uiMessagesService;
-        _pageSize = 10;
+        _categoryService = categoryService;
+        _pageSize = 2;
     }
     public IActionResult Index()
     {
@@ -32,18 +38,28 @@ public class BrowseController : Controller
         // TODO customize routing, so that parameter is page, not id
         int pageNumber = id > 0 ? id : 1;
         int pageSize = _pageSize > 0 ? _pageSize : 1;
-        GetBrowseAdsPageRequest request = new(pageNumber, pageSize);
-
-        GetBrowseAdsPageResponse response = await _browseService.GetBrowseAdsPage(request);
-
-        if (response.Success == false)
-        {
-            _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Nie udało się się załadować ogłoszeń.");
-            return RedirectToAction("Index", "Home");
-        }
-
-        return View(response);
+        GetBrowseAdsPageRequest request = new(pageNumber, pageSize, new());
+        return await HandleGetBrowseAdsPageRequest(request, pageNumber);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Page([FromForm] GoToAdsPageViewModel model, int id = 1)
+    {
+        int pageNumber = id > 0 ? id : 1;
+        int pageSize = _pageSize > 0 ? _pageSize : 1;
+        GetBrowseAdsPageRequest request = new(pageNumber, pageSize, model.SearchCriteria);
+        return await HandleGetBrowseAdsPageRequest(request, pageNumber);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Search([FromForm] AdSearchCriteriaDto searchCriteria)
+    {
+        int pageNumber = 1;
+        int pageSize = _pageSize > 0 ? _pageSize : 1;
+        GetBrowseAdsPageRequest request = new(pageNumber, pageSize, searchCriteria);
+        return await HandleGetBrowseAdsPageRequest(request, pageNumber);
+    }
+
     [Authorize]
     public async Task<IActionResult> AdDetails(int id)
     {
@@ -85,5 +101,29 @@ public class BrowseController : Controller
 
         GetUsersScheduleResponse response = await _browseService.GetUsersSchedule(request);
         return View(response);
+    }
+
+    private async Task<IActionResult> HandleGetBrowseAdsPageRequest(GetBrowseAdsPageRequest request, int pageNumber)
+    {
+        GetBrowseAdsPageResponse response = await _browseService.GetBrowseAdsPage(request);
+
+        if (response.Success == false)
+        {
+            _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Nie udało się się załadować ogłoszeń.");
+            return RedirectToAction("Index", "Home");
+        }
+
+        await AddCategoriesToViewBag();
+
+        return View(nameof(Ads), response);
+    }
+
+    private async Task AddCategoriesToViewBag()
+    {
+        List<CategoryDto> categories = await _categoryService.GetAllCategories();
+
+        ViewBag.Categories = new SelectList(items: categories,
+                                            dataValueField: nameof(CategoryDto.Id),
+                                            dataTextField: nameof(CategoryDto.Name));
     }
 }

@@ -28,6 +28,7 @@ builder.Services
     .ValidateDataAnnotations();
 builder.Services.AddScoped<ITutorService, TutorService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUiMessagesService, UiMessagesService>();
 
 builder.Services.AddAuthentication("CookieAuth")
