@@ -105,7 +105,7 @@ public class UserAuthenticationService : IUserAuthenticationService
         var fromPassword = _emailSettings.FromPassword;
 
         string subject = "Aktywacja konta";
-        string body = $"Cześć tu zespół Tutor Lizard, \naby aktywować swoje konto, kliknij poniższy link: \nhttp://localhost:7092/Account/ActivateAccount?activationCode={activationCode}";
+        string body = $"Cześć tu zespół Tutor Lizard, \naby aktywować swoje konto, kliknij poniższy link: {_emailSettings.ActivationLink}{activationCode}";
 
         var smtp = new SmtpClient
         {
