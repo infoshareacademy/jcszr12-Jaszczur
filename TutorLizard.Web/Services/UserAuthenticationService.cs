@@ -126,7 +126,7 @@ public class UserAuthenticationService : IUserAuthenticationService
         }
     }
 
-    public async Task<bool> ActivateUserAsync(string activationCode)
+    public async Task<ActivationResult> ActivateUserAsync(string activationCode)
     {
         var user = await _dbContext.Users
             .FirstOrDefaultAsync(u => u.ActivationCode == activationCode && u.IsActive == false);
@@ -136,9 +136,17 @@ public class UserAuthenticationService : IUserAuthenticationService
             user.IsActive = true;
             user.ActivationCode = "DEACTIVATED";
             await _dbContext.SaveChangesAsync();
-            return true;
+            return new ActivationResult
+            {
+                IsActivated = true,
+                ActivationCode = activationCode
+            };
         }
-        return false;
+        return new ActivationResult
+        {
+            IsActivated = false,
+            ActivationCode = activationCode
+        };
     }
 
 

@@ -131,9 +131,9 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> ActivateAccount(string activationCode)
     {
-        bool isActivated = await _userAuthenticationService.ActivateUserAsync(activationCode);
+        var result = await _userAuthenticationService.ActivateUserAsync(activationCode);
 
-        if (isActivated)
+        if (result.IsActivated)
         {
             _uiMessagesService.ShowSuccessMessage("Atywacja udana.");
             return View("ActivateAccount");
