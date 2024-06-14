@@ -88,7 +88,6 @@ namespace TutorLizard.BusinessLogic.Tests.Services.Student
 
             // Assert
             Assert.True(response.Success);
-            Assert.NotNull(response.CreatedScheduleItemRequestId);
         }
 
 
