@@ -6,7 +6,7 @@ namespace TutorLizard.BusinessLogic.Models;
 public class User
 {
     public int Id { get; set; }
-    public bool? IsActive { get; set; }
+    public bool IsActive { get; set; }
 
     [Required]
     [MinLength(5)]

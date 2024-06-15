@@ -31,7 +31,7 @@ public class UserService : IUserService
             };
         }
 
-        if (!user.IsActive.HasValue || !user.IsActive.Value)
+        if (!user.IsActive)
         {
             return new LogInResult
             {
