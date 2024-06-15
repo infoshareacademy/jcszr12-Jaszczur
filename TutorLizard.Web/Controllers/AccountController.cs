@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 using System.Net;
 using System.Net.Mail;
 using TutorLizard.BusinessLogic.Enums;
@@ -72,7 +73,9 @@ public class AccountController : Controller
                         return LocalRedirect("/Home/Index");
 
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new InvalidEnumArgumentException(argumentName: nameof(BusinessLogic.Models.DTOs.LogInResult.ResultCode),
+                                       invalidValue: (int)logInResult.ResultCode,
+                                       enumClass: typeof(BusinessLogic.Models.DTOs.LogInResult));
                 }
             }
             else
