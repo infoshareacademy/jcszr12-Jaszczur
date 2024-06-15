@@ -1,7 +1,5 @@
 ﻿using AutoFixture;
-using Microsoft.EntityFrameworkCore;
 using Moq;
-using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Services;
@@ -16,7 +14,7 @@ namespace TutorLizard.BusinessLogic.Tests.Services.Student
         protected Mock<IDbRepository<AdRequest>> MockAdRequestRepository = new();
         protected Mock<IDbRepository<ScheduleItem>> MockScheduleItemRepository = new();
         protected Mock<IDbRepository<ScheduleItemRequest>> MockScheduleItemRequestRepository = new();
-        
+
 
         protected StudentServiceTestBase() : base()
         {
@@ -41,7 +39,6 @@ namespace TutorLizard.BusinessLogic.Tests.Services.Student
                 .Returns(scheduleItemsInDb);
         }
 
-
         protected IQueryable<TEntity> AddEntitiesToInMemoryDb<TEntity>(List<TEntity> entities)
         where TEntity : class
         {
@@ -56,4 +53,3 @@ namespace TutorLizard.BusinessLogic.Tests.Services.Student
         }
     }
 }
- 

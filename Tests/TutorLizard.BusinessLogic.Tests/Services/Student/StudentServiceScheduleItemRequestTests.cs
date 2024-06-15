@@ -7,8 +7,10 @@ namespace TutorLizard.BusinessLogic.Tests.Services.Student
 {
     public class StudentServiceScheduleItemRequestTests : StudentServiceTestBase
     {
-        [Fact]
-        public async Task CreateScheduleItemRequest_WhenIsRemoteIsTrue_ShouldSetIsRemoteToTrue()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task CreateScheduleItemRequest_ShouldSetIsRemoteCorrectly(bool isRemote)
         {
             // Arrange
             var ad = new Ad
@@ -20,20 +22,19 @@ namespace TutorLizard.BusinessLogic.Tests.Services.Student
                 TutorId = 2
             };
             var scheduleItem = new ScheduleItem { Id = 1, Ad = ad };
-            SetupMockGetScheduleItemById(scheduleItem);
 
-            var scheduleItems = new List<ScheduleItem> { scheduleItem };
-            SetupMockGetAllScheduleItems(scheduleItems);
+            SetupMockGetScheduleItemById(scheduleItem);
+            SetupMockGetAllScheduleItems(new List<ScheduleItem> { scheduleItem });
 
             var request = new CreateScheduleItemRequestRequest
             {
                 StudentId = 3,
                 ScheduleItemId = 1,
-                IsRemote = true
+                IsRemote = isRemote
             };
 
             MockScheduleItemRequestRepository
-                .Setup(x => x.Create(It.Is<ScheduleItemRequest>(req => req.IsRemote == true)))
+                .Setup(x => x.Create(It.Is<ScheduleItemRequest>(req => req.IsRemote == isRemote)))
                 .Returns((ScheduleItemRequest req) => Task.FromResult(req))
                 .Verifiable(Times.Once);
 
@@ -42,28 +43,6 @@ namespace TutorLizard.BusinessLogic.Tests.Services.Student
 
             // Assert
             MockScheduleItemRequestRepository.VerifyAll();
-
-        }
-
-        [Fact]
-        public async Task CreateScheduleItemRequest_WhenIsRemoteIsFalse_ShouldSetIsRemoteToFalse()
-        {
-            // Arrange
-            var scheduleItem = new ScheduleItem { Id = 1, Ad = new Ad { TutorId = 2 } };
-            SetupMockGetScheduleItemById(scheduleItem);
-
-            var request = new CreateScheduleItemRequestRequest
-            {
-                StudentId = 2,
-                ScheduleItemId = 1,
-                IsRemote = false
-            };
-
-            // Act
-            await StudentService.CreateScheduleItemRequest(request);
-
-            // Assert
-            MockScheduleItemRequestRepository.Verify(repo => repo.Create(It.Is<ScheduleItemRequest>(req => req.IsRemote == false)), Times.Once);
         }
 
         [Fact]
