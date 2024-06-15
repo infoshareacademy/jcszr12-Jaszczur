@@ -81,7 +81,7 @@ public class StudentService : IStudentService
             .Where(ar => ar.AdId == request.AdId)
             .AnyAsync(ar => ar.StudentId == request.StudentId && ar.IsAccepted);
 
-        bool isRemote = await _adRequestRepository.GetAll()
+        bool isRemote = await _adRepository.GetAll()
             .Where(ad => ad.Id == request.AdId)
             .Select(ad => ad.IsRemote)
             .FirstOrDefaultAsync();
