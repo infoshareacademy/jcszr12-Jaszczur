@@ -3,15 +3,19 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
+using TutorLizard.Web.Interfaces.Services;
 
 namespace TutorLizard.Web.Controllers
 {
     public class ScheduleItemController : Controller
     {
         private readonly IDbRepository<ScheduleItem> _scheduleItemRepository;
-        public ScheduleItemController(IDbRepository<ScheduleItem> scheduleItemRepository)
+        private readonly IUiMessagesService _notificationService;
+        public ScheduleItemController(IDbRepository<ScheduleItem> scheduleItemRepository,
+                                      IUiMessagesService notificationService)
         {
             _scheduleItemRepository = scheduleItemRepository;
+            _notificationService = notificationService;
         }
 
         // GET: ScheduleItemController
@@ -58,7 +62,7 @@ namespace TutorLizard.Web.Controllers
 
                 await _scheduleItemRepository.Create(model);
 
-                TempData["Success"] = "Produkt został dodany";
+                _notificationService.ShowSuccessMessage("Termin został dodany");
                 return RedirectToAction(nameof(Index));
             }
             catch

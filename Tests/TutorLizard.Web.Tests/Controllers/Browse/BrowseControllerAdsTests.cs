@@ -69,6 +69,28 @@ public class BrowseControllerAdsTests : BrowseControllerTestsBase
     }
 
     [Fact]
+    public async Task Ads_WhenResponseIsUnsuccessful_ShouldShowFailureMessage()
+    {
+        // Arrange
+        int pageNumber = 1;
+        GetBrowseAdsPageResponse response = CreateGetBrowseAdsPageResponse(success: false);
+
+        MockBrowseService
+           .Setup(x => x.GetBrowseAdsPage(It.IsAny<GetBrowseAdsPageRequest>()))
+           .Returns(Task.FromResult(response));
+
+        MockUiMessagesService
+            .Setup(x => x.ShowFailureMessage(It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
+        // Act
+        var result = await BrowseController.Ads(pageNumber);
+
+        // Assert
+        MockUiMessagesService.VerifyAll();
+    }
+
+    [Fact]
     public async Task Ads_WhenResponseIsSuccessful_ShouldReturnView()
     {
         // Arrange

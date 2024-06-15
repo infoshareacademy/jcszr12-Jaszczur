@@ -1,13 +1,21 @@
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Options;
 using TutorLizard.BusinessLogic.Services;
+using TutorLizard.Web.Interfaces.Services;
+using TutorLizard.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSerilog((services, loggerConfiguration) => loggerConfiguration
+    .ReadFrom.Configuration(builder.Configuration)
+    .ReadFrom.Services(services)
+    .Enrich.FromLogContext());
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
@@ -20,6 +28,7 @@ builder.Services
     .ValidateDataAnnotations();
 builder.Services.AddScoped<ITutorService, TutorService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IUiMessagesService, UiMessagesService>();
 
 builder.Services.AddAuthentication("CookieAuth")
     .AddCookie("CookieAuth", options =>
@@ -36,8 +45,7 @@ builder.Services.AddDbContext<JaszczurContext>(configuration =>
 {
     configuration
         .UseSqlServer(builder.Configuration.GetConnectionString("Default"),
-                    b => b.MigrationsAssembly("TutorLizard.Web"))
-        .LogTo(Console.WriteLine, LogLevel.Information);
+                    b => b.MigrationsAssembly("TutorLizard.Web"));
 });
 
 builder.Services.AddTutorLizardDbRepositories<JaszczurContext>();
