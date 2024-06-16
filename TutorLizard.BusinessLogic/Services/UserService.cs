@@ -37,7 +37,24 @@ public class UserService : IUserService
             return user.ToDto();
 
         return null;
+    }    
+    
+    public async Task<UserDto?> LogInWithGoogle(string username, string googleId)
+    {
+        var user = await _userRepository.GetAll()
+            .FirstOrDefaultAsync(user => user.GoogleId == googleId);
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        if (user.GoogleId == googleId)
+            return user.ToDto();
+
+        return null;
     }
+
 
     public async Task<bool> RegisterUser(string userName, UserType type, string email, string password)
     {
@@ -57,5 +74,31 @@ public class UserService : IUserService
         await _userRepository.Create(user);
 
         return true;
+    }
+
+    public async Task<bool> RegisterUserWithGoogle(string username, string email, string googleId)
+    {
+        if (await _userRepository.GetAll().AnyAsync(user => user.Name == username))
+            return false;
+
+        User user = new()
+        {
+            Name = username,
+            UserType = UserType.Regular,
+            Email = email,
+            GoogleId = googleId
+        };
+
+        await _userRepository.Create(user);
+
+        return true;
+    }
+
+    public async Task<bool> IsTheGoogleUserRegistered(string googleId)
+    {
+        if (await _userRepository.GetAll().AnyAsync(user => user.GoogleId == googleId)) 
+            return true;
+
+        return false;
     }
 }

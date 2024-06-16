@@ -3,7 +3,7 @@ using TutorLizard.BusinessLogic.Enums;
 
 namespace TutorLizard.BusinessLogic.Models;
 
-public class User
+public class User 
 {
     public int Id { get; set; }
 
@@ -19,21 +19,23 @@ public class User
     [MaxLength(100)]
     public string Email { get; set; }
 
-    [Required]
     [DataType(DataType.Password)]
     [MinLength(8)]
     [MaxLength(100)]
-    public string PasswordHash { get; set; }
+    public string? PasswordHash { get; set; }
 
     public DateTime DateCreated { get; set; } = DateTime.Now;
 
-    public User(int id, string name, UserType userType, string email, string passwordHash)
+    public string? GoogleId { get; set; }
+
+    public User(int id, string name, UserType userType, string email, string passwordHash, string? googleId)
     {
         Id = id;
         Name = name;
         UserType = userType;
         Email = email;
         PasswordHash = passwordHash;
+        GoogleId = googleId;
     }
     public User()
     {

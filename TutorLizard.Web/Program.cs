@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using TutorLizard.BusinessLogic.Data;
@@ -30,7 +31,25 @@ builder.Services.AddScoped<ITutorService, TutorService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IUiMessagesService, UiMessagesService>();
 
-builder.Services.AddAuthentication("CookieAuth")
+builder.Services.AddAuthentication(options => 
+    {
+        options.DefaultScheme = "CookieAuth";
+    })
+    .AddGoogle(options =>
+    {
+        options.ClientId = builder.Configuration["Auth:Google:ClientId"];
+        options.ClientSecret = builder.Configuration["Auth:Google:ClientSecret"];
+        options.SaveTokens = true;
+        options.Events = new Microsoft.AspNetCore.Authentication.OAuth.OAuthEvents
+        {
+            OnRemoteFailure = context =>
+            {
+                context.HandleResponse();
+                context.Response.Redirect("/Account/Login");
+                return Task.FromResult(0);
+            }
+        };
+    })
     .AddCookie("CookieAuth", options =>
     {
         options.ExpireTimeSpan = TimeSpan.FromDays(1);
@@ -41,6 +60,7 @@ builder.Services.AddAuthentication("CookieAuth")
         options.LogoutPath = "/Account/Logout";
     });
 
+
 builder.Services.AddDbContext<JaszczurContext>(configuration =>
 {
     configuration
@@ -49,6 +69,8 @@ builder.Services.AddDbContext<JaszczurContext>(configuration =>
 });
 
 builder.Services.AddTutorLizardDbRepositories<JaszczurContext>();
+
+
 
 var app = builder.Build();
 
@@ -65,12 +87,15 @@ app.UseStaticFiles();
 
 app.UseCookiePolicy(new CookiePolicyOptions
 {
-    MinimumSameSitePolicy = SameSiteMode.Strict
+    MinimumSameSitePolicy = SameSiteMode.None,
+    Secure = CookieSecurePolicy.Always
 });
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+app.UseHttpsRedirection();
 
 app.MapControllerRoute(
     name: "default",
