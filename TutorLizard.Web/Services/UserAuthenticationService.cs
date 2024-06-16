@@ -18,15 +18,13 @@ public class UserAuthenticationService : IUserAuthenticationService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IUserService _userService;
-    private readonly JaszczurContext _dbContext;
     private readonly EmailSettings _emailSettings;
     private readonly IDbRepository<User> _userRepository;
 
-    public UserAuthenticationService(IHttpContextAccessor httpContextAccessor, IUserService userService, JaszczurContext dbContext, IOptions<EmailSettings> emailSettings, IDbRepository<User> userRepository)
+    public UserAuthenticationService(IHttpContextAccessor httpContextAccessor, IUserService userService, IOptions<EmailSettings> emailSettings, IDbRepository<User> userRepository)
     {
         _httpContextAccessor = httpContextAccessor;
         _userService = userService;
-        _dbContext = dbContext;
         _emailSettings = emailSettings.Value;
         _userRepository = userRepository;
     }
@@ -144,7 +142,13 @@ public class UserAuthenticationService : IUserAuthenticationService
         {
             user.IsActive = true;
             user.ActivationCode = "DEACTIVATED";
-            await _dbContext.SaveChangesAsync();
+
+            await _userRepository.Update(user.Id, u =>
+            {
+                u.IsActive = user.IsActive;
+                u.ActivationCode = user.ActivationCode;
+            });
+
             return new ActivationResult
             {
                 IsActivated = true,
