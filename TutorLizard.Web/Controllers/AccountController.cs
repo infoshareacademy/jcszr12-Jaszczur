@@ -69,7 +69,7 @@ public class AccountController : Controller
             var claimName = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
             var claimEmail = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
 
-            if(await _userAuthenticationService.IsGoogleUserRegistered(claimNameIdentifier))
+            if(!(await _userAuthenticationService.IsGoogleUserRegistered(claimNameIdentifier)))
             {
                 try
                 {

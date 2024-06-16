@@ -42,7 +42,7 @@ public class UserService : IUserService
     public async Task<UserDto?> LogInWithGoogle(string username, string googleId)
     {
         var user = await _userRepository.GetAll()
-            .FirstOrDefaultAsync(user => user.Name == username);
+            .FirstOrDefaultAsync(user => user.GoogleId == googleId);
 
         if (user == null)
         {
@@ -96,7 +96,7 @@ public class UserService : IUserService
 
     public async Task<bool> IsTheGoogleUserRegistered(string googleId)
     {
-        if (await _userRepository.GetAll().AnyAsync(user => user.GoogleId == googleId))
+        if (await _userRepository.GetAll().AnyAsync(user => user.GoogleId == googleId)) 
             return true;
 
         return false;
