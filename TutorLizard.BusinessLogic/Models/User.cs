@@ -19,11 +19,10 @@ public class User
     [MaxLength(100)]
     public string Email { get; set; }
 
-    [Required]
     [DataType(DataType.Password)]
     [MinLength(8)]
     [MaxLength(100)]
-    public string PasswordHash { get; set; }
+    public string? PasswordHash { get; set; }
 
     public DateTime DateCreated { get; set; } = DateTime.Now;
 

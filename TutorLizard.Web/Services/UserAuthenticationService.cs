@@ -66,7 +66,6 @@ public class UserAuthenticationService : IUserAuthenticationService
         {
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.Name, user.Name),
-            new Claim(ClaimTypes.NameIdentifier, user.GoogleId),
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Role, user.UserType.ToString())
         };
@@ -84,6 +83,7 @@ public class UserAuthenticationService : IUserAuthenticationService
         if (_httpContextAccessor.HttpContext is null)
             return false;
 
+        await _httpContextAccessor.HttpContext.SignOutAsync();
         await _httpContextAccessor.HttpContext.SignInAsync("CookieAuth",
             new ClaimsPrincipal(claimsIdentity),
             authProperties);
