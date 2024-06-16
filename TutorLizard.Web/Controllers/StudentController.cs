@@ -77,7 +77,7 @@ public class StudentController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateScheduleItemRequest(int scheduleItemId, int adId)
+    public async Task<IActionResult> CreateScheduleItemRequest(int scheduleItemId, int adId, bool isRemote)
     {
 
         int? studentId = _userAuthenticationService.GetLoggedInUserId();
@@ -89,7 +89,8 @@ public class StudentController : Controller
         CreateScheduleItemRequestRequest request = new()
         {
             StudentId = (int)studentId,
-            ScheduleItemId = scheduleItemId
+            ScheduleItemId = scheduleItemId,
+            IsRemote = isRemote
         };
 
         CreateScheduleItemRequestResponse response = await _studentService.CreateScheduleItemRequest(request);
