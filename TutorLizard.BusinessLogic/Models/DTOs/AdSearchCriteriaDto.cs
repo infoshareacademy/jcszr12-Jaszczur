@@ -8,6 +8,13 @@ public class AdSearchCriteriaDto
     public bool SearchByIsRemote { get; set; }
     public bool SearchByCategoryId { get; set; }
 
+    public bool AnySearch => SearchByText ||
+                          SearchByPriceMin ||
+                          SearchByPriceMax ||
+                          SearchByLocation ||
+                          SearchByIsRemote ||
+                          SearchByCategoryId;
+
     public string Text { get; set; } = "";
     public decimal PriceMin { get; set; } = 0;
     public decimal PriceMax { get; set; } = 0;

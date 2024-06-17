@@ -69,7 +69,8 @@ public class BrowseService : IBrowseService
             Ads = ads,
             PageNumber = request.PageNumber,
             PageSize = request.PageSize,
-            TotalPages = totalPages
+            TotalPages = totalPages,
+            SearchCriteria = request.SearchCriteria
         };
 
         return response;

@@ -1,4 +1,5 @@
-﻿@model GetBrowseAdsPageResponse
+﻿@using TutorLizard.Web.Extensions
+@model GetBrowseAdsPageResponse
 
 @{
     ViewData["Title"] = "Ogłoszenia";
@@ -19,10 +20,17 @@
 <div class="row text-center">
 
     <div class="col-4">
+
         @if(Model.PageNumber > 1)
         {
-            <partial name="@PartialNames.GoToAdsPage"
-                     model="@(new GoToAdsPageViewModel(Model.PageNumber -1, "Poprzednia strona", Model.SearchCriteria))" />
+            @if (Model.SearchCriteria.AnySearch)
+            {
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Poprzednia strona</a>
+            }
+            else
+            {
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)">Poprzednia strona</a>
+            }
         }
     </div>
 
@@ -33,8 +41,14 @@
     <div class="col-4">
         @if(Model.TotalPages > Model.PageNumber)
         {
-            <partial name="@PartialNames.GoToAdsPage"
-                     model="@(new GoToAdsPageViewModel(Model.PageNumber +1, "Następna strona", Model.SearchCriteria))" />
+            @if(Model.SearchCriteria.AnySearch)
+            {
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Następna strona</a>
+            }
+            else
+            {
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)">Następna strona</a>
+            }
         }
     </div>
 

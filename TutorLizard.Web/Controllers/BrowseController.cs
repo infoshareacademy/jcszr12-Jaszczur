@@ -7,6 +7,7 @@ using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Models.DTOs.Responses;
 using TutorLizard.Web.Interfaces.Services;
 using TutorLizard.Web.Models;
+using TutorLizard.Web.Extensions;
 
 namespace TutorLizard.Web.Controllers;
 public class BrowseController : Controller
@@ -33,31 +34,39 @@ public class BrowseController : Controller
         return RedirectToAction(nameof(Ads));
     }
 
-    public async Task<IActionResult> Ads(int id = 1)
+    public async Task<IActionResult> Ads(int id = 1, [FromQuery] string? search = "")
     {
         // TODO customize routing, so that parameter is page, not id
         int pageNumber = id > 0 ? id : 1;
         int pageSize = _pageSize > 0 ? _pageSize : 1;
-        GetBrowseAdsPageRequest request = new(pageNumber, pageSize, new());
-        return await HandleGetBrowseAdsPageRequest(request, pageNumber);
+
+        AdSearchCriteriaDto? searchCriteria = search?.ToAdSearchCriteriaDto();
+        searchCriteria ??= new();
+
+        GetBrowseAdsPageRequest request = new(pageNumber, pageSize, searchCriteria);
+
+        GetBrowseAdsPageResponse response = await _browseService.GetBrowseAdsPage(request);
+
+        if (response.Success == false)
+        {
+            _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Nie udało się się załadować ogłoszeń.");
+            return RedirectToAction("Index", "Home");
+        }
+
+        await AddCategoriesToViewBag();
+
+        return View(nameof(Ads), response);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Page([FromForm] GoToAdsPageViewModel model, int id = 1)
-    {
-        int pageNumber = id > 0 ? id : 1;
-        int pageSize = _pageSize > 0 ? _pageSize : 1;
-        GetBrowseAdsPageRequest request = new(pageNumber, pageSize, model.SearchCriteria);
-        return await HandleGetBrowseAdsPageRequest(request, pageNumber);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Search([FromForm] AdSearchCriteriaDto searchCriteria)
+    public IActionResult Search([FromForm] AdSearchCriteriaDto searchCriteria)
     {
         int pageNumber = 1;
-        int pageSize = _pageSize > 0 ? _pageSize : 1;
-        GetBrowseAdsPageRequest request = new(pageNumber, pageSize, searchCriteria);
-        return await HandleGetBrowseAdsPageRequest(request, pageNumber);
+        string search = searchCriteria.AnySearch ?
+                        searchCriteria.ToBase64String() :
+                        "";
+
+        return RedirectToAction(nameof(Ads), "Browse", new { id = pageNumber, search });
     }
 
     [Authorize]
