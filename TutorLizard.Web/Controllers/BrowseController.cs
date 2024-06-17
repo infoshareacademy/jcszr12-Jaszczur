@@ -120,9 +120,10 @@ public class BrowseController : Controller
 
     private async Task AddCategoriesToViewBag()
     {
-        List<CategoryDto> categories = await _categoryService.GetAllCategories();
+        GetCategoriesRequest request = new();
+        GetCategoriesResponse response = await _categoryService.GetCategories(request);
 
-        ViewBag.Categories = new SelectList(items: categories,
+        ViewBag.Categories = new SelectList(items: response.Categories,
                                             dataValueField: nameof(CategoryDto.Id),
                                             dataTextField: nameof(CategoryDto.Name));
     }

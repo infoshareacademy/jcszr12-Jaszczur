@@ -4,6 +4,8 @@ using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Models.DTOs;
+using TutorLizard.BusinessLogic.Models.DTOs.Requests;
+using TutorLizard.BusinessLogic.Models.DTOs.Responses;
 
 namespace TutorLizard.BusinessLogic.Services;
 public class CategoryService : ICategoryService
@@ -15,11 +17,17 @@ public class CategoryService : ICategoryService
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<List<CategoryDto>> GetAllCategories()
+    public async Task<GetCategoriesResponse> GetCategories(GetCategoriesRequest request)
     {
-        return await _categoryRepository
+        List<CategoryDto> categories = await _categoryRepository
             .GetAll()
             .Select(category => category.ToDto())
             .ToListAsync();
+
+        return new GetCategoriesResponse()
+        {
+            Success = true,
+            Categories = categories
+        };
     }
 }

@@ -125,7 +125,12 @@ public class BrowseControllerAdsTests : BrowseControllerTestsBase
     private void SetupMockCategoryServiceGetAll(List<CategoryDto> categories)
     {
         MockCategoryService
-            .Setup(x => x.GetAllCategories())
-            .Returns(Task.FromResult(categories));
+            .Setup(x => x.GetCategories(It.IsAny<GetCategoriesRequest>()))
+            .Returns(Task.FromResult(
+                new GetCategoriesResponse()
+                {
+                    Success = true,
+                    Categories = categories
+                }));
     }
 }

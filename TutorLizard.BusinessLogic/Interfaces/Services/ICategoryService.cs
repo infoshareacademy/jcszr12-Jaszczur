@@ -1,7 +1,8 @@
-﻿using TutorLizard.BusinessLogic.Models.DTOs;
+﻿using TutorLizard.BusinessLogic.Models.DTOs.Requests;
+using TutorLizard.BusinessLogic.Models.DTOs.Responses;
 
 namespace TutorLizard.BusinessLogic.Interfaces.Services;
 public interface ICategoryService
 {
-    Task<List<CategoryDto>> GetAllCategories();
+    Task<GetCategoriesResponse> GetCategories(GetCategoriesRequest request);
 }
