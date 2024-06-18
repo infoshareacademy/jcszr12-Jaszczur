@@ -27,7 +27,7 @@ public class BrowseController : Controller
         _userAuthenticationService = userAuthenticationService;
         _uiMessagesService = uiMessagesService;
         _categoryService = categoryService;
-        _pageSize = 2;
+        _pageSize = 10;
     }
     public IActionResult Index()
     {
@@ -59,11 +59,11 @@ public class BrowseController : Controller
     }
 
     [HttpPost]
-    public IActionResult Search([FromForm] AdSearchCriteriaDto searchCriteria)
+    public IActionResult Search([FromForm] AdSearchCriteriaViewModel searchCriteria)
     {
         int pageNumber = 1;
         string search = searchCriteria.AnySearch ?
-                        searchCriteria.ToBase64String() :
+                        searchCriteria.ToDto().ToBase64String() :
                         "";
 
         return RedirectToAction(nameof(Ads), "Browse", new { id = pageNumber, search });

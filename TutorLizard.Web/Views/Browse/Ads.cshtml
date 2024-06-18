@@ -9,7 +9,7 @@
 
 <form asp-action="Search" method="post" class="d-flex flex-column p-2 border">
     <h2 class="text-center">Wyszukiwanie ogłoszeń</h2>
-    <partial name="@PartialNames.AdSearchCriteria" model="Model.SearchCriteria"/>
+    <partial name="@PartialNames.AdSearchCriteria" model="Model.SearchCriteria.ToViewModel()"/>
     <button type="submit" class="btn btn-primary m-2">Wyszukaj</button>
 </form>
 @foreach (var ad in Model.Ads)
