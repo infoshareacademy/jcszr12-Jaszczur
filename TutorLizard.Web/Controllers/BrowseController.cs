@@ -61,12 +61,9 @@ public class BrowseController : Controller
     [HttpPost]
     public IActionResult Search([FromForm] AdSearchCriteriaViewModel searchCriteria)
     {
-        int pageNumber = 1;
-        string search = searchCriteria.AnySearch ?
-                        searchCriteria.ToDto().ToBase64String() :
-                        "";
+        string search = searchCriteria.ToDto().ToBase64String();
 
-        return RedirectToAction(nameof(Ads), "Browse", new { id = pageNumber, search });
+        return RedirectToAction(nameof(Ads), "Browse", new { search });
     }
 
     [Authorize]
