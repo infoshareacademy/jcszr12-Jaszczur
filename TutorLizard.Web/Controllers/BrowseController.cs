@@ -109,21 +109,6 @@ public class BrowseController : Controller
         return View(response);
     }
 
-    private async Task<IActionResult> HandleGetBrowseAdsPageRequest(GetBrowseAdsPageRequest request, int pageNumber)
-    {
-        GetBrowseAdsPageResponse response = await _browseService.GetBrowseAdsPage(request);
-
-        if (response.Success == false)
-        {
-            _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Nie udało się się załadować ogłoszeń.");
-            return RedirectToAction("Index", "Home");
-        }
-
-        await AddCategoriesToViewBag();
-
-        return View(nameof(Ads), response);
-    }
-
     private async Task AddCategoriesToViewBag()
     {
         GetCategoriesRequest request = new();
