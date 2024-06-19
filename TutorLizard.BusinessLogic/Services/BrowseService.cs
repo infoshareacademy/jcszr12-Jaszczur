@@ -152,7 +152,7 @@ public class BrowseService : IBrowseService
 
     private IQueryable<Ad> ApplySearchByText(IQueryable<Ad> ads, string? text)
     {
-        if (text is null)
+        if (String.IsNullOrWhiteSpace(text))
         {
             return ads;
         }
@@ -193,7 +193,7 @@ public class BrowseService : IBrowseService
 
     private IQueryable<Ad> ApplySearchByLocation(IQueryable<Ad> ads, string? location)
     {
-        if (location is null)
+        if (String.IsNullOrWhiteSpace(location))
         {
             return ads;
         }
