@@ -114,6 +114,7 @@ public class BrowseServiceGetBrowseAdsPageTests : BrowseServiceTestsBase
 
         int expectedAdsSkipped = (pageNumber - 1) * pageSize;
         List<Ad> expectedAds = ads
+            .OrderBy(ad => ad.DateCreated)
             .Skip(expectedAdsSkipped)
             .Take(pageSize)
             .ToList();
