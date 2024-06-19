@@ -81,20 +81,22 @@ public class BrowseServiceGetBrowseAdsPageTests : BrowseServiceTestsBase
     [InlineData(1, 1, 0, 1)]
     [InlineData(1, 10, 101, 11)]
     [InlineData(12, 10, 101, 11)]
-    public async Task GetBrowseAdsPage_WhenRequestIsValid_ShouldReturnCorrectTotalPages(int pageNumber, int pageSize, int adCount, int expectedTotalPages)
+    public async Task GetBrowseAdsPage_WhenRequestIsValid_ShouldReturnCorrectTotals(int pageNumber, int pageSize, int expectedTotalAds, int expectedTotalPages)
     {
         // Arrange
-        var ads = CreateTestAds(adCount);
+        var ads = CreateTestAds(expectedTotalAds);
         SetupMockGetAllAds(ads);
 
         GetBrowseAdsPageRequest request = new(pageNumber, pageSize);
 
         // Act
         var response = await BrowseService.GetBrowseAdsPage(request);
+        int actualTotalAds = response.TotalAds;
         int actualTotalPages = response.TotalPages;
 
         // Assert
         Assert.True(response.Success);
+        Assert.Equal(expectedTotalAds, actualTotalAds);
         Assert.Equal(expectedTotalPages, actualTotalPages);
     }
 
@@ -142,6 +144,5 @@ public class BrowseServiceGetBrowseAdsPageTests : BrowseServiceTestsBase
             Assert.Equal(expected.Location, actual.Location);
             Assert.Equal(expected.IsRemote, actual.IsRemote);
         }
-
     }
 }

@@ -12,6 +12,12 @@
     <partial name="@PartialNames.AdSearchCriteria" model="Model.SearchCriteria.ToViewModel()"/>
     <button type="submit" class="btn btn-primary m-2">Wyszukaj</button>
 </form>
+
+@if (Model.SearchCriteria.AnySearch)
+{
+    <div class="p-2">Liczba wyników wyszukiwania: @Model.TotalAds</div>
+}
+
 @foreach (var ad in Model.Ads)
 {
     <partial name="@PartialNames.AdListItem" model="ad" />

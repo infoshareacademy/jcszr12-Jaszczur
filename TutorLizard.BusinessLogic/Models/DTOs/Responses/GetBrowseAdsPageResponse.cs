@@ -6,5 +6,6 @@ public class GetBrowseAdsPageResponse
     public int PageNumber { get; set; }
     public int PageSize { get; set; }
     public int TotalPages { get; set; }
+    public int TotalAds { get; set; }
     public AdSearchCriteriaDto SearchCriteria { get; set; } = new();
 }

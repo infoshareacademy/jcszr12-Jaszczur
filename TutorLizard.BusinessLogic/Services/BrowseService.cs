@@ -33,7 +33,7 @@ public class BrowseService : IBrowseService
         }
 
         IQueryable<Ad> adsQuery = ApplySearchCriteria(_adRepository.GetAll(), request.SearchCriteria);
-        int totalPages = await GetTotalPagesCount(adsQuery, request);
+        (int totalPages, int totalAds) = await GetTotalCounts(adsQuery, request);
         adsQuery = ApplyPagination(adsQuery, request, totalPages);
 
         List<AdListItemDto> ads = await adsQuery
@@ -60,6 +60,7 @@ public class BrowseService : IBrowseService
             PageNumber = request.PageNumber,
             PageSize = request.PageSize,
             TotalPages = totalPages,
+            TotalAds = totalAds,
             SearchCriteria = request.SearchCriteria
         };
 
@@ -228,17 +229,17 @@ public class BrowseService : IBrowseService
         return ads;
     }
 
-    private async Task<int> GetTotalPagesCount(IQueryable<Ad> ads, GetBrowseAdsPageRequest request)
+    private async Task<(int totalPages, int totalAds)> GetTotalCounts(IQueryable<Ad> ads, GetBrowseAdsPageRequest request)
     {
-        int adCount = await ads.CountAsync();
+        int totalAds = await ads.CountAsync();
 
-        int totalPages = adCount / request.PageSize;
-        if (adCount == 0 || adCount % request.PageSize != 0)
+        int totalPages = totalAds / request.PageSize;
+        if (totalAds == 0 || totalAds % request.PageSize != 0)
         {
             totalPages++;
         }
 
-        return totalPages;
+        return (totalPages, totalAds);
     }
     private IQueryable<Ad> ApplyPagination(IQueryable<Ad> ads, GetBrowseAdsPageRequest request, int totalPages)
     {
