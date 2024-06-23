@@ -1,0 +1,107 @@
+﻿/* tutorlizard.css */
+
+/* Navbar styles */
+.navbar {
+    background-color: #2d4739;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+    .navbar-brand .logo {
+        height: 40px;
+        margin-right: 10px;
+    }
+
+.nav-link {
+    color: #ffffff !important;
+}
+
+    .nav-link:hover {
+        color: #3eed8f !important;
+    }
+
+.navbar .form-control {
+    border-radius: 0;
+}
+
+.navbar .btn-outline-light {
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+    .navbar .btn-outline-light:hover {
+        color: #2d4739;
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
+
+.montserrat-lizardFont {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* BrowseAds style */
+.Ads .ad-list-item {
+    border-radius: 10px;
+    background-color: #2e7320;
+    padding: 10px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+}
+
+/* AdDetails styles */
+.ads-title {
+    font-family: "Montserrat", sans-serif;
+    font-size: 2rem;
+    color: #2d4739;
+    margin-bottom: 20px;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.thead-dark {
+    background-color: #2d4739;
+    color: #ffffff;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(45, 71, 57, 0.1);
+}
+
+.category-name {
+    font-weight: bold;
+    color: #3eed8f;
+}
+
+.btn {
+    margin: 0 5px;
+    font-family: "Montserrat", sans-serif;
+}
+
+.btn-warning {
+    background-color: #ffcc00;
+    border-color: #ffcc00;
+    color: #ffffff;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    color: #ffffff;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #ffffff;
+}
+
+
+

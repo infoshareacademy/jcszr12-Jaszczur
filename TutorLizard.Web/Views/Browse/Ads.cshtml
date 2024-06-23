@@ -3,12 +3,14 @@
 @{
     ViewData["Title"] = "Ogłoszenia";
 }
-
+<head>
+    <link rel="stylesheet" href="~/css/tutorlizard.css" asp-append-version="true" />
+</head>
 <h1>Ogłoszenia</h1>
 
 @foreach (var ad in Model.Ads)
 {
-    <partial name="@PartialNames.AdListItem" model="ad" />
+    <partial name="@PartialNames.AdListItem" model="ad" class="ad-list-item montserrat-lizardFont" />
 }
 
 <div class="row text-center">
