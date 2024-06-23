@@ -115,9 +115,11 @@ public class UserAuthenticationService : IUserAuthenticationService
 
         var smtp = new SmtpClient
         {
+            // TODO przenieś do appsettingsów / secretsów
             Host = "smtp.gmail.com",
             Port = 587,
             EnableSsl = true,
+            // koniec - przenieś do appsettingsów / secretsów
             DeliveryMethod = SmtpDeliveryMethod.Network,
             UseDefaultCredentials = false,
             Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
@@ -131,37 +133,5 @@ public class UserAuthenticationService : IUserAuthenticationService
             smtp.Send(message);
         }
     }
-
-    public async Task<ActivationResult> ActivateUserAsync(string activationCode)
-    {
-
-        var user = await _userRepository.GetAll()
-            .FirstOrDefaultAsync(u => u.ActivationCode == activationCode && u.IsActive == false);
-
-        if (user != null)
-        {
-            user.IsActive = true;
-            user.ActivationCode = "DEACTIVATED";
-
-            await _userRepository.Update(user.Id, u =>
-            {
-                u.IsActive = user.IsActive;
-                u.ActivationCode = user.ActivationCode;
-            });
-
-            return new ActivationResult
-            {
-                IsActivated = true,
-                ActivationCode = activationCode
-            };
-        }
-        return new ActivationResult
-        {
-            IsActivated = false,
-            ActivationCode = activationCode
-        };
-    }
-
-
-
+   
 }

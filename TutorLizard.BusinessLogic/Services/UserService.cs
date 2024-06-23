@@ -77,4 +77,34 @@ public class UserService : IUserService
 
         return true;
     }
+
+    public async Task<ActivationResult> ActivateUserAsync(string activationCode)
+    {
+
+        var user = await _userRepository.GetAll()
+            .FirstOrDefaultAsync(u => u.ActivationCode == activationCode && u.IsActive == false);
+
+        if (user != null)
+        {
+            user.IsActive = true;
+            user.ActivationCode = "ACTIVATED";
+
+            await _userRepository.Update(user.Id, u =>
+            {
+                u.IsActive = user.IsActive;
+                u.ActivationCode = user.ActivationCode;
+            });
+
+            return new ActivationResult
+            {
+                IsActivated = true,
+                ActivationCode = activationCode
+            };
+        }
+        return new ActivationResult
+        {
+            IsActivated = false,
+            ActivationCode = activationCode
+        };
+    }
 }
