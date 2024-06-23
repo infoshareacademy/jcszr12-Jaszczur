@@ -2,13 +2,12 @@
 {
     public class EmailSettings
     {
-        public string MailAddress { get; set; }
-        public string Password { get; set; }
-        public string SmtpHost { get; set; }
-        public int SmtpPort { get; set; }
         public string FromAddress { get; set; }
         public string FromPassword { get; set; }
         public string ActivationLink { get; set; }
+        public string Host {  get; set; }
+        public int Port { get; set; }
+        public bool EnableSsl { get; set; }
     }
 
 }

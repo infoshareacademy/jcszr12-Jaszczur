@@ -115,11 +115,9 @@ public class UserAuthenticationService : IUserAuthenticationService
 
         var smtp = new SmtpClient
         {
-            // TODO przenieś do appsettingsów / secretsów
-            Host = "smtp.gmail.com",
-            Port = 587,
-            EnableSsl = true,
-            // koniec - przenieś do appsettingsów / secretsów
+            Host = _emailSettings.Host,
+            Port = _emailSettings.Port,
+            EnableSsl = _emailSettings.EnableSsl,
             DeliveryMethod = SmtpDeliveryMethod.Network,
             UseDefaultCredentials = false,
             Credentials = new NetworkCredential(fromAddress.Address, fromPassword)

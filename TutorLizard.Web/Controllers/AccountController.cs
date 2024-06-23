@@ -15,12 +15,15 @@ public class AccountController : Controller
 {
     private readonly IUserAuthenticationService _userAuthenticationService;
     private readonly IUiMessagesService _uiMessagesService;
+    private readonly IUserService _userService;
 
     public AccountController(IUserAuthenticationService userAuthenticationService,
-                             IUiMessagesService uiMessagesService)
+                             IUiMessagesService uiMessagesService,
+                             IUserService userService)
     {
         _userAuthenticationService = userAuthenticationService;
         _uiMessagesService = uiMessagesService;
+        _userService = userService;
     }
 
     public IActionResult Index()
@@ -140,7 +143,7 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> ActivateAccount(string activationCode)
     {
-        var result = await _userAuthenticationService.ActivateUserAsync(activationCode);
+        var result = await _userService.ActivateUserAsync(activationCode);
 
         if (result.IsActivated)
         {
