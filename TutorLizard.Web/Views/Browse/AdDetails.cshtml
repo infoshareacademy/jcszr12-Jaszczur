@@ -1,61 +1,69 @@
 ﻿@using TutorLizard.Web.ViewComponents
 @model GetAdDetailsResponse
 
-<h1>Szczegóły ogłoszenia</h1>
+<h1 class="title">Szczegóły ogłoszenia</h1>
 
-<div>
-    <div><h2>@Model.Title</h2></div>
-    <div class="row">
-        <div class="col-6 col-sm-3">Kategoria przez:</div>
-        <div class="col-6 col-sm-9">@Model.CategoryName</div>
-    </div>
-    <div class="row">
-        <div class="col-6 col-sm-3">Tematyka:</div>
-        <div class="col-6 col-sm-9">@Model.Subject</div>
-    </div>
-    <div class="row">
-        <div class="col-6 col-sm-3">Lokalizacja:</div>
-        <div class="col-6 col-sm-9">@Model.Location</div>
-    </div>
-    <div class="row">
-        <div class="col-6 col-sm-3">Wystawione przez:</div>
-        <div class="col-6 col-sm-9">@Model.TutorName</div>
-    </div>
-    <div class="row">
-        <div class="col-6 col-sm-3">Cena:</div>
-        <div class="col-6 col-sm-9">@Model.Price zł/h</div>
-    </div>
-    <div class="row">
-        <div class="col-6 col-sm-3">Nauczanie zdalne:</div>
-        <div class="col-6 col-sm-9">
-            @if (Model.IsRemote)
-            {
-                <span>Tak</span>
-            }
-            else
-            {
-                <span>Nie</span>
-            }
+<div class="row">
+    <div class="col-lg-6">
+        <div class="ad-details">
+            <div><h2>@Model.Title</h2></div>
+            <div class="row ad-details-description">
+                <div class="row">
+                    <div class="col-6 col-sm-3">Kategoria:</div>
+                    <div class="col-6 col-sm-9">@Model.CategoryName</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 col-sm-3">Tematyka:</div>
+                    <div class="col-6 col-sm-9">@Model.Subject</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 col-sm-3">Lokalizacja:</div>
+                    <div class="col-6 col-sm-9">@Model.Location</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 col-sm-3">Wystawione przez:</div>
+                    <div class="col-6 col-sm-9">@Model.TutorName</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 col-sm-3">Cena:</div>
+                    <div class="col-6 col-sm-9">@Model.Price zł/h</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 col-sm-3">Nauczanie zdalne:</div>
+                    <div class="col-6 col-sm-9">
+                        @if (Model.IsRemote)
+                        {
+                            <span>Tak</span>
+                        }
+                        else
+                        {
+                            <span>Nie</span>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row ad-details-description">
+                <div class="col">@Model.Description</div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">@Model.Description</div>
+
+    <div class="col-lg-6">
+            @if (Model.UserRelationship == AdToUserRelationship.Owner)
+            {
+                @await Component.InvokeAsync(nameof(TutorsScheduleForAd), new { adId = Model.AdId })
+            }
+            @if (Model.UserRelationship == AdToUserRelationship.AcceptedStudent)
+            {
+                @await Component.InvokeAsync(nameof(AvailableScheduleForAd), new { adId = Model.AdId })
+            }
+            @if (Model.UserRelationship == AdToUserRelationship.PendingStudent)
+            {
+                @await Component.InvokeAsync(nameof(AdRequestStatusForAd), new { adId = Model.AdId })
+            }
+            @if (Model.UserRelationship == AdToUserRelationship.None)
+            {
+                @await Component.InvokeAsync(nameof(CreateRequestForAd), new { adId = Model.AdId })
+            }
     </div>
 </div>
-
-@if(Model.UserRelationship == AdToUserRelationship.Owner)
-{
-    @await Component.InvokeAsync(nameof(TutorsScheduleForAd), new { adId = Model.AdId })
-}
-@if(Model.UserRelationship == AdToUserRelationship.AcceptedStudent)
-{
-    @await Component.InvokeAsync(nameof(AvailableScheduleForAd), new {adId = Model.AdId})
-}
-@if(Model.UserRelationship == AdToUserRelationship.PendingStudent)
-{
-    @await Component.InvokeAsync(nameof(AdRequestStatusForAd), new {adId = Model.AdId})
-}
-@if(Model.UserRelationship == AdToUserRelationship.None)
-{
-    @await Component.InvokeAsync(nameof(CreateRequestForAd), new { adId = Model.AdId })
-}

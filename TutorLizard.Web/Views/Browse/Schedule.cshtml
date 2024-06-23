@@ -1,37 +1,39 @@
 ﻿@model GetUsersScheduleResponse
 
-<h1>Twoje terminy</h1>
+<h1 class="title">Twoje terminy</h1>
 
-<div class="row">
-    <div class="col-sm-6 d-flex flex-column">
-        <h2>Jako uczeń</h2>
-        @if(Model.StudentsSchedule.Count == 0)
+<div class="row schedule-container">
+    <div class="col-sm-6 d-flex flex-column schedule-column">
+        <h2 class="schedule-subtitle">Jako uczeń</h2>
+        @if (Model.StudentsSchedule.Count == 0)
         {
-            <div>
+            <div class="schedule-empty">
                 Brak terminów.
             </div>
         }
         else
         {
-            foreach(var item in Model.StudentsSchedule)
+            foreach (var item in Model.StudentsSchedule)
             {
-                <div class="p-3 my-2 border border-2">
-                    <div><a asp-action="AdDetails" asp-route-id="@item.AdId">@item.AdTitle</a></div>
-                    <div class="h3">@item.DateTime</div>
-                    <div>Nauczyciel: @item.TutorName</div>
-                    <div>
+                <div class="p-3 my-2 border border-2 schedule-item">
+                    <div class="schedule-item-title">
+                        <a asp-action="AdDetails" asp-route-id="@item.AdId">@item.AdTitle</a>
+                    </div>
+                    <div class="h3 schedule-item-datetime">@item.DateTime</div>
+                    <div class="schedule-item-tutor">Nauczyciel: @item.TutorName</div>
+                    <div class="schedule-item-status">
                         <span>Status zgłoszenia: </span>
                         @if (item.Status == StudentsScheduleItemSummaryDto.RequestStatus.Accepted)
                         {
-                            <span>Zaakceptowany</span>
+                            <span class="status-accepted">Zaakceptowany</span>
                         }
                         else if (item.Status == StudentsScheduleItemSummaryDto.RequestStatus.Pending)
                         {
-                            <span>Oczekuje na akceptację</span>
+                            <span class="status-pending">Oczekuje na akceptację</span>
                         }
                         else if (item.Status == StudentsScheduleItemSummaryDto.RequestStatus.Rejected)
                         {
-                            <span>Odrzucone</span>
+                            <span class="status-rejected">Odrzucone</span>
                         }
                     </div>
                 </div>
@@ -39,11 +41,11 @@
         }
     </div>
 
-    <div class="col-sm-6 d-flex flex-column">
-        <h2>Jako nauczyciel</h2>
+    <div class="col-sm-6 d-flex flex-column schedule-column">
+        <h2 class="schedule-subtitle">Jako nauczyciel</h2>
         @if (Model.TutorsSchedule.Count == 0)
         {
-            <div>
+            <div class="schedule-empty">
                 Brak terminów.
             </div>
         }
@@ -51,11 +53,13 @@
         {
             foreach (var item in Model.TutorsSchedule)
             {
-                <div class="p-3 my-2 border border-2">
-                    <div><a asp-action="AdDetails" asp-route-id="@item.AdId">@item.AdTitle</a></div>
-                    <div class="h3">@item.DateTime</div>
-                    <div>Liczba zgłoszeń: @item.RequestCount</div>
-                    <div>
+                <div class="p-3 my-2 border border-2 schedule-item">
+                    <div class="schedule-item-title">
+                        <a asp-action="AdDetails" asp-route-id="@item.AdId">@item.AdTitle</a>
+                    </div>
+                    <div class="h3 schedule-item-datetime">@item.DateTime</div>
+                    <div class="schedule-item-requests">Liczba zgłoszeń: @item.RequestCount</div>
+                    <div class="schedule-item-accepted-student">
                         <span>Zapisany uczeń: </span>
                         @if (item.AcceptedStudentsName is null)
                         {

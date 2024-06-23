@@ -1,8 +1,42 @@
 ﻿/* tutorlizard.css */
 
+.body {
+    background-color: #3f4a38;
+}
+.title {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 2rem;
+    color: #2d4739;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.btn-light {
+    color: #000000;
+}
+.btn-light:hover {
+    background-color: #9db88c;
+    color: #ffffff;
+}
+
+.btn-outline-dark {
+    color: #ffffff;
+    border-color: #ffffff;
+    background-color: #2b4027;
+}
+    .btn-outline-dark:hover {
+        background-color: #9db88c;
+        color: #ffffff;
+    }
+
 /* Navbar styles */
 .navbar {
-    background-color: #2d4739;
+    background-color: #2b4027;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
 .navbar-brand {
@@ -20,7 +54,7 @@
 }
 
     .nav-link:hover {
-        color: #3eed8f !important;
+        color: #9db88c !important;
     }
 
 .navbar .form-control {
@@ -28,8 +62,8 @@
 }
 
 .navbar .btn-outline-light {
-    color: #ffffff;
-    border-color: #ffffff;
+    color: #9db88c;
+    border-color: #9db88c;
 }
 
     .navbar .btn-outline-light:hover {
@@ -46,21 +80,15 @@
 }
 
 /* BrowseAds style */
-.Ads .ad-list-item {
-    border-radius: 10px;
-    background-color: #2e7320;
+.ad-list-item {
+    border-radius: 0px;
+    background-color: #ededed;
     padding: 10px;
     font-family: "Montserrat", sans-serif;
-    font-weight: 900;
+    font-weight: 400;
 }
 
 /* AdDetails styles */
-.ads-title {
-    font-family: "Montserrat", sans-serif;
-    font-size: 2rem;
-    color: #2d4739;
-    margin-bottom: 20px;
-}
 
 .table {
     margin-top: 20px;
@@ -80,28 +108,149 @@
     color: #3eed8f;
 }
 
-.btn {
-    margin: 0 5px;
+
+/* AdDetails styles */
+
+.ad-details {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.ad-details-row {
+    margin-bottom: 10px;
+}
+
+.ad-details-label {
+    font-weight: bold;
+    color: #2d4739;
+}
+
+.ad-details-value {
+    color: #333333;
+}
+
+.ad-details-description {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+}
+
+/* Schedule styles */
+
+.schedule-container {
+    margin-top: 20px;
+}
+
+.schedule-subtitle {
     font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+    color: #2d4739;
+    margin-bottom: 15px;
 }
 
-.btn-warning {
-    background-color: #ffcc00;
-    border-color: #ffcc00;
-    color: #ffffff;
+.schedule-empty {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    color: #555555;
+    text-align: center;
 }
 
-.btn-info {
-    background-color: #17a2b8;
-    border-color: #17a2b8;
-    color: #ffffff;
+.schedule-item {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+.schedule-item-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2d4739;
+    margin-bottom: 10px;
+}
+
+.schedule-item-datetime {
+    font-size: 1.1rem;
+    color: #333333;
+    margin-bottom: 5px;
+}
+
+.schedule-item-tutor, .schedule-item-requests, .schedule-item-accepted-student {
+    font-size: 1rem;
+    color: #555555;
+}
+
+.schedule-item-status {
+    margin-top: 10px;
+}
+
+.status-accepted {
+    color: #2e7320;
+    font-weight: bold;
+}
+
+.status-pending {
+    color: #d4a017;
+    font-weight: bold;
+}
+
+.status-rejected {
+    color: #d01717;
+    font-weight: bold;
+}
+
+/* AvailableScheduleForAd styles */
+
+.schedule-container {
+    margin-top: 20px;
+    color: #2e7320;
+}
+
+.schedule-item {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+.schedule-item-datetime {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.schedule-item-status {
+    font-size: 1rem;
+    color: #555555;
+    margin-bottom: 10px;
+}
+
+.status-accepted {
+    color: #2e7320;
+    font-weight: bold;
+}
+
+.status-pending {
+    color: #d4a017;
+    font-weight: bold;
+}
+
+.status-rejected {
+    color: #d01717;
+    font-weight: bold;
+}
+
+.form-group .form-check-label {
+    font-size: 0.9rem;
 }
 
 .btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-    color: #ffffff;
+    background-color: #d01717;
+    border-color: #d01717;
 }
 
-
+    .btn-danger:hover {
+        background-color: #a91414;
+        border-color: #a91414;
+    }
 

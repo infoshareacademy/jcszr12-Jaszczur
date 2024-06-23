@@ -4,13 +4,13 @@
     ViewData["Title"] = "Ads - List";
 }
 
-<h1>Ads</h1>
+<h1 class="ads-title">Ads</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped table-hover">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Id)
@@ -64,7 +64,7 @@
                     @Html.DisplayFor(modelItem => item.CategoryId)
                 @if (ViewBag.CategoryName is not null)
                 {
-                    <span> (@ViewBag.CategoryName)</span>
+                        <span class="category-name"> (@ViewBag.CategoryName)</span>
                 }
             </td>
             <td>

@@ -3,7 +3,7 @@
     ViewData["Title"] = "AcceptedAds";
 }
 
-<h1>AcceptedAds</h1>
+<h1 class="title">AcceptedAds</h1>
 @foreach(var ad in Model.Ads)
 {
     <partial name="@PartialNames.AdListItem" model="ad" />
