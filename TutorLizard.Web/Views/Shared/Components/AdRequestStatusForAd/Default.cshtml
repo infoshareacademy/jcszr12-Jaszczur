@@ -2,9 +2,9 @@
 
 @if(Model is not null)
 {
-    <div>
-        <div><h3>Twoje zgłoszenie</h3></div>
-        <div>
+    <div class="row">
+        <div class="title-2"><h3>Twoje zgłoszenie</h3></div>
+        <div class="col-md-11 row ad-details-description">
             <span>Status zgłoszenia: </span>
             @if(Model.Status == GetAdRequestStatusResponse.RequestStatus.Accepted)
             {
@@ -18,10 +18,11 @@
             {
                 <span>Odrzucone</span>
             }
-        </div>
+        
         <div>Data wysłania: @Model.DateCreated</div>
-        <div>
-            <div class="h5 mt-3">Twoja wiadomość:</div>
+        </div>
+        <div class="title-2"><h4>Twoja wiadomość:</h4></div>
+        <div class="col-md-11 row ad-details-description">
             <div>@Model.Message</div>
         </div>
         @if(Model.ReplyMessage is not null)

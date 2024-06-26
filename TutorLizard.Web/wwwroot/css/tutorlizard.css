@@ -14,6 +14,15 @@ body {
     text-align: center;
 }
 
+.title-2 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 2rem;
+    color: #2d4739;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
 .btn-light {
     color: #000000;
 }
@@ -35,6 +44,15 @@ body {
 .message {
     padding-top: 30px;
 }
+
+.user-container {
+    margin: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+}
+
 
 
 /* Navbar styles */
@@ -114,8 +132,6 @@ body {
     color: #3eed8f;
 }
 
-
-/* AdDetails styles */
 
 .ad-details {
     background-color: #ffffff;

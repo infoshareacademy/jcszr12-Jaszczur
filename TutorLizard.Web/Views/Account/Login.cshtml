@@ -4,12 +4,11 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
+<h1 class="title">Login</h1>
 
-<h4>LoginModel</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5 user-container">
         <form asp-action="Login">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -27,14 +26,14 @@
             </div>
         </form>
     </div>
-    <div class="row">
-        <div>
-            <h2>Login using Google</h2>
+    <div class="col-md-5 user-container">
+            <div>
+                <h2 class="title-2">Login using Google</h2>
+            </div>
+            <div>
+                <a asp-controller="Account" asp-action="GoogleLogin" class="btn btn-primary">Sign In with Google</a>
+            </div>
         </div>
-        <div>
-            <a asp-controller="Account" asp-action="GoogleLogin" class="btn btn-primary">Sign In with Google</a>
-        </div>
-    </div>
 </div>
 
 <div>
