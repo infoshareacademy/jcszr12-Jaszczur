@@ -4,11 +4,11 @@
     ViewData["Title"] = "Login";
 }
 
-<h1 class="title">Login</h1>
+<h1 class="title">Zaloguj się</h1>
 
 <hr />
-<div class="row">
-    <div class="col-md-5 user-container">
+<div class="login-grid row justify-content-center">
+    <div class="col-md-4 user-container">
         <form asp-action="Login">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -26,9 +26,9 @@
             </div>
         </form>
     </div>
-    <div class="col-md-5 user-container">
+    <div class="col-md-4 user-container">
             <div>
-                <h2 class="title-2">Login using Google</h2>
+                <h2 class="title-3">Zaloguj się przez Google</h2>
             </div>
             <div>
                 <a asp-controller="Account" asp-action="GoogleLogin" class="btn btn-primary">Sign In with Google</a>
