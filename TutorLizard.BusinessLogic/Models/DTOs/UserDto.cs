@@ -23,6 +23,7 @@ public class UserDto
 
     [Display(Name = "Data rejestracji")]
     public DateTime DateCreated { get; set; } = DateTime.Now;
+    public string? GoogleId { get; set; }
 
     public UserDto(User user)
     {
@@ -31,5 +32,6 @@ public class UserDto
         UserType = user.UserType;
         Email = user.Email;
         DateCreated = user.DateCreated;
+        GoogleId = user.GoogleId;
     }
 }

@@ -63,6 +63,44 @@ public class UserAuthenticationService : IUserAuthenticationService
 
         return logInResult;
     }
+    
+    public async Task<bool> LogInWithGoogleAsync(string username, string googleId)
+    {
+        var user = await _userService.LogInWithGoogle(username, googleId);
+
+        if (user is null)
+        {
+            return false;
+        }
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Name, user.Name),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Role, user.UserType.ToString())
+        };
+
+        var claimsIdentity = new ClaimsIdentity(
+            claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+        var authProperties = new AuthenticationProperties
+        {
+            AllowRefresh = true,
+            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+            IsPersistent = true,
+        };
+
+        if (_httpContextAccessor.HttpContext is null)
+            return false;
+
+        await _httpContextAccessor.HttpContext.SignOutAsync();
+        await _httpContextAccessor.HttpContext.SignInAsync("CookieAuth",
+            new ClaimsPrincipal(claimsIdentity),
+            authProperties);
+
+        return true;
+    }
 
     public async Task LogOutAsync()
     {
@@ -83,6 +121,16 @@ public class UserAuthenticationService : IUserAuthenticationService
     private string GenerateActivationCode()
     {
         return Guid.NewGuid().ToString();
+    }
+
+    public Task<bool> RegisterUserWithGoogle(string username, string email, string googleId)
+    {
+        return _userService.RegisterUserWithGoogle(username, email, googleId);
+    }
+
+    public async Task<bool> IsGoogleUserRegistered(string googleid)
+    {
+        return await _userService.IsTheGoogleUserRegistered(googleid);
     }
 
     public int? GetLoggedInUserId()
