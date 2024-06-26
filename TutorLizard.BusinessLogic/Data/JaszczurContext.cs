@@ -21,6 +21,11 @@ public class JaszczurContext : DbContext
             .ValueGeneratedOnAdd();
 
         modelBuilder.Entity<User>()
+            .Property(user => user.IsActive)
+            .HasDefaultValue(false)
+            .IsRequired();
+
+        modelBuilder.Entity<User>()
             .Property(user => user.UserType)
             .HasConversion<byte>();
 

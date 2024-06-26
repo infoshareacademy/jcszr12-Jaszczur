@@ -7,6 +7,7 @@ using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Options;
 using TutorLizard.BusinessLogic.Services;
 using TutorLizard.Web.Interfaces.Services;
+using TutorLizard.Web.Models;
 using TutorLizard.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -68,7 +69,9 @@ builder.Services.AddDbContext<JaszczurContext>(configuration =>
                     b => b.MigrationsAssembly("TutorLizard.Web"));
 });
 
+
 builder.Services.AddTutorLizardDbRepositories<JaszczurContext>();
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 
 
@@ -96,6 +99,18 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapControllerRoute(
+        name: "ActivateAccount",
+        pattern: "{controller=Account}/{action=ActivateAccount}/{activationCode?}");
+});
+
+
 
 app.MapControllerRoute(
     name: "default",
