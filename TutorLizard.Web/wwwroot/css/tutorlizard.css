@@ -1,8 +1,9 @@
 ﻿/* tutorlizard.css */
 
-.body {
-    background-color: #3f4a38;
+body {
+    padding-top: 60px;
 }
+
 .title {
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
@@ -30,6 +31,11 @@
         background-color: #9db88c;
         color: #ffffff;
     }
+
+.message {
+    padding-top: 30px;
+}
+
 
 /* Navbar styles */
 .navbar {
