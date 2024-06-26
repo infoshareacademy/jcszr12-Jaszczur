@@ -1,4 +1,5 @@
-﻿using TutorLizard.BusinessLogic.Enums;
+﻿using TutorLizard.Shared.Enums;
+using TutorLizard.Shared.Models.DTOs;
 
 namespace TutorLizard.BusinessLogic.Interfaces.Services;
 
@@ -6,7 +7,7 @@ public interface IUserAuthenticationService
 
 {
     int? GetLoggedInUserId();
-    Task<Models.DTOs.LogInResult> LogInAsync(string username, string password);
+    Task<LogInResult> LogInAsync(string username, string password);
     public Task LogOutAsync();
     public Task<bool> IsGoogleUserRegistered(string googleid);
     public Task<bool> RegisterUserWithGoogle(string username, string email, string googleId);

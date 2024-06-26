@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Interfaces.Services;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
+using TutorLizard.Shared.Models.DTOs.Requests;
 
 namespace TutorLizard.Web.ViewComponents;
 

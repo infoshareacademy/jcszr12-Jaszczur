@@ -1,6 +1,6 @@
 ﻿using Moq;
 using TutorLizard.BusinessLogic.Models;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
+using TutorLizard.Shared.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Services;
 
 namespace TutorLizard.BusinessLogic.Tests.Services.Student

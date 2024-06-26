@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
-using TutorLizard.BusinessLogic.Data;
-using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
+using TutorLizard.Shared.Enums;
+using TutorLizard.Shared.Models.DTOs;
 using TutorLizard.Web.Models;
 
 namespace TutorLizard.BusinessLogic.Services;
@@ -29,11 +28,11 @@ public class UserAuthenticationService : IUserAuthenticationService
         _userRepository = userRepository;
     }
 
-    public async Task<Models.DTOs.LogInResult> LogInAsync(string username, string password)
+    public async Task<LogInResult> LogInAsync(string username, string password)
     {
         var logInResult = await _userService.LogIn(username, password);
 
-        if (logInResult.ResultCode == Models.DTOs.LogInResultCode.Success && logInResult.User != null)
+        if (logInResult.ResultCode == LogInResultCode.Success && logInResult.User != null)
         {
             var claims = new List<Claim>
         {
@@ -63,7 +62,7 @@ public class UserAuthenticationService : IUserAuthenticationService
 
         return logInResult;
     }
-    
+
     public async Task<bool> LogInWithGoogleAsync(string username, string googleId)
     {
         var user = await _userService.LogInWithGoogle(username, googleId);
@@ -179,5 +178,5 @@ public class UserAuthenticationService : IUserAuthenticationService
             smtp.Send(message);
         }
     }
-   
+
 }

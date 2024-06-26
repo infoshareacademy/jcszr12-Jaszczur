@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TutorLizard.BusinessLogic.Interfaces.Services;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
-using TutorLizard.BusinessLogic.Models.DTOs.Responses;
+using TutorLizard.Shared.Models.DTOs.Requests;
+using TutorLizard.Shared.Models.DTOs.Responses;
 
 namespace TutorLizard.Web.ViewComponents;
 
@@ -25,13 +25,13 @@ public class TutorsScheduleForAd : ViewComponent
         {
             return View();
         }
-        TutorsScheduleForAdRequest request = new()
+        GetTutorsScheduleForAdRequest request = new()
         {
             AdId = adId,
             TutorId = (int)tutorId
         };
 
-        TutorsScheduleForAdResponse response = await _tutorService.GetTutorsScheduleForAd(request);
+        GetTutorsScheduleForAdResponse response = await _tutorService.GetTutorsScheduleForAd(request);
 
         return View(response);
     }

@@ -8,11 +8,11 @@ using System.Security.Claims;
 using System.ComponentModel;
 using System.Net;
 using System.Net.Mail;
-using TutorLizard.BusinessLogic.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Services;
-using TutorLizard.BusinessLogic.Models.DTOs;
+using TutorLizard.Shared.Enums;
 using TutorLizard.Web.Interfaces.Services;
 using TutorLizard.Web.Models;
+using TutorLizard.Shared.Models.DTOs;
 
 
 namespace TutorLizard.Web.Controllers;
@@ -125,7 +125,7 @@ public class AccountController : Controller
 
                 switch (logInResult.ResultCode)
                 {
-                    case BusinessLogic.Models.DTOs.LogInResultCode.Success:
+                    case LogInResultCode.Success:
                         _uiMessagesService.ShowSuccessMessage("Jesteś zalogowany/a.");
                         if (string.IsNullOrEmpty(returnUrl))
                         {
@@ -133,19 +133,19 @@ public class AccountController : Controller
                         }
                         return Redirect(returnUrl);
 
-                    case BusinessLogic.Models.DTOs.LogInResultCode.UserNotFound:
-                    case BusinessLogic.Models.DTOs.LogInResultCode.InvalidPassword:
+                    case LogInResultCode.UserNotFound:
+                    case LogInResultCode.InvalidPassword:
                         _uiMessagesService.ShowFailureMessage("Logowanie nieudane. Nieprawidłowa nazwa użytkownika lub hasło.");
                         return RedirectToAction(nameof(Login), new { returnUrl = returnUrl });
 
-                    case BusinessLogic.Models.DTOs.LogInResultCode.InactiveAccount:
+                    case LogInResultCode.InactiveAccount:
                         _uiMessagesService.ShowFailureMessage("Logowanie nieudane. Konto nie jest aktywne.");
                         return LocalRedirect("/Home/Index");
 
                     default:
-                        throw new InvalidEnumArgumentException(argumentName: nameof(BusinessLogic.Models.DTOs.LogInResult.ResultCode),
+                        throw new InvalidEnumArgumentException(argumentName: nameof(LogInResult.ResultCode),
                                        invalidValue: (int)logInResult.ResultCode,
-                                       enumClass: typeof(BusinessLogic.Models.DTOs.LogInResult));
+                                       enumClass: typeof(LogInResult));
                 }
             }
             else

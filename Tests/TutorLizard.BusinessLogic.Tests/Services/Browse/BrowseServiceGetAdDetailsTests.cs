@@ -1,6 +1,6 @@
-﻿using TutorLizard.BusinessLogic.Enums;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
-using TutorLizard.BusinessLogic.Models;
+﻿using TutorLizard.BusinessLogic.Models;
+using TutorLizard.Shared.Enums;
+using TutorLizard.Shared.Models.DTOs.Requests;
 
 namespace TutorLizard.BusinessLogic.Tests.Services.Browse;
 public class BrowseServiceGetAdDetailsTests : BrowseServiceTestsBase

@@ -9,6 +9,7 @@ using TutorLizard.BusinessLogic.Services;
 using TutorLizard.Web.Interfaces.Services;
 using TutorLizard.Web.Models;
 using TutorLizard.Web.Services;
+using TutorLizard.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,10 @@ builder.Services.AddSerilog((services, loggerConfiguration) => loggerConfigurati
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
+
 builder.Services.AddTransient<IBrowseService, BrowseService>();
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -61,7 +66,6 @@ builder.Services.AddAuthentication(options =>
         options.LogoutPath = "/Account/Logout";
     });
 
-
 builder.Services.AddDbContext<JaszczurContext>(configuration =>
 {
     configuration
@@ -69,11 +73,8 @@ builder.Services.AddDbContext<JaszczurContext>(configuration =>
                     b => b.MigrationsAssembly("TutorLizard.Web"));
 });
 
-
 builder.Services.AddTutorLizardDbRepositories<JaszczurContext>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-
-
 
 var app = builder.Build();
 
@@ -110,10 +111,15 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller=Account}/{action=ActivateAccount}/{activationCode?}");
 });
 
-
+app.UseAntiforgery();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode()
+    .AddAdditionalAssemblies(typeof(TutorLizard.Blazor.Components._Imports).Assembly);
 
 app.Run();

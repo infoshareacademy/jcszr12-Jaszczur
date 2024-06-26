@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using TutorLizard.BusinessLogic.Models.DTOs;
+using TutorLizard.Shared.Models.DTOs;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
-using TutorLizard.BusinessLogic.Enums;
+using TutorLizard.Shared.Enums;
 
 namespace TutorLizard.BusinessLogic.Services;
 
@@ -122,7 +122,7 @@ public class UserService : IUserService
         return false;
     }
 
-    public async Task<ActivationResult> ActivateUserAsync(string activationCode)
+    public async Task<ActivationResultDto> ActivateUserAsync(string activationCode)
     {
 
         var user = await _userRepository.GetAll()
@@ -139,13 +139,13 @@ public class UserService : IUserService
                 u.ActivationCode = user.ActivationCode;
             });
 
-            return new ActivationResult
+            return new ActivationResultDto
             {
                 IsActivated = true,
                 ActivationCode = activationCode
             };
         }
-        return new ActivationResult
+        return new ActivationResultDto
         {
             IsActivated = false,
             ActivationCode = activationCode
