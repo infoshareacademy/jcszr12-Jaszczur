@@ -19,7 +19,7 @@
         </div>
 
         <div class="row">
-            <div class="col-6 col-sm-3">Wystawione przez:</div>
+            <div class="col-6 col-sm-3">Tutor:</div>
             <div class="col-6 col-sm-9">@Model.TutorName</div>
         </div>
 
@@ -29,15 +29,14 @@
         </div>
 
         <div class="row">
-            <div class="col-6 col-sm-3">Nauczanie zdalne:</div>
             <div class="col-6 col-sm-9">
                 @if(Model.IsRemote)
                 {
-                    <span>Tak</span>
+                    <span>Nauczanie zdalne</span>
                 }
                 else
                 {
-                    <span>Nie</span>
+                    <span>Nauczanie na miejscu</span>
                 }
             </div>
         </div>

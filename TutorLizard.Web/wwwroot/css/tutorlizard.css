@@ -23,6 +23,24 @@ body {
     margin-top: 20px;
 }
 
+.text-red {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    font-size: 2rem;
+    color: #b01e31;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.text-green {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    font-size: 2rem;
+    color: #1b8c3b;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
 .btn-light {
     color: #000000;
 }
@@ -46,13 +64,40 @@ body {
 }
 
 .user-container {
-    margin: 20px;
     padding: 10px;
     background-color: #f9f9f9;
     border: 1px solid #dddddd;
     border-radius: 5px;
 }
 
+.user-container-light {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+}
+
+.ad-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.work-sans-lizardfont {
+    font-family: "Work Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+
+.montserrat-lizardfont {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
 
 
 /* Navbar styles */
@@ -96,12 +141,6 @@ body {
         border-color: #ffffff;
     }
 
-.montserrat-lizardFont {
-    font-family: "Montserrat", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
-}
 
 /* BrowseAds style */
 .ad-list-item {

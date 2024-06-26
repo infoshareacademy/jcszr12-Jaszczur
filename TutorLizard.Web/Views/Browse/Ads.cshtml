@@ -7,11 +7,12 @@
     <link rel="stylesheet" href="~/css/tutorlizard.css" asp-append-version="true" />
 </head>
 <h1 class="title">Ogłoszenia</h1>
-
+<div class="ad-grid">
 @foreach (var ad in Model.Ads)
 {
     <partial name="@PartialNames.AdListItem" model="ad" class="ad-list-item montserrat-lizardFont" />
 }
+</div>
 
 <div class="row text-center">
 
