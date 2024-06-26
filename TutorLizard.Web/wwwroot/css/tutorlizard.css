@@ -145,14 +145,14 @@ body {
 }
 
 .navbar .btn-outline-light {
-    color: #9db88c;
-    border-color: #9db88c;
+    color: white;
+    border-color: white;
 }
 
     .navbar .btn-outline-light:hover {
-        color: #2d4739;
-        background-color: #ffffff;
-        border-color: #ffffff;
+        color: #000000;
+        background-color: #9db88c;
+        border-color: #000000;
     }
 
 
