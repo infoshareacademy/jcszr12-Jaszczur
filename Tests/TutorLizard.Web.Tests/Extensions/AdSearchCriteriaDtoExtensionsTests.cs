@@ -1,5 +1,5 @@
 ﻿using AutoFixture;
-using TutorLizard.BusinessLogic.Models.DTOs;
+using TutorLizard.Shared.Models.DTOs;
 using TutorLizard.Web.Extensions;
 using TutorLizard.Web.Models;
 

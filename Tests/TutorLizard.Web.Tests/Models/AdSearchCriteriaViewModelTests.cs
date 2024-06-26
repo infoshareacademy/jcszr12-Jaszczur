@@ -1,5 +1,4 @@
-﻿using TutorLizard.BusinessLogic.Models.DTOs;
-using TutorLizard.Web.Models;
+﻿using TutorLizard.Web.Models;
 
 namespace TutorLizard.Web.Tests.Models;
 public class AdSearchCriteriaViewModelTests

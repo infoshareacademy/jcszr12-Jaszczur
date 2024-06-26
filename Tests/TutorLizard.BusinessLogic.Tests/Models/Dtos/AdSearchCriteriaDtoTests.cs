@@ -1,4 +1,4 @@
-﻿using TutorLizard.BusinessLogic.Models.DTOs;
+﻿using TutorLizard.Shared.Models.DTOs;
 
 namespace TutorLizard.BusinessLogic.Tests.Models.Dtos;
 public class AdSearchCriteriaDtoTests
@@ -25,8 +25,8 @@ public class AdSearchCriteriaDtoTests
         AdSearchCriteriaDto actual = new()
         {
             Text = text,
-            PriceMin = (decimal?) priceMin,
-            PriceMax = (decimal?) priceMax,
+            PriceMin = (decimal?)priceMin,
+            PriceMax = (decimal?)priceMax,
             Location = location,
             IsRemote = isRemote,
             CategoryId = categoryId,
