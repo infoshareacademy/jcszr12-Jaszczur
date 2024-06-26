@@ -1,7 +1,5 @@
 ﻿using AutoFixture;
-using Microsoft.EntityFrameworkCore;
 using Moq;
-using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Services;

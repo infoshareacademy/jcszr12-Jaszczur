@@ -7,9 +7,9 @@ using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
-using TutorLizard.BusinessLogic.Models.DTOs;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
-using TutorLizard.BusinessLogic.Models.DTOs.Responses;
+using TutorLizard.Shared.Models.DTOs;
+using TutorLizard.Shared.Models.DTOs.Requests;
+using TutorLizard.Shared.Models.DTOs.Responses;
 using TutorLizard.Web.Interfaces.Services;
 
 namespace TutorLizard.Web.Controllers;
@@ -210,9 +210,9 @@ public class TutorController : Controller
                 return Forbid();
             }
 
-            TutorsPendingAdRequestsRequest request = new(tutorId);
+            GetTutorsPendingAdRequestsRequest request = new(tutorId);
 
-            TutorsPendingAdRequestsResponse response = await _tutorService.ViewAllPendingAdRequests(request);
+            GetTutorsPendingAdRequestsResponse response = await _tutorService.GetTutorsPendingAdRequests(request);
 
             return View(response);
         }
@@ -232,34 +232,34 @@ public class TutorController : Controller
             return Forbid();
         }
 
-        UpdateTutorsPendingAdRequestRequest request = new(adRequestId, form["replyMessage"]);
+        UpdateAdRequestRequest request = new(adRequestId, form["replyMessage"]);
 
         try
         {
             if (!form["btnAccept"].IsNullOrEmpty())
-                request.Action = UpdateTutorsPendingAdRequestRequest.UpdateAction.Accept;
+                request.Action = UpdateAdRequestRequest.UpdateAction.Accept;
             else if (!form["btnReject"].IsNullOrEmpty())
-                request.Action = UpdateTutorsPendingAdRequestRequest.UpdateAction.Reject;
+                request.Action = UpdateAdRequestRequest.UpdateAction.Reject;
 
             var response = await _tutorService.UpdateAdRequest(request);
             if (!response.IsSuccessful)
             {
-                if(request.Action == UpdateTutorsPendingAdRequestRequest.UpdateAction.Accept)
+                if(request.Action == UpdateAdRequestRequest.UpdateAction.Accept)
                 {
                     _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Akceptacja zgłoszenia nieudana.");
                 }
-                else if (request.Action == UpdateTutorsPendingAdRequestRequest.UpdateAction.Reject)
+                else if (request.Action == UpdateAdRequestRequest.UpdateAction.Reject)
                 {
                     _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Odrzucenie zgłoszenia nieudane.");
                 }
                 RedirectToAction(nameof(AdRequest));
             }
 
-            if(request.Action == UpdateTutorsPendingAdRequestRequest.UpdateAction.Accept)
+            if(request.Action == UpdateAdRequestRequest.UpdateAction.Accept)
             {
                 _uiMessagesService.ShowSuccessMessage("Ogłoszenie zaakceptowane.");
             }
-            else if (request.Action == UpdateTutorsPendingAdRequestRequest.UpdateAction.Reject)
+            else if (request.Action == UpdateAdRequestRequest.UpdateAction.Reject)
             {
                 _uiMessagesService.ShowSuccessMessage("Ogłoszenie odrzucone.");
             }
@@ -282,9 +282,9 @@ public class TutorController : Controller
                 return Forbid();
             }
 
-            TutorAllAdRequestsRequest request = new(tutorId);
+            GetTutorsAllAdRequestsRequest request = new(tutorId);
 
-            TutorAllAdRequestsResponse response = await _tutorService.ViewAllAdRequests(request);
+            GetTutorsAllAdRequestsResponse response = await _tutorService.GetTutorsAllAdRequests(request);
 
             return View(response);
         }
@@ -305,9 +305,9 @@ public class TutorController : Controller
                 return Forbid();
             }
 
-            TutorsAdsRequest request = new(tutorId);
+            GetTutorsAdsRequest request = new((int)tutorId);
 
-            TutorsAdsResponse response = await _tutorService.ViewTutorsAds(request);
+            GetTutorsAdsResponse response = await _tutorService.GetTutorsAds(request);
 
             return View(response);
         }

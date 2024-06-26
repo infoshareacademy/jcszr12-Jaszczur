@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
 using TutorLizard.BusinessLogic.Interfaces.Services;
-using TutorLizard.BusinessLogic.Models.DTOs.Responses;
+using TutorLizard.Shared.Models.DTOs.Requests;
+using TutorLizard.Shared.Models.DTOs.Responses;
 
 namespace TutorLizard.Web.ViewComponents;
 [ViewComponent(Name = nameof(AdRequestStatusForAd))]
@@ -25,13 +25,13 @@ public class AdRequestStatusForAd : ViewComponent
             return View();
         }
 
-        AdRequestStatusRequest request = new()
+        GetAdRequestStatusRequest request = new()
         {
             AdId = adId,
             StudentId = (int)studentId
         };
 
-        AdRequestStatusResponse response = await _studentService.ViewAdRequestStatus(request);
+        GetAdRequestStatusResponse response = await _studentService.GetAdRequestStatus(request);
 
         if (!response.IsSuccessful)
             return View();

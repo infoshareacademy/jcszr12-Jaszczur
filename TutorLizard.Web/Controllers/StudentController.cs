@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 using TutorLizard.BusinessLogic.Interfaces.Services;
-using TutorLizard.BusinessLogic.Models.DTOs;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
-using TutorLizard.BusinessLogic.Models.DTOs.Responses;
+using TutorLizard.Shared.Models.DTOs.Requests;
+using TutorLizard.Shared.Models.DTOs.Responses;
 using TutorLizard.Web.Interfaces.Services;
 
 namespace TutorLizard.Web.Controllers;
@@ -39,9 +36,9 @@ public class StudentController : Controller
                 return Forbid();
             }
 
-            StudentsAcceptedAdsRequest request = new(studentId);
+            GetStudentsAcceptedAdsRequest request = new(studentId);
 
-            StudentsAcceptedAdsResponse response = await _studentService.ViewAcceptedAds(request);
+            GetStudentsAcceptedAdsResponse response = await _studentService.GetStudentsAcceptedAds(request);
 
             return View(response);
         }
@@ -62,9 +59,9 @@ public class StudentController : Controller
                 return Forbid();
             }
 
-            StudentsAdRequestsRequest request = new(studentId);
+            GetStudentsAdRequestsRequest request = new(studentId);
 
-            StudentsAdRequestsResponse response = await _studentService.ViewAdRequests(request);
+            GetStudentsAdRequestsResponse response = await _studentService.GetStudentsAdRequests(request);
 
             return View(response);
         }
@@ -77,7 +74,7 @@ public class StudentController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateScheduleItemRequest(int scheduleItemId, int adId)
+    public async Task<IActionResult> CreateScheduleItemRequest(int scheduleItemId, int adId, bool isRemote)
     {
 
         int? studentId = _userAuthenticationService.GetLoggedInUserId();
@@ -89,7 +86,8 @@ public class StudentController : Controller
         CreateScheduleItemRequestRequest request = new()
         {
             StudentId = (int)studentId,
-            ScheduleItemId = scheduleItemId
+            ScheduleItemId = scheduleItemId,
+            IsRemote = isRemote
         };
 
         CreateScheduleItemRequestResponse response = await _studentService.CreateScheduleItemRequest(request);
@@ -97,7 +95,7 @@ public class StudentController : Controller
         if (response.Success)
         {
             _uiMessagesService.ShowSuccessMessage("Zgłoszenie do terminu wysłane.");
-            return RedirectToAction("AdDetails", "Browse", new {id = adId });
+            return RedirectToAction("AdDetails", "Browse", new { id = adId });
         }
         else
         {
@@ -141,8 +139,8 @@ public class StudentController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> CancelAdRequest(int adRequestId)
     {
-        StudentCancelAdRequestRequest request = new StudentCancelAdRequestRequest(adRequestId);
-        StudentCancelAdRequestResponse response = await _studentService.DeleteAdRequest(request);
+        DeleteAdRequestRequest request = new DeleteAdRequestRequest(adRequestId);
+        DeleteAdRequestResponse response = await _studentService.DeleteAdRequest(request);
 
         if (response.IsSuccessful)
         {

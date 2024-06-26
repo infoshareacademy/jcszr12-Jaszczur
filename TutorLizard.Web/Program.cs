@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using TutorLizard.BusinessLogic.Data;
@@ -6,7 +7,9 @@ using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Options;
 using TutorLizard.BusinessLogic.Services;
 using TutorLizard.Web.Interfaces.Services;
+using TutorLizard.Web.Models;
 using TutorLizard.Web.Services;
+using TutorLizard.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,10 @@ builder.Services.AddSerilog((services, loggerConfiguration) => loggerConfigurati
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
+
 builder.Services.AddTransient<IBrowseService, BrowseService>();
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -31,7 +38,25 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUiMessagesService, UiMessagesService>();
 
-builder.Services.AddAuthentication("CookieAuth")
+builder.Services.AddAuthentication(options => 
+    {
+        options.DefaultScheme = "CookieAuth";
+    })
+    .AddGoogle(options =>
+    {
+        options.ClientId = builder.Configuration["Auth:Google:ClientId"];
+        options.ClientSecret = builder.Configuration["Auth:Google:ClientSecret"];
+        options.SaveTokens = true;
+        options.Events = new Microsoft.AspNetCore.Authentication.OAuth.OAuthEvents
+        {
+            OnRemoteFailure = context =>
+            {
+                context.HandleResponse();
+                context.Response.Redirect("/Account/Login");
+                return Task.FromResult(0);
+            }
+        };
+    })
     .AddCookie("CookieAuth", options =>
     {
         options.ExpireTimeSpan = TimeSpan.FromDays(1);
@@ -50,6 +75,7 @@ builder.Services.AddDbContext<JaszczurContext>(configuration =>
 });
 
 builder.Services.AddTutorLizardDbRepositories<JaszczurContext>();
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 var app = builder.Build();
 
@@ -66,15 +92,35 @@ app.UseStaticFiles();
 
 app.UseCookiePolicy(new CookiePolicyOptions
 {
-    MinimumSameSitePolicy = SameSiteMode.Strict
+    MinimumSameSitePolicy = SameSiteMode.None,
+    Secure = CookieSecurePolicy.Always
 });
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+app.UseHttpsRedirection();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapControllerRoute(
+        name: "ActivateAccount",
+        pattern: "{controller=Account}/{action=ActivateAccount}/{activationCode?}");
+});
+
+app.UseAntiforgery();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode()
+    .AddAdditionalAssemblies(typeof(TutorLizard.Blazor.Components._Imports).Assembly);
 
 app.Run();

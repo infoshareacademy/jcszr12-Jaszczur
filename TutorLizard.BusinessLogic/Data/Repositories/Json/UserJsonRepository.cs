@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using TutorLizard.BusinessLogic.Enums;
+using TutorLizard.Shared.Enums;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Options;
@@ -15,9 +15,9 @@ public class UserJsonRepository : JsonRepositoryBase<User>, IUserRepository
         
     }
 
-    public User CreateUser(string name, UserType type, string email, string passwordHash)
+    public User CreateUser(string name, UserType type, string email, string passwordHash, string googleid)
     {
-        User newUser = new(GetNewId(), name, type, email, passwordHash);
+        User newUser = new(GetNewId(), name, type, email, passwordHash, googleid);
         Data.Add(newUser);
         SaveToJson();
 

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using TutorLizard.BusinessLogic.Models.DTOs;
+using TutorLizard.Shared.Models.DTOs;
 using TutorLizard.Web.Models;
 
 namespace TutorLizard.Web.Extensions;
