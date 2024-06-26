@@ -3,14 +3,16 @@
 }
 <h1 class="title">Wybierz funkcjonalność</h1>
 
-<ul class="list-group btn-light">
-    <li class="btn"><a asp-controller="Tutor" asp-action="Index">Nauczyciel</a></li>
-</ul>
-<ul class="list-group btn-light">
-    <li class="btn"><a asp-controller="Student" asp-action="Index">Uczeń</a></li>
-</ul>
-<ul class="list-group btn-light">
-    <li class="btn"><a asp-controller="Browse" asp-action="Schedule">Przeglądaj terminy</a></li>
-</ul>
+<div class="col-lg-5 mx-auto">
+    <div class="list-group btn-light">
+        <li class="btn"><a asp-controller="Tutor" asp-action="Index" class="custom-link">Nauczyciel</a></li>
+    </div>
+    <ul class="list-group btn-light">
+        <li class="btn"><a asp-controller="Student" asp-action="Index" class="custom-link">Uczeń</a></li>
+    </ul>
+    <ul class="list-group btn-light">
+        <li class="btn"><a asp-controller="Browse" asp-action="Schedule" class="custom-link">Przeglądaj terminy</a></li>
+    </ul>
+</div>
 
 

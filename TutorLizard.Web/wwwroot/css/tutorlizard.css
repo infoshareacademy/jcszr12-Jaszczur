@@ -51,7 +51,7 @@ body {
 }
 
 .btn-light {
-    color: #000000;
+    background-color: #ededed;
 }
 .btn-light:hover {
     background-color: #9db88c;
@@ -66,6 +66,16 @@ body {
     .btn-outline-dark:hover {
         background-color: #9db88c;
         color: #ffffff;
+    }
+
+.btn-dark {
+    background-color: #2b4027;
+    color: #ffffff;
+}
+
+    .btn-dark:hover {
+        background-color: #9db88c;
+        color: #000000;
     }
 
 .message {
@@ -113,7 +123,15 @@ body {
     font-style: normal;
 }
 
-
+.custom-link {
+    color: #2b4027;
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+}
+    .custom-link:hover {
+        color: #2b4027;
+    }
 /* Navbar styles */
 .navbar {
     background-color: #2b4027;
