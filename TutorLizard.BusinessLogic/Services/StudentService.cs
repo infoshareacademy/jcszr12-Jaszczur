@@ -24,6 +24,7 @@ public class StudentService : IStudentService
         _scheduleItemRequestRepository = scheduleItemRequestRepository;
     }
 
+    #region Schedule
     public async Task<CreateScheduleItemRequestResponse> CreateScheduleItemRequest(CreateScheduleItemRequestRequest request)
     {
         int studentId = request.StudentId;
@@ -47,18 +48,57 @@ public class StudentService : IStudentService
             ScheduleItemId = scheduleItemId,
             DateCreated = DateTime.UtcNow,
             StudentId = studentId,
-            IsAccepted = false
+            IsAccepted = false,
+            IsRemote = request.IsRemote
         };
 
         await _scheduleItemRequestRepository.Create(scheduleItemRequest);
 
-        return new CreateScheduleItemRequestResponse 
-        { 
+
+        return new CreateScheduleItemRequestResponse
+        {
             Success = true,
-            CreatedScheduleItemRequestId = scheduleItemRequest.Id,
+            CreatedScheduleItemRequestId = scheduleItemRequest.Id
         };
     }
 
+    public async Task<GetAvailableScheduleForAdResponse> GetAvailableScheduleForAd(GetAvailableScheduleForAdRequest request)
+    {
+        List<ScheduleItemDto> items = await _scheduleItemRepository.GetAll()
+            .Where(si => si.Ad.AdRequests.Any(ar => ar.StudentId == request.StudentId && ar.IsAccepted))
+            .Select(si => new ScheduleItemDto()
+            {
+                AdId = si.AdId,
+                DateTime = si.DateTime,
+                Id = si.Id,
+                Status = si.ScheduleItemRequests.Any(sir => sir.StudentId == request.StudentId && sir.IsAccepted) ? ScheduleItemDto.ScheduleItemRequestStatus.Accepted
+                    : si.ScheduleItemRequests.Any(sir => sir.StudentId == request.StudentId) ? ScheduleItemDto.ScheduleItemRequestStatus.Pending
+                    : ScheduleItemDto.ScheduleItemRequestStatus.RequestNotSent
+            })
+            .ToListAsync();
+
+        bool isAccepted = await _adRequestRepository.GetAll()
+            .Where(ar => ar.AdId == request.AdId)
+            .AnyAsync(ar => ar.StudentId == request.StudentId && ar.IsAccepted);
+
+        bool isRemote = await _adRepository.GetAll()
+            .Where(ad => ad.Id == request.AdId)
+            .Select(ad => ad.IsRemote)
+            .FirstOrDefaultAsync();
+
+        GetAvailableScheduleForAdResponse response = new()
+        {
+            AdId = request.AdId,
+            IsAccepted = isAccepted,
+            IsRemote = isRemote,
+            Items = items
+        };
+
+        return response;
+    }
+
+    #endregion
+    #region Ads
     public async Task<GetStudentsAcceptedAdsResponse> GetStudentsAcceptedAds(GetStudentsAcceptedAdsRequest request)
     {
         var studentId = request.StudentId;
@@ -141,7 +181,7 @@ public class StudentService : IStudentService
             .FirstOrDefaultAsync();
 
         if (adRequestDetails is null)
-            return new GetAdRequestStatusResponse() { IsSuccessful = false }; 
+            return new GetAdRequestStatusResponse() { IsSuccessful = false };
 
         GetAdRequestStatusResponse response = new GetAdRequestStatusResponse()
         {
@@ -231,33 +271,5 @@ public class StudentService : IStudentService
             Success = true
         };
     }
-
-    public async Task<GetAvailableScheduleForAdResponse> GetAvailableScheduleForAd(GetAvailableScheduleForAdRequest request)
-    {
-        List<ScheduleItemDto> items = await _scheduleItemRepository.GetAll()
-            .Where(si => si.Ad.AdRequests.Any(ar => ar.StudentId == request.StudentId && ar.IsAccepted) && si.AdId == request.AdId)
-            .Select(si => new ScheduleItemDto()
-            {
-                AdId = si.AdId,
-                DateTime = si.DateTime,
-                Id = si.Id,
-                Status = si.ScheduleItemRequests.Any(sir => sir.StudentId == request.StudentId && sir.IsAccepted) ? ScheduleItemDto.ScheduleItemRequestStatus.Accepted
-                    : si.ScheduleItemRequests.Any(sir => sir.StudentId == request.StudentId) ? ScheduleItemDto.ScheduleItemRequestStatus.Pending
-                    : ScheduleItemDto.ScheduleItemRequestStatus.RequestNotSent
-            })
-            .ToListAsync();
-
-        bool isAccepted = await _adRequestRepository.GetAll()
-            .Where(ar => ar.AdId == request.AdId)
-            .AnyAsync(ar => ar.StudentId == request.StudentId && ar.IsAccepted);
-
-        GetAvailableScheduleForAdResponse response = new()
-        {
-            AdId = request.AdId,
-            IsAccepted = isAccepted,
-            Items = items
-        };
-
-        return response;
-    }
 }
+#endregion

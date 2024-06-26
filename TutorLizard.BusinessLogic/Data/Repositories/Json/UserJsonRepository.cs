@@ -15,9 +15,9 @@ public class UserJsonRepository : JsonRepositoryBase<User>, IUserRepository
         
     }
 
-    public User CreateUser(string name, UserType type, string email, string passwordHash)
+    public User CreateUser(string name, UserType type, string email, string passwordHash, string googleid)
     {
-        User newUser = new(GetNewId(), name, type, email, passwordHash);
+        User newUser = new(GetNewId(), name, type, email, passwordHash, googleid);
         Data.Add(newUser);
         SaveToJson();
 
