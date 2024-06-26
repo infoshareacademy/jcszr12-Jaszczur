@@ -35,7 +35,6 @@ body {
 .text-red {
     font-family: "Montserrat", sans-serif;
     font-weight: bold;
-    font-size: 2rem;
     color: #b01e31;
     margin-bottom: 5px;
     margin-top: 5px;
@@ -44,10 +43,13 @@ body {
 .text-green {
     font-family: "Montserrat", sans-serif;
     font-weight: bold;
-    font-size: 2rem;
     color: #1b8c3b;
     margin-bottom: 5px;
     margin-top: 5px;
+}
+
+.text-bold {
+    font-weight: bold;
 }
 
 .btn-light {
@@ -57,6 +59,16 @@ body {
     background-color: #9db88c;
     color: #ffffff;
 }
+
+.btn-details {
+    background-color: #9db88c;
+    font-weight: bold;
+}
+
+    .btn-details:hover {
+        background-color: #2b4027;
+        color: #ffffff;
+    }
 
 .btn-outline-dark {
     color: #ffffff;
@@ -132,6 +144,20 @@ body {
     .custom-link:hover {
         color: #2b4027;
     }
+
+.custom-padding {
+    padding: 5px;
+}
+
+.margin-bottom {
+    margin-bottom: 25px;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #b0b0b0;
+}
+
+
 /* Navbar styles */
 .navbar {
     background-color: #2b4027;

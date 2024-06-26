@@ -2,34 +2,34 @@
 
 <div class="card my-3 ad-list-item">
     <div class="card-body">
-        <h5 class="card-title">@Model.Title</h5>
+        <h5 class="card-title text-green text-center margin-bottom border-bottom">@Model.Title</h5>
         <div class="row">
-            <div class="col-6 col-sm-3">Kategoria:</div>
+            <div class="col-6 col-sm-3 text-bold">Kategoria:</div>
             <div class="col-6 col-sm-9">@Model.CategoryName</div>
         </div>
 
         <div class="row">
-            <div class="col-6 col-sm-3">Tematyka:</div>
+            <div class="col-6 col-sm-3 text-bold">Tematyka:</div>
             <div class="col-6 col-sm-9">@Model.Subject</div>
         </div>
 
         <div class="row">
-            <div class="col-6 col-sm-3">Lokalizacja:</div>
+            <div class="col-6 col-sm-3 text-bold">Lokalizacja:</div>
             <div class="col-6 col-sm-9">@Model.Location</div>
         </div>
 
         <div class="row">
-            <div class="col-6 col-sm-3">Tutor:</div>
+            <div class="col-6 col-sm-3 text-bold">Tutor:</div>
             <div class="col-6 col-sm-9">@Model.TutorName</div>
         </div>
 
         <div class="row">
-            <div class="col-6 col-sm-3">Cena:</div>
+            <div class="col-6 col-sm-3 text-bold">Cena:</div>
             <div class="col-6 col-sm-9">@Html.DisplayFor(model => model.Price) zł/h</div>
         </div>
 
         <div class="row">
-            <div class="col-6 col-sm-9">
+            <div class="col-6 col-sm-9 text-green">
                 @if(Model.IsRemote)
                 {
                     <span>Nauczanie zdalne</span>
@@ -49,7 +49,7 @@
 
             <div class="row">
                 <div class="text-end mt-2">
-                <a asp-action="AdDetails" asp-controller="Browse" asp-route-id="@Model.Id" class="btn btn-light">Szczegóły ogłoszenia</a>
+                <a asp-action="AdDetails" asp-controller="Browse" asp-route-id="@Model.Id" class="btn btn-details">Szczegóły ogłoszenia</a>
                 </div>
             </div>
     </div>
