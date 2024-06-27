@@ -16,10 +16,10 @@
 
 <div class="row text-center">
 
-    <div class="col-4">
+    <div class="col-4 btn btn-light">
         @if(Model.PageNumber > 1)
         {
-            <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)">Poprzednia strona</a>
+            <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" class="custom-link">Poprzednia strona</a>
         }
     </div>
 
@@ -27,10 +27,10 @@
         Strona @Model.PageNumber z @Model.TotalPages
     </div>
 
-    <div class="col-4">
+    <div class="col-4 btn btn-light">
         @if(Model.TotalPages > Model.PageNumber)
         {
-            <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)">Następna strona</a>
+            <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" class="custom-link">Następna strona</a>
         }
     </div>
 
