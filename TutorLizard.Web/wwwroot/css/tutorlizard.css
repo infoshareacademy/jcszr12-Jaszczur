@@ -1,7 +1,28 @@
 ﻿/* tutorlizard.css */
 
 body {
-    padding-top: 70px;
+    padding-top: 66px;
+}
+
+.banner {
+    background-color: #9DB88C;
+    display: flex;
+    justify-content: center;
+    max-width: 100%;
+    height: auto;
+    
+}
+
+.banner-container {
+    margin-top: 141px;
+    max-width: 100%;
+    height: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    transition: filter 0.3s ease;
+   /* filter: blur(5px);*/
 }
 
 .title {
@@ -155,6 +176,14 @@ body {
 
 .border-bottom {
     border-bottom: 1px solid #b0b0b0;
+}
+
+.border-top {
+    border-top: 1px solid #b0b0b0;
+}
+
+.margin-top {
+    margin-top: 200px;
 }
 
 
