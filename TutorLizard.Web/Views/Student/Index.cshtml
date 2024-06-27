@@ -2,10 +2,18 @@
 
 <h1 class="title">Funkcjonalność ucznia</h1>
 
-<ul class="list-group col-md-6 col-xl-3">
-    <li class="list-group-item"><a asp-action="AdRequests">Przeglądaj swoje zapytania do ogłoszeń</a></li>
-</ul>
-<ul class="list-group col-md-6 col-xl-3">
-    <li class="list-group-item"><a asp-action="AcceptedAds">Przeglądaj ogłoszenia do których jesteś zaakceptowany</a></li>
-</ul>
+<div class="col-lg-5 mx-auto">
+    <div class="custom-padding">
+        <div class="list-group btn-light">
+            <li class="btn"><a asp-action="AdRequests" class="custom-link">Oczekujące zgłoszenia</a></li>
+        </div>
+    </div>
+</div>
+<div class="col-lg-5 mx-auto">
+    <div class="custom-padding">
+         <div class="list-group btn-light">
+            <li class="btn"><a asp-action="AcceptedAds" class="custom-link">Przyjęte zgłoszenia</a></li>
+         </div>
+    </div>
+</div>
 

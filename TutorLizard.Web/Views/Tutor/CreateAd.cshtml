@@ -7,9 +7,12 @@
 <h1 class="title">Nowe ogłoszenie</h1>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreateAd">
+
+<form asp-action="CreateAd">
+<div class="row ad-list-item montserrat-lizardFont mx-auto">
+    
+    <div class="col-md-6">
+        
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
@@ -51,7 +54,8 @@
                     <input class="form-check-input" asp-for="IsRemote" /> @Html.DisplayNameFor(model => model.IsRemote)
                 </label>
             </div>
-            
+    </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <textarea asp-for="Description" class="form-control"></textarea>
@@ -61,8 +65,10 @@
             <div class="form-group my-3">
                 <input type="submit" value="Dodaj ogłoszenie" class="btn btn-primary w-100" />
             </div>
-        </form>
-    </div>
+
+        </div>   
+</form>
+    
 </div>
 
 @section Scripts {
