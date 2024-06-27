@@ -4,7 +4,7 @@
 
 <div class="row schedule-container">
     <div class="col-sm-6 d-flex flex-column schedule-column">
-        <h2 class="schedule-subtitle">Jako uczeń</h2>
+        <h2 class="schedule-subtitle text-center">Jako uczeń</h2>
         @if (Model.StudentsSchedule.Count == 0)
         {
             <div class="schedule-empty">
@@ -15,9 +15,9 @@
         {
             foreach (var item in Model.StudentsSchedule)
             {
-                <div class="p-3 my-2 border border-2 schedule-item">
+                <div class="p-3 my-2 ad-list-item">
                     <div class="schedule-item-title">
-                        <a asp-action="AdDetails" asp-route-id="@item.AdId">@item.AdTitle</a>
+                        <a asp-action="AdDetails" asp-route-id="@item.AdId" class="title-3">@item.AdTitle</a>
                     </div>
                     <div class="h3 schedule-item-datetime">@item.DateTime</div>
                     <div class="schedule-item-tutor">Nauczyciel: @item.TutorName</div>
@@ -42,7 +42,7 @@
     </div>
 
     <div class="col-sm-6 d-flex flex-column schedule-column">
-        <h2 class="schedule-subtitle">Jako nauczyciel</h2>
+        <h2 class="schedule-subtitle text-center">Jako nauczyciel</h2>
         @if (Model.TutorsSchedule.Count == 0)
         {
             <div class="schedule-empty">
@@ -53,9 +53,9 @@
         {
             foreach (var item in Model.TutorsSchedule)
             {
-                <div class="p-3 my-2 border border-2 schedule-item">
+                <div class="p-3 my-2 ad-list-item">
                     <div class="schedule-item-title">
-                        <a asp-action="AdDetails" asp-route-id="@item.AdId">@item.AdTitle</a>
+                        <a asp-action="AdDetails" asp-route-id="@item.AdId" class="title-3">@item.AdTitle</a>
                     </div>
                     <div class="h3 schedule-item-datetime">@item.DateTime</div>
                     <div class="schedule-item-requests">Liczba zgłoszeń: @item.RequestCount</div>
@@ -63,7 +63,7 @@
                         <span>Zapisany uczeń: </span>
                         @if (item.AcceptedStudentsName is null)
                         {
-                            <span>Brak</span>
+                            <span class="text-red">Brak</span>
                         }
                         else
                         {
