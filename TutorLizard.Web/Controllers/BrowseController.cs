@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using TutorLizard.BusinessLogic.Interfaces.Services;
+using TutorLizard.Shared.Models.DTOs;
 using TutorLizard.Shared.Models.DTOs.Requests;
 using TutorLizard.Shared.Models.DTOs.Responses;
 using TutorLizard.Web.Interfaces.Services;
+using TutorLizard.Web.Models;
+using TutorLizard.Web.Extensions;
 
 namespace TutorLizard.Web.Controllers;
 public class BrowseController : Controller
@@ -11,15 +15,18 @@ public class BrowseController : Controller
     private readonly IBrowseService _browseService;
     private readonly IUserAuthenticationService _userAuthenticationService;
     private readonly IUiMessagesService _uiMessagesService;
+    private readonly ICategoryService _categoryService;
     private readonly int _pageSize;
 
     public BrowseController(IBrowseService browseService,
                             IUserAuthenticationService userAuthenticationService,
-                            IUiMessagesService uiMessagesService)
+                            IUiMessagesService uiMessagesService,
+                            ICategoryService categoryService)
     {
         _browseService = browseService;
         _userAuthenticationService = userAuthenticationService;
         _uiMessagesService = uiMessagesService;
+        _categoryService = categoryService;
         _pageSize = 10;
     }
     public IActionResult Index()
@@ -27,12 +34,16 @@ public class BrowseController : Controller
         return RedirectToAction(nameof(Ads));
     }
 
-    public async Task<IActionResult> Ads(int id = 1)
+    public async Task<IActionResult> Ads(int id = 1, [FromQuery] string? search = "")
     {
         // TODO customize routing, so that parameter is page, not id
         int pageNumber = id > 0 ? id : 1;
         int pageSize = _pageSize > 0 ? _pageSize : 1;
-        GetBrowseAdsPageRequest request = new(pageNumber, pageSize);
+
+        AdSearchCriteriaDto? searchCriteria = search?.ToAdSearchCriteriaDto();
+        searchCriteria ??= new();
+
+        GetBrowseAdsPageRequest request = new(pageNumber, pageSize, searchCriteria);
 
         GetBrowseAdsPageResponse response = await _browseService.GetBrowseAdsPage(request);
 
@@ -42,8 +53,19 @@ public class BrowseController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        return View(response);
+        await AddCategoriesToViewBag();
+
+        return View(nameof(Ads), response);
     }
+
+    [HttpPost]
+    public IActionResult Search([FromForm] AdSearchCriteriaViewModel searchCriteria)
+    {
+        string search = searchCriteria.ToDto().ToBase64String();
+
+        return RedirectToAction(nameof(Ads), "Browse", new { search });
+    }
+
     [Authorize]
     public async Task<IActionResult> AdDetails(int id)
     {
@@ -85,5 +107,15 @@ public class BrowseController : Controller
 
         GetUsersScheduleResponse response = await _browseService.GetUsersSchedule(request);
         return View(response);
+    }
+
+    private async Task AddCategoriesToViewBag()
+    {
+        GetCategoriesRequest request = new();
+        GetCategoriesResponse response = await _categoryService.GetCategories(request);
+
+        ViewBag.Categories = new SelectList(items: response.Categories,
+                                            dataValueField: nameof(CategoryDto.Id),
+                                            dataTextField: nameof(CategoryDto.Name));
     }
 }

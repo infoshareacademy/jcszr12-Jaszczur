@@ -1,10 +1,22 @@
-﻿@model GetBrowseAdsPageResponse
+﻿@using TutorLizard.Web.Extensions
+@model GetBrowseAdsPageResponse
 
 @{
     ViewData["Title"] = "Ogłoszenia";
 }
 
 <h1>Ogłoszenia</h1>
+
+<form asp-action="Search" method="post" class="d-flex flex-column p-2 border">
+    <h2 class="text-center">Wyszukiwanie ogłoszeń</h2>
+    <partial name="@PartialNames.AdSearchCriteria" model="Model.SearchCriteria.ToViewModel()"/>
+    <button type="submit" class="btn btn-primary m-2">Wyszukaj</button>
+</form>
+
+@if (Model.SearchCriteria.AnySearch)
+{
+    <div class="p-2">Liczba wyników wyszukiwania: @Model.TotalAds</div>
+}
 
 @foreach (var ad in Model.Ads)
 {
@@ -14,9 +26,17 @@
 <div class="row text-center">
 
     <div class="col-4">
+
         @if(Model.PageNumber > 1)
         {
-            <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)">Poprzednia strona</a>
+            @if (Model.SearchCriteria.AnySearch)
+            {
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Poprzednia strona</a>
+            }
+            else
+            {
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)">Poprzednia strona</a>
+            }
         }
     </div>
 
@@ -27,7 +47,14 @@
     <div class="col-4">
         @if(Model.TotalPages > Model.PageNumber)
         {
-            <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)">Następna strona</a>
+            @if(Model.SearchCriteria.AnySearch)
+            {
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Następna strona</a>
+            }
+            else
+            {
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)">Następna strona</a>
+            }
         }
     </div>
 
