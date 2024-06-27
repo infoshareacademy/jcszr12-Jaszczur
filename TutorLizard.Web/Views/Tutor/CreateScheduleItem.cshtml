@@ -7,8 +7,8 @@
 <h1 class="title">Nowy termin</h1>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="row ad-list-item mx-auto">
+    <div class="col-md-4 mx-auto">
         <form asp-action="CreateScheduleItem">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="AdId" class="form-control" type="hidden"/>
@@ -17,7 +17,7 @@
                 <input asp-for="DateTime" class="form-control" />
                 <span asp-validation-for="DateTime" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Zatwierdź</button>
+            <button type="submit" class="btn w-100 btn-outline-dark">Zatwierdź</button>
         </form>
     </div>
 </div>
