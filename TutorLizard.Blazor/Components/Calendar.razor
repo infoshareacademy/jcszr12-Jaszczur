@@ -35,11 +35,19 @@
             <div class="d-xxl-none">Nd</div>
         </div>
         <div class="seven-column-section calendar-grid">
-            <div class="@(DayOfWeekOnFirst())" @onclick="() => HandleDaySelected(1)">1</div>
+            <div class="@(DayOfWeekOnFirst()) @(IsSelected(1) ? "selected" : "")" @onclick="() => HandleDaySelected(1)">
+                1
+                <CalendarItemsCountIndicator AsTutor="GetScheduleItemCountsAsTutor(1)"
+                                             AsStudent="GetScheduleItemCountsAsStudent(1)"/>
+            </div>
             @for (int i = 2; i <= DateTime.DaysInMonth(Year, Month); i++)
             {
                 int day = i;
-                <div @onclick="() => HandleDaySelected(day)">@day</div>
+                <div class="@(IsSelected(day) ? "selected" : "")" @onclick="() => HandleDaySelected(day)">
+                    @day
+                    <CalendarItemsCountIndicator AsTutor="GetScheduleItemCountsAsTutor(day)"
+                                                 AsStudent="GetScheduleItemCountsAsStudent(day)" />
+                </div>
             }
         </div>
     </div>
@@ -54,6 +62,8 @@
     public List<IScheduleItemSummaryDto> Schedule { get; set; } = [];
     [Parameter, EditorRequired]
     public Action<int, int, int>? OnDaySelected { get; set; }
+    [Parameter, EditorRequired]
+    public int DaySelected { get; set; }
 
     private string controller = "Browse";
     private string action = "Ads";
@@ -72,5 +82,30 @@
     private void HandleDaySelected(int day)
     {
         OnDaySelected?.Invoke(Year, Month, day);
+    }
+
+    private int GetScheduleItemCountsAsTutor(int day)
+    {
+        DateTime date = new DateTime(Year, Month, day);
+        return Schedule
+            .Where(si =>
+                si.DateTime.Date == date.Date &&
+                si is TutorsScheduleItemSummaryDto)
+            .Count();
+    }
+
+    private int GetScheduleItemCountsAsStudent(int day)
+    {
+        DateTime date = new DateTime(Year, Month, day);
+        return Schedule
+            .Where(si =>
+                si.DateTime.Date == date.Date &&
+                si is StudentsScheduleItemSummaryDto)
+            .Count();
+    }
+
+    private bool IsSelected(int day)
+    {
+        return day == DaySelected;
     }
 }
