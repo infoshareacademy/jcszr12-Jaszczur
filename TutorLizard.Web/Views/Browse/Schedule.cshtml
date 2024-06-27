@@ -1,6 +1,16 @@
-﻿@model GetUsersScheduleResponse
+﻿@using TutorLizard.Web.Extensions
+@model GetUsersScheduleResponse
 
 <h1>Twoje terminy</h1>
+
+<div class="row">
+    <component type="typeof(Calendar)"
+               render-mode="WebAssemblyPrerendered"
+               param-Year="@DateTime.Now.Year"
+               param-Month="@DateTime.Now.Month"
+               param-TutorsSchedule="@Model.TutorsSchedule.Serialize()"
+               param-StudentsSchedule="@Model.StudentsSchedule.Serialize()"/>
+</div>
 
 <div class="row">
     <div class="col-sm-6 d-flex flex-column">
