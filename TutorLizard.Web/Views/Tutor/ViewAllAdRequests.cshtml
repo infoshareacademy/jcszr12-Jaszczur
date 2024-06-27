@@ -4,8 +4,9 @@
     ViewData["Title"] = "ViewAdRequests";
 }
 
-<h1 class="title">AdRequests</h1>
+<h1 class="title">Zgłoszenia</h1>
 @foreach (var adrequest in Model.AdRequests)
 {
     <partial name="@PartialNames.TutorAllAdRequestsListItem" model="adrequest" />
 }
+

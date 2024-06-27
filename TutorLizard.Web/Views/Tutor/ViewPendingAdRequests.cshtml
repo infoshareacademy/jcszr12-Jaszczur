@@ -4,7 +4,7 @@
     ViewData["Title"] = "ViewPendingAdRequests";
 }
 
-<h1 class="title">PendingAdRequests</h1>
+<h1 class="title">Oczekujące zgłoszenia</h1>
 @foreach (var adrequest in Model.AdRequests)
 {
    <partial name="@PartialNames.PendingAdRequestsListItem" model="adrequest" />
