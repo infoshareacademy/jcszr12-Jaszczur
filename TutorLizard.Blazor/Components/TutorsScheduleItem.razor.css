@@ -1,0 +1,16 @@
+﻿.item {
+    background-color: white;
+    padding: .5rem;
+    margin: .25rem;
+    border-radius: .5rem;
+}
+
+.item:hover {
+    background-color: lightblue;
+    transition: .25s;
+    cursor: pointer;
+}
+
+    .item h4 {
+        margin: 0;
+    }

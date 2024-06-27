@@ -2,7 +2,7 @@
 @using TutorLizard.Shared.Models.DTOs
 @inject NavigationManager navigation
 
-<div class="calendar-container">
+<div class="calendar-container my-2">
     <div class="calendar-header">
         <div class="previous">
             <button class="btn btn-success" @onclick="() => Navigate(controller, action)">
@@ -18,27 +18,28 @@
     </div>
     <div class="calendar-main">
         <div class="seven-column-section days-header">
-            <div class="d-none d-lg-block">Poniedziałek</div>
-            <div class="d-none d-lg-block">Wtorek</div>
-            <div class="d-none d-lg-block">Środa</div>
-            <div class="d-none d-lg-block">Czwartek</div>
-            <div class="d-none d-lg-block">Piątek</div>
-            <div class="d-none d-lg-block">Sobota</div>
-            <div class="d-none d-lg-block">Niedziela</div>
+            <div class="d-none d-xxl-block">Poniedziałek</div>
+            <div class="d-none d-xxl-block">Wtorek</div>
+            <div class="d-none d-xxl-block">Środa</div>
+            <div class="d-none d-xxl-block">Czwartek</div>
+            <div class="d-none d-xxl-block">Piątek</div>
+            <div class="d-none d-xxl-block">Sobota</div>
+            <div class="d-none d-xxl-block">Niedziela</div>
             
-            <div class="d-lg-none">Pn</div>
-            <div class="d-lg-none">Wt</div>
-            <div class="d-lg-none">Śr</div>
-            <div class="d-lg-none">Czw</div>
-            <div class="d-lg-none">Pt</div>
-            <div class="d-lg-none">Sb</div>
-            <div class="d-lg-none">Nd</div>
+            <div class="d-xxl-none">Pn</div>
+            <div class="d-xxl-none">Wt</div>
+            <div class="d-xxl-none">Śr</div>
+            <div class="d-xxl-none">Czw</div>
+            <div class="d-xxl-none">Pt</div>
+            <div class="d-xxl-none">Sb</div>
+            <div class="d-xxl-none">Nd</div>
         </div>
         <div class="seven-column-section calendar-grid">
-            <div class="@(DayOfWeekOnFirst())">1</div>
+            <div class="@(DayOfWeekOnFirst())" @onclick="() => HandleDaySelected(1)">1</div>
             @for (int i = 2; i <= DateTime.DaysInMonth(Year, Month); i++)
             {
-                <div>@i</div>
+                int day = i;
+                <div @onclick="() => HandleDaySelected(day)">@day</div>
             }
         </div>
     </div>
@@ -50,38 +51,12 @@
     [Parameter, EditorRequired]
     public int Month { get; set; }
     [Parameter, EditorRequired]
-    public string? TutorsSchedule { get; set; }
+    public List<IScheduleItemSummaryDto> Schedule { get; set; } = [];
     [Parameter, EditorRequired]
-    public string? StudentsSchedule { get; set; }
-
-    private List<IScheduleItemSummaryDto> schedule = [];
+    public Action<int, int, int>? OnDaySelected { get; set; }
 
     private string controller = "Browse";
     private string action = "Ads";
-
-    protected override void OnParametersSet()
-    {
-        schedule.Clear();
-        try
-        {
-            if (String.IsNullOrWhiteSpace(StudentsSchedule) == false)
-            {
-                var studentsSchedule = JsonSerializer
-                    .Deserialize<IEnumerable<StudentsScheduleItemSummaryDto>>(StudentsSchedule);
-                schedule.AddRange(studentsSchedule);
-            }
-            if (String.IsNullOrWhiteSpace(TutorsSchedule) == false)
-            {
-                var tutorsSchedule = JsonSerializer
-                    .Deserialize<IEnumerable<StudentsScheduleItemSummaryDto>>(TutorsSchedule);
-                schedule.AddRange(tutorsSchedule);
-            }
-        }
-        catch
-        {}
-
-        base.OnParametersSet();
-    }
 
     private string DayOfWeekOnFirst()
     {
@@ -92,5 +67,10 @@
     private void Navigate(string controller, string action)
     {
         navigation.NavigateTo($"{controller}/{action}");
+    }
+
+    private void HandleDaySelected(int day)
+    {
+        OnDaySelected?.Invoke(Year, Month, day);
     }
 }
