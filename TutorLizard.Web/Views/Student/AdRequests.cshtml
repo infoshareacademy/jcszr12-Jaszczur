@@ -3,8 +3,10 @@
     ViewData["Title"] = "AdRequests";
 }
     
-<h1 class="title">AdRequests</h1>
+<h1 class="title">Twoje zgłoszenia</h1>
+<div class="ad-grid">
 @foreach(var adRequest in Model.AdRequests)
 {
     <partial name="@PartialNames.AdRequest" model="adRequest" />
-}
+    }
+</div>
