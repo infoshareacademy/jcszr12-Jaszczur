@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.Shared.Models.DTOs;
 using TutorLizard.Shared.Models.DTOs.Requests;
@@ -8,6 +7,7 @@ using TutorLizard.Shared.Models.DTOs.Responses;
 using TutorLizard.Web.Interfaces.Services;
 using TutorLizard.Blazor.Models;
 using TutorLizard.Web.Extensions;
+using TutorLizard.Blazor.Extensions;
 
 namespace TutorLizard.Web.Controllers;
 public class BrowseController : Controller
@@ -59,9 +59,10 @@ public class BrowseController : Controller
     }
 
     [HttpPost]
-    public IActionResult Search([FromForm] AdSearchCriteriaViewModel searchCriteria)
+    public IActionResult Search([FromForm] string searchCriteria)
     {
-        string search = searchCriteria.ToDto().ToBase64String();
+        var model = searchCriteria.DeserializeAdSearchCriteriaViewModel();
+        string search = model?.ToDto().ToBase64String() ?? "";
 
         return RedirectToAction(nameof(Ads), "Browse", new { search });
     }
@@ -114,8 +115,6 @@ public class BrowseController : Controller
         GetCategoriesRequest request = new();
         GetCategoriesResponse response = await _categoryService.GetCategories(request);
 
-        ViewBag.Categories = new SelectList(items: response.Categories,
-                                            dataValueField: nameof(CategoryDto.Id),
-                                            dataTextField: nameof(CategoryDto.Name));
+        ViewBag.Categories = response.Categories;
     }
 }

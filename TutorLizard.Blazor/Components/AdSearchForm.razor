@@ -1,6 +1,109 @@
-﻿<h3>AdSearchForm</h3>
+﻿@using TutorLizard.Blazor.Extensions
+@using TutorLizard.Blazor.Models
+@using TutorLizard.Shared.Models.DTOs
 
-@code {
+<div>
+    <div class="d-flex flex-row">
+        <div class="align-content-center p-2">
+            <InputCheckbox @bind-Value="searchCriteria.SearchByText"
+                           class="form-check-input" />
+        </div>
+        <div class="form-group w-100 p-2 align-content-center">
+            <label class="control-label">Tytuł / Przedmiot / Opis:</label>
+            <InputText @bind-Value="searchCriteria.Text"
+                       class="form-control form-control-sm"
+                       disabled="@(!searchCriteria.SearchByText)" />
+        </div>
+    </div>
+    <div class="d-flex flex-row">
+        <div class="align-content-center p-2">
+            <InputCheckbox @bind-Value="searchCriteria.SearchByPriceMin"
+                           class="form-check-input" />
+        </div>
+        <div class="form-group w-100 p-2 align-content-center">
+            <label class="control-label">Cena od:</label>
+            <InputNumber @bind-Value="searchCriteria.PriceMin"
+                         class="form-control form-control-sm"
+                         disabled="@(!searchCriteria.SearchByPriceMin)" />
+        </div>
+
+        <div class="align-content-center p-2">
+            <InputCheckbox @bind-Value="searchCriteria.SearchByPriceMax"
+                           class="form-check-input" />
+        </div>
+        <div class="form-group w-100 p-2 align-content-center">
+            <label class="control-label">Cena do:</label>
+            <InputNumber @bind-Value="searchCriteria.PriceMax"
+                         class="form-control form-control-sm"
+                         disabled="@(!searchCriteria.SearchByPriceMax)" />
+        </div>
+    </div>
+    <div class="d-flex flex-row">
+        <div class="align-content-center p-2">
+            <InputCheckbox @bind-Value="searchCriteria.SearchByLocation"
+                           class="form-check-input" />
+        </div>
+        <div class="form-group w-100 p-2 align-content-center">
+            <label class="control-label">Lokalizacja:</label>
+            <InputText @bind-Value="searchCriteria.Location"
+                       class="form-control form-control-sm"
+                       disabled="@(!searchCriteria.SearchByLocation)" />
+        </div>
+    </div>
+    <div class="d-flex flex-row">
+        <div class="align-content-center p-2">
+            <InputCheckbox @bind-Value="searchCriteria.SearchByCategoryId"
+                           class="form-check-input" />
+        </div>
+        <div class="form-group w-100 p-2 align-content-center">
+            <label class="control-label">Kategoria:</label>
+            <InputSelect @bind-Value="searchCriteria.CategoryId"
+                         class="form-select"
+                         disabled="@(!searchCriteria.SearchByCategoryId)">
+                @foreach (CategoryDto category in categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="align-content-center p-2">
+            <InputCheckbox @bind-Value="searchCriteria.SearchByIsRemote"
+                           class="form-check-input" />
+        </div>
+        <div class="form-group w-100 p-2 align-content-center">
+            <InputCheckbox @bind-Value="searchCriteria.IsRemote"
+                           class="form-check-input"
+                           disabled="@(!searchCriteria.SearchByIsRemote)" />
+            <label class="control-label">Nauczanie zdalne</label>
+        </div>
+        <input type="hidden" value="@searchOutputJson" name="searchCriteria" />
+    </div>
+</div>
+
+
+    @code {
     [Parameter, EditorRequired]
-    public string SearchCriteria { get; set; }
+    public string? SearchCriteriaJson { get; set; }
+    [Parameter, EditorRequired]
+    public string? CategoriesJson { get; set; }
+
+    private AdSearchCriteriaViewModel searchCriteria = new();
+    private List<CategoryDto> categories = [];
+
+    private string searchOutputJson => searchCriteria.Serialize();
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (String.IsNullOrWhiteSpace(SearchCriteriaJson) == false)
+        {
+            searchCriteria = SearchCriteriaJson.DeserializeAdSearchCriteriaViewModel() ?? new();
+        }
+        if (String.IsNullOrWhiteSpace(CategoriesJson) == false)
+        {
+            categories = CategoriesJson.DeserializeCategories() ?? [];
+        }
+    }
 }
