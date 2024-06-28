@@ -5,7 +5,7 @@
 
 <div class="row">
     <component type="typeof(Schedule)"
-               render-mode="Server"
+               render-mode="WebAssemblyPrerendered"
                param-Year="@DateTime.Now.Year"
                param-Month="@DateTime.Now.Month"
                param-TutorsSchedule="@Model.TutorsSchedule.Serialize()"
