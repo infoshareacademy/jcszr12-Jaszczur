@@ -1,6 +1,6 @@
 ﻿using AutoFixture;
 using Microsoft.AspNetCore.Mvc;
-using TutorLizard.Web.Models;
+using TutorLizard.Blazor.Models;
 using TutorLizard.Web.Extensions;
 
 namespace TutorLizard.Web.Tests.Controllers.Browse;

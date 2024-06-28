@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using TutorLizard.Blazor.Models;
 using TutorLizard.Shared.Models.DTOs;
-using TutorLizard.Web.Models;
 
 namespace TutorLizard.Web.Extensions;
 

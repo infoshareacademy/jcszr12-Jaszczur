@@ -6,7 +6,7 @@ using TutorLizard.Shared.Models.DTOs;
 using TutorLizard.Shared.Models.DTOs.Requests;
 using TutorLizard.Shared.Models.DTOs.Responses;
 using TutorLizard.Web.Interfaces.Services;
-using TutorLizard.Web.Models;
+using TutorLizard.Blazor.Models;
 using TutorLizard.Web.Extensions;
 
 namespace TutorLizard.Web.Controllers;

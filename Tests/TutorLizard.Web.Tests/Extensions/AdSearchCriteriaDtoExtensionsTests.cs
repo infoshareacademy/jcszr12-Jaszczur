@@ -1,7 +1,7 @@
 ﻿using AutoFixture;
+using TutorLizard.Blazor.Models;
 using TutorLizard.Shared.Models.DTOs;
 using TutorLizard.Web.Extensions;
-using TutorLizard.Web.Models;
 
 namespace TutorLizard.Web.Tests.Extensions;
 public class AdSearchCriteriaDtoExtensionsTests
