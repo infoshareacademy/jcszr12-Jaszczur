@@ -71,17 +71,19 @@ public class AccountController : Controller
                 return RedirectToAction("Login");
             }
 
-            var claims = result.Principal.Identities.FirstOrDefault()?.Claims.ToList();
+            var claims = result?.Principal?.Identities.FirstOrDefault()?.Claims.ToList();
 
-            var claimNameIdentifier = claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var googleId = claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var claimName = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
             var claimEmail = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
 
-            if(!(await _userAuthenticationService.IsGoogleUserRegistered(claimNameIdentifier)))
+            await _userAuthenticationService.LogOutAsync();
+
+            if(!(await _userAuthenticationService.IsGoogleUserRegistered(googleId)))
             {
                 try
                 {
-                    await _userAuthenticationService.RegisterUserWithGoogle(claimName, claimEmail, claimNameIdentifier);
+                    await _userAuthenticationService.RegisterUserWithGoogle(claimName, claimEmail, googleId);
                 }
                 catch (Exception ex)
                 {
@@ -90,7 +92,7 @@ public class AccountController : Controller
                 }
             }
 
-            var loggedIn = await _userAuthenticationService.LogInWithGoogleAsync(claimName,claimNameIdentifier);
+            var loggedIn = await _userAuthenticationService.LogInWithGoogleAsync(claimEmail, googleId);
 
             if (!loggedIn)
             {

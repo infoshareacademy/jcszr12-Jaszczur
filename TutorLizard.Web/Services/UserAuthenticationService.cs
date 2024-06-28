@@ -63,9 +63,15 @@ public class UserAuthenticationService : IUserAuthenticationService
         return logInResult;
     }
 
-    public async Task<bool> LogInWithGoogleAsync(string username, string googleId)
+    public async Task<bool> LogInWithGoogleAsync(string email, string googleId)
     {
-        var user = await _userService.LogInWithGoogle(username, googleId);
+        if (String.IsNullOrWhiteSpace(email) ||
+            String.IsNullOrWhiteSpace(googleId))
+        {
+            return false;
+        }
+
+        var user = await _userService.LogInWithGoogle(email, googleId);
 
         if (user is null)
         {
@@ -122,14 +128,24 @@ public class UserAuthenticationService : IUserAuthenticationService
         return Guid.NewGuid().ToString();
     }
 
-    public Task<bool> RegisterUserWithGoogle(string username, string email, string googleId)
+    public Task<bool> RegisterUserWithGoogle(string? username, string? email, string? googleId)
     {
+        if (String.IsNullOrWhiteSpace(username) ||
+            String.IsNullOrWhiteSpace(email) ||
+            String.IsNullOrWhiteSpace(googleId))
+        {
+            return Task.FromResult(false);
+        }
         return _userService.RegisterUserWithGoogle(username, email, googleId);
     }
 
-    public async Task<bool> IsGoogleUserRegistered(string googleid)
+    public async Task<bool> IsGoogleUserRegistered(string? googleId)
     {
-        return await _userService.IsTheGoogleUserRegistered(googleid);
+        if (String.IsNullOrWhiteSpace(googleId))
+        {
+            return false;
+        }
+        return await _userService.IsTheGoogleUserRegistered(googleId);
     }
 
     public int? GetLoggedInUserId()

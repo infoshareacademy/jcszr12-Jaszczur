@@ -10,5 +10,5 @@ public interface IUserService
     Task<ActivationResultDto> ActivateUserAsync(string activationCode);
     public Task<bool> RegisterUserWithGoogle(string username, string email, string googleId);
     public Task<bool> IsTheGoogleUserRegistered(string googleId);
-    public Task<UserDto?> LogInWithGoogle(string username, string googleId);
+    public Task<UserDto?> LogInWithGoogle(string email, string googleId);
 }
