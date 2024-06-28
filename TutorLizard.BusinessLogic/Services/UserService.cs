@@ -57,7 +57,7 @@ public class UserService : IUserService
         };
     }    
     
-    public async Task<UserDto?> LogInWithGoogle(string email, string googleId)
+    public async Task<LogInResult> LogInWithGoogle(string email, string googleId)
     {
         var user = await _userRepository.GetAll()
             .FirstOrDefaultAsync(user =>
@@ -66,10 +66,18 @@ public class UserService : IUserService
 
         if (user == null)
         {
-            return null;
+            return new LogInResult()
+            {
+                ResultCode = LogInResultCode.UserNotFound,
+                User = null
+            };
         }
 
-        return user.ToDto();
+        return new LogInResult()
+        {
+            ResultCode = LogInResultCode.Success,
+            User = user.ToDto()
+        };
     }
 
 

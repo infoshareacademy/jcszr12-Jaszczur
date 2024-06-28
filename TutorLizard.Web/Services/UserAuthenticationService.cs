@@ -28,83 +28,16 @@ public class UserAuthenticationService : IUserAuthenticationService
         _userRepository = userRepository;
     }
 
-    public async Task<LogInResult> LogInAsync(string username, string password)
+    public async Task<LogInResult> LogInWithPasswordAsync(string username, string password)
     {
         var logInResult = await _userService.LogIn(username, password);
-
-        if (logInResult.ResultCode == LogInResultCode.Success && logInResult.User != null)
-        {
-            var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Email, logInResult.User.Email),
-            new Claim(ClaimTypes.Name, logInResult.User.Name),
-            new Claim(ClaimTypes.NameIdentifier, logInResult.User.Id.ToString()),
-            new Claim(ClaimTypes.Role, logInResult.User.UserType.ToString())
-        };
-
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var authProperties = new AuthenticationProperties
-            {
-                AllowRefresh = true,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                IsPersistent = true,
-            };
-
-            if (_httpContextAccessor.HttpContext != null)
-            {
-                await _httpContextAccessor.HttpContext.SignInAsync("CookieAuth",
-                    new ClaimsPrincipal(claimsIdentity),
-                    authProperties);
-            }
-        }
-
-        return logInResult;
+        return await SignInUserAsync(logInResult);
     }
 
-    public async Task<bool> LogInWithGoogleAsync(string email, string googleId)
+    public async Task<LogInResult> LogInWithGoogleAsync(string email, string googleId)
     {
-        if (String.IsNullOrWhiteSpace(email) ||
-            String.IsNullOrWhiteSpace(googleId))
-        {
-            return false;
-        }
-
-        var user = await _userService.LogInWithGoogle(email, googleId);
-
-        if (user is null)
-        {
-            return false;
-        }
-
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Name, user.Name),
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Role, user.UserType.ToString())
-        };
-
-        var claimsIdentity = new ClaimsIdentity(
-            claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-        var authProperties = new AuthenticationProperties
-        {
-            AllowRefresh = true,
-            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-            IsPersistent = true,
-        };
-
-        if (_httpContextAccessor.HttpContext is null)
-            return false;
-
-        await _httpContextAccessor.HttpContext.SignOutAsync();
-        await _httpContextAccessor.HttpContext.SignInAsync("CookieAuth",
-            new ClaimsPrincipal(claimsIdentity),
-            authProperties);
-
-        return true;
+        var loginResult = await _userService.LogInWithGoogle(email, googleId);
+        return await SignInUserAsync(loginResult);
     }
 
     public async Task LogOutAsync()
@@ -195,4 +128,36 @@ public class UserAuthenticationService : IUserAuthenticationService
         }
     }
 
+    private async Task<LogInResult> SignInUserAsync(LogInResult logInResult)
+    {
+        if (logInResult.ResultCode == LogInResultCode.Success && logInResult.User != null)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, logInResult.User.Email),
+                new Claim(ClaimTypes.Name, logInResult.User.Name),
+                new Claim(ClaimTypes.NameIdentifier, logInResult.User.Id.ToString()),
+                new Claim(ClaimTypes.Role, logInResult.User.UserType.ToString())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties
+            {
+                AllowRefresh = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                IsPersistent = true,
+            };
+
+            if (_httpContextAccessor.HttpContext != null)
+            {
+                await _httpContextAccessor.HttpContext.SignInAsync("CookieAuth",
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+            }
+        }
+
+        return logInResult;
+    }
 }

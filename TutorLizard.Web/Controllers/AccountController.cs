@@ -73,28 +73,28 @@ public class AccountController : Controller
 
             var claims = result?.Principal?.Identities.FirstOrDefault()?.Claims.ToList();
 
-            var googleId = claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            var claimName = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
-            var claimEmail = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            string claimGoogleId = claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value ?? "";
+            string claimUsername = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value ?? "";
+            string claimEmail = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value ?? "";
 
             await _userAuthenticationService.LogOutAsync();
 
-            if(!(await _userAuthenticationService.IsGoogleUserRegistered(googleId)))
+            if(!(await _userAuthenticationService.IsGoogleUserRegistered(claimGoogleId)))
             {
                 try
                 {
-                    await _userAuthenticationService.RegisterUserWithGoogle(claimName, claimEmail, googleId);
+                    await _userAuthenticationService.RegisterUserWithGoogle(claimUsername, claimEmail, claimGoogleId);
                 }
-                catch (Exception ex)
+                catch
                 {
                     _uiMessagesService.ShowFailureMessage("Rejestracja użytkownika za pomocą konta google się nie powiodła");
                     return RedirectToAction("Login");
                 }
             }
 
-            var loggedIn = await _userAuthenticationService.LogInWithGoogleAsync(claimEmail, googleId);
+            var logInResult = await _userAuthenticationService.LogInWithGoogleAsync(claimEmail, claimGoogleId);
 
-            if (!loggedIn)
+            if (logInResult.ResultCode != LogInResultCode.Success)
             {
                 _uiMessagesService.ShowFailureMessage("Logowanie nieudane.");
                 return RedirectToAction("Login");
@@ -102,7 +102,7 @@ public class AccountController : Controller
 
             return RedirectToAction("Index", "Home");
         }
-        catch (Exception ex)
+        catch
         {
             _uiMessagesService.ShowFailureMessage("Logowanie nieudane.");
             return RedirectToAction("Login");
@@ -123,7 +123,7 @@ public class AccountController : Controller
         {
             if (ModelState.IsValid)
             {
-                var logInResult = await _userAuthenticationService.LogInAsync(model.UserName, model.Password);
+                var logInResult = await _userAuthenticationService.LogInWithPasswordAsync(model.UserName, model.Password);
 
                 switch (logInResult.ResultCode)
                 {
