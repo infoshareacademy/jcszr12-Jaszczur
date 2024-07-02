@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using Microsoft.Extensions.Logging;
 using Moq;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
@@ -14,14 +15,15 @@ namespace TutorLizard.BusinessLogic.Tests.Services.Student
         protected Mock<IDbRepository<AdRequest>> MockAdRequestRepository = new();
         protected Mock<IDbRepository<ScheduleItem>> MockScheduleItemRepository = new();
         protected Mock<IDbRepository<ScheduleItemRequest>> MockScheduleItemRequestRepository = new();
-
+        protected Mock<ILogger<StudentService>> MockLogger = new();
 
         protected StudentServiceTestBase() : base()
         {
             StudentService = new StudentService(MockAdRepository.Object,
-                                           MockAdRequestRepository.Object,
-                                           MockScheduleItemRepository.Object,
-                                         MockScheduleItemRequestRepository.Object);
+                                                MockAdRequestRepository.Object,
+                                                MockScheduleItemRepository.Object,
+                                                MockScheduleItemRequestRepository.Object,
+                                                MockLogger.Object);
         }
 
         protected void SetupMockGetScheduleItemById(ScheduleItem? scheduleItem)
@@ -37,19 +39,6 @@ namespace TutorLizard.BusinessLogic.Tests.Services.Student
             MockScheduleItemRepository
                 .Setup(x => x.GetAll())
                 .Returns(scheduleItemsInDb);
-        }
-
-        protected IQueryable<TEntity> AddEntitiesToInMemoryDb<TEntity>(List<TEntity> entities)
-        where TEntity : class
-        {
-            DbContext
-                .Set<TEntity>()
-                .AddRange(entities);
-            DbContext.SaveChanges();
-
-            return DbContext
-                .Set<TEntity>()
-                .AsQueryable();
         }
     }
 }
