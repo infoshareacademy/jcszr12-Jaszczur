@@ -315,7 +315,7 @@ public class StudentService : IStudentService
         }
         catch (Exception ex)
         {
-            _logger.LogError("Caught exception while creating AdRequest: {@Exception}", ex);
+            _logger.LogError(ex, "Caught exception while creating AdRequest");
             CreateAdRequestResponse failedResponse = new()
             {
                 Success = false

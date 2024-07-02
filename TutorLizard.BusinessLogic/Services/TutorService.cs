@@ -379,7 +379,7 @@ public class TutorService : ITutorService
         }
         catch (Exception ex)
         {
-            _logger.LogError("Caught exception while creating Ad: {@Exception}", ex);
+            _logger.LogError(ex, "Caught exception while creating Ad");
             CreateAdResponse failedResponse = new()
             {
                 SuccessfullyCreated = false
