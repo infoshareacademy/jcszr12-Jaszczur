@@ -14,6 +14,5 @@ public static class DtoExtensions
                        user.Name,
                        user.UserType,
                        user.Email,
-                       user.DateCreated,
-                       user.GoogleId);
+                       user.DateCreated);
 }
