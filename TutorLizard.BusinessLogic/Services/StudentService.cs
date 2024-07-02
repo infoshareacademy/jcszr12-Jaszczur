@@ -164,7 +164,7 @@ public class StudentService : IStudentService
         var adRequests = await _adRequestRepository.GetAll()
             .Include(ar => ar.Ad)
             .ThenInclude(ad => ad.Category)
-            .Where(ar => ar.StudentId == studentId && ar.DateCreated != null)
+            .Where(ar => ar.StudentId == studentId)
             .ToListAsync();
 
         var adRequestsListDtos = adRequests
