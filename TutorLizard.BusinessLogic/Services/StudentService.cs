@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
@@ -13,20 +15,26 @@ public class StudentService : IStudentService
     private readonly IDbRepository<AdRequest> _adRequestRepository;
     private readonly IDbRepository<ScheduleItem> _scheduleItemRepository;
     private readonly IDbRepository<ScheduleItemRequest> _scheduleItemRequestRepository;
+    private readonly ILogger<StudentService> _logger;
+
     public StudentService(IDbRepository<Ad> adRepository,
                           IDbRepository<AdRequest> adRequestRepository,
                           IDbRepository<ScheduleItem> scheduleItemRepository,
-                          IDbRepository<ScheduleItemRequest> scheduleItemRequestRepository)
+                          IDbRepository<ScheduleItemRequest> scheduleItemRequestRepository,
+                          ILogger<StudentService> logger)
     {
         _adRepository = adRepository;
         _adRequestRepository = adRequestRepository;
         _scheduleItemRepository = scheduleItemRepository;
         _scheduleItemRequestRepository = scheduleItemRequestRepository;
+        _logger = logger;
     }
 
     #region Schedule
     public async Task<CreateScheduleItemRequestResponse> CreateScheduleItemRequest(CreateScheduleItemRequestRequest request)
     {
+        using var scope = _logger.BeginMethodCallScope(nameof(CreateScheduleItemRequest), request);
+
         int studentId = request.StudentId;
         int scheduleItemId = request.ScheduleItemId;
 
@@ -37,10 +45,13 @@ public class StudentService : IStudentService
 
         if (isOwner)
         {
-            return new CreateScheduleItemRequestResponse
+            _logger.LogWarning("User requesting creation of ScheduleItemRequest is owner of the Ad. ScheduleItemRequest will not be created.");
+            CreateScheduleItemRequestResponse failedResponse = new()
             {
                 Success = false
             };
+            _logger.LogReturningResponse(failedResponse);
+            return failedResponse;
         }
 
         var scheduleItemRequest = new ScheduleItemRequest()
@@ -54,16 +65,19 @@ public class StudentService : IStudentService
 
         await _scheduleItemRequestRepository.Create(scheduleItemRequest);
 
-
-        return new CreateScheduleItemRequestResponse
+        CreateScheduleItemRequestResponse response = new()
         {
             Success = true,
             CreatedScheduleItemRequestId = scheduleItemRequest.Id
         };
+        _logger.LogReturningResponse(response);
+        return response;
     }
 
     public async Task<GetAvailableScheduleForAdResponse> GetAvailableScheduleForAd(GetAvailableScheduleForAdRequest request)
     {
+        using var scope = _logger.BeginMethodCallScope(nameof(GetAvailableScheduleForAd), request);
+
         List<ScheduleItemDto> items = await _scheduleItemRepository.GetAll()
             .Where(si => si.Ad.AdRequests.Any(ar => ar.StudentId == request.StudentId && ar.IsAccepted) && si.AdId == request.AdId)
             .Select(si => new ScheduleItemDto()
@@ -93,7 +107,7 @@ public class StudentService : IStudentService
             IsRemote = isRemote,
             Items = items
         };
-
+        _logger.LogReturningResponse(response);
         return response;
     }
 
@@ -101,6 +115,8 @@ public class StudentService : IStudentService
     #region Ads
     public async Task<GetStudentsAcceptedAdsResponse> GetStudentsAcceptedAds(GetStudentsAcceptedAdsRequest request)
     {
+        using var scope = _logger.BeginMethodCallScope(nameof(GetStudentsAcceptedAds), request);
+
         var studentId = request.StudentId;
 
         var acceptedAdRequests = await _adRequestRepository.GetAll()
@@ -131,14 +147,18 @@ public class StudentService : IStudentService
             })
             .ToList();
 
-        return new GetStudentsAcceptedAdsResponse
+        GetStudentsAcceptedAdsResponse response = new()
         {
             Ads = adListDtos,
         };
+        _logger.LogReturningResponse(response);
+        return response;
     }
 
     public async Task<GetStudentsAdRequestsResponse> GetStudentsAdRequests(GetStudentsAdRequestsRequest request)
     {
+        using var scope = _logger.BeginMethodCallScope(nameof(GetStudentsAdRequests), request);
+
         var studentId = request.StudentId;
 
         var adRequests = await _adRequestRepository.GetAll()
@@ -164,14 +184,18 @@ public class StudentService : IStudentService
             })
             .ToList();
 
-        return new GetStudentsAdRequestsResponse
+        GetStudentsAdRequestsResponse response = new()
         {
             AdRequests = adRequestsListDtos
         };
+        _logger.LogReturningResponse(response);
+        return response;
     }
 
     public async Task<GetAdRequestStatusResponse> GetAdRequestStatus(GetAdRequestStatusRequest request)
     {
+        using var scope = _logger.BeginMethodCallScope(nameof(GetAdRequestStatus), request);
+
         var adRequestDetails = await _adRequestRepository.GetAll()
             .Include(adrequest => adrequest.Ad)
             .Where(adrequest => adrequest.StudentId == request.StudentId
@@ -181,7 +205,15 @@ public class StudentService : IStudentService
             .FirstOrDefaultAsync();
 
         if (adRequestDetails is null)
-            return new GetAdRequestStatusResponse() { IsSuccessful = false };
+        {
+            _logger.LogWarning("Requested Ad not found.");
+            GetAdRequestStatusResponse failedResponse = new()
+            {
+                IsSuccessful = false
+            };
+            _logger.LogReturningResponse(failedResponse);
+            return failedResponse;
+        }
 
         GetAdRequestStatusResponse response = new GetAdRequestStatusResponse()
         {
@@ -194,43 +226,63 @@ public class StudentService : IStudentService
             Status = adRequestDetails.ReviewDate == null ? GetAdRequestStatusResponse.RequestStatus.Pending : GetAdRequestStatusResponse.RequestStatus.Rejected,
             IsSuccessful = true
         };
-
+        _logger.LogReturningResponse(response);
         return response;
     }
 
     public async Task<DeleteAdRequestResponse> DeleteAdRequest(DeleteAdRequestRequest request)
     {
+        using var scope = _logger.BeginMethodCallScope(nameof(DeleteAdRequest), request);
+
         var deletedAdRequest = await _adRequestRepository.Delete(request.Id);
 
-        DeleteAdRequestResponse response = new DeleteAdRequestResponse();
-        if (deletedAdRequest == null)
-            response.IsSuccessful = true;
-        else
-            response.IsSuccessful = false;
+        if (deletedAdRequest is null)
+        {
+            _logger.LogWarning("Requested Ad not found.");
+            DeleteAdRequestResponse failedResponse = new()
+            {
+                IsSuccessful = false
+            };
+            _logger.LogReturningResponse(failedResponse);
+            return failedResponse;
+        }
 
+        DeleteAdRequestResponse response = new()
+        {
+            IsSuccessful = true
+        };
+        _logger.LogReturningResponse(response);
         return response;
     }
 
     public async Task<CreateAdRequestResponse> CreateAdRequest(CreateAdRequestRequest request)
     {
+        using var scope = _logger.BeginMethodCallScope(nameof(CreateAdRequest), request);
+
         Ad? ad = await _adRepository.GetById(request.AdId);
 
         if (ad is null)
         {
-            return new()
+            _logger.LogWarning("Creating AdRequest unsuccessful.");
+            CreateAdRequestResponse failedResponse = new()
             {
                 Success = false
             };
+            _logger.LogReturningResponse(failedResponse);
+            return failedResponse;
         }
 
         bool userIsOwnerOfAd = ad.TutorId == request.StudentId;
 
         if (userIsOwnerOfAd)
         {
-            return new()
+            _logger.LogWarning("User requesting creation of AdRequest is owner of the Ad. AdRequest will not be created.");
+            CreateAdRequestResponse failedResponse = new()
             {
                 Success = false
             };
+            _logger.LogReturningResponse(failedResponse);
+            return failedResponse;
         }
 
         var userAlreadySentRequest = await _adRequestRepository.GetAll()
@@ -239,10 +291,13 @@ public class StudentService : IStudentService
 
         if (userAlreadySentRequest)
         {
-            return new()
+            _logger.LogWarning("AdRequest already sent. AdRequest will not be created.");
+            CreateAdRequestResponse failedResponse = new()
             {
                 Success = false
             };
+            _logger.LogReturningResponse(failedResponse);
+            return failedResponse;
         }
 
         AdRequest toCreate = new()
@@ -258,18 +313,23 @@ public class StudentService : IStudentService
         {
             await _adRequestRepository.Create(toCreate);
         }
-        catch
+        catch (Exception ex)
         {
-            return new()
+            _logger.LogError("Caught exception while creating AdRequest: {@Exception}", ex);
+            CreateAdRequestResponse failedResponse = new()
             {
                 Success = false
             };
+            _logger.LogReturningResponse(failedResponse);
+            return failedResponse;
         }
 
-        return new()
+        CreateAdRequestResponse response = new()
         {
             Success = true
         };
+        _logger.LogReturningResponse(response);
+        return response;
     }
 }
 #endregion
