@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace TutorLizard.Shared.Models.DTOs.Requests;
 
-namespace TutorLizard.Shared.Models.DTOs.Requests
+public class CreateScheduleItemRequestRequest
 {
-    public class CreateScheduleItemRequestRequest
-    {
-        public int StudentId { get; set; }
-        public int ScheduleItemId { get; set; }
-        public bool IsRemote { get; set; }
-    }
+    public int StudentId { get; set; }
+    public int ScheduleItemId { get; set; }
+    public bool IsRemote { get; set; }
 }

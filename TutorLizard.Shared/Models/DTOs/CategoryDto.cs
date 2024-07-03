@@ -1,5 +1,4 @@
-﻿
-namespace TutorLizard.Shared.Models.DTOs;
+﻿namespace TutorLizard.Shared.Models.DTOs;
 public class CategoryDto
 {
 

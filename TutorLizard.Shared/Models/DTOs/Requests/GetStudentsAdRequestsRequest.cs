@@ -1,13 +1,10 @@
-﻿using System;
+﻿namespace TutorLizard.Shared.Models.DTOs.Requests;
 
-namespace TutorLizard.Shared.Models.DTOs.Requests
+public class GetStudentsAdRequestsRequest
 {
-	public class GetStudentsAdRequestsRequest
-	{
-		public int StudentId { get; set; }
-		public GetStudentsAdRequestsRequest(int? studentId)
-		{
-			StudentId = (int)studentId;
-		}
-	}
+    public int StudentId { get; set; }
+    public GetStudentsAdRequestsRequest(int? studentId)
+    {
+        StudentId = (int)studentId;
+    }
 }
