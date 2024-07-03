@@ -57,20 +57,27 @@ public class UserService : IUserService
         };
     }    
     
-    public async Task<UserDto?> LogInWithGoogle(string username, string googleId)
+    public async Task<LogInResult> LogInWithGoogle(string email, string googleId)
     {
         var user = await _userRepository.GetAll()
-            .FirstOrDefaultAsync(user => user.GoogleId == googleId);
+            .FirstOrDefaultAsync(user =>
+                user.GoogleId == googleId &&
+                user.Email == email);
 
         if (user == null)
         {
-            return null;
+            return new LogInResult()
+            {
+                ResultCode = LogInResultCode.UserNotFound,
+                User = null
+            };
         }
 
-        if (user.GoogleId == googleId)
-            return user.ToDto();
-
-        return null;
+        return new LogInResult()
+        {
+            ResultCode = LogInResultCode.Success,
+            User = user.ToDto()
+        };
     }
 
 
@@ -106,7 +113,10 @@ public class UserService : IUserService
             Name = username,
             UserType = UserType.Regular,
             Email = email,
-            GoogleId = googleId
+            GoogleId = googleId,
+            IsActive = true,
+            ActivationCode = "Registered with Google Auth",
+            PasswordHash = null,
         };
 
         await _userRepository.Create(user);
@@ -116,10 +126,7 @@ public class UserService : IUserService
 
     public async Task<bool> IsTheGoogleUserRegistered(string googleId)
     {
-        if (await _userRepository.GetAll().AnyAsync(user => user.GoogleId == googleId)) 
-            return true;
-
-        return false;
+        return await _userRepository.GetAll().AnyAsync(user => user.GoogleId == googleId);
     }
 
     public async Task<ActivationResultDto> ActivateUserAsync(string activationCode)
