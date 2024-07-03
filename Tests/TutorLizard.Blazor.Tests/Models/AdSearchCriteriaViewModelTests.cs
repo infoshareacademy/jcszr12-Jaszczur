@@ -1,4 +1,4 @@
-﻿using TutorLizard.Web.Models;
+﻿using TutorLizard.Blazor.Models;
 
 namespace TutorLizard.Web.Tests.Models;
 public class AdSearchCriteriaViewModelTests

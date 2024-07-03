@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using Microsoft.AspNetCore.Mvc;
-using TutorLizard.Web.Models;
+using TutorLizard.Blazor.Extensions;
+using TutorLizard.Blazor.Models;
 using TutorLizard.Web.Extensions;
 
 namespace TutorLizard.Web.Tests.Controllers.Browse;
@@ -11,10 +12,11 @@ public class BrowseControllerSearchTests : BrowseControllerTestsBase
     {
         // Arrange
         AdSearchCriteriaViewModel searchCriteria = Fixture.Create<AdSearchCriteriaViewModel>();
+        string searchJson = searchCriteria.Serialize();
         string expectedSearchString = searchCriteria.ToDto().ToBase64String();
 
         // Act
-        var result = BrowseController.Search(searchCriteria);
+        var result = BrowseController.Search(searchJson);
 
         // Assert
         Assert.IsType<RedirectToActionResult>(result);

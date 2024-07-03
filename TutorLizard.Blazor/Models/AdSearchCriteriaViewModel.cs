@@ -1,4 +1,4 @@
-﻿namespace TutorLizard.Web.Models;
+﻿namespace TutorLizard.Blazor.Models;
 public class AdSearchCriteriaViewModel
 {
     public bool SearchByText { get; set; }

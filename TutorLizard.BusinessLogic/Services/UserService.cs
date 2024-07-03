@@ -70,25 +70,36 @@ public class UserService : IUserService
         {
             ResultCode = LogInResultCode.InvalidPassword
         };
+    
         _logger.LogReturningResponse(failedResponse);
         return failedResponse;
     }
 
-    public async Task<UserDto?> LogInWithGoogle(string username, string googleId)
+    public async Task<LogInResult> LogInWithGoogle(string email, string googleId)
     {
         using var scope = _logger.BeginMethodCallScope(nameof(LogInWithGoogle), "LogIn with Google request");
 
         var user = await _userRepository.GetAll()
-            .FirstOrDefaultAsync(user => user.GoogleId == googleId);
+            .FirstOrDefaultAsync(user =>
+                user.GoogleId == googleId &&
+                user.Email == email);
 
         if (user == null)
         {
             _logger.LogWarning("User not found");
-            return null;
+            return new LogInResult()
+            {
+                ResultCode = LogInResultCode.UserNotFound,
+                User = null
+            };
         }
 
-        UserDto response = user.ToDto();
-        _logger.LogReturningResponse(response, destructureResponse: true);
+        LogInResult response = new()
+        {
+            ResultCode = LogInResultCode.Success,
+            User = user.ToDto()
+        };
+        _logger.LogReturningResponse(response);
         return response;
     }
 
@@ -140,7 +151,10 @@ public class UserService : IUserService
             Name = username,
             UserType = UserType.Regular,
             Email = email,
-            GoogleId = googleId
+            GoogleId = googleId,
+            IsActive = true,
+            ActivationCode = "Registered with Google Auth",
+            PasswordHash = null,
         };
 
         await _userRepository.Create(user);
@@ -154,10 +168,7 @@ public class UserService : IUserService
     {
         using var scope = _logger.BeginMethodCallScope(nameof(IsTheGoogleUserRegistered), "Is The Google User Registered request");
 
-        bool response = false;
-
-        if (await _userRepository.GetAll().AnyAsync(user => user.GoogleId == googleId))
-            response = true;
+        bool response = await _userRepository.GetAll().AnyAsync(user => user.GoogleId == googleId);
 
         _logger.LogReturningResponse(response);
         return response;
