@@ -1,17 +1,28 @@
 ﻿@using TutorLizard.Web.Extensions
+@using TutorLizard.Blazor.Extensions
 @model GetBrowseAdsPageResponse
 
 @{
     ViewData["Title"] = "Ogłoszenia";
+    List<CategoryDto> categories = [];
+    if (ViewBag.Categories is not null)
+    {
+        categories = ViewBag.Categories;
+    }
 }
 
 <h1>Ogłoszenia</h1>
 
 <form asp-action="Search" method="post" class="d-flex flex-column p-2 border">
     <h2 class="text-center">Wyszukiwanie ogłoszeń</h2>
-    <partial name="@PartialNames.AdSearchCriteria" model="Model.SearchCriteria.ToViewModel()"/>
+    <component type="typeof(AdSearchForm)"
+               render-mode="WebAssemblyPrerendered"
+               param-SearchCriteriaJson="Model.SearchCriteria.ToViewModel().Serialize()"
+               param-CategoriesJson="@categories.Serialize()" />
     <button type="submit" class="btn btn-primary m-2">Wyszukaj</button>
 </form>
+
+
 
 @if (Model.SearchCriteria.AnySearch)
 {
