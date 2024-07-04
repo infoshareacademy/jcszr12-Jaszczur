@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddScheduleItem" xml:space="preserve">
+    <value>Add class dates</value>
+  </data>
   <data name="AdminPanelMenu" xml:space="preserve">
     <value>Admin Panel</value>
   </data>
@@ -129,11 +132,20 @@
   <data name="HomeMenu" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="IsRemote" xml:space="preserve">
+    <value>Remotely: </value>
+  </data>
   <data name="LoginMenu" xml:space="preserve">
     <value>Log In</value>
   </data>
   <data name="LogoutMenu" xml:space="preserve">
     <value>Log Out</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NoRequests" xml:space="preserve">
+    <value>No requests</value>
   </data>
   <data name="RegisterMenu" xml:space="preserve">
     <value>Register</value>
@@ -144,8 +156,20 @@
   <data name="RequestAccepted" xml:space="preserve">
     <value>Accepted</value>
   </data>
+  <data name="RequestCannotBeAccepted" xml:space="preserve">
+    <value>Request cannot be accepted</value>
+  </data>
   <data name="RequestCreationDate" xml:space="preserve">
     <value>Post date</value>
+  </data>
+  <data name="RequestDate" xml:space="preserve">
+    <value>Request sent on</value>
+  </data>
+  <data name="RequestIsAccepted" xml:space="preserve">
+    <value>Request accepted</value>
+  </data>
+  <data name="RequestIsRejected" xml:space="preserve">
+    <value>Request rejected</value>
   </data>
   <data name="RequestMessage" xml:space="preserve">
     <value>Your message</value>
@@ -167,6 +191,9 @@
   </data>
   <data name="SignUp" xml:space="preserve">
     <value>Sign up</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
   <data name="YourRequest" xml:space="preserve">
     <value>Request</value>

@@ -61,6 +61,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dodaj termin.
+        /// </summary>
+        public static string AddScheduleItem {
+            get {
+                return ResourceManager.GetString("AddScheduleItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Panel Administracyjny.
         /// </summary>
         public static string AdminPanelMenu {
@@ -97,6 +106,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nauczanie zdalne.
+        /// </summary>
+        public static string IsRemote {
+            get {
+                return ResourceManager.GetString("IsRemote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zaloguj się.
         /// </summary>
         public static string LoginMenu {
@@ -111,6 +129,24 @@ namespace TutorLizard.Web.Resources {
         public static string LogoutMenu {
             get {
                 return ResourceManager.GetString("LogoutMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nie.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Brak zgłoszeń.
+        /// </summary>
+        public static string NoRequests {
+            get {
+                return ResourceManager.GetString("NoRequests", resourceCulture);
             }
         }
         
@@ -142,11 +178,47 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Zgłoszenie nie może zostać zaakceptowane.
+        /// </summary>
+        public static string RequestCannotBeAccepted {
+            get {
+                return ResourceManager.GetString("RequestCannotBeAccepted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Data wysłania.
         /// </summary>
         public static string RequestCreationDate {
             get {
                 return ResourceManager.GetString("RequestCreationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zgłoszenie wysłane.
+        /// </summary>
+        public static string RequestDate {
+            get {
+                return ResourceManager.GetString("RequestDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zgłoszenie zaakceptowane.
+        /// </summary>
+        public static string RequestIsAccepted {
+            get {
+                return ResourceManager.GetString("RequestIsAccepted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zgłoszenie niezaakceptowane.
+        /// </summary>
+        public static string RequestIsRejected {
+            get {
+                return ResourceManager.GetString("RequestIsRejected", resourceCulture);
             }
         }
         
@@ -210,6 +282,15 @@ namespace TutorLizard.Web.Resources {
         public static string SignUp {
             get {
                 return ResourceManager.GetString("SignUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tak.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
         

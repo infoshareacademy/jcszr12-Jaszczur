@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddScheduleItem" xml:space="preserve">
+    <value>Dodaj termin</value>
+  </data>
   <data name="AdminPanelMenu" xml:space="preserve">
     <value>Panel Administracyjny</value>
   </data>
@@ -129,11 +132,20 @@
   <data name="HomeMenu" xml:space="preserve">
     <value>Strona startowa</value>
   </data>
+  <data name="IsRemote" xml:space="preserve">
+    <value>Nauczanie zdalne</value>
+  </data>
   <data name="LoginMenu" xml:space="preserve">
     <value>Zaloguj się</value>
   </data>
   <data name="LogoutMenu" xml:space="preserve">
     <value>Wyloguj się</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nie</value>
+  </data>
+  <data name="NoRequests" xml:space="preserve">
+    <value>Brak zgłoszeń</value>
   </data>
   <data name="RegisterMenu" xml:space="preserve">
     <value>Zarejestruj się</value>
@@ -144,8 +156,20 @@
   <data name="RequestAccepted" xml:space="preserve">
     <value>Zaakceptowane</value>
   </data>
+  <data name="RequestCannotBeAccepted" xml:space="preserve">
+    <value>Zgłoszenie nie może zostać zaakceptowane</value>
+  </data>
   <data name="RequestCreationDate" xml:space="preserve">
     <value>Data wysłania</value>
+  </data>
+  <data name="RequestDate" xml:space="preserve">
+    <value>Zgłoszenie wysłane</value>
+  </data>
+  <data name="RequestIsAccepted" xml:space="preserve">
+    <value>Zgłoszenie zaakceptowane</value>
+  </data>
+  <data name="RequestIsRejected" xml:space="preserve">
+    <value>Zgłoszenie niezaakceptowane</value>
   </data>
   <data name="RequestMessage" xml:space="preserve">
     <value>Twoja wiadomość</value>
@@ -167,6 +191,9 @@
   </data>
   <data name="SignUp" xml:space="preserve">
     <value>Zapisz się</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Tak</value>
   </data>
   <data name="YourRequest" xml:space="preserve">
     <value>Twoje zgłoszenie</value>
