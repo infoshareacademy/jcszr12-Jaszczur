@@ -163,7 +163,6 @@ public class AccountController : Controller
         }
     }
 
-    [Authorize]
     public async Task<IActionResult> Logout()
     {
         await _userAuthenticationService.LogOutAsync();
