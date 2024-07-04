@@ -1,6 +1,8 @@
 ﻿using AutoFixture;
 using Moq;
+using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
+using TutorLizard.BusinessLogic.Models;
 using TutorLizard.Web.Controllers;
 using TutorLizard.Web.Interfaces.Services;
 
@@ -12,13 +14,15 @@ public abstract class BrowseControllerTestsBase
     protected Mock<IBrowseService> MockBrowseService = new();
     protected Mock<IUserAuthenticationService> MockUserAuthenticationService = new();
     protected Mock<IUiMessagesService> MockUiMessagesService = new();
+    protected Mock<ICategoryService> MockCategoryService = new();
     protected Fixture Fixture = new();
 
     public BrowseControllerTestsBase()
     {
         BrowseController = new(MockBrowseService.Object,
                                MockUserAuthenticationService.Object,
-                               MockUiMessagesService.Object);
+                               MockUiMessagesService.Object,
+                               MockCategoryService.Object);
     }
 
     protected void SetupMockGetLoggedInUserId(int? userId)

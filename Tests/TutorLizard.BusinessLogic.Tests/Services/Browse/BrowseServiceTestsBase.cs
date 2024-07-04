@@ -1,7 +1,5 @@
 ﻿using AutoFixture;
-using Microsoft.EntityFrameworkCore;
 using Moq;
-using TutorLizard.BusinessLogic.Data;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.BusinessLogic.Services;
@@ -117,18 +115,5 @@ public abstract class BrowseServiceTestsBase : TestsWithInMemoryDbBase
             .ToList();
 
         return scheduleItems;
-    }
-
-    protected IQueryable<TEntity> AddEntitiesToInMemoryDb<TEntity>(List<TEntity> entities)
-        where TEntity : class
-    {
-        DbContext
-            .Set<TEntity>()
-            .AddRange(entities);
-        DbContext.SaveChanges();
-
-        return DbContext
-            .Set<TEntity>()
-            .AsQueryable();
     }
 }

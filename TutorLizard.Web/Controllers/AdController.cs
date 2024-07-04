@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
-using TutorLizard.BusinessLogic.Models.DTOs;
+using TutorLizard.Shared.Models.DTOs;
 
 namespace TutorLizard.Web.Controllers
 {

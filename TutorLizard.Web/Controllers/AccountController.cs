@@ -5,10 +5,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Authentication;
 using System.Security.Claims;
-using TutorLizard.BusinessLogic.Enums;
+using System.ComponentModel;
+using System.Net;
+using System.Net.Mail;
 using TutorLizard.BusinessLogic.Interfaces.Services;
+using TutorLizard.Shared.Enums;
 using TutorLizard.Web.Interfaces.Services;
 using TutorLizard.Web.Models;
+using TutorLizard.Shared.Models.DTOs;
+
 
 namespace TutorLizard.Web.Controllers;
 
@@ -16,12 +21,15 @@ public class AccountController : Controller
 {
     private readonly IUserAuthenticationService _userAuthenticationService;
     private readonly IUiMessagesService _uiMessagesService;
+    private readonly IUserService _userService;
 
     public AccountController(IUserAuthenticationService userAuthenticationService,
-                             IUiMessagesService uiMessagesService)
+                             IUiMessagesService uiMessagesService,
+                             IUserService userService)
     {
         _userAuthenticationService = userAuthenticationService;
         _uiMessagesService = uiMessagesService;
+        _userService = userService;
     }
 
     public IActionResult Index()
@@ -63,28 +71,30 @@ public class AccountController : Controller
                 return RedirectToAction("Login");
             }
 
-            var claims = result.Principal.Identities.FirstOrDefault()?.Claims.ToList();
+            var claims = result?.Principal?.Identities.FirstOrDefault()?.Claims.ToList();
 
-            var claimNameIdentifier = claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            var claimName = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
-            var claimEmail = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            string claimGoogleId = claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value ?? "";
+            string claimUsername = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value ?? "";
+            string claimEmail = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value ?? "";
 
-            if(!(await _userAuthenticationService.IsGoogleUserRegistered(claimNameIdentifier)))
+            await _userAuthenticationService.LogOutAsync();
+
+            if(!(await _userAuthenticationService.IsGoogleUserRegistered(claimGoogleId)))
             {
                 try
                 {
-                    await _userAuthenticationService.RegisterUserWithGoogle(claimName, claimEmail, claimNameIdentifier);
+                    await _userAuthenticationService.RegisterUserWithGoogle(claimUsername, claimEmail, claimGoogleId);
                 }
-                catch (Exception ex)
+                catch
                 {
                     _uiMessagesService.ShowFailureMessage("Rejestracja użytkownika za pomocą konta google się nie powiodła");
                     return RedirectToAction("Login");
                 }
             }
 
-            var loggedIn = await _userAuthenticationService.LogInWithGoogleAsync(claimName,claimNameIdentifier);
+            var logInResult = await _userAuthenticationService.LogInWithGoogleAsync(claimEmail, claimGoogleId);
 
-            if (!loggedIn)
+            if (logInResult.ResultCode != LogInResultCode.Success)
             {
                 _uiMessagesService.ShowFailureMessage("Logowanie nieudane.");
                 return RedirectToAction("Login");
@@ -92,7 +102,7 @@ public class AccountController : Controller
 
             return RedirectToAction("Index", "Home");
         }
-        catch (Exception ex)
+        catch
         {
             _uiMessagesService.ShowFailureMessage("Logowanie nieudane.");
             return RedirectToAction("Login");
@@ -111,14 +121,39 @@ public class AccountController : Controller
 
         try
         {
-            if (ModelState.IsValid && await _userAuthenticationService.LogInAsync(model.UserName, model.Password))
+            if (ModelState.IsValid)
             {
-                _uiMessagesService.ShowSuccessMessage("Jesteś zalogowany/a.");
-                if (string.IsNullOrEmpty(returnUrl))
+                var logInResult = await _userAuthenticationService.LogInWithPasswordAsync(model.UserName, model.Password);
+
+                switch (logInResult.ResultCode)
                 {
-                    return RedirectToAction("Index", "Home");
+                    case LogInResultCode.Success:
+                        _uiMessagesService.ShowSuccessMessage("Jesteś zalogowany/a.");
+                        if (string.IsNullOrEmpty(returnUrl))
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        return Redirect(returnUrl);
+
+                    case LogInResultCode.UserNotFound:
+                    case LogInResultCode.InvalidPassword:
+                        _uiMessagesService.ShowFailureMessage("Logowanie nieudane. Nieprawidłowa nazwa użytkownika lub hasło.");
+                        return RedirectToAction(nameof(Login), new { returnUrl = returnUrl });
+
+                    case LogInResultCode.InactiveAccount:
+                        _uiMessagesService.ShowFailureMessage("Logowanie nieudane. Konto nie jest aktywne.");
+                        return LocalRedirect("/Home/Index");
+
+                    default:
+                        throw new InvalidEnumArgumentException(argumentName: nameof(LogInResult.ResultCode),
+                                       invalidValue: (int)logInResult.ResultCode,
+                                       enumClass: typeof(LogInResult));
                 }
-                return Redirect(returnUrl);
+            }
+            else
+            {
+                _uiMessagesService.ShowFailureMessage("Logowanie nieudane. Proszę wypełnić poprawnie formularz.");
+                return RedirectToAction(nameof(Login), new { returnUrl = returnUrl });
             }
         }
         catch
@@ -126,9 +161,8 @@ public class AccountController : Controller
             _uiMessagesService.ShowFailureMessage("Logowanie nieudane.");
             return LocalRedirect("/Home/Index");
         }
-        _uiMessagesService.ShowFailureMessage("Logowanie nieudane.");
-        return RedirectToAction(nameof(Login), new { returnUrl = returnUrl });
     }
+
     [Authorize]
     public async Task<IActionResult> Logout()
     {
@@ -140,16 +174,30 @@ public class AccountController : Controller
     {
         return View();
     }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterUserModel model)
     {
         try
         {
-            if (ModelState.IsValid
-                && await _userAuthenticationService.RegisterUser(model.UserName, UserType.Regular, model.Email, model.Password))
+            if (!ModelState.IsValid)
             {
-                _uiMessagesService.ShowSuccessMessage("Użytkownik zarejestrowany.");
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (var error in errors)
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
+                return View(model);
+            }
+
+            var (registrationResult, activationCode) = await _userAuthenticationService.RegisterUser(
+                model.UserName, UserType.Regular, model.Email, model.Password);
+
+            if (registrationResult)
+            {
+                _userAuthenticationService.SendActivationEmail(model.Email, activationCode);
+                _uiMessagesService.ShowSuccessMessage("Wysłano mail aktywacyjny.");
                 return LocalRedirect("/Home/Index");
             }
         }
@@ -160,6 +208,23 @@ public class AccountController : Controller
         }
         _uiMessagesService.ShowFailureMessage("Wystąpił błąd. Rejestracja nieudana.");
         return LocalRedirect("/Home/Index");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ActivateAccount(string activationCode)
+    {
+        var result = await _userService.ActivateUserAsync(activationCode);
+
+        if (result.IsActivated)
+        {
+            _uiMessagesService.ShowSuccessMessage("Atywacja udana.");
+            return View("ActivateAccount");
+        }
+        else
+        {
+            _uiMessagesService.ShowFailureMessage("Aktywacja konta nie powiodła się.");
+            return LocalRedirect("/Home/Index");
+        }
     }
 
     public IActionResult AccessDenied()

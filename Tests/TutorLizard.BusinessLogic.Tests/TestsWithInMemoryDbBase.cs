@@ -14,6 +14,20 @@ public abstract class TestsWithInMemoryDbBase : IDisposable
     {
         DbContext.Dispose();
     }
+
+    protected IQueryable<TEntity> AddEntitiesToInMemoryDb<TEntity>(List<TEntity> entities)
+    where TEntity : class
+    {
+        DbContext
+            .Set<TEntity>()
+            .AddRange(entities);
+        DbContext.SaveChanges();
+
+        return DbContext
+            .Set<TEntity>()
+            .AsQueryable();
+    }
+
     private JaszczurContext SetupInMemoryDbContext()
     {
         DbContextOptionsBuilder<JaszczurContext> dbBuilder = new();

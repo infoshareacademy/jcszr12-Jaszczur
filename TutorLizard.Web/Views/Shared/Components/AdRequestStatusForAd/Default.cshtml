@@ -1,4 +1,4 @@
-﻿@model AdRequestStatusResponse?
+﻿@model GetAdRequestStatusResponse?
 
 @if(Model is not null)
 {
@@ -6,15 +6,15 @@
         <div><h3>Twoje zgłoszenie</h3></div>
         <div>
             <span>Status zgłoszenia: </span>
-            @if(Model.Status == AdRequestStatusResponse.RequestStatus.Accepted)
+            @if(Model.Status == GetAdRequestStatusResponse.RequestStatus.Accepted)
             {
                 <span>Zaakceptowane</span>
             }
-            else if(Model.Status == AdRequestStatusResponse.RequestStatus.Pending)
+            else if(Model.Status == GetAdRequestStatusResponse.RequestStatus.Pending)
             {
                 <span>Oczekuje na akceptację</span>
             }
-            else if (Model.Status == AdRequestStatusResponse.RequestStatus.Rejected)
+            else if (Model.Status == GetAdRequestStatusResponse.RequestStatus.Rejected)
             {
                 <span>Odrzucone</span>
             }

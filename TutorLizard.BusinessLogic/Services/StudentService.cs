@@ -2,9 +2,9 @@
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
-using TutorLizard.BusinessLogic.Models.DTOs;
-using TutorLizard.BusinessLogic.Models.DTOs.Requests;
-using TutorLizard.BusinessLogic.Models.DTOs.Responses;
+using TutorLizard.Shared.Models.DTOs;
+using TutorLizard.Shared.Models.DTOs.Requests;
+using TutorLizard.Shared.Models.DTOs.Responses;
 
 namespace TutorLizard.BusinessLogic.Services;
 public class StudentService : IStudentService
@@ -62,10 +62,10 @@ public class StudentService : IStudentService
         };
     }
 
-    public async Task<AvailableScheduleForAdResponse> GetAvailableScheduleForAd(AvailableScheduleForAdRequest request)
+    public async Task<GetAvailableScheduleForAdResponse> GetAvailableScheduleForAd(GetAvailableScheduleForAdRequest request)
     {
         List<ScheduleItemDto> items = await _scheduleItemRepository.GetAll()
-            .Where(si => si.Ad.AdRequests.Any(ar => ar.StudentId == request.StudentId && ar.IsAccepted))
+            .Where(si => si.Ad.AdRequests.Any(ar => ar.StudentId == request.StudentId && ar.IsAccepted) && si.AdId == request.AdId)
             .Select(si => new ScheduleItemDto()
             {
                 AdId = si.AdId,
@@ -86,7 +86,7 @@ public class StudentService : IStudentService
             .Select(ad => ad.IsRemote)
             .FirstOrDefaultAsync();
 
-        AvailableScheduleForAdResponse response = new()
+        GetAvailableScheduleForAdResponse response = new()
         {
             AdId = request.AdId,
             IsAccepted = isAccepted,
@@ -99,7 +99,7 @@ public class StudentService : IStudentService
 
     #endregion
     #region Ads
-    public async Task<StudentsAcceptedAdsResponse> ViewAcceptedAds(StudentsAcceptedAdsRequest request)
+    public async Task<GetStudentsAcceptedAdsResponse> GetStudentsAcceptedAds(GetStudentsAcceptedAdsRequest request)
     {
         var studentId = request.StudentId;
 
@@ -131,13 +131,13 @@ public class StudentService : IStudentService
             })
             .ToList();
 
-        return new StudentsAcceptedAdsResponse
+        return new GetStudentsAcceptedAdsResponse
         {
             Ads = adListDtos,
         };
     }
 
-    public async Task<StudentsAdRequestsResponse> ViewAdRequests(StudentsAdRequestsRequest request)
+    public async Task<GetStudentsAdRequestsResponse> GetStudentsAdRequests(GetStudentsAdRequestsRequest request)
     {
         var studentId = request.StudentId;
 
@@ -164,13 +164,13 @@ public class StudentService : IStudentService
             })
             .ToList();
 
-        return new StudentsAdRequestsResponse
+        return new GetStudentsAdRequestsResponse
         {
             AdRequests = adRequestsListDtos
         };
     }
 
-    public async Task<AdRequestStatusResponse> ViewAdRequestStatus(AdRequestStatusRequest request)
+    public async Task<GetAdRequestStatusResponse> GetAdRequestStatus(GetAdRequestStatusRequest request)
     {
         var adRequestDetails = await _adRequestRepository.GetAll()
             .Include(adrequest => adrequest.Ad)
@@ -181,9 +181,9 @@ public class StudentService : IStudentService
             .FirstOrDefaultAsync();
 
         if (adRequestDetails is null)
-            return new AdRequestStatusResponse() { IsSuccessful = false };
+            return new GetAdRequestStatusResponse() { IsSuccessful = false };
 
-        AdRequestStatusResponse response = new AdRequestStatusResponse()
+        GetAdRequestStatusResponse response = new GetAdRequestStatusResponse()
         {
             Id = adRequestDetails.Id,
             AdId = adRequestDetails.AdId,
@@ -191,18 +191,18 @@ public class StudentService : IStudentService
             ReplyMessage = adRequestDetails.ReplyMessage,
             DateCreated = adRequestDetails.DateCreated,
             ReviewDate = adRequestDetails.ReviewDate,
-            Status = adRequestDetails.ReviewDate == null ? AdRequestStatusResponse.RequestStatus.Pending : AdRequestStatusResponse.RequestStatus.Rejected,
+            Status = adRequestDetails.ReviewDate == null ? GetAdRequestStatusResponse.RequestStatus.Pending : GetAdRequestStatusResponse.RequestStatus.Rejected,
             IsSuccessful = true
         };
 
         return response;
     }
 
-    public async Task<StudentCancelAdRequestResponse> DeleteAdRequest(StudentCancelAdRequestRequest request)
+    public async Task<DeleteAdRequestResponse> DeleteAdRequest(DeleteAdRequestRequest request)
     {
         var deletedAdRequest = await _adRequestRepository.Delete(request.Id);
 
-        StudentCancelAdRequestResponse response = new StudentCancelAdRequestResponse();
+        DeleteAdRequestResponse response = new DeleteAdRequestResponse();
         if (deletedAdRequest == null)
             response.IsSuccessful = true;
         else
@@ -271,6 +271,5 @@ public class StudentService : IStudentService
             Success = true
         };
     }
-
-    #endregion
 }
+#endregion
