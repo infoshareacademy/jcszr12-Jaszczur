@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Globalization;
 using TutorLizard.Web.Models;
 
 namespace TutorLizard.Web.Controllers;
@@ -35,5 +36,21 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+    public IActionResult ChangeLanguage(string language)
+    {
+        if (!string.IsNullOrEmpty(language))
+        {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(language);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
+        }
+        else
+        {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
+        }
+
+        Response.Cookies.Append("Language", language);
+        return RedirectToAction("Index", "Home");
     }
 }
