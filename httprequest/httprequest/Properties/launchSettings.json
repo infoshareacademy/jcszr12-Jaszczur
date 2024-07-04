@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "httprequest": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7085",
+      "launchBrowser": false
+    }
+  }
+}

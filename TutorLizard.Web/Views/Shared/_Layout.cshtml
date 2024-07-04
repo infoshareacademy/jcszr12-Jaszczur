@@ -29,11 +29,25 @@
                 </button>
                 <div class="navbar-collapse d-sm-inline-flex justify-content-between collapse">
                     <ul class="navbar-nav flex-grow-1">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                @if(Thread.CurrentThread.CurrentCulture.ToString() == "pl")
+                                {
+                                    <span>Polski</span>
+                                } else {
+                                    <span>English</span>
+                                }
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-language="pl">Polski</a></li>
+                                <li><a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-language="en">English</a></li>
+                            </ul>
+                        </div>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Browse" asp-action="Ads">Przeglądaj</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Browse" asp-action="Ads">@TutorLizard.Web.Resources.Resource.Browse</a>
                         </li>   
                         @if (userName is null)
                         {
