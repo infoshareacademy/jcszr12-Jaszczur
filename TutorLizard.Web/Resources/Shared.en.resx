@@ -135,4 +135,28 @@
   <data name="RegisterMenu" xml:space="preserve">
     <value>Register</value>
   </data>
+  <data name="RequestAccepted" xml:space="preserve">
+    <value>Accepted</value>
+  </data>
+  <data name="RequestCreationDate" xml:space="preserve">
+    <value>Post date</value>
+  </data>
+  <data name="RequestMessage" xml:space="preserve">
+    <value>Your message</value>
+  </data>
+  <data name="RequestPending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="RequestRejected" xml:space="preserve">
+    <value>Rejected</value>
+  </data>
+  <data name="RequestStatus" xml:space="preserve">
+    <value>Request status</value>
+  </data>
+  <data name="RequestTutorResponse" xml:space="preserve">
+    <value>Tutors response</value>
+  </data>
+  <data name="YourRequest" xml:space="preserve">
+    <value>Request</value>
+  </data>
 </root>

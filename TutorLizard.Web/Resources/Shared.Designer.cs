@@ -113,5 +113,77 @@ namespace TutorLizard.Web.Resources {
                 return ResourceManager.GetString("RegisterMenu", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zaakceptowane.
+        /// </summary>
+        public static string RequestAccepted {
+            get {
+                return ResourceManager.GetString("RequestAccepted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data wysłania.
+        /// </summary>
+        public static string RequestCreationDate {
+            get {
+                return ResourceManager.GetString("RequestCreationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Twoja wiadomość.
+        /// </summary>
+        public static string RequestMessage {
+            get {
+                return ResourceManager.GetString("RequestMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oczekuje na akceptacje.
+        /// </summary>
+        public static string RequestPending {
+            get {
+                return ResourceManager.GetString("RequestPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Odrzucone.
+        /// </summary>
+        public static string RequestRejected {
+            get {
+                return ResourceManager.GetString("RequestRejected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status zgłoszenia.
+        /// </summary>
+        public static string RequestStatus {
+            get {
+                return ResourceManager.GetString("RequestStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Odpowiedź nauczyciela.
+        /// </summary>
+        public static string RequestTutorResponse {
+            get {
+                return ResourceManager.GetString("RequestTutorResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Twoje zgłoszenie.
+        /// </summary>
+        public static string YourRequest {
+            get {
+                return ResourceManager.GetString("YourRequest", resourceCulture);
+            }
+        }
     }
 }
