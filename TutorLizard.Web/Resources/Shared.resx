@@ -120,6 +120,9 @@
   <data name="AdminPanelMenu" xml:space="preserve">
     <value>Panel Administracyjny</value>
   </data>
+  <data name="AvailableDates" xml:space="preserve">
+    <value>Dostępne Terminy</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Przeglądaj</value>
   </data>
@@ -135,6 +138,9 @@
   <data name="RegisterMenu" xml:space="preserve">
     <value>Zarejestruj się</value>
   </data>
+  <data name="Remote" xml:space="preserve">
+    <value>Remote</value>
+  </data>
   <data name="RequestAccepted" xml:space="preserve">
     <value>Zaakceptowane</value>
   </data>
@@ -143,6 +149,9 @@
   </data>
   <data name="RequestMessage" xml:space="preserve">
     <value>Twoja wiadomość</value>
+  </data>
+  <data name="RequestNotSent" xml:space="preserve">
+    <value>Nie wysłano</value>
   </data>
   <data name="RequestPending" xml:space="preserve">
     <value>Oczekuje na akceptacje</value>
@@ -155,6 +164,9 @@
   </data>
   <data name="RequestTutorResponse" xml:space="preserve">
     <value>Odpowiedź nauczyciela</value>
+  </data>
+  <data name="SignUp" xml:space="preserve">
+    <value>Zapisz się</value>
   </data>
   <data name="YourRequest" xml:space="preserve">
     <value>Twoje zgłoszenie</value>

@@ -120,6 +120,9 @@
   <data name="AdminPanelMenu" xml:space="preserve">
     <value>Admin Panel</value>
   </data>
+  <data name="AvailableDates" xml:space="preserve">
+    <value>Available dates</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Browse</value>
   </data>
@@ -135,6 +138,9 @@
   <data name="RegisterMenu" xml:space="preserve">
     <value>Register</value>
   </data>
+  <data name="Remote" xml:space="preserve">
+    <value>Remote</value>
+  </data>
   <data name="RequestAccepted" xml:space="preserve">
     <value>Accepted</value>
   </data>
@@ -143,6 +149,9 @@
   </data>
   <data name="RequestMessage" xml:space="preserve">
     <value>Your message</value>
+  </data>
+  <data name="RequestNotSent" xml:space="preserve">
+    <value>Not sent</value>
   </data>
   <data name="RequestPending" xml:space="preserve">
     <value>Pending</value>
@@ -155,6 +164,9 @@
   </data>
   <data name="RequestTutorResponse" xml:space="preserve">
     <value>Tutors response</value>
+  </data>
+  <data name="SignUp" xml:space="preserve">
+    <value>Sign up</value>
   </data>
   <data name="YourRequest" xml:space="preserve">
     <value>Request</value>

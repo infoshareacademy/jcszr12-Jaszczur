@@ -70,6 +70,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dostępne Terminy.
+        /// </summary>
+        public static string AvailableDates {
+            get {
+                return ResourceManager.GetString("AvailableDates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Przeglądaj.
         /// </summary>
         public static string Browse {
@@ -115,6 +124,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remote.
+        /// </summary>
+        public static string Remote {
+            get {
+                return ResourceManager.GetString("Remote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zaakceptowane.
         /// </summary>
         public static string RequestAccepted {
@@ -138,6 +156,15 @@ namespace TutorLizard.Web.Resources {
         public static string RequestMessage {
             get {
                 return ResourceManager.GetString("RequestMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nie wysłano.
+        /// </summary>
+        public static string RequestNotSent {
+            get {
+                return ResourceManager.GetString("RequestNotSent", resourceCulture);
             }
         }
         
@@ -174,6 +201,15 @@ namespace TutorLizard.Web.Resources {
         public static string RequestTutorResponse {
             get {
                 return ResourceManager.GetString("RequestTutorResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zapisz się.
+        /// </summary>
+        public static string SignUp {
+            get {
+                return ResourceManager.GetString("SignUp", resourceCulture);
             }
         }
         
