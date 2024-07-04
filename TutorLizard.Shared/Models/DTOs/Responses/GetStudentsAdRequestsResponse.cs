@@ -1,10 +1,6 @@
-﻿using System;
+﻿namespace TutorLizard.Shared.Models.DTOs.Responses;
 
-namespace TutorLizard.Shared.Models.DTOs.Responses
+public class GetStudentsAdRequestsResponse
 {
-	public class GetStudentsAdRequestsResponse
-	{
-		public List<AdRequestsListDto> AdRequests { get; set; } = new();
-	}
-
+    public List<AdRequestsListDto> AdRequests { get; set; } = new();
 }

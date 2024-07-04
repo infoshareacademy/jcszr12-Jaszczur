@@ -1,4 +1,5 @@
-﻿@model GetUsersScheduleResponse
+﻿@using TutorLizard.Web.Extensions
+@model GetUsersScheduleResponse
 
 <h1 class="title">Twoje terminy</h1>
 
@@ -74,4 +75,12 @@
             }
         }
     </div>
+</div>
+<div class="row">
+    <component type="typeof(Schedule)"
+               render-mode="WebAssemblyPrerendered"
+               param-Year="@DateTime.Now.Year"
+               param-Month="@DateTime.Now.Month"
+               param-TutorsSchedule="@Model.TutorsSchedule.Serialize()"
+               param-StudentsSchedule="@Model.StudentsSchedule.Serialize()"/>
 </div>

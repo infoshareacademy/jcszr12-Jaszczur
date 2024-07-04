@@ -1,12 +1,18 @@
 ﻿using AutoFixture;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using TutorLizard.Shared.Models.DTOs;
 using TutorLizard.Shared.Models.DTOs.Requests;
 using TutorLizard.Shared.Models.DTOs.Responses;
 
 namespace TutorLizard.Web.Tests.Controllers.Browse;
 public class BrowseControllerAdsTests : BrowseControllerTestsBase
 {
+    public BrowseControllerAdsTests() : base()
+    {
+        SetupMockCategoryServiceGetAll([]);
+    }
+
     [Theory]
     [InlineData(0, 1)]
     [InlineData(-1, 1)]
@@ -114,5 +120,17 @@ public class BrowseControllerAdsTests : BrowseControllerTestsBase
                     .Build<GetBrowseAdsPageResponse>()
                         .With(r => r.Success, success)
                     .Create();
+    }
+
+    private void SetupMockCategoryServiceGetAll(List<CategoryDto> categories)
+    {
+        MockCategoryService
+            .Setup(x => x.GetCategories(It.IsAny<GetCategoriesRequest>()))
+            .Returns(Task.FromResult(
+                new GetCategoriesResponse()
+                {
+                    Success = true,
+                    Categories = categories
+                }));
     }
 }

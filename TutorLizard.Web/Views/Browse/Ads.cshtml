@@ -1,4 +1,6 @@
-﻿@model GetBrowseAdsPageResponse
+﻿@using TutorLizard.Web.Extensions
+@using TutorLizard.Blazor.Extensions
+@model GetBrowseAdsPageResponse
 
 @{
     ViewData["Title"] = "Ogłoszenia";
@@ -8,6 +10,31 @@
 </head>
 <h1 class="title">Ogłoszenia</h1>
 <div class="ad-grid">
+    List<CategoryDto> categories = [];
+    if (ViewBag.Categories is not null)
+    {
+        categories = ViewBag.Categories;
+    }
+}
+
+<h1>Ogłoszenia</h1>
+
+<form asp-action="Search" method="post" class="d-flex flex-column p-2 border">
+    <h2 class="text-center">Wyszukiwanie ogłoszeń</h2>
+    <component type="typeof(AdSearchForm)"
+               render-mode="WebAssemblyPrerendered"
+               param-SearchCriteriaJson="Model.SearchCriteria.ToViewModel().Serialize()"
+               param-CategoriesJson="@categories.Serialize()" />
+    <button type="submit" class="btn btn-primary m-2">Wyszukaj</button>
+</form>
+
+
+
+@if (Model.SearchCriteria.AnySearch)
+{
+    <div class="p-2">Liczba wyników wyszukiwania: @Model.TotalAds</div>
+}
+
 @foreach (var ad in Model.Ads)
 {
     <partial name="@PartialNames.AdListItem" model="ad" class="ad-list-item montserrat-lizardFont" />
@@ -17,9 +44,20 @@
 <div class="row text-center">
 
     <div class="col-4 btn btn-light">
+    <div class="col-4">
+
         @if(Model.PageNumber > 1)
         {
             <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" class="custom-link">Poprzednia strona</a>
+        }
+            @if (Model.SearchCriteria.AnySearch)
+            {
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Poprzednia strona</a>
+            }
+            else
+            {
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)">Poprzednia strona</a>
+            }
         }
     </div>
 
@@ -31,6 +69,15 @@
         @if(Model.TotalPages > Model.PageNumber)
         {
             <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" class="custom-link">Następna strona</a>
+        }
+            @if(Model.SearchCriteria.AnySearch)
+            {
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Następna strona</a>
+            }
+            else
+            {
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)">Następna strona</a>
+            }
         }
     </div>
 

@@ -200,19 +200,6 @@ public class TutorController : Controller
         return RedirectToAction(actionName: "AdDetails", controllerName: "Browse", routeValues: new { id = adId });
     }
 
-    private async Task AddCategoriesToViewBag()
-    {
-        List<Category> categories = await _categoryRepository
-                        .GetAll()
-                        .ToListAsync();
-
-        List<CategoryDto> categoryDtos = categories.Select(c => c.ToDto()).ToList();
-
-        ViewBag.Categories = new SelectList(items: categoryDtos,
-                                            dataValueField: nameof(CategoryDto.Id),
-                                            dataTextField: nameof(CategoryDto.Name));
-    }
-
     public async Task<IActionResult> ViewPendingAdRequests()
     {
         try
@@ -328,5 +315,18 @@ public class TutorController : Controller
         {
             return RedirectToAction("Error", "Home");
         }
+    }
+
+    private async Task AddCategoriesToViewBag()
+    {
+        List<Category> categories = await _categoryRepository
+                        .GetAll()
+                        .ToListAsync();
+
+        List<CategoryDto> categoryDtos = categories.Select(c => c.ToDto()).ToList();
+
+        ViewBag.Categories = new SelectList(items: categoryDtos,
+                                            dataValueField: nameof(CategoryDto.Id),
+                                            dataTextField: nameof(CategoryDto.Name));
     }
 }
