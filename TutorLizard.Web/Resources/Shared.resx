@@ -171,6 +171,9 @@
   <data name="LogoutMenu" xml:space="preserve">
     <value>Wyloguj się</value>
   </data>
+  <data name="New" xml:space="preserve">
+    <value>Nowy</value>
+  </data>
   <data name="No" xml:space="preserve">
     <value>Nie</value>
   </data>
@@ -234,11 +237,17 @@
   <data name="RequestTutorResponse" xml:space="preserve">
     <value>Odpowiedź nauczyciela</value>
   </data>
+  <data name="ReviewDate" xml:space="preserve">
+    <value>Data przeglądu</value>
+  </data>
   <data name="SendRequest" xml:space="preserve">
     <value>Wyślij zgłoszenie</value>
   </data>
   <data name="SignUp" xml:space="preserve">
     <value>Zapisz się</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
   </data>
   <data name="StudentMessage" xml:space="preserve">
     <value>Wiadomość od ucznia</value>

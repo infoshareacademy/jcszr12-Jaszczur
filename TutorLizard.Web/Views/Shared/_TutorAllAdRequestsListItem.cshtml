@@ -5,62 +5,62 @@
     <div class="card-body">
         <h5 class="card-title">@Model.AdId</h5>
         <div class="row">
-            <div class="col-6 col-sm-3">Og³oszenie:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.Advert :</div>
             <div class="col-6 col-sm-9">@Model.AdId</div>
         </div>
         <div class="row">
-            <div class="col-6 col-sm-3">Tytu³ og³oszenia:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.AdvertTitle :</div>
             <div class="col-6 col-sm-9">@Model.AdTitle</div>
         </div>
         <div class="row">
-            <div class="col-6 col-sm-3">Przedmiot og³oszenia:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.AdvertSubject :</div>
             <div class="col-6 col-sm-9">@Model.AdSubject</div>
         </div>
         <div class="row">
-            <div class="col-6 col-sm-3">Kategoria og³oszenia:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.CategoryName :</div>
             <div class="col-6 col-sm-9">@Model.CategoryName</div>
         </div>
         <div class="row">
-            <div class="col-6 col-sm-3">Wiadomoœæ od ucznia:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.StudentMessage :</div>
             <div class="col-6 col-sm-9">@Model.Message</div>
         </div>
         <div class="row">
-            <div class="col-6 col-sm-3">Wiadomoœæ zwrotna:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.ReplyMessage :</div>
             <div class="col-6 col-sm-9">@Model.ReplyMessage</div>
         </div>
         <div class="row">
-            <div class="col-6 col-sm-3">Data przegl¹du:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.ReviewDate :</div>
             @if (Model.ReviewDate is not null)
             {
                 <div class="col-6 col-sm-9">@Model.ReviewDate</div>
             }
             else {
-                <div class="col-6 col-sm-9">Nowy!</div>
+                <div class="col-6 col-sm-9">@TutorLizard.Web.Resources.Shared.New !</div>
             }
         </div>
         <div class="row">
-                <div class="col-6 col-sm-3">Nauczanie zdalne:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.IsRemote :</div>
                 <div class="col-6 col-sm-9">
                     @if (Model.IsRemote)
                 {
-                    <span>Tak</span>
+                    <span>@TutorLizard.Web.Resources.Shared.Yes</span>
                 }
                 else
                 {
-                    <span>Nie</span>
+                    <span>@TutorLizard.Web.Resources.Shared.No</span>
                 }
             </div>
         </div>
         <div class="row">
-            <div class="col-6 col-sm-3">Status:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.Status:</div>
             <div class="col-6 col-sm-9">
                 @if (Model.IsAccepted)
                 {
-                    <span>Zaakceptowane</span>
+                    <span>@TutorLizard.Web.Resources.Shared.RequestAccepted</span>
                 }
                 else
                 {
-                    <span>Niezaakceptowane</span>
+                    <span>@TutorLizard.Web.Resources.Shared.RequestRejected</span>
                 }
             </div>
         </div>
