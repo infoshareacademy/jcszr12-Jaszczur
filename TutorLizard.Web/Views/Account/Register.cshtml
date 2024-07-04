@@ -7,7 +7,7 @@
 <h1 class="title">Zarejestruj się</h1>
 
 <hr />
-<div class="login-grid row justify-content-center">
+<div class="login-grid row justify-content-center gap-4">
     <div class="col-md-4 user-container">
         <form asp-action="Register">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -39,9 +39,9 @@
     </div>
 </div>
 
-<div>
+@* <div>
     <a asp-action="Index">Back</a>
-</div>
+</div> *@
 
 @section Scripts {
     @{
