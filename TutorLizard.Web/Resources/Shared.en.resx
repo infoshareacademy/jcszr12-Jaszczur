@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Accept" xml:space="preserve">
+    <value>Accept</value>
+  </data>
   <data name="Acceptance" xml:space="preserve">
     <value>Acceptance</value>
   </data>
@@ -132,14 +135,26 @@
   <data name="Advert" xml:space="preserve">
     <value>Advertisement</value>
   </data>
+  <data name="AdvertSubject" xml:space="preserve">
+    <value>Advertisement Subject</value>
+  </data>
+  <data name="AdvertTitle" xml:space="preserve">
+    <value>Advertisement Title</value>
+  </data>
   <data name="AvailableDates" xml:space="preserve">
     <value>Available dates</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Browse</value>
   </data>
+  <data name="CancelAcceptation" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="Category" xml:space="preserve">
     <value>Category</value>
+  </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>Category Name</value>
   </data>
   <data name="HomeMenu" xml:space="preserve">
     <value>Home</value>
@@ -171,11 +186,17 @@
   <data name="RegisterMenu" xml:space="preserve">
     <value>Register</value>
   </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Reject</value>
+  </data>
   <data name="Remote" xml:space="preserve">
     <value>Remote</value>
   </data>
   <data name="Reply" xml:space="preserve">
     <value>Reply</value>
+  </data>
+  <data name="ReplyMessage" xml:space="preserve">
+    <value>Reply message</value>
   </data>
   <data name="RequestAccepted" xml:space="preserve">
     <value>Accepted</value>
@@ -213,8 +234,14 @@
   <data name="RequestTutorResponse" xml:space="preserve">
     <value>Tutors response</value>
   </data>
+  <data name="SendRequest" xml:space="preserve">
+    <value>Send request</value>
+  </data>
   <data name="SignUp" xml:space="preserve">
     <value>Sign up</value>
+  </data>
+  <data name="StudentMessage" xml:space="preserve">
+    <value>Student messageg</value>
   </data>
   <data name="Subject" xml:space="preserve">
     <value>Subject</value>

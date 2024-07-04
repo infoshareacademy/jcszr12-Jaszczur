@@ -61,6 +61,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Akceptuj.
+        /// </summary>
+        public static string Accept {
+            get {
+                return ResourceManager.GetString("Accept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Akceptacja:.
         /// </summary>
         public static string Acceptance {
@@ -106,6 +115,24 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Przedmiot ogłoszenia.
+        /// </summary>
+        public static string AdvertSubject {
+            get {
+                return ResourceManager.GetString("AdvertSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tytuł ogłoszenia.
+        /// </summary>
+        public static string AdvertTitle {
+            get {
+                return ResourceManager.GetString("AdvertTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dostępne Terminy.
         /// </summary>
         public static string AvailableDates {
@@ -124,11 +151,29 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Anuluj akceptację.
+        /// </summary>
+        public static string CancelAcceptation {
+            get {
+                return ResourceManager.GetString("CancelAcceptation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kategoria.
         /// </summary>
         public static string Category {
             get {
                 return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nazwa kategorii.
+        /// </summary>
+        public static string CategoryName {
+            get {
+                return ResourceManager.GetString("CategoryName", resourceCulture);
             }
         }
         
@@ -223,6 +268,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Odrzuć.
+        /// </summary>
+        public static string Reject {
+            get {
+                return ResourceManager.GetString("Reject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remote.
         /// </summary>
         public static string Remote {
@@ -237,6 +291,15 @@ namespace TutorLizard.Web.Resources {
         public static string Reply {
             get {
                 return ResourceManager.GetString("Reply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wiadomość zwrotna.
+        /// </summary>
+        public static string ReplyMessage {
+            get {
+                return ResourceManager.GetString("ReplyMessage", resourceCulture);
             }
         }
         
@@ -349,11 +412,29 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wyślij zgłoszenie.
+        /// </summary>
+        public static string SendRequest {
+            get {
+                return ResourceManager.GetString("SendRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zapisz się.
         /// </summary>
         public static string SignUp {
             get {
                 return ResourceManager.GetString("SignUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wiadomość od ucznia.
+        /// </summary>
+        public static string StudentMessage {
+            get {
+                return ResourceManager.GetString("StudentMessage", resourceCulture);
             }
         }
         
