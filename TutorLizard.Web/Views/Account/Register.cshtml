@@ -12,8 +12,8 @@
         <form asp-action="Register">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="@TutorLizard.Web.Resources.Account.Username" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
+                <label asp-for="UserName" class="control-label">@TutorLizard.Web.Resources.Account.Username</label>
+                <input asp-for="UserName" class="form-control" placeholder="@TutorLizard.Web.Resources.Account.Username" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>          
             <div class="form-group">
@@ -22,8 +22,8 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@TutorLizard.Web.Resources.Account.Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <label asp-for="Password" class="control-label">@TutorLizard.Web.Resources.Account.Password</label>
+                <input asp-for="Password" class="form-control" placeholder="@TutorLizard.Web.Resources.Account.Password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group my-2">
