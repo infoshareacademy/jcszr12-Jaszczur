@@ -1,0 +1,17 @@
+﻿<div class="indicator-container">
+    @if (AsTutor > 0)
+    {
+        <span class="badge bg-success mx-md-1">N: @AsTutor</span>
+    }
+    @if (AsStudent > 0)
+    {
+        <span class="badge bg-primary mx-md-1">U: @AsStudent</span>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public int AsTutor { get; set; }
+    [Parameter, EditorRequired]
+    public int AsStudent { get; set; }
+}

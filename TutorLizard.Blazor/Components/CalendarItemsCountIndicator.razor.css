@@ -1,0 +1,6 @@
+﻿.indicator-container {
+    position: absolute;
+    bottom: 0;
+    font-size: .75rem;
+    padding-bottom: .5rem;
+}
