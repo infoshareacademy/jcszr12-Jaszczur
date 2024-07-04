@@ -15,13 +15,13 @@
 </head>
 <h1 class="title">Ogłoszenia</h1>
 
-<form asp-action="Search" method="post" class="d-flex flex-column p-2 border">
-    <h2 class="text-center">Wyszukiwanie ogłoszeń</h2>
+<form asp-action="Search" method="post" class="d-flex flex-column p-2 search-container">
+    <h2 class="title">Wyszukiwanie ogłoszeń</h2>
     <component type="typeof(AdSearchForm)"
                render-mode="WebAssemblyPrerendered"
                param-SearchCriteriaJson="Model.SearchCriteria.ToViewModel().Serialize()"
                param-CategoriesJson="@categories.Serialize()" />
-    <button type="submit" class="btn btn-primary m-2">Wyszukaj</button>
+    <button type="submit" class="btn btn-dark m-2">Wyszukaj</button>
 </form>
 
 
@@ -31,28 +31,23 @@
     <div class="p-2">Liczba wyników wyszukiwania: @Model.TotalAds</div>
 }
 
+<div class="row">
 @foreach (var ad in Model.Ads)
 {
-    <partial name="@PartialNames.AdListItem" model="ad" class="ad-list-item montserrat-lizardFont" />
-}
+    <div class="col-12 col-md-6 col-xl-4"><partial name="@PartialNames.AdListItem" model="ad" class="montserrat-lizardFont" /></div>
+ }
 </div>
+
 
 <div class="row text-center">
 
-    <div class="col-4 btn btn-light">
     <div class="col-4">
 
         @if(Model.PageNumber > 1)
         {
-            <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" class="custom-link">Poprzednia strona</a>
-        }
             @if (Model.SearchCriteria.AnySearch)
             {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Poprzednia strona</a>
-            }
-            else
-            {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)">Poprzednia strona</a>
+                <a asp-action="Ads" class="btn btn-light" asp-route-id="@(Model.PageNumber - 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Poprzednia strona</a>
             }
         }
     </div>
@@ -68,13 +63,8 @@
         }
             @if(Model.SearchCriteria.AnySearch)
             {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Następna strona</a>
+            <a asp-action="Ads" class=" btn btn-light" asp-route-id="@(Model.PageNumber + 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Następna strona</a>
             }
-            else
-            {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)">Następna strona</a>
-            }
-        }
     </div>
 
 </div>
