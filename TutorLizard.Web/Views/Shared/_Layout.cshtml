@@ -47,26 +47,26 @@
                             </ul>
                         </div>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@TutorLizard.Web.Resources.Resource.HomeMenu</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@TutorLizard.Web.Resources.Shared.HomeMenu</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Browse" asp-action="Ads">@TutorLizard.Web.Resources.Resource.Browse</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Browse" asp-action="Ads">@TutorLizard.Web.Resources.Shared.Browse</a>
                         </li>   
                         @if (userName is null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">@TutorLizard.Web.Resources.Resource.RegisterMenu</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">@TutorLizard.Web.Resources.Shared.RegisterMenu</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">@TutorLizard.Web.Resources.Resource.LoginMenu</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">@TutorLizard.Web.Resources.Shared.LoginMenu</a>
                             </li>
                         } else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">@TutorLizard.Web.Resources.Resource.LogoutMenu</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">@TutorLizard.Web.Resources.Shared.LogoutMenu</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Data">@TutorLizard.Web.Resources.Resource.AdminPanelMenu</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Data">@TutorLizard.Web.Resources.Shared.AdminPanelMenu</a>
                             </li>
                             <li>
                                 <span class="nav-link text-dark">@userName</span>
