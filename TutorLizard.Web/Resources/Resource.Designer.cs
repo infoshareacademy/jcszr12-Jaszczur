@@ -61,11 +61,56 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Panel Administracyjny.
+        /// </summary>
+        public static string AdminPanelMenu {
+            get {
+                return ResourceManager.GetString("AdminPanelMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Przeglądaj.
         /// </summary>
         public static string Browse {
             get {
                 return ResourceManager.GetString("Browse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strona startowa.
+        /// </summary>
+        public static string HomeMenu {
+            get {
+                return ResourceManager.GetString("HomeMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zaloguj się.
+        /// </summary>
+        public static string LoginMenu {
+            get {
+                return ResourceManager.GetString("LoginMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wyloguj się.
+        /// </summary>
+        public static string LogoutMenu {
+            get {
+                return ResourceManager.GetString("LogoutMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zarejestruj się.
+        /// </summary>
+        public static string RegisterMenu {
+            get {
+                return ResourceManager.GetString("RegisterMenu", resourceCulture);
             }
         }
     }

@@ -47,7 +47,7 @@
                             </ul>
                         </div>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@TutorLizard.Web.Resources.Resource.HomeMenu</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Browse" asp-action="Ads">@TutorLizard.Web.Resources.Resource.Browse</a>
@@ -55,18 +55,18 @@
                         @if (userName is null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Zarejestruj się</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">@TutorLizard.Web.Resources.Resource.RegisterMenu</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Zaloguj się</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">@TutorLizard.Web.Resources.Resource.LoginMenu</a>
                             </li>
                         } else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Wyloguj się</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">@TutorLizard.Web.Resources.Resource.LogoutMenu</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Data">Panel admina</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Data">@TutorLizard.Web.Resources.Resource.AdminPanelMenu</a>
                             </li>
                             <li>
                                 <span class="nav-link text-dark">@userName</span>

@@ -117,7 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AdminPanelMenu" xml:space="preserve">
+    <value>Admin Panel</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Browse</value>
+  </data>
+  <data name="HomeMenu" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="LoginMenu" xml:space="preserve">
+    <value>Log In</value>
+  </data>
+  <data name="LogoutMenu" xml:space="preserve">
+    <value>Log Out</value>
+  </data>
+  <data name="RegisterMenu" xml:space="preserve">
+    <value>Register</value>
   </data>
 </root>
