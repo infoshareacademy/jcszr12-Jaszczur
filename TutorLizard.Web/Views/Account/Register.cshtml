@@ -4,16 +4,15 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>Register</h1>
+<h1>@TutorLizard.Web.Resources.Account.Register</h1>
 
-<h4>RegisterUserModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Register">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
+                <label asp-for="@TutorLizard.Web.Resources.Account.Username" class="control-label"></label>
                 <input asp-for="UserName" class="form-control" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>          
@@ -23,21 +22,21 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
+                <label asp-for="@TutorLizard.Web.Resources.Account.Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group my-2">
-                <input type="submit" value="Register" class="btn btn-primary" />
+                <input type="submit" value="@TutorLizard.Web.Resources.Account.Register" class="btn btn-primary" />
             </div>
         </form>
     </div>
     <div class="row">
         <div>
-            <h2>Register using Google</h2>
+            <h2>@TutorLizard.Web.Resources.Account.RegisterWithGoogle</h2>
         </div>
         <div>
-            <a asp-controller="Account" asp-action="GoogleLogin" class="btn btn-primary">Sign In with Google</a>
+            <a asp-controller="Account" asp-action="GoogleLogin" class="btn btn-primary">@TutorLizard.Web.Resources.Account.GoogleSignUp</a>
         </div>
     </div>
 </div>
