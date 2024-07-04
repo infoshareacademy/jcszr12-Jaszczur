@@ -61,6 +61,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Szczegóły ogłoszenia.
+        /// </summary>
+        public static string AdDetails {
+            get {
+                return ResourceManager.GetString("AdDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dodaj termin.
         /// </summary>
         public static string AddScheduleItem {
@@ -97,6 +106,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kategoria.
+        /// </summary>
+        public static string Category {
+            get {
+                return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Strona startowa.
         /// </summary>
         public static string HomeMenu {
@@ -111,6 +129,15 @@ namespace TutorLizard.Web.Resources {
         public static string IsRemote {
             get {
                 return ResourceManager.GetString("IsRemote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lokalizacja.
+        /// </summary>
+        public static string Localization {
+            get {
+                return ResourceManager.GetString("Localization", resourceCulture);
             }
         }
         
@@ -147,6 +174,24 @@ namespace TutorLizard.Web.Resources {
         public static string NoRequests {
             get {
                 return ResourceManager.GetString("NoRequests", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wystawione przez.
+        /// </summary>
+        public static string PostedBy {
+            get {
+                return ResourceManager.GetString("PostedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cena.
+        /// </summary>
+        public static string Price {
+            get {
+                return ResourceManager.GetString("Price", resourceCulture);
             }
         }
         
@@ -282,6 +327,15 @@ namespace TutorLizard.Web.Resources {
         public static string SignUp {
             get {
                 return ResourceManager.GetString("SignUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tematyka.
+        /// </summary>
+        public static string Subject {
+            get {
+                return ResourceManager.GetString("Subject", resourceCulture);
             }
         }
         
