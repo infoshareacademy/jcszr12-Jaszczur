@@ -61,6 +61,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Akceptacja:.
+        /// </summary>
+        public static string Acceptance {
+            get {
+                return ResourceManager.GetString("Acceptance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Szczegóły ogłoszenia.
         /// </summary>
         public static string AdDetails {
@@ -84,6 +93,15 @@ namespace TutorLizard.Web.Resources {
         public static string AdminPanelMenu {
             get {
                 return ResourceManager.GetString("AdminPanelMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ogłoszenie.
+        /// </summary>
+        public static string Advert {
+            get {
+                return ResourceManager.GetString("Advert", resourceCulture);
             }
         }
         
@@ -214,6 +232,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Odpowiedź.
+        /// </summary>
+        public static string Reply {
+            get {
+                return ResourceManager.GetString("Reply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zaakceptowane.
         /// </summary>
         public static string RequestAccepted {
@@ -336,6 +363,24 @@ namespace TutorLizard.Web.Resources {
         public static string Subject {
             get {
                 return ResourceManager.GetString("Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nauczyciel zaakceptował Twoje zgłoszenie.
+        /// </summary>
+        public static string TutorHasAcceptedRequest {
+            get {
+                return ResourceManager.GetString("TutorHasAcceptedRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nauczyciel nie zaakceptował Twojego zgłoszenia.
+        /// </summary>
+        public static string TutorHasRejectedRequest {
+            get {
+                return ResourceManager.GetString("TutorHasRejectedRequest", resourceCulture);
             }
         }
         

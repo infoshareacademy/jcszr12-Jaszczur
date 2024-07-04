@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Acceptance" xml:space="preserve">
+    <value>Akceptacja:</value>
+  </data>
   <data name="AdDetails" xml:space="preserve">
     <value>Szczegóły ogłoszenia</value>
   </data>
@@ -125,6 +128,9 @@
   </data>
   <data name="AdminPanelMenu" xml:space="preserve">
     <value>Panel Administracyjny</value>
+  </data>
+  <data name="Advert" xml:space="preserve">
+    <value>Ogłoszenie</value>
   </data>
   <data name="AvailableDates" xml:space="preserve">
     <value>Dostępne Terminy</value>
@@ -168,6 +174,9 @@
   <data name="Remote" xml:space="preserve">
     <value>Remote</value>
   </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Odpowiedź</value>
+  </data>
   <data name="RequestAccepted" xml:space="preserve">
     <value>Zaakceptowane</value>
   </data>
@@ -209,6 +218,12 @@
   </data>
   <data name="Subject" xml:space="preserve">
     <value>Tematyka</value>
+  </data>
+  <data name="TutorHasAcceptedRequest" xml:space="preserve">
+    <value>Nauczyciel zaakceptował Twoje zgłoszenie</value>
+  </data>
+  <data name="TutorHasRejectedRequest" xml:space="preserve">
+    <value>Nauczyciel nie zaakceptował Twojego zgłoszenia</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Tak</value>
