@@ -275,11 +275,24 @@ body {
 
 .search-container {
     border-radius: 0px;
-    background-color: #c6d9bd;
+    background-color: #2b4027;
     padding: 20px;
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
+    color: white;
 }
+
+.ad-row-height {
+    flex-wrap: wrap;
+    height: 460px;
+}
+
+.button-container {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
 
 /* AdDetails styles */
 
