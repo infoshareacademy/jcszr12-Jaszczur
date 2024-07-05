@@ -93,6 +93,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Student.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Tutor.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Tutor.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -151,6 +156,10 @@
     <EmbeddedResource Update="Resources\Student.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Student.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Tutor.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Tutor.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
