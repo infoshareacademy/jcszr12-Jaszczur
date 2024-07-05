@@ -6,8 +6,8 @@
 <div class="row">
     <component type="typeof(Schedule)"
                render-mode="WebAssemblyPrerendered"
-               param-Year="@DateTime.Now.Year"
-               param-Month="@DateTime.Now.Month"
+               param-Year="Model.Year"
+               param-Month="Model.Month"
                param-TutorsSchedule="@Model.TutorsSchedule.Serialize()"
                param-StudentsSchedule="@Model.StudentsSchedule.Serialize()"/>
 </div>
