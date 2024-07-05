@@ -58,6 +58,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Browse.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Category.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Category.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Shared.en.Designer.cs">
       <DependentUpon>Shared.en.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -95,6 +100,10 @@
     <EmbeddedResource Update="Resources\Browse.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Browse.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Category.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Category.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Shared.en.resx">
       <LastGenOutput>Shared.en.Designer.cs</LastGenOutput>
