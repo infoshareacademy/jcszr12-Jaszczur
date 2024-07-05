@@ -1,5 +1,5 @@
 ﻿namespace TutorLizard.Shared.Models.DTOs;
-public class TutorsScheduleItemSummaryDto
+public class TutorsScheduleItemSummaryDto : IScheduleItemSummaryDto
 {
     public int Id { get; set; }
     public int AdId { get; set; }

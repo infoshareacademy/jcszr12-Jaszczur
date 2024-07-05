@@ -1,73 +1,13 @@
-﻿@model GetUsersScheduleResponse
+﻿@using TutorLizard.Web.Extensions
+@model GetUsersScheduleResponse
 
 <h1>Twoje terminy</h1>
 
 <div class="row">
-    <div class="col-sm-6 d-flex flex-column">
-        <h2>Jako uczeń</h2>
-        @if(Model.StudentsSchedule.Count == 0)
-        {
-            <div>
-                Brak terminów.
-            </div>
-        }
-        else
-        {
-            foreach(var item in Model.StudentsSchedule)
-            {
-                <div class="p-3 my-2 border border-2">
-                    <div><a asp-action="AdDetails" asp-route-id="@item.AdId">@item.AdTitle</a></div>
-                    <div class="h3">@item.DateTime</div>
-                    <div>Nauczyciel: @item.TutorName</div>
-                    <div>
-                        <span>Status zgłoszenia: </span>
-                        @if (item.Status == StudentsScheduleItemSummaryDto.RequestStatus.Accepted)
-                        {
-                            <span>Zaakceptowany</span>
-                        }
-                        else if (item.Status == StudentsScheduleItemSummaryDto.RequestStatus.Pending)
-                        {
-                            <span>Oczekuje na akceptację</span>
-                        }
-                        else if (item.Status == StudentsScheduleItemSummaryDto.RequestStatus.Rejected)
-                        {
-                            <span>Odrzucone</span>
-                        }
-                    </div>
-                </div>
-            }
-        }
-    </div>
-
-    <div class="col-sm-6 d-flex flex-column">
-        <h2>Jako nauczyciel</h2>
-        @if (Model.TutorsSchedule.Count == 0)
-        {
-            <div>
-                Brak terminów.
-            </div>
-        }
-        else
-        {
-            foreach (var item in Model.TutorsSchedule)
-            {
-                <div class="p-3 my-2 border border-2">
-                    <div><a asp-action="AdDetails" asp-route-id="@item.AdId">@item.AdTitle</a></div>
-                    <div class="h3">@item.DateTime</div>
-                    <div>Liczba zgłoszeń: @item.RequestCount</div>
-                    <div>
-                        <span>Zapisany uczeń: </span>
-                        @if (item.AcceptedStudentsName is null)
-                        {
-                            <span>Brak</span>
-                        }
-                        else
-                        {
-                            <span>@item.AcceptedStudentsName</span>
-                        }
-                    </div>
-                </div>
-            }
-        }
-    </div>
+    <component type="typeof(Schedule)"
+               render-mode="WebAssemblyPrerendered"
+               param-Year="@DateTime.Now.Year"
+               param-Month="@DateTime.Now.Month"
+               param-TutorsSchedule="@Model.TutorsSchedule.Serialize()"
+               param-StudentsSchedule="@Model.StudentsSchedule.Serialize()"/>
 </div>
