@@ -4,9 +4,11 @@
 }
     
 <h1 class="title">Oczekujące zgłoszenia</h1>
-<div class="ad-grid">
+<div class="row">
 @foreach(var adRequest in Model.AdRequests)
 {
-    <partial name="@PartialNames.AdRequest" model="adRequest" />
+        <div class="col-12 col-md-6 flex-row flex-column">
+            <partial name="@PartialNames.AdRequest" model="adRequest" />
+        </div>
     }
 </div>

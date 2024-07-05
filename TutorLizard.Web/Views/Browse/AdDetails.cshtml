@@ -7,7 +7,7 @@
     <div class="col-lg-6">
         <div class="ad-details">
             <div class="title-2"><h2>@Model.Title</h2></div>
-            <div class="row ad-details-description">
+            <div class="row ad-list-item">
                 <div class="row">
                     <div class="col-6 col-sm-3">Kategoria:</div>
                     <div class="col-6 col-sm-9">@Model.CategoryName</div>
@@ -29,7 +29,7 @@
                     <div class="col-6 col-sm-9">@Model.Price zł/h</div>
                 </div>
                 <div class="row">
-                    <div class="col-6 col-sm-9">
+                    <div class="col-6 col-sm-9 text-green">
                         @if (Model.IsRemote)
                         {
                             <span>Nauczanie zdalnie</span>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row ad-details-description">
+            <div class="row ad-list-item margin-top-small">
                 <div class="col">@Model.Description</div>
             </div>
         </div>

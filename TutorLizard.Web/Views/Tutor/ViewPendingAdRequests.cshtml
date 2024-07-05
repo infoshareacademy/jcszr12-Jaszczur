@@ -5,7 +5,11 @@
 }
 
 <h1 class="title">Oczekujące zgłoszenia</h1>
+<div class="row">
 @foreach (var adrequest in Model.AdRequests)
 {
-   <partial name="@PartialNames.PendingAdRequestsListItem" model="adrequest" />
-}
+        <div class="col-12 col-md-6 flex-row flex-column">
+            <partial name="@PartialNames.PendingAdRequestsListItem" model="adrequest" />
+            </div>
+    }
+</div>

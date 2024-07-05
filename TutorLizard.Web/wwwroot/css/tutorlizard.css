@@ -120,7 +120,7 @@ body {
     padding: 10px;
     background-color: #f9f9f9;
     border: 1px solid #dddddd;
-    border-radius: 5px;
+    border-radius: 0px;
 }
 
 .user-container-light {
@@ -128,7 +128,7 @@ body {
     padding: 10px;
     background-color: #ffffff;
     border: 1px solid #dddddd;
-    border-radius: 5px;
+    border-radius: 0px;
 }
 
 /*.ad-grid {
@@ -276,7 +276,7 @@ body {
 .search-container {
     border-top: 3px solid;
     border-bottom: 3px solid;
-    border-color: #2b4027;
+    border-color: #9db88c;
     background-color: #ffffff;
     padding: 20px;
     font-family: "Montserrat", sans-serif;

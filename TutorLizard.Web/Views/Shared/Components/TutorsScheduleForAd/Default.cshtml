@@ -6,12 +6,12 @@
         <div class="title"><h3>Terminy</h3></div>
         <div>
             <ul class="list-group col-xl-12">
-                <div class="mx-auto"><a href="@Url.Action("CreateScheduleItem", "Tutor", new { id = Model.AdId })" class="btn btn-success">Dodaj nowy termin</a></div>
+                <div class="mx-auto"><a href="@Url.Action("CreateScheduleItem", "Tutor", new { id = Model.AdId })" class="btn btn-dark">Dodaj nowy termin</a></div>
             </ul>
         </div>
         @foreach(var scheduleItem in Model.ScheduleItems)
         {
-            <div class="border-1 user-container-light">
+            <div class="border-1 ad-list-item my-3">
                 <div class="title-2 mx-auto"><h4>@scheduleItem.DateTime</h4></div>
                 <div class="row align-items-center col-lg-10 mx-auto">
                     @if(scheduleItem.Requests.Count == 0)

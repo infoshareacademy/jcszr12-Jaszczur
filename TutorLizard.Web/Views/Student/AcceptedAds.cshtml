@@ -4,10 +4,12 @@
 }
 
 <h1 class="title">Zatwierdzone zgłoszenia</h1>
-<div class="ad-grid">
+<div class="row">
 @foreach(var ad in Model.Ads)
 {
-    <partial name="@PartialNames.AdListItem" model="ad" />
+        <div class="col-12 col-md-6 flex-row flex-column">
+            <partial name="@PartialNames.AdListItem" model="ad" />
+            </div>
     }
 </div>
 

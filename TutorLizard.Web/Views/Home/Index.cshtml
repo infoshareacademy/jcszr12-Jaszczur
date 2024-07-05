@@ -1,4 +1,4 @@
-﻿@{
+﻿div
     ViewData["Title"] = "Home Page";
 }
 <div class="banner-container">
@@ -11,19 +11,13 @@
 
 <div class="col-lg-5 mx-auto">
     <div class="custom-padding">
-    <div class="list-group btn-light">
-        <li class="btn"><a asp-controller="Tutor" asp-action="Index" class="custom-link">Nauczyciel</a></li>
-    </div>
+        <a asp-controller="Tutor" asp-action="Index" class="custom-link btn btn-light col-12">Nauczyciel</a>
     </div>
     <div class="custom-padding">
-    <ul class="list-group btn-light">
-        <li class="btn"><a asp-controller="Student" asp-action="Index" class="custom-link">Uczeń</a></li>
-    </ul>
+        <a asp-controller="Student" asp-action="Index" class="custom-link btn btn-light col-12">Uczeń</a>
     </div>
     <div class="custom-padding">
-    <ul class="list-group btn-light">
-        <li class="btn"><a asp-controller="Browse" asp-action="Schedule" class="custom-link">Terminy</a></li>
-    </ul>
+        <a asp-controller="Browse" asp-action="Schedule" class="custom-link btn btn-light col-12">Terminy</a>
     </div>
 </div>
 

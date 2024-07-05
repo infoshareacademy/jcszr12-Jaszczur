@@ -1,35 +1,22 @@
 ﻿<h1 class="title">Funkcjonalność nauczyciela</h1>
 
 <div class="col-lg-5 mx-auto">
-    <div class="custom-padding">
-        <div class="list-group btn-light">
-            <li class="btn btn-list"><a asp-action="TutorsAdsList" class="custom-link">Twoje ogłoszenia</a></li>
-        </div>
-    </div>
-</div>
 
-<div class="col-lg-5 mx-auto">
-    <div class="custom-padding">
-        <div class="list-group btn-light">
-    <li class="btn"><a asp-action="CreateAd" class="custom-link">Dodaj ogłoszenie</a></li>
-        </div>
+    <div class="list-group">
+        <div class="btn btn-list"><a asp-action="TutorsAdsList" class="custom-link btn btn-light col-12">Twoje ogłoszenia</a></div>
     </div>
-</div>
 
-    <div class="col-lg-5 mx-auto">
-        <div class="custom-padding">
-            <div class="list-group btn-light">
-    <li class="btn"><a asp-action="ViewPendingAdRequests" class="custom-link">Oczekujące zgłoszenia</a></li>
+    <div class="list-group">
+    <div class="btn"><a asp-action="CreateAd" class="custom-link btn btn-light col-12">Dodaj ogłoszenie</a></div>
+    </div>
+
+    <div class="list-group">
+        <div class="btn"><a asp-action="ViewPendingAdRequests" class="custom-link btn btn-light col-12">Oczekujące zgłoszenia</a></div>
+        </div>
+
+    <div class="list-group">
+            <div class="btn"><a asp-action="ViewAllAdRequests" class="custom-link btn btn-light col-12">Wszystkie zgłoszenia</a></div>
             </div>
-        </div>
-    </div>
-
-        <div class="col-lg-5 mx-auto">
-            <div class="custom-padding">
-                <div class="list-group btn-light">
-        <li class="btn"><a asp-action="ViewAllAdRequests" class="custom-link">Wszystkie zgłoszenia</a></li>
-                </div>
-            </div>
-        </div>
+ </div>
 
             
