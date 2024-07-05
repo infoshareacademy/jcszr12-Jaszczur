@@ -1,11 +1,12 @@
 ﻿.schedule-container {
-    background-color: slateblue;
+    background-color: #ededed;
     padding: 1rem;
-    border-radius: 1rem;
+    border-radius: 0;
+    color: black;
 }
 
     .schedule-container h3 {
-    color:white;
+    color:black;
     margin: 0;
     text-align: center;
     padding-bottom: 1rem;
