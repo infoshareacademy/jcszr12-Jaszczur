@@ -6,6 +6,8 @@ using TutorLizard.BusinessLogic.Extensions;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
 using TutorLizard.Shared.Enums;
+using TutorLizard.Shared.Models.DTOs.Responses;
+using TutorLizard.Shared.Models.DTOs.Requests;
 
 namespace TutorLizard.BusinessLogic.Services;
 
@@ -103,25 +105,54 @@ public class UserService : IUserService
         return true;
     }
 
-    public async Task<bool> RegisterUserWithGoogle(string username, string email, string googleId)
+    public async Task<RegisterUserWithGoogleResponse> RegisterUserWithGoogle(RegisterUserWithGoogleRequest request)
     {
-        if (await _userRepository.GetAll().AnyAsync(user => user.Name == username))
-            return false;
-
-        User user = new()
+        try
         {
-            Name = username,
-            UserType = UserType.Regular,
-            Email = email,
-            GoogleId = googleId,
-            IsActive = true,
-            ActivationCode = "Registered with Google Auth",
-            PasswordHash = null,
-        };
+            User? existingUser = _userRepository
+                .GetAll()
+                .FirstOrDefault(user => user.Email == request.Email);
 
-        await _userRepository.Create(user);
+            if (existingUser is not null)
+            {
+                await _userRepository.Update(existingUser.Id, user => user.GoogleId = request.GoogleId);
+                RegisterUserWithGoogleResponse linkedExistingResponse = new()
+                {
+                    Result = GoogleRegistrationResult.LinkedExistingAccount
+                };
 
-        return true;
+                return linkedExistingResponse;
+            }
+
+            User user = new()
+            {
+                Name = request.Username,
+                UserType = UserType.Regular,
+                Email = request.Email,
+                GoogleId = request.GoogleId,
+                IsActive = true,
+                ActivationCode = "Registered with Google Auth",
+                PasswordHash = null,
+            };
+
+            await _userRepository.Create(user);
+
+            RegisterUserWithGoogleResponse response = new()
+            {
+                Result = GoogleRegistrationResult.Registered
+            };
+
+            return response;
+        }
+        catch
+        {
+            RegisterUserWithGoogleResponse failedResponse = new()
+            {
+                Result = GoogleRegistrationResult.Failure
+            };
+
+            return failedResponse;
+        }
     }
 
     public async Task<bool> IsTheGoogleUserRegistered(string googleId)
