@@ -120,7 +120,7 @@
   <data name="AdId" xml:space="preserve">
     <value>Id ogłoszenia</value>
   </data>
-  <data name="AdRequest" xml:space="preserve">
+  <data name="AdRequests" xml:space="preserve">
     <value>Zgłoszenie do ogłoszenia</value>
   </data>
   <data name="BackToList" xml:space="preserve">

@@ -160,20 +160,20 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Termin.
-        /// </summary>
-        public static string ScheduleItem {
-            get {
-                return ResourceManager.GetString("ScheduleItem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Terminy.
         /// </summary>
         public static string ScheduleItems {
             get {
                 return ResourceManager.GetString("ScheduleItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Termin.
+        /// </summary>
+        public static string ScheduleItemy {
+            get {
+                return ResourceManager.GetString("ScheduleItemy", resourceCulture);
             }
         }
         

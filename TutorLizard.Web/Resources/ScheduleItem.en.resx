@@ -147,11 +147,11 @@
   <data name="Save" xml:space="preserve">
     <value>Zapisz</value>
   </data>
-  <data name="ScheduleItem" xml:space="preserve">
-    <value>Class date</value>
-  </data>
   <data name="ScheduleItems" xml:space="preserve">
     <value>Class dates</value>
+  </data>
+  <data name="ScheduleItemy" xml:space="preserve">
+    <value>Class date</value>
   </data>
   <data name="YouSureToDelete" xml:space="preserve">
     <value>Are you sure you want to delete this?</value>

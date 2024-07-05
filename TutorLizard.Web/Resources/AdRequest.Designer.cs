@@ -72,9 +72,9 @@ namespace TutorLizard.Web.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Zgłoszenie do ogłoszenia.
         /// </summary>
-        public static string AdRequest {
+        public static string AdRequests {
             get {
-                return ResourceManager.GetString("AdRequest", resourceCulture);
+                return ResourceManager.GetString("AdRequests", resourceCulture);
             }
         }
         

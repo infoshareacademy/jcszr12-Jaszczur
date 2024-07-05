@@ -90,9 +90,9 @@ namespace TutorLizard.Web.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Kategoria.
         /// </summary>
-        public static string Category {
+        public static string Categoryy {
             get {
-                return ResourceManager.GetString("Category", resourceCulture);
+                return ResourceManager.GetString("Categoryy", resourceCulture);
             }
         }
         
