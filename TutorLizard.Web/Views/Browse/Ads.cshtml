@@ -11,22 +11,22 @@
     }
 }
 
-<h1>Ogłoszenia</h1>
+<h1>@TutorLizard.Web.Resources.Browse.Ads</h1>
 
 <form asp-action="Search" method="post" class="d-flex flex-column p-2 border">
-    <h2 class="text-center">Wyszukiwanie ogłoszeń</h2>
+    <h2 class="text-center">@TutorLizard.Web.Resources.Browse.BrowsingAds</h2>
     <component type="typeof(AdSearchForm)"
                render-mode="WebAssemblyPrerendered"
                param-SearchCriteriaJson="Model.SearchCriteria.ToViewModel().Serialize()"
                param-CategoriesJson="@categories.Serialize()" />
-    <button type="submit" class="btn btn-primary m-2">Wyszukaj</button>
+    <button type="submit" class="btn btn-primary m-2">@TutorLizard.Web.Resources.Browse.Search</button>
 </form>
 
 
 
 @if (Model.SearchCriteria.AnySearch)
 {
-    <div class="p-2">Liczba wyników wyszukiwania: @Model.TotalAds</div>
+    <div class="p-2">@TutorLizard.Web.Resources.Browse.NumberOfResults : @Model.TotalAds</div>
 }
 
 @foreach (var ad in Model.Ads)
@@ -42,11 +42,11 @@
         {
             @if (Model.SearchCriteria.AnySearch)
             {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Poprzednia strona</a>
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">@TutorLizard.Web.Resources.Browse.PreviousPage</a>
             }
             else
             {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)">Poprzednia strona</a>
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)">@TutorLizard.Web.Resources.Browse.PreviousPage</a>
             }
         }
     </div>
@@ -60,11 +60,11 @@
         {
             @if(Model.SearchCriteria.AnySearch)
             {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Następna strona</a>
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">@TutorLizard.Web.Resources.Browse.NextPage</a>
             }
             else
             {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)">Następna strona</a>
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)">@TutorLizard.Web.Resources.Browse.NextPage</a>
             }
         }
     </div>

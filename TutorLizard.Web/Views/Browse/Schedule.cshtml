@@ -1,14 +1,14 @@
 ﻿@model GetUsersScheduleResponse
 
-<h1>Twoje terminy</h1>
+<h1>@TutorLizard.Web.Resources.Browse.YourSchedule</h1>
 
 <div class="row">
     <div class="col-sm-6 d-flex flex-column">
-        <h2>Jako uczeń</h2>
+        <h2>@TutorLizard.Web.Resources.Browse.AsStudent</h2>
         @if(Model.StudentsSchedule.Count == 0)
         {
             <div>
-                Brak terminów.
+                @TutorLizard.Web.Resources.Browse.NoClassDates
             </div>
         }
         else
@@ -18,20 +18,20 @@
                 <div class="p-3 my-2 border border-2">
                     <div><a asp-action="AdDetails" asp-route-id="@item.AdId">@item.AdTitle</a></div>
                     <div class="h3">@item.DateTime</div>
-                    <div>Nauczyciel: @item.TutorName</div>
+                    <div>@TutorLizard.Web.Resources.Browse.Tutor : @item.TutorName</div>
                     <div>
-                        <span>Status zgłoszenia: </span>
+                        <span>@TutorLizard.Web.Resources.Browse.ScheduleItemStatus: </span>
                         @if (item.Status == StudentsScheduleItemSummaryDto.RequestStatus.Accepted)
                         {
-                            <span>Zaakceptowany</span>
+                            <span>@TutorLizard.Web.Resources.Browse.Accepted</span>
                         }
                         else if (item.Status == StudentsScheduleItemSummaryDto.RequestStatus.Pending)
                         {
-                            <span>Oczekuje na akceptację</span>
+                            <span>@TutorLizard.Web.Resources.Browse.Pending</span>
                         }
                         else if (item.Status == StudentsScheduleItemSummaryDto.RequestStatus.Rejected)
                         {
-                            <span>Odrzucone</span>
+                            <span>@TutorLizard.Web.Resources.Browse.Rejected</span>
                         }
                     </div>
                 </div>
@@ -40,11 +40,11 @@
     </div>
 
     <div class="col-sm-6 d-flex flex-column">
-        <h2>Jako nauczyciel</h2>
+        <h2>@TutorLizard.Web.Resources.Browse.AsTutor</h2>
         @if (Model.TutorsSchedule.Count == 0)
         {
             <div>
-                Brak terminów.
+                @TutorLizard.Web.Resources.Browse.NoClassDates
             </div>
         }
         else
@@ -54,12 +54,12 @@
                 <div class="p-3 my-2 border border-2">
                     <div><a asp-action="AdDetails" asp-route-id="@item.AdId">@item.AdTitle</a></div>
                     <div class="h3">@item.DateTime</div>
-                    <div>Liczba zgłoszeń: @item.RequestCount</div>
+                    <div>@TutorLizard.Web.Resources.Browse.RequestCount : @item.RequestCount</div>
                     <div>
-                        <span>Zapisany uczeń: </span>
+                        <span>@TutorLizard.Web.Resources.Browse.AcceptedStudentName : </span>
                         @if (item.AcceptedStudentsName is null)
                         {
-                            <span>Brak</span>
+                            <span>@TutorLizard.Web.Resources.Browse.None</span>
                         }
                         else
                         {
