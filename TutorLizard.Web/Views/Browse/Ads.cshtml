@@ -42,11 +42,15 @@
 
     <div class="col-4">
 
-        @if(Model.PageNumber > 1)
+        @if (Model.PageNumber > 1)
         {
             @if (Model.SearchCriteria.AnySearch)
             {
-                <a asp-action="Ads" class="btn btn-light" asp-route-id="@(Model.PageNumber - 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Poprzednia strona</a>
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Poprzednia strona</a>
+            }
+            else
+            {
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)">Poprzednia strona</a>
             }
         }
     </div>
@@ -55,15 +59,18 @@
         Strona @Model.PageNumber z @Model.TotalPages
     </div>
 
-    <div class="col-4 btn btn-light">
-        @if(Model.TotalPages > Model.PageNumber)
+    <div class="col-4">
+        @if (Model.TotalPages > Model.PageNumber)
         {
-            <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" class="custom-link">Następna strona</a>
-        }
-            @if(Model.SearchCriteria.AnySearch)
+            @if (Model.SearchCriteria.AnySearch)
             {
-            <a asp-action="Ads" class=" btn btn-light" asp-route-id="@(Model.PageNumber + 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Następna strona</a>
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">Następna strona</a>
             }
+            else
+            {
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)">Następna strona</a>
+            }
+        }
     </div>
 
 </div>
