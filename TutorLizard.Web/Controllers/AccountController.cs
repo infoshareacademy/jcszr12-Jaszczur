@@ -76,11 +76,10 @@ public class AccountController : Controller
 
             if (!(await _userAuthenticationService.IsGoogleUserRegistered(claimGoogleId)))
             {
-                try
-                {
-                    await _userAuthenticationService.RegisterUserWithGoogle(claimUsername, claimEmail, claimGoogleId);
-                }
-                catch
+                GoogleRegistrationResult registrationResult = await _userAuthenticationService
+                    .RegisterUserWithGoogle(claimUsername, claimEmail, claimGoogleId);
+
+                if (registrationResult == GoogleRegistrationResult.Failure)
                 {
                     _uiMessagesService.ShowFailureMessage("Rejestracja użytkownika za pomocą konta google się nie powiodła");
                     return RedirectToAction("Login");
