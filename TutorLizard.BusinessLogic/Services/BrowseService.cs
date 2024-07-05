@@ -98,7 +98,10 @@ public class BrowseService : IBrowseService
     public async Task<GetUsersScheduleResponse> GetUsersSchedule(GetUsersScheduleRequest request)
     {
         List<TutorsScheduleItemSummaryDto> tutorsSchedule = await _scheduleItemRepository.GetAll()
-            .Where(i => i.Ad.TutorId == request.UserId)
+            .Where(i => i.Ad.TutorId == request.UserId &&
+                                  i.DateTime.Month == request.Month &&
+                                  i.DateTime.Year == request.Year)
+            .OrderBy(i => i.DateTime)
             .Select(i => new TutorsScheduleItemSummaryDto()
             {
                 Id = i.Id,
@@ -108,14 +111,17 @@ public class BrowseService : IBrowseService
                 RequestCount = i.ScheduleItemRequests.Count,
                 AcceptedStudentsName =
                     i.ScheduleItemRequests.Any(r => r.IsAccepted) ?
-                        i.ScheduleItemRequests.First(r => r.IsAccepted).User.Name
-                        : null,
+                    i.ScheduleItemRequests.First(r => r.IsAccepted).User.Name
+                    : null,
             })
             .ToListAsync();
 
 
         List<StudentsScheduleItemSummaryDto> studentsSchedule = await _scheduleItemRepository.GetAll()
-            .Where(i => i.ScheduleItemRequests.Any(r => r.StudentId == request.UserId))
+            .Where(i => i.ScheduleItemRequests.Any(r => r.StudentId == request.UserId) &&
+                                           i.DateTime.Month == request.Month &&
+                                           i.DateTime.Year == request.Year)
+            .OrderBy(i => i.DateTime)
             .Select(i => new StudentsScheduleItemSummaryDto()
             {
                 Id = i.Id,
@@ -133,7 +139,9 @@ public class BrowseService : IBrowseService
         GetUsersScheduleResponse response = new()
         {
             TutorsSchedule = tutorsSchedule,
-            StudentsSchedule = studentsSchedule
+            StudentsSchedule = studentsSchedule,
+            Month = request.Month,
+            Year = request.Year,
         };
 
         return response;
