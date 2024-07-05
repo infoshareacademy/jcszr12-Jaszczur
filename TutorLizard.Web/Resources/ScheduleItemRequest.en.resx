@@ -118,42 +118,42 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BackToList" xml:space="preserve">
-    <value>Wróć do listy</value>
+    <value>Back to list</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Stwórz</value>
+    <value>Create</value>
   </data>
   <data name="CreateNew" xml:space="preserve">
-    <value>Stwórz nowy</value>
+    <value>Create new</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Usuń</value>
+    <value>Delete</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Szczegóły</value>
+    <value>Details</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edytuj</value>
+    <value>Edit</value>
   </data>
   <data name="IsAccepted" xml:space="preserve">
     <value>Status</value>
   </data>
   <data name="IsRemote" xml:space="preserve">
-    <value>Nauczanie zdalne</value>
+    <value>Remotely</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Zapisz</value>
+    <value>Save</value>
   </data>
   <data name="ScheduleItemId" xml:space="preserve">
-    <value>Id terminu</value>
+    <value>Class date Id</value>
   </data>
   <data name="ScheduleItemRequests" xml:space="preserve">
-    <value>Terminy</value>
+    <value>Class dates</value>
   </data>
   <data name="StudentId" xml:space="preserve">
-    <value>Id studenta</value>
+    <value>Student Id</value>
   </data>
   <data name="SureToDelete" xml:space="preserve">
-    <value>Czy na pewno chcesz to usunąć?</value>
+    <value>Are you sure you want to delete this?</value>
   </data>
 </root>
