@@ -48,6 +48,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Ad.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\AdRequest.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AdRequest.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Shared.en.Designer.cs">
       <DependentUpon>Shared.en.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -71,6 +76,13 @@
     <EmbeddedResource Update="Resources\Ad.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Ad.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\AdRequest.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\AdRequest.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AdRequest.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Shared.en.resx">
       <LastGenOutput>Shared.en.Designer.cs</LastGenOutput>
