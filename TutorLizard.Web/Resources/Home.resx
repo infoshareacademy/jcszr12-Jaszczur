@@ -132,6 +132,9 @@
   <data name="Data" xml:space="preserve">
     <value>Dane</value>
   </data>
+  <data name="HomePage" xml:space="preserve">
+    <value>Strona startowa</value>
+  </data>
   <data name="Privacy" xml:space="preserve">
     <value>Skorzystaj z tej strony, aby wyszczególnić politykę prywatności swojej witryny.</value>
   </data>
@@ -142,7 +145,7 @@
     <value>Terminy</value>
   </data>
   <data name="StudentFunction" xml:space="preserve">
-    <value>Funkcjonalność studenta</value>
+    <value>Funkcjonalność ucznia</value>
   </data>
   <data name="TutorFunction" xml:space="preserve">
     <value>Funkcjonalność nauczyciela</value>
@@ -150,7 +153,7 @@
   <data name="Users" xml:space="preserve">
     <value>Użytkownicy</value>
   </data>
-  <data name="YourClassDates" xml:space="preserve">
+  <data name="YourSchedule" xml:space="preserve">
     <value>Twoje terminy</value>
   </data>
 </root>

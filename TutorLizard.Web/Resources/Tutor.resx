@@ -120,6 +120,9 @@
   <data name="AddAd" xml:space="preserve">
     <value>Dodaj ogłoszenie</value>
   </data>
+  <data name="AddAdvertisement" xml:space="preserve">
+    <value>Dodaj ogłoszenie</value>
+  </data>
   <data name="AddScheduleItem" xml:space="preserve">
     <value>Dodaj termin</value>
   </data>

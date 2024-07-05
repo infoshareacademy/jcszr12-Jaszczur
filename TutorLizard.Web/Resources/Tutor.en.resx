@@ -118,7 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddAd" xml:space="preserve">
-    <value>Add</value>
+    <value>Create ad</value>
+  </data>
+  <data name="AddAdvertisement" xml:space="preserve">
+    <value>Create advertisement</value>
   </data>
   <data name="AddScheduleItem" xml:space="preserve">
     <value>Add class date</value>
@@ -145,7 +148,7 @@
     <value>Category Id</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>Zatwierdź</value>
+    <value>Confirm</value>
   </data>
   <data name="DateTime" xml:space="preserve">
     <value>Date</value>

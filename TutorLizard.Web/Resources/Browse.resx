@@ -162,6 +162,9 @@
   <data name="NumberOfResults" xml:space="preserve">
     <value>Liczba wyników wyszukiwania</value>
   </data>
+  <data name="Page" xml:space="preserve">
+    <value>Strona</value>
+  </data>
   <data name="Pending" xml:space="preserve">
     <value>Oczekuje na akceptacje</value>
   </data>

@@ -106,6 +106,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Strona startowa.
+        /// </summary>
+        public static string HomePage {
+            get {
+                return ResourceManager.GetString("HomePage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Skorzystaj z tej strony, aby wyszczególnić politykę prywatności swojej witryny..
         /// </summary>
         public static string Privacy {
@@ -133,7 +142,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Funkcjonalność studenta.
+        ///   Looks up a localized string similar to Funkcjonalność ucznia.
         /// </summary>
         public static string StudentFunction {
             get {
@@ -162,9 +171,9 @@ namespace TutorLizard.Web.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Twoje terminy.
         /// </summary>
-        public static string YourClassDates {
+        public static string YourSchedule {
             get {
-                return ResourceManager.GetString("YourClassDates", resourceCulture);
+                return ResourceManager.GetString("YourSchedule", resourceCulture);
             }
         }
     }

@@ -171,6 +171,9 @@
   <data name="LogoutMenu" xml:space="preserve">
     <value>Wyloguj się</value>
   </data>
+  <data name="Message" xml:space="preserve">
+    <value>Wiadomość</value>
+  </data>
   <data name="New" xml:space="preserve">
     <value>Nowy</value>
   </data>

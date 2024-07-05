@@ -70,6 +70,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dodaj ogłoszenie.
+        /// </summary>
+        public static string AddAdvertisement {
+            get {
+                return ResourceManager.GetString("AddAdvertisement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dodaj termin.
         /// </summary>
         public static string AddScheduleItem {

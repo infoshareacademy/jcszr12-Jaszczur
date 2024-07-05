@@ -223,6 +223,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wiadomość.
+        /// </summary>
+        public static string Message {
+            get {
+                return ResourceManager.GetString("Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nowy.
         /// </summary>
         public static string New {

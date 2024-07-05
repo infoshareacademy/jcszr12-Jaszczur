@@ -132,6 +132,9 @@
   <data name="Data" xml:space="preserve">
     <value>Data</value>
   </data>
+  <data name="HomePage" xml:space="preserve">
+    <value>Home</value>
+  </data>
   <data name="Privacy" xml:space="preserve">
     <value>Use this page to detail your site's privacy policy.</value>
   </data>
@@ -150,7 +153,7 @@
   <data name="Users" xml:space="preserve">
     <value>Users</value>
   </data>
-  <data name="YourClassDates" xml:space="preserve">
-    <value>Your class dates</value>
+  <data name="YourSchedule" xml:space="preserve">
+    <value>Your schedule</value>
   </data>
 </root>
