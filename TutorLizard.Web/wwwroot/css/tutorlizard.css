@@ -274,12 +274,14 @@ body {
 }
 
 .search-container {
-    border-radius: 0px;
-    background-color: #2b4027;
+    border-top: 3px solid;
+    border-bottom: 3px solid;
+    border-color: #2b4027;
+    background-color: #ffffff;
     padding: 20px;
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
-    color: white;
+    color: black;
 }
 
 .ad-row-height {
