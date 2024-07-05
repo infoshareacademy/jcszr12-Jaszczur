@@ -49,6 +49,7 @@
                         <div class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Browse" asp-action="Ads">Przeglądaj</a>
                         </div>
+                        <ul class="navbar-nav ms-auto">
                         @if (userName is null)
                         {
                             <div class="nav-item">
@@ -63,13 +64,16 @@
                             <div class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">Wyloguj się</a>
                             </div>
-                            @* <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Data">Panel admina</a>
-                            </li> *@
+                            
                             <div class="nav-item">
                                 <span class="nav-link">@userName</span>
                             </div>
+
+                            @* <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Data">Panel admina</a>
+                            </li> *@
                         }
+                        </ul>
                     </ul>
                     @* <form class="d-flex">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -96,6 +100,8 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <script src="~/_framework/blazor.web.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
 
