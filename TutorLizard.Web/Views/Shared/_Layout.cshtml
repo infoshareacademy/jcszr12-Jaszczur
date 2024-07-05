@@ -42,8 +42,8 @@
                                 }
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-language="pl">Polski</a></li>
-                                <li><a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-language="en">English</a></li>
+                                <li><a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-language="pl" asp-route-returnUrl="@Context.Request.Path">Polski</a></li>
+                                <li><a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-language="en" asp-route-returnUrl="@Context.Request.Path">English</a></li>
                             </ul>
                         </div>
                         <li class="nav-item">
