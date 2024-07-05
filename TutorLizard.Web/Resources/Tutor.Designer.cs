@@ -241,6 +241,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Funkcjonalność nauczyciela.
+        /// </summary>
+        public static string TutorFunc {
+            get {
+                return ResourceManager.GetString("TutorFunc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Przeglądaj swoje ogłoszenia.
         /// </summary>
         public static string TutorsAdsLists {
