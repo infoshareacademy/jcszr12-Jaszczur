@@ -68,6 +68,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Home.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\ScheduleItem.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ScheduleItem.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Shared.en.Designer.cs">
       <DependentUpon>Shared.en.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -116,6 +121,10 @@
     <EmbeddedResource Update="Resources\Home.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Home.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\ScheduleItem.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScheduleItem.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Shared.en.resx">
       <LastGenOutput>Shared.en.Designer.cs</LastGenOutput>
