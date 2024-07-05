@@ -93,7 +93,7 @@ public class BrowseController : Controller
     }
 
     [Authorize]
-    public async Task<IActionResult> Schedule([FromQuery] int year, [FromQuery] int month)
+    public async Task<IActionResult> Schedule([FromQuery] int year = 0, [FromQuery] int month = 0)
     {
         if (year == 0)
         {
