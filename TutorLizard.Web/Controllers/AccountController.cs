@@ -1,18 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Authentication;
-using System.Security.Claims;
 using System.ComponentModel;
-using System.Net;
-using System.Net.Mail;
+using System.Security.Claims;
 using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.Shared.Enums;
+using TutorLizard.Shared.Models.DTOs;
 using TutorLizard.Web.Interfaces.Services;
 using TutorLizard.Web.Models;
-using TutorLizard.Shared.Models.DTOs;
 
 
 namespace TutorLizard.Web.Controllers;
@@ -37,7 +32,7 @@ public class AccountController : Controller
         return View();
     }
 
-    public async Task<IActionResult> Login([FromQuery] string? returnUrl)
+    public IActionResult Login([FromQuery] string? returnUrl)
     {
         if (returnUrl is not null)
         {
@@ -79,7 +74,7 @@ public class AccountController : Controller
 
             await _userAuthenticationService.LogOutAsync();
 
-            if(!(await _userAuthenticationService.IsGoogleUserRegistered(claimGoogleId)))
+            if (!(await _userAuthenticationService.IsGoogleUserRegistered(claimGoogleId)))
             {
                 try
                 {
@@ -108,7 +103,7 @@ public class AccountController : Controller
             return RedirectToAction("Login");
         }
     }
-    
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginModel model)
