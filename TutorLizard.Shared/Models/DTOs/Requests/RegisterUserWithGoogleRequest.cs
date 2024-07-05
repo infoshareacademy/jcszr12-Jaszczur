@@ -4,9 +4,9 @@ public class RegisterUserWithGoogleRequest
 {
     public RegisterUserWithGoogleRequest(string username, string email, string googleId)
     {
-        Username = username ?? throw new ArgumentNullException(nameof(username));
-        Email = email ?? throw new ArgumentNullException(nameof(email));
-        GoogleId = googleId ?? throw new ArgumentNullException(nameof(googleId));
+        Username = username ?? "";
+        Email = email ?? "";
+        GoogleId = googleId ?? "";
     }
 
     public string Username { get; set; }
