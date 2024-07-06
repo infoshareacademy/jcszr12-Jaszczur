@@ -1,6 +1,5 @@
 ﻿@model AdListItemDto
-
-<div class="card my-3 ad-list-item ad-row-height">
+<div class="card my-3 ad-list-item h-100">
     <div class="card-body">
         <h5 class="card-title text-green text-center margin-bottom border-bottom">@Model.Title</h5>
         <div class="row">
@@ -47,10 +46,10 @@
             </div>
         </div>
 
-            <div class="row">
+            <footer>
             <div class="text-end mt-2 button-container">
                 <a asp-action="AdDetails" asp-controller="Browse" asp-route-id="@Model.Id" class="btn btn-details">Szczegóły ogłoszenia</a>
                 </div>
-            </div>
+            </footer>
     </div>
 </div>

@@ -271,6 +271,7 @@ body {
 /* BrowseAds style */
 .ad-list-item {
     border-radius: 0px;
+    border: 1px solid #d1d1d1;
     background-color: #ededed;
     padding: 20px;
     font-family: "Montserrat", sans-serif;
@@ -278,7 +279,6 @@ body {
 }
 
 .search-container {
-    border-top: 3px solid;
     border-bottom: 3px solid;
     border-color: #9db88c;
     background-color: #ffffff;
@@ -290,7 +290,7 @@ body {
 
 .ad-row-height {
     flex-wrap: wrap;
-    height: 460px;
+    height: 100%;
 }
 
 .button-container {
