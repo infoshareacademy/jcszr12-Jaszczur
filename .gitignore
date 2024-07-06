@@ -482,3 +482,18 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Auto-generated Designer.cs files
+**/*.Designer.cs
+/TutorLizard.Web/Resources/Account.Designer.cs
+/TutorLizard.Web/Resources/Ad.Designer.cs
+/TutorLizard.Web/Resources/AdRequest.Designer.cs
+/TutorLizard.Web/Resources/Browse.Designer.cs
+/TutorLizard.Web/Resources/Category.Designer.cs
+/TutorLizard.Web/Resources/Home.Designer.cs
+/TutorLizard.Web/Resources/ScheduleItem.Designer.cs
+/TutorLizard.Web/Resources/ScheduleItemRequest.Designer.cs
+/TutorLizard.Web/Resources/Shared.Designer.cs
+/TutorLizard.Web/Resources/Student.Designer.cs
+/TutorLizard.Web/Resources/Tutor.Designer.cs
+/TutorLizard.Web/Resources/User.Designer.cs
