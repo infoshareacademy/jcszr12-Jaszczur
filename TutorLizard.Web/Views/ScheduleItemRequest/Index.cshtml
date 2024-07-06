@@ -4,10 +4,10 @@
     ViewData["Title"] = "Schedule Item Requests";
 }
 
-<h1>Schedule Item Requests</h1>
+<h1>@TutorLizard.Web.Resources.ScheduleItemRequest.ScheduleItemRequests</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">@TutorLizard.Web.Resources.ScheduleItemRequest.CreateNew</a>
 </p>
 <table class="table">
     <thead>
@@ -16,16 +16,16 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ScheduleItemId)
+                @TutorLizard.Web.Resources.ScheduleItemRequest.ScheduleItemId
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StudentId)
+                @TutorLizard.Web.Resources.ScheduleItemRequest.StudentId
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsAccepted)
+                @TutorLizard.Web.Resources.ScheduleItemRequest.IsAccepted
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsRemote)
+                @TutorLizard.Web.Resources.ScheduleItemRequest.IsRemote
             </th>
             <th></th>
         </tr>
@@ -49,9 +49,9 @@
                 @Html.DisplayFor(modelItem => item.IsRemote)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                    @Html.ActionLink(@TutorLizard.Web.Resources.ScheduleItemRequest.Edit, "Edit", new { id = item.Id }) |
+                    @Html.ActionLink(@TutorLizard.Web.Resources.ScheduleItemRequest.Details, "Details", new { id = item.Id }) |
+                    @Html.ActionLink(@TutorLizard.Web.Resources.ScheduleItemRequest.Delete, "Delete", new { id = item.Id })
             </td>
         </tr>
 }

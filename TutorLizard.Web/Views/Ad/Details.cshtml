@@ -1,13 +1,14 @@
-﻿@model TutorLizard.BusinessLogic.Models.Ad
+﻿@using TutorLizard.Web.Resources
+@model TutorLizard.BusinessLogic.Models.Ad
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>@TutorLizard.Web.Resources.Ad.Details</h1>
 
 <div>
-    <h4>Ad</h4>
+    <h4>@TutorLizard.Web.Resources.Ad.Advertisement</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -72,5 +73,5 @@
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@TutorLizard.Web.Resources.Ad.BackToList</a>
 </div>

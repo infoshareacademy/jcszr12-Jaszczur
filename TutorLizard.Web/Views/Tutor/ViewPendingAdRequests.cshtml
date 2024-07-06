@@ -1,10 +1,11 @@
-﻿@model GetTutorsPendingAdRequestsResponse
+﻿@using TutorLizard.Web.Resources
+@model GetTutorsPendingAdRequestsResponse
 
 @{
     ViewData["Title"] = "ViewPendingAdRequests";
 }
 
-<h1 class="title">Oczekujące zgłoszenia</h1>
+<h1 class="title">@TutorLizard.Web.Resources.Tutor.AllPendingRequests</h1>
 <div class="row">
 @foreach (var adrequest in Model.AdRequests)
 {

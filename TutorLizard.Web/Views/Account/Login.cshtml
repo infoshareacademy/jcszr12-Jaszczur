@@ -1,10 +1,11 @@
-﻿@model TutorLizard.Web.Models.LoginModel
+﻿@using TutorLizard.Web.Resources
+@model TutorLizard.Web.Models.LoginModel
 
 @{
     ViewData["Title"] = "Login";
 }
 
-<h1 class="title">Zaloguj się</h1>
+<h1>@TutorLizard.Web.Resources.Account.Login</h1>
 
 <hr />
 <div class="row justify-content-center gap-4">
@@ -12,28 +13,30 @@
         <form asp-action="Login">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="UserName" class="control-label">Login</label>
-                <input asp-for="UserName" class="form-control" />
+                <label asp-for="UserName" class="control-label">@TutorLizard.Web.Resources.Account.Username</label>
+                <input asp-for="UserName" class="form-control" placeholder="@TutorLizard.Web.Resources.Account.Username" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label">Hasło</label>
-                <input asp-for="Password" class="form-control" />
+                <label asp-for="Password" class="control-label">@TutorLizard.Web.Resources.Account.Password</label>
+                <input asp-for="Password" class="form-control" placeholder="@TutorLizard.Web.Resources.Account.Password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group my-2">
                 <input type="submit" value="Login" class="btn btn-dark" />
             </div>
         </form>
+
+
     </div>
     <div class="col-md-4 user-container">
-            <div>
-                <h2 class="title-3">Zaloguj się przez Google</h2>
-            </div>
-            <div>
-                <a asp-controller="Account" asp-action="GoogleLogin" class="btn btn-dark">Sign In with Google</a>
-            </div>
+        <div>
+            <h2 class="title-3">@TutorLizard.Web.Resources.Account.LoginWithGoogle</h2>
         </div>
+        <div>
+            <a asp-controller="Account" asp-action="GoogleLogin" class="btn btn-dark">@TutorLizard.Web.Resources.Account.GoogleSignUp</a>
+        </div>
+    </div>
 </div>
 
 @* <div>

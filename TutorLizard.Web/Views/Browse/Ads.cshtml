@@ -13,21 +13,22 @@
 <head>
     <link rel="stylesheet" href="~/css/tutorlizard.css" asp-append-version="true" />
 </head>
-<h1 class="title">Ogłoszenia</h1>
+
+<h1 class="title">@TutorLizard.Web.Resources.Browse.Ads</h1>
 
 <form asp-action="Search" method="post" class="d-flex flex-column p-2 search-container">
     <component type="typeof(AdSearchForm)"
                render-mode="WebAssemblyPrerendered"
                param-SearchCriteriaJson="Model.SearchCriteria.ToViewModel().Serialize()"
                param-CategoriesJson="@categories.Serialize()" />
-    <button type="submit" class="btn btn-dark m-2">Wyszukaj</button>
+    <button type="submit" class="btn btn-dark m-2">@TutorLizard.Web.Resources.Browse.Search</button>
 </form>
 
 
 
 @if (Model.SearchCriteria.AnySearch)
 {
-    <div class="p-2">Liczba wyników wyszukiwania: @Model.TotalAds</div>
+    <div class="p-2">@TutorLizard.Web.Resources.Browse.NumberOfResults : @Model.TotalAds</div>
 }
 
 <div class="row">
@@ -46,17 +47,17 @@
         {
             @if (Model.SearchCriteria.AnySearch)
             {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()" class="btn btn-light">Poprzednia strona</a>
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()" class="btn btn-light">@TutorLizard.Web.Resources.Browse.PreviousPage</a>
             }
             else
             {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" class="btn btn-light">Poprzednia strona</a>
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" class="btn btn-light">@TutorLizard.Web.Resources.Browse.PreviousPage</a>
             }
         }
     </div>
 
     <div class="col-4">
-        Strona @Model.PageNumber z @Model.TotalPages
+        @TutorLizard.Web.Resources.Browse.Page @Model.PageNumber z @Model.TotalPages
     </div>
 
     <div class="col-4 margin-top-small">
@@ -64,11 +65,11 @@
         {
             @if (Model.SearchCriteria.AnySearch)
             {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()" class="btn btn-light">Następna strona</a>
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()" class="btn btn-light">@TutorLizard.Web.Resources.Browse.NextPage</a>
             }
             else
             {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" class="btn btn-light">Następna strona</a>
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" class="btn btn-light">@TutorLizard.Web.Resources.Browse.NextPage</a>
             }
         }
     </div>

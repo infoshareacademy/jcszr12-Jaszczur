@@ -5,7 +5,7 @@
     <div>
         <div class="row">
                 <h3 class ="title-2 col-sm-12 col-md-6">Terminy</h3>
-            <div class="mx-autolist-group col-sm-12 col-md-6 margin-top-small"><a href="@Url.Action("CreateScheduleItem", "Tutor", new { id = Model.AdId })" class="btn btn-details">Dodaj nowy termin</a></div>
+            <div class="mx-autolist-group col-sm-12 col-md-6 margin-top-small"><a href="@Url.Action("CreateScheduleItem", "Tutor", new { id = Model.AdId })" class="btn btn-details">@TutorLizard.Web.Resources.Shared.AddScheduleItem</a></div>
         </div>
         @foreach(var scheduleItem in Model.ScheduleItems)
         {
@@ -14,7 +14,7 @@
                 <div class="row align-items-center col-lg-10 mx-auto">
                     @if(scheduleItem.Requests.Count == 0)
                     {
-                        <div class="text-red"><h5>Brak zgłoszeń</h5></div>
+                        <div class="text-red"><h5>@TutorLizard.Web.Resources.Shared.NoRequests</h5></div>
                     }
                     else
                     {
@@ -23,40 +23,40 @@
                         {
                             <div class="border-1 user-container">
                                 <div><h6>@request.StudentName</h6></div>
-                                <div>Zgłoszenie wysłane: @request.DateCreated</div>
+                                <div>@TutorLizard.Web.Resources.Shared.RequestDate : @request.DateCreated</div>
                                 <div>
-                                    <span>Nauczanie zdalne: </span>
+                                    <span>@TutorLizard.Web.Resources.Shared.IsRemote : </span>
                                     @if (request.IsRemote)
                                     {
-                                        <span>Tak</span>
+                                        <span>@TutorLizard.Web.Resources.Shared.Yes</span>
                                     }
                                     else
                                     {
-                                        <span>Nie</span>
+                                        <span>@TutorLizard.Web.Resources.Shared.No</span>
                                     }
                                 </div>
                                 <div class="d-flex flex-column">
                                     @if (request.IsAccepted)
                                     {
-                                        <span>Zgłoszenie zaakceptowane</span>
+                                        <span>@TutorLizard.Web.Resources.Shared.RequestIsAccepted</span>
                                         <form asp-controller="Tutor" asp-action="UnacceptScheduleItemRequest" method="post" >
                                             <input name="adId" value="@Model.AdId" type="hidden"/>
                                             <input name="scheduleItemRequestId" value="@request.Id" type="hidden"/>
-                                            <button class="btn btn-danger mt-3">Anuluj akceptację</button>
+                                            <button class="btn btn-danger mt-3">@TutorLizard.Web.Resources.Shared.CancelAcceptation</button>
                                         </form>
                                     }
                                     else if (request.CanBeAccepted)
                                     {
-                                        <span>Zgłoszenie niezaakceptowane</span>
+                                        <span>@TutorLizard.Web.Resources.Shared.RequestIsRejected</span>
                                         <form asp-controller="Tutor" asp-action="AcceptScheduleItemRequest" method="post">
                                             <input name="adId" value="@Model.AdId" type="hidden"/>
                                             <input name="scheduleItemRequestId" value="@request.Id" type="hidden" />
-                                            <button class="btn btn-success mt-3">Zaakceptuj</button>
+                                            <button class="btn btn-success mt-3">@TutorLizard.Web.Resources.Shared.Accept</button>
                                         </form>
                                     }
                                     else
                                     {
-                                        <span>Zgłoszenie nie może zostać zaakceptowane</span>
+                                        <span>@TutorLizard.Web.Resources.Shared.RequestCannotBeAccepted</span>
                                     }
                                 </div>
                             </div>

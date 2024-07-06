@@ -2,24 +2,24 @@
 
 @if(Model is not null)
 {
-    <div><h2 class="title-2">Zapisz się</h2></div>
+    <div><h2 class="title-2">@TutorLizard.Web.Resources.Shared.SignUp</h2></div>
     <div class="row">
         <div class="col-md-11 ad-details row">
                 <form asp-controller="Student" asp-action="CreateAdRequest">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="AdId" />
                 <div class="form-group">
-                        <label asp-for="Message" class="control-label"></label>
-                        <textarea asp-for="Message" class="form-control"></textarea>
+                        <label asp-for="Message" class="control-label">@TutorLizard.Web.Resources.Shared.Message</label>
+                        <textarea asp-for="Message" class="form-control" placeholder="@TutorLizard.Web.Resources.Shared.Message"></textarea>
                         <span asp-validation-for="Message" class="text-danger"></span>
                     </div>
                     <div class="form-group form-check my-2">
                         <label class="form-check-label">
-                            <input class="form-check-input" asp-for="IsRemote" /> @Html.DisplayNameFor(model => model.IsRemote)
+                            <input class="form-check-input" asp-for="IsRemote" /> @TutorLizard.Web.Resources.Shared.IsRemote
                         </label>
                     </div>
                     <div>
-                    <input type="submit" value="Wyślij zgłoszenie" class="btn w-100 btn-outline-dark" />
+                    <input type="submit" value="@TutorLizard.Web.Resources.Shared.SendRequest" class="btn w-100 btn-outline-dark" />
                     </div>
                 </form>
         </div>

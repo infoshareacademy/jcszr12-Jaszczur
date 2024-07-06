@@ -1,4 +1,5 @@
-﻿﻿@using System.Security.Claims
+﻿@using TutorLizard.Web﻿
+@using System.Security.Claims
 @{
     var claims = (User.Identity as ClaimsIdentity)?.Claims;
 
@@ -50,19 +51,35 @@
                             <a class="nav-link" asp-area="" asp-controller="Browse" asp-action="Ads">Przeglądaj</a>
                         </div>
                         <ul class="navbar-nav ms-auto">
+                            <div class="btn-group">
+    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        @if (Thread.CurrentThread.CurrentCulture.ToString() == "pl")
+        {
+            <span>Polski</span>
+        }
+        else
+        {
+            <span>English</span>
+        }
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-language="pl" asp-route-returnUrl="@Context.Request.Path">Polski</a></li>
+        <li><a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-language="en" asp-route-returnUrl="@Context.Request.Path">English</a></li>
+    </ul>
+</div>
                         @if (userName is null)
                         {
                             <div class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Zarejestruj się</a>
+                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">@TutorLizard.Web.Resources.Shared.RegisterMenu</a>
                             </div>
                             <div class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Zaloguj się</a>
+                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">@TutorLizard.Web.Resources.Shared.LoginMenu</a>
                             </div>
                         }
                         else
                         {
                             <div class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">Wyloguj się</a>
+                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">@TutorLizard.Web.Resources.Shared.LogoutMenu</a>
                             </div>
                             
                             <div class="nav-item">
@@ -70,15 +87,11 @@
                             </div>
 
                             @* <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Data">Panel admina</a>
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Data">@TutorLizard.Web.Resources.Shared.AdminPanelMenu</a>
                             </li> *@
                         }
                         </ul>
                     </ul>
-                    @* <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-light" type="submit">Szukaj</button>
-                    </form> *@
                 </div>
             </div>
         </nav>

@@ -5,48 +5,48 @@
     <div class="card-body">
         <h5 class="card-title">@Model.AdId</h5>
         <div class="row">
-            <div class="col-6 col-sm-3">Og³oszenie:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.Advert:</div>
             <div class="col-6 col-sm-9">@Model.AdId</div>
         </div>
         <div class="row">
-            <div class="col-6 col-sm-3">Tytu³ og³oszenia:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.AdvertTitle :</div>
             <div class="col-6 col-sm-9">@Model.AdTitle</div>
         </div>
         <div class="row">
-            <div class="col-6 col-sm-3">Przedmiot og³oszenia:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.AdvertSubject:</div>
             <div class="col-6 col-sm-9">@Model.AdSubject</div>
         </div>
         <div class="row">
-            <div class="col-6 col-sm-3">Nazwa kategorii:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.CategoryName :</div>
             <div class="col-6 col-sm-9">@Model.CategoryName</div>
         </div>
         <div class="row">
-            <div class="col-6 col-sm-3">Wiadomoœæ od ucznia:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.StudentMessage :</div>
             <div class="col-6 col-sm-9">@Model.Message</div>
         </div>
 
         <div class="row">
-            <div class="col-6 col-sm-3">Nauczanie zdalne:</div>
+            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.IsRemote :</div>
             <div class="col-6 col-sm-9">
                 @if (Model.IsRemote)
                 {
-                    <span>Tak</span>
+                    <span>@TutorLizard.Web.Resources.Shared.Yes</span>
                 }
                 else
                 {
-                    <span>Nie</span>
+                    <span>@TutorLizard.Web.Resources.Shared.No</span>
                 }
             </div>
         </div>
         <form asp-controller="Tutor" asp-action="UpdatePendingAdRequest" method="post">
             <div class="form-group">
-                <label asp-for="ReplyMessage" class="control-label">Wiadomoœæ zwrotna:</label>
+                <label asp-for="ReplyMessage" class="control-label">@TutorLizard.Web.Resources.Shared.ReplyMessage:</label>
                 <textarea asp-for="ReplyMessage" class="form-control" name="replyMessage"></textarea>
                 <span asp-validation-for="ReplyMessage" class="text-danger"></span>
             </div>
              <div class="form-group my-3">
-                 <input type="submit" id="btnAccept" name="btnAccept" value="Akceptuj" class="btn btn-lg btn-success" />
-                 <input type="submit" id="btnReject" name="btnReject" value="Odrzuæ" class="btn btn-lg btn-danger" />
+                <input type="submit" id="btnAccept" name="btnAccept" value="@TutorLizard.Web.Resources.Shared.Accept" class="btn btn-lg btn-success" />
+                <input type="submit" id="btnReject" name="btnReject" value="@TutorLizard.Web.Resources.Shared.Reject" class="btn btn-lg btn-danger" />
              </div>
             <input type="hidden" name="adRequestId" value="@Model.Id" />
         </form>

@@ -93,8 +93,17 @@ public class BrowseController : Controller
     }
 
     [Authorize]
-    public async Task<IActionResult> Schedule()
+    public async Task<IActionResult> Schedule([FromQuery] int year = 0, [FromQuery] int month = 0)
     {
+        if (year == 0)
+        {
+            year = DateTime.Now.Year;
+        }
+        if (month < 1 || month > 12)
+        {
+            month = DateTime.Now.Month;
+        }
+
         int? userId = _userAuthenticationService.GetLoggedInUserId();
         if (userId is null)
         {
@@ -103,7 +112,9 @@ public class BrowseController : Controller
 
         GetUsersScheduleRequest request = new()
         {
-            UserId = (int)userId
+            UserId = (int)userId,
+            Month = month,
+            Year = year
         };
 
         GetUsersScheduleResponse response = await _browseService.GetUsersSchedule(request);

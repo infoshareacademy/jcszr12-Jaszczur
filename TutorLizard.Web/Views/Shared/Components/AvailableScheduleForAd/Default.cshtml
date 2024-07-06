@@ -1,9 +1,10 @@
 ﻿@using static TutorLizard.Shared.Models.DTOs.ScheduleItemDto
+@using TutorLizard.Web.Resources
 @model GetAvailableScheduleForAdResponse?
 
 @if (Model is not null)
 {
-    <h3 class="title">Dostępne terminy</h3>
+    <h3 class="title">@TutorLizard.Web.Resources.Shared.AvailableDates</h3>
     <div class="container schedule-container">
         @if (Model.IsAccepted == true)
         {
@@ -16,19 +17,19 @@
                             <div class="schedule-item-status">
                                 @if (item.Status == ScheduleItemRequestStatus.Accepted)
                                 {
-                                    <span class="status-accepted">Zaakceptowane</span>
+                                    <span class="status-accepted">@TutorLizard.Web.Resources.Shared.RequestAccepted</span>
                                 }
                                 else if (item.Status == ScheduleItemRequestStatus.Pending)
                                 {
-                                    <span class="status-pending">Oczekujące</span>
+                                    <span class="status-pending">@TutorLizard.Web.Resources.Shared.RequestPending</span>
                                 }
                                 else if (item.Status == ScheduleItemRequestStatus.Rejected)
                                 {
-                                    <span class="status-rejected">Odrzucone</span>
+                                    <span class="status-rejected">@TutorLizard.Web.Resources.Shared.RequestRejected</span>
                                 }
                                 else if (item.Status == ScheduleItemRequestStatus.RequestNotSent)
                                 {
-                                    <span class="status-rejected">Nie wysłano</span>
+                                    <span class="status-rejected">@TutorLizard.Web.Resources.Shared.RequestNotSent</span>
                                     <div class="mt-2">
                                         <form asp-controller="Student" asp-action="CreateScheduleItemRequest" method="post">
                                             <input name="scheduleItemId" value="@item.Id" type="hidden" />
@@ -38,12 +39,12 @@
                                             {
                                                 <div class="form-group form-check my-2">
                                                     <label class="form-check-label">
-                                                        <input class="form-check-input" name="requestIsRemote" type="checkbox" /> Zdalnie
+                                                        <input class="form-check-input" name="requestIsRemote" type="checkbox" /> @TutorLizard.Web.Resources.Shared.Remote
                                                     </label>
                                                 </div>
                                             }
 
-                                            <button type="submit" class="btn btn-danger mt-3">Zapisz się</button>
+                                            <button type="submit" class="btn btn-danger mt-3">@TutorLizard.Web.Resources.Shared.SignUp</button>
                                         </form>
                                     </div>
                                 }

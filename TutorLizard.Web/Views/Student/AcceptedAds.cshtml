@@ -1,9 +1,10 @@
-﻿@model GetStudentsAcceptedAdsResponse
+﻿@using TutorLizard.Web.Resources
+@model GetStudentsAcceptedAdsResponse
 @{
     ViewData["Title"] = "AcceptedAds";
 }
 
-<h1 class="title">Zatwierdzone zgłoszenia</h1>
+<h1 class="title">@TutorLizard.Web.Resources.Student.AcceptedAds</h1>
 <div class="row">
 @foreach(var ad in Model.Ads)
 {
