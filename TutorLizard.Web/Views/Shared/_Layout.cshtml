@@ -52,21 +52,26 @@
                         </div>
                         <ul class="navbar-nav ms-auto">
                             <div class="btn-group">
-    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        @if (Thread.CurrentThread.CurrentCulture.ToString() == "pl")
-        {
-            <span>Polski</span>
-        }
-        else
-        {
-            <span>English</span>
-        }
-    </button>
-    <ul class="dropdown-menu">
-        <li><a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-language="pl" asp-route-returnUrl="@Context.Request.Path">Polski</a></li>
-        <li><a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-language="en" asp-route-returnUrl="@Context.Request.Path">English</a></li>
-    </ul>
-</div>
+
+
+                        <div class="nav-item dropdown">
+                                <a class="nav-link dropbtn">
+                                    @if (Thread.CurrentThread.CurrentCulture.ToString() == "pl")
+                                    {
+                                        <span>Polski</span>
+                                    }
+                                    else
+                                    {
+                                        <span>English</span>
+                                    }<i class="fa fa-caret-down"></i>
+                                </a>
+                            <div class="dropdown-content">
+                                    <a asp-controller="Home" asp-action="ChangeLanguage" asp-route-language="pl" asp-route-returnUrl="@Context.Request.Path">Polski</a>
+                                    <a asp-controller="Home" asp-action="ChangeLanguage" asp-route-language="en" asp-route-returnUrl="@Context.Request.Path">English</a>
+                            </div>
+                        </div>
+
+
                         @if (userName is null)
                         {
                             <div class="nav-item">

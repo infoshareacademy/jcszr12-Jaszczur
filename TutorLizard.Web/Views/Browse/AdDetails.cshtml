@@ -4,45 +4,50 @@
 
 <h1 class="title">@TutorLizard.Web.Resources.Browse.AdDetails</h1>
 
-<div class="row ad-list-item">
-    <div><h2>@Model.Title</h2></div>
-    <div class="row">
-        <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Browse.CategoryName :</div>
-        <div class="col-6 col-sm-9">@Model.CategoryName</div>
-    </div>
-    <div class="row">
-        <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Browse.Subject :</div>
-        <div class="col-6 col-sm-9">@Model.Subject</div>
-    </div>
-    <div class="row">
-        <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Browse.Localization :</div>
-        <div class="col-6 col-sm-9">@Model.Location</div>
-    </div>
-    <div class="row">
-        <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Browse.PostedBy :</div>
-        <div class="col-6 col-sm-9">@Model.TutorName</div>
-    </div>
-    <div class="row">
-        <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Browse.PostedBy :</div>
-        <div class="col-6 col-sm-9">@Model.Price zł/h</div>
-    </div>
-    <div class="row">
-        <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Browse.IsRemote :</div>
-        <div class="col-6 col-sm-9">
-            @if (Model.IsRemote)
-            {
-                <span>@TutorLizard.Web.Resources.Browse.Yes</span>
-            }
-            else
-            {
-                <span>@TutorLizard.Web.Resources.Browse.No</span>
-            }
+<div class="row">
+    <div class="col-lg-6">
+        <div class="ad-details">
+            <h2 class="title-2 margin-bottom">@Model.Title</h2>
+            <div class="row ad-list-item">
+                <div class="row">
+                    <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Browse.CategoryName:</div>
+                    <div class="col-6 col-sm-9">@Model.CategoryName</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Browse.Subject:</div>
+                    <div class="col-6 col-sm-9">@Model.Subject</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Browse.Localization:</div>
+                    <div class="col-6 col-sm-9">@Model.Location</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Browse.PostedBy:</div>
+                    <div class="col-6 col-sm-9">@Model.TutorName</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Browse.Price:</div>
+                    <div class="col-6 col-sm-9">@Model.Price zł/h</div>
+                </div>
+                <div class="row">
+                    <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Browse.IsRemote:</div>
+                    <div class="col-6 col-sm-9">
+                        @if (Model.IsRemote)
+                        {
+                            <span>@TutorLizard.Web.Resources.Browse.Yes</span>
+                        }
+                        else
+                        {
+                            <span>@TutorLizard.Web.Resources.Browse.No</span>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row ad-list-item margin-top-small">
+                <div class="col">@Model.Description</div>
+            </div>
         </div>
     </div>
-    <div class="row ad-list-item margin-top-small">
-        <div class="col">@Model.Description</div>
-    </div>
-</div>
 
     <div class="col-lg-6">
         <div class="ad-details">
