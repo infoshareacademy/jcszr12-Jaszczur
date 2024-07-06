@@ -27,10 +27,6 @@
     public string? TutorsSchedule { get; set; }
     [Parameter, EditorRequired]
     public string? StudentsSchedule { get; set; }
-    [Parameter, EditorRequired]
-    public string? Culture { get; set; }
-    [Parameter, EditorRequired]
-    public string? UICulture { get; set; }
 
     string monday = "";
 
@@ -74,15 +70,6 @@
         else
         {
             DisplayScheduleForDay(Year, Month, 1);
-        }
-
-        if (String.IsNullOrWhiteSpace(Culture) == false)
-        {
-            System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo(Culture);
-        }
-        if (String.IsNullOrWhiteSpace(UICulture) == false)
-        {
-            System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo(UICulture);
         }
 
         base.OnParametersSet();

@@ -20,6 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\AdSearchForm.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AdSearchForm.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Schedule.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -28,6 +33,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\AdSearchForm.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\AdSearchForm.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AdSearchForm.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Schedule.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Schedule.Designer.cs</LastGenOutput>
