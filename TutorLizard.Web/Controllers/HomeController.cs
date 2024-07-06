@@ -37,7 +37,7 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-    public IActionResult ChangeLanguage(string language, string returnUrl)
+    public IActionResult ChangeLanguage(string language, string returnUrl, string queryString)
     {
         if (!string.IsNullOrEmpty(language))
         {
@@ -55,6 +55,6 @@ public class HomeController : Controller
         if (returnUrl is null)
             return RedirectToAction("Index", "Home");
         
-        return Redirect(returnUrl);
+        return Redirect($"{returnUrl}{queryString}");
     }
 }
