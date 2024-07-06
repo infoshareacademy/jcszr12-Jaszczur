@@ -114,5 +114,13 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <script src="~/_framework/blazor.web.js"></script>
+    <script>
+        window.blazorCulture = {
+            get: () => {
+                const language = document.cookie.split(';').map(v => v.trim().split('=')).find(pair => pair[0] === 'Language')[1]
+                return language;
+            },
+        };
+    </script>
 </body>
 </html>

@@ -9,5 +9,7 @@
                param-Year="Model.Year"
                param-Month="Model.Month"
                param-TutorsSchedule="@Model.TutorsSchedule.Serialize()"
-               param-StudentsSchedule="@Model.StudentsSchedule.Serialize()"/>
+               param-StudentsSchedule="@Model.StudentsSchedule.Serialize()"
+               param-Culture="@System.Globalization.CultureInfo.CurrentCulture.Name"
+               param-UICulture="@System.Globalization.CultureInfo.CurrentUICulture.Name" />
 </div>

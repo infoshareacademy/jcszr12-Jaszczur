@@ -1,10 +1,10 @@
 ﻿@using TutorLizard.Shared.Models.DTOs
 <div class="schedule-container my-2">
-    <h3>@($"{Day}.{Month}.{Year}")</h3>
+    <h3>@($"{Day.ToString("00")}.{Month.ToString("00")}.{Year}")</h3>
     <div class="schedule-list">
         @if (Schedule.Count == 0)
         {
-            <div class="text-light text-center">Brak terminów.</div>
+            <div class="text-light text-center">@Resources.Schedule.ScheduleEmpty</div>
         }
         @foreach (var item in Schedule)
         {

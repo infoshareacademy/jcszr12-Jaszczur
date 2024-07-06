@@ -18,21 +18,21 @@
     </div>
     <div class="calendar-main">
         <div class="seven-column-section days-header">
-            <div class="d-none d-xxl-block">Poniedziałek</div>
-            <div class="d-none d-xxl-block">Wtorek</div>
-            <div class="d-none d-xxl-block">Środa</div>
-            <div class="d-none d-xxl-block">Czwartek</div>
-            <div class="d-none d-xxl-block">Piątek</div>
-            <div class="d-none d-xxl-block">Sobota</div>
-            <div class="d-none d-xxl-block">Niedziela</div>
+            <div class="d-none d-xxl-block">@Resources.Schedule.Monday</div>
+            <div class="d-none d-xxl-block">@Resources.Schedule.Tuesday</div>
+            <div class="d-none d-xxl-block">@Resources.Schedule.Wednesday</div>
+            <div class="d-none d-xxl-block">@Resources.Schedule.Thursday</div>
+            <div class="d-none d-xxl-block">@Resources.Schedule.Friday</div>
+            <div class="d-none d-xxl-block">@Resources.Schedule.Saturday</div>
+            <div class="d-none d-xxl-block">@Resources.Schedule.Sunday</div>
             
-            <div class="d-xxl-none">Pn</div>
-            <div class="d-xxl-none">Wt</div>
-            <div class="d-xxl-none">Śr</div>
-            <div class="d-xxl-none">Czw</div>
-            <div class="d-xxl-none">Pt</div>
-            <div class="d-xxl-none">Sb</div>
-            <div class="d-xxl-none">Nd</div>
+            <div class="d-xxl-none">@Resources.Schedule.Monday_Abbr</div>
+            <div class="d-xxl-none">@Resources.Schedule.Tuesday_Abbr</div>
+            <div class="d-xxl-none">@Resources.Schedule.Wednesday_Abbr</div>
+            <div class="d-xxl-none">@Resources.Schedule.Thursday_Abbr</div>
+            <div class="d-xxl-none">@Resources.Schedule.Friday_Abbr</div>
+            <div class="d-xxl-none">@Resources.Schedule.Saturday_Abbr</div>
+            <div class="d-xxl-none">@Resources.Schedule.Sunday_Abbr</div>
         </div>
         <div class="seven-column-section calendar-grid">
             <div class="@(DayOfWeekOnFirst()) @(IsSelected(1) ? "selected" : "")" @onclick="() => HandleDaySelected(1)">
