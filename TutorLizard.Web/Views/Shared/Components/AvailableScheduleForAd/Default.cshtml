@@ -1,9 +1,10 @@
 ﻿@using static TutorLizard.Shared.Models.DTOs.ScheduleItemDto
+@using TutorLizard.Web.Resources
 @model GetAvailableScheduleForAdResponse?
 
 @if (Model is not null)
 {
-    <h3>Dostępne terminy</h3>
+    <h3>@TutorLizard.Web.Resources.Shared.AvailableDates</h3>
     <div>
         @if (Model.IsAccepted == true)
         {
@@ -12,22 +13,22 @@
                 {
                     <div>@item.DateTime</div>
                     <div>
-                        <span>Status zgłosznenia</span>
+                        <span>@TutorLizard.Web.Resources.Shared.RequestStatus</span>
                     @if (item.Status == ScheduleItemRequestStatus.Accepted)
                     {
-                        <span>Zaakceptowane</span>
+                            <span>@TutorLizard.Web.Resources.Shared.RequestAccepted</span>
                     }
                     else if (item.Status == ScheduleItemRequestStatus.Pending)
                     {
-                        <span>Oczekujące</span>
+                            <span>@TutorLizard.Web.Resources.Shared.RequestPending</span>
                     }
                     else if (item.Status == ScheduleItemRequestStatus.Rejected)
                     {
-                        <span>Odrzucone</span>
+                            <span>@TutorLizard.Web.Resources.Shared.RequestRejected</span>
                     }
                     else if (item.Status == ScheduleItemRequestStatus.RequestNotSent)
                     {
-                        <span>Nie wysłano</span>
+                            <span>@TutorLizard.Web.Resources.Shared.RequestNotSent</span>
                             <div>
                                     <form asp-controller="Student" asp-action="CreateScheduleItemRequest" method="post">
                                         <input name="scheduleItemId" value="@item.Id" type="hidden" />
@@ -37,12 +38,12 @@
                                         {
                                             <div class="form-group form-check my-2">
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" name="requestIsRemote" type="checkbox" /> Zdalnie
+                                                <input class="form-check-input" name="requestIsRemote" type="checkbox" /> @TutorLizard.Web.Resources.Shared.Remote
                                                 </label>
                                             </div>
                                         }
 
-                                        <button type="submit" class="btn btn-danger mt-3">Zapisz się</button>
+                                    <button type="submit" class="btn btn-danger mt-3">@TutorLizard.Web.Resources.Shared.SignUp</button>
                                     </form>
                             </div>
                     }

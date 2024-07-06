@@ -1,9 +1,10 @@
-﻿@model GetTutorsAdsResponse
+﻿@using TutorLizard.Web.Resources
+@model GetTutorsAdsResponse
 @{
     ViewData["Title"] = "AdsList";
 }
 
-<h1>TutorsAdsList</h1>
+<h1>@TutorLizard.Web.Resources.Tutor.AllAds</h1>
 @foreach(var adListItem in Model.AdList)
 {
     <partial name="@PartialNames.AdListItem" model="adListItem" />

@@ -1,17 +1,19 @@
-﻿<h1>Funkcjonalność nauczyciela</h1>
+﻿@using TutorLizard.Web.Resources
+
+<h1>@TutorLizard.Web.Resources.Tutor.TutorFunc</h1>
 
 <ul class="list-group col-md-6 col-xl-3">
-    <li class="list-group-item"><a asp-action="CreateAd">Dodaj ogłoszenie</a></li>
+    <li class="list-group-item"><a asp-action="CreateAd">@TutorLizard.Web.Resources.Tutor.AddAd</a></li>
 </ul>
 
 <ul class="list-group col-md-6 col-xl-3">
-    <li class="list-group-item"><a asp-action="CreateScheduleItem">Dodaj termin</a></li>
+    <li class="list-group-item"><a asp-action="CreateScheduleItem">@TutorLizard.Web.Resources.Tutor.AddScheduleItem</a></li>
 </ul>
-    <li class="list-group-item"><a asp-action="ViewPendingAdRequests">Przeglądaj niezaakceptowane zgłoszenia</a></li>
-    <li class="list-group-item"><a asp-action="ViewAllAdRequests">Przeglądaj wszystkie zgłoszenia</a></li>
+<li class="list-group-item"><a asp-action="ViewPendingAdRequests">@TutorLizard.Web.Resources.Tutor.BrowsePendingAdRequests</a></li>
+<li class="list-group-item"><a asp-action="ViewAllAdRequests">@TutorLizard.Web.Resources.Tutor.BrowsAllAdRequests</a></li>
 </ul>
 </ul>
 </ul>
 <ul class="list-group col-md-6 col-xl-3">
-    <li class="list-group-item"><a asp-action="TutorsAdsList">Przeglądaj swoje ogłoszenia</a></li>
+    <li class="list-group-item"><a asp-action="TutorsAdsList">@TutorLizard.Web.Resources.Tutor.TutorsAdsLists</a></li>
 </ul>

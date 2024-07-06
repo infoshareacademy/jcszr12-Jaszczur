@@ -4,10 +4,10 @@
     ViewData["Title"] = "Ad Requests";
 }
 
-<h1>Ad Requests</h1>
+<h1>@TutorLizard.Web.Resources.AdRequest.AdRequests</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">@TutorLizard.Web.Resources.AdRequest.CreateNew</a>
 </p>
 <table class="table">
     <thead>
@@ -16,19 +16,19 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdId)
+                @TutorLizard.Web.Resources.AdRequest.AdId
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StudentId)
+                @TutorLizard.Web.Resources.AdRequest.StudentId
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsAccepted)
+                @TutorLizard.Web.Resources.AdRequest.Status
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsRemote)
+                @TutorLizard.Web.Resources.AdRequest.IsRemote
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReviewDate)
+                @TutorLizard.Web.Resources.AdRequest.ReviewDate
             </th>
             <th></th>
         </tr>
@@ -55,9 +55,9 @@
                 @Html.DisplayNameFor(model => model.ReviewDate)
             </th>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                    @Html.ActionLink(@TutorLizard.Web.Resources.AdRequest.Edit, "Edit", new { id = item.Id }) |
+                    @Html.ActionLink(@TutorLizard.Web.Resources.AdRequest.Details, "Details", new { id = item.Id }) |
+                    @Html.ActionLink(@TutorLizard.Web.Resources.AdRequest.Delete, "Delete", new { id = item.Id })
             </td>
         </tr>
 }

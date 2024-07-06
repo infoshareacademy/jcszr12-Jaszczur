@@ -1,38 +1,40 @@
-﻿@model TutorLizard.Web.Models.LoginModel
+﻿@using TutorLizard.Web.Resources
+@model TutorLizard.Web.Models.LoginModel
 
 @{
     ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
+<h1>@TutorLizard.Web.Resources.Account.Login</h1>
 
-<h4>LoginModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Login">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
+                <label asp-for="UserName" class="control-label">@TutorLizard.Web.Resources.Account.Username</label>
+                <input asp-for="UserName" class="form-control" placeholder="@TutorLizard.Web.Resources.Account.Username" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <label asp-for="Password" class="control-label">@TutorLizard.Web.Resources.Account.Password</label>
+                <input asp-for="Password" class="form-control" placeholder="@TutorLizard.Web.Resources.Account.Password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group my-2">
                 <input type="submit" value="Login" class="btn btn-primary" />
             </div>
         </form>
+
+
     </div>
     <div class="row">
         <div>
-            <h2>Login using Google</h2>
+            <h2>@TutorLizard.Web.Resources.Account.LoginWithGoogle</h2>
         </div>
         <div>
-            <a asp-controller="Account" asp-action="GoogleLogin" class="btn btn-primary">Sign In with Google</a>
+            <a asp-controller="Account" asp-action="GoogleLogin" class="btn btn-primary">@TutorLizard.Web.Resources.Account.GoogleSignUp</a>
         </div>
     </div>
 </div>

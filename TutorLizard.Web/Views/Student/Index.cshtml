@@ -1,11 +1,12 @@
-﻿@using TutorLizard.Web.ViewComponents
+﻿@using TutorLizard.Web.Resources
+@using TutorLizard.Web.ViewComponents
 
-<h1>Funkcjonalność ucznia</h1>
+<h1>@TutorLizard.Web.Resources.Student.StudentFunction</h1>
 
 <ul class="list-group col-md-6 col-xl-3">
-    <li class="list-group-item"><a asp-action="AdRequests">Przeglądaj swoje zapytania do ogłoszeń</a></li>
+    <li class="list-group-item"><a asp-action="AdRequests">@TutorLizard.Web.Resources.Student.BrowseYourAdRequests</a></li>
 </ul>
 <ul class="list-group col-md-6 col-xl-3">
-    <li class="list-group-item"><a asp-action="AcceptedAds">Przeglądaj ogłoszenia do których jesteś zaakceptowany</a></li>
+    <li class="list-group-item"><a asp-action="AcceptedAds">@TutorLizard.Web.Resources.Student.BrowseAcceptedAdRequests</a></li>
 </ul>
 

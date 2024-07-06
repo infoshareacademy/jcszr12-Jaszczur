@@ -1,23 +1,24 @@
-﻿@model CreateScheduleItemRequest
+﻿@using TutorLizard.Web.Resources
+@model CreateScheduleItemRequest
 
 @{
     ViewData["Title"] = "Dodaj termin";
 }
 
-<h1>Nowy termin</h1>
+<h1>@TutorLizard.Web.Resources.Tutor.NewScheduleItem</h1>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CreateScheduleItem">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input asp-for="AdId" class="form-control" type="hidden"/>
+            <input asp-for="AdId" class="form-control" type="hidden" placeholder="@TutorLizard.Web.Resources.Tutor.AdId" />
             <div class="form-group">
-                <label asp-for="DateTime" class="control-label"></label>
-                <input asp-for="DateTime" class="form-control" />
+                <label asp-for="DateTime" class="control-label">@TutorLizard.Web.Resources.Tutor.DateTime</label>
+                <input asp-for="DateTime" class="form-control" placeholder="@TutorLizard.Web.Resources.Tutor.DateTime" />
                 <span asp-validation-for="DateTime" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Zatwierdź</button>
+            <button type="submit" class="btn btn-primary">@TutorLizard.Web.Resources.Tutor.Confirm</button>
         </form>
     </div>
 </div>

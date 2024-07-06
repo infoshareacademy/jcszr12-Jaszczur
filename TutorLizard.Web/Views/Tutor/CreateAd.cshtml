@@ -1,10 +1,11 @@
-﻿@model CreateAdRequest
+﻿@using TutorLizard.Web.Resources
+@model CreateAdRequest
 
 @{
-    ViewData["Title"] = "Dodaj ogłoszenie";
+    ViewData["Title"] = TutorLizard.Web.Resources.Tutor.AddAdvertisement;
 }
 
-<h1>Nowe ogłoszenie</h1>
+<h1>@TutorLizard.Web.Resources.Tutor.NewAd</h1>
 
 <hr />
 <div class="row">
@@ -13,13 +14,13 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
+                <label asp-for="Title" class="control-label">@TutorLizard.Web.Resources.Tutor.Title</label>
+                <input asp-for="Title" class="form-control" placeholder="@TutorLizard.Web.Resources.Tutor.Title" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
+                <label asp-for="CategoryId" class="control-label">@TutorLizard.Web.Resources.Tutor.CategoryId</label>
                 @if(ViewBag.Categories is not null)
                 {
                     <select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="form-select"></select>
@@ -29,37 +30,37 @@
 
 
             <div class="form-group">
-                <label asp-for="Subject" class="control-label"></label>
-                <input asp-for="Subject" class="form-control" />
+                <label asp-for="Subject" class="control-label">@TutorLizard.Web.Resources.Tutor.Subject</label>
+                <input asp-for="Subject" class="form-control" placeholder="@TutorLizard.Web.Resources.Tutor.Subject" />
                 <span asp-validation-for="Subject" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
-                <input asp-for="Location" class="form-control" />
+                <label asp-for="Location" class="control-label">@TutorLizard.Web.Resources.Tutor.Location</label>
+                <input asp-for="Location" class="form-control" placeholder="@TutorLizard.Web.Resources.Tutor.Location" />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input type="number" min="0" max="10000" asp-for="Price" class="form-control" />
+                <label asp-for="Price" class="control-label">@TutorLizard.Web.Resources.Tutor.Price</label>
+                <input type="number" min="0" max="10000" asp-for="Price" class="form-control" placeholder="@TutorLizard.Web.Resources.Tutor.Price" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
 
             <div class="form-group form-check my-2">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsRemote" /> @Html.DisplayNameFor(model => model.IsRemote)
+                    <input class="form-check-input" asp-for="IsRemote" /> @TutorLizard.Web.Resources.Tutor.IsRemote
                 </label>
             </div>
             
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control"></textarea>
+                <label asp-for="Description" class="control-label">@TutorLizard.Web.Resources.Tutor.Description</label>
+                <textarea asp-for="Description" class="form-control" placeholder="@TutorLizard.Web.Resources.Tutor.Description"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             
             <div class="form-group my-3">
-                <input type="submit" value="Dodaj ogłoszenie" class="btn btn-primary w-100" />
+                <input type="submit" value="@TutorLizard.Web.Resources.Tutor.AddAd" class="btn btn-primary w-100" />
             </div>
         </form>
     </div>
