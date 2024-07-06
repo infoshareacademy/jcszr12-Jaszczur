@@ -33,9 +33,13 @@ public abstract class BrowseServiceTestsBase : TestsWithInMemoryDbBase
             .Returns(Task.FromResult(ad));
     }
 
-    protected void SetupMockGetAllScheduleItems(int scheduleItemCount)
+    protected void SetupMockGetAllScheduleItems(List<ScheduleItemParameterSet> parameterSets)
     {
-        var scheduleItems = CreateTestScheduleItems(scheduleItemCount);
+        List<ScheduleItem> scheduleItems = [];
+        foreach (var set in parameterSets)
+        {
+            scheduleItems.AddRange(CreateTestScheduleItems(set));
+        }
         var scheduleItemsInDb = AddEntitiesToInMemoryDb(scheduleItems);
         MockScheduleItemRepository
             .Setup(x => x.GetAll())
@@ -116,4 +120,25 @@ public abstract class BrowseServiceTestsBase : TestsWithInMemoryDbBase
 
         return scheduleItems;
     }
+
+    protected List<ScheduleItem> CreateTestScheduleItems(ScheduleItemParameterSet parameterSet)
+    {
+        var ads = CreateTestAds(parameterSet.Count);
+
+        List<ScheduleItem> scheduleItems = Fixture
+            .Build<ScheduleItem>()
+                .Without(item => item.Id)
+                .Without(item => item.Ad)
+                .Without(item => item.ScheduleItemRequests)
+                .Without(item => item.DateTime)
+                .Do(item => item.DateTime = new DateTime(parameterSet.Year,
+                                                         parameterSet.Month,
+                                                         Random.Shared.Next(1, DateTime.DaysInMonth(parameterSet.Year,
+                                                                                                    parameterSet.Month) + 1)))
+            .CreateMany(parameterSet.Count)
+            .ToList();
+
+        return scheduleItems;
+    }
+    protected record ScheduleItemParameterSet(int Month, int Year, int Count);
 }

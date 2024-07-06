@@ -70,6 +70,7 @@
         selectedDay = new DateTime(year, month, day);
         scheduleForDay = schedule
             .Where(si => si.DateTime.Date == selectedDay.Date)
+            .OrderBy(si => si.DateTime)
             .ToList();
         StateHasChanged();
     }

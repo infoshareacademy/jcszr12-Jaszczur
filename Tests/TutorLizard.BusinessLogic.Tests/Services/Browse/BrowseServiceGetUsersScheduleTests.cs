@@ -10,8 +10,10 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
     public async Task GetUsersSchedule_WhenUserHasNoAds_ShouldReturnEmptyTutorsSchedule()
     {
         // Arrange
-        int scheduleItemCount = 100;
-        SetupMockGetAllScheduleItems(scheduleItemCount);
+        ScheduleItemParameterSet parameters =new(Month: DateTime.Now.Month,
+                                                  Year: DateTime.Now.Year,
+                                                  Count: 100);
+        SetupMockGetAllScheduleItems([parameters]);
 
         int usersAdCount = 0;
         int usersScheduleItemRequestCount = 10;
@@ -20,7 +22,9 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
         int userId = userWithoutAds.Id;
         GetUsersScheduleRequest request = new()
         {
-            UserId = userId
+            UserId = userId,
+            Month = parameters.Month,
+            Year = parameters.Year,
         };
 
         // Act
@@ -34,8 +38,10 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
     public async Task GetUsersSchedule_WhenUserHasNoScheduleItemRequests_ShouldReturnEmptyStudentsSchedule()
     {
         // Arrange
-        int scheduleItemCount = 100;
-        SetupMockGetAllScheduleItems(scheduleItemCount);
+        ScheduleItemParameterSet parameters = new(Month: DateTime.Now.Month,
+                                                  Year: DateTime.Now.Year,
+                                                  Count: 100);
+        SetupMockGetAllScheduleItems([parameters]);
 
         int usersAdCount = 10;
         int usersScheduleItemRequestCount = 0;
@@ -45,6 +51,8 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
         GetUsersScheduleRequest request = new()
         {
             UserId = userId,
+            Month = parameters.Month,
+            Year = parameters.Year,
         };
 
         // Act
@@ -58,27 +66,42 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
     public async Task GetUsersSchedule_WhenUserHasAdsWithScheduleItems_ShouldReturnCorrectTutorsSchedule()
     {
         // Arrange
-        int scheduleItemCount = 50;
+        int month = DateTime.Now.Month;
+        int year = DateTime.Now.Year;
+        List<ScheduleItemParameterSet> parameterSets =
+        [
+            new(Month: month,
+                Year: year,
+                Count: 25),
+            new(Month: DateTime.Now.AddMonths(Random.Shared.Next(3)).Month,
+                Year: DateTime.Now.AddYears(1).Year,
+                Count: 25),
+        ];
         int adCount = 5;
         int scheduleItemRequestCount = 100;
-        SetupMockScheduleData(scheduleItemCount, adCount, scheduleItemRequestCount);
+        SetupMockScheduleData(parameterSets, adCount, scheduleItemRequestCount);
 
         int usersFinalAdCount = 2;
         User user = CreateUserAndGiveHimExistingAds(usersFinalAdCount);
 
         GetUsersScheduleRequest request = new()
         {
-            UserId = user.Id
+            UserId = user.Id,
+            Month = month,
+            Year = year,
         };
 
-        int expectedAdCount = user.Ads.Sum(ad => ad.ScheduleItems.Count);
+        int expectedScheduleItemCount = user.Ads.Sum(ad =>
+            ad.ScheduleItems
+              .Where(item => (item.DateTime.Month, item.DateTime.Year) == (month, year))
+              .Count());
 
         // Act
         var response = await BrowseService.GetUsersSchedule(request);
-        int actualAdCount = response.TutorsSchedule.Count;
+        int actualScheduleItemCount = response.TutorsSchedule.Count;
 
         // Assert
-        Assert.Equal(expectedAdCount, actualAdCount);
+        Assert.Equal(expectedScheduleItemCount, actualScheduleItemCount);
 
         foreach (var actual in response.TutorsSchedule)
         {
@@ -99,24 +122,41 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
     public async Task GetUsersSchedule_WhenUserHasScheduleItemRequests_ShouldReturnCorrectStudentsSchedule()
     {
         // Arrange
-        int scheduleItemCount = 50;
+        int month = DateTime.Now.Month;
+        int year = DateTime.Now.Year;
+        List<ScheduleItemParameterSet> parameterSets =
+        [
+            new(Month: month,
+                Year: year,
+                Count: 25),
+            new(Month: DateTime.Now.AddMonths(Random.Shared.Next(3)).Month,
+                Year: DateTime.Now.AddYears(1).Year,
+                Count: 25),
+        ];
         int adCount = 5;
         int scheduleItemRequestCount = 100;
-        SetupMockScheduleData(scheduleItemCount, adCount, scheduleItemRequestCount);
+        SetupMockScheduleData(parameterSets, adCount, scheduleItemRequestCount);
 
         int usersFinalScheduleItemRequestCount = 20;
         User user = CreateUserAndGiveHimExistingScheduleItemRequests(usersFinalScheduleItemRequestCount);
 
         GetUsersScheduleRequest request = new()
         {
-            UserId = user.Id
+            UserId = user.Id,
+            Month = month,
+            Year = year,
         };
+
+        int expectedScheduleItemCount = user.ScheduleItemRequests
+            .Where(request => (request.ScheduleItem.DateTime.Month, request.ScheduleItem.DateTime.Year) == (month, year))
+            .Count();
 
         // Act
         var response = await BrowseService.GetUsersSchedule(request);
+        int actualScheduleItemCount = response.StudentsSchedule.Count;
 
         // Assert
-        Assert.Equal(user.ScheduleItemRequests.Count, response.StudentsSchedule.Count);
+        Assert.Equal(expectedScheduleItemCount, actualScheduleItemCount);
 
         foreach (var actual in response.StudentsSchedule)
         {
@@ -138,17 +178,21 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
     public async Task GetUsersSchedule_WhenNoStudentIsAccepted_ShouldReturnNullAcceptedStudentsName()
     {
         // Arrange
-        int scheduleItemCount = 1;
+        ScheduleItemParameterSet parameters = new(Month: DateTime.Now.Month,
+                                                  Year: DateTime.Now.Year,
+                                                  Count: 1);
         int adCount = 1;
         int scheduleItemRequestCount = 1;
-        SetupMockScheduleData(scheduleItemCount, adCount, scheduleItemRequestCount);
+        SetupMockScheduleData([parameters], adCount, scheduleItemRequestCount);
 
         int usersFinalAdCount = 1;
         User user = CreateUserAndGiveHimExistingAds(usersFinalAdCount);
 
         GetUsersScheduleRequest request = new()
         {
-            UserId = user.Id
+            UserId = user.Id,
+            Month = parameters.Month,
+            Year = parameters.Year,
         };
 
         var scheduleItemRequest = user
@@ -170,17 +214,21 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
     public async Task GetUsersSchedule_WhenAStudentIsAccepted_ShouldReturnStudentsName()
     {
         // Arrange
-        int scheduleItemCount = 1;
+        ScheduleItemParameterSet parameters = new(Month: DateTime.Now.Month,
+                                                  Year: DateTime.Now.Year,
+                                                  Count: 1);
         int adCount = 1;
         int scheduleItemRequestCount = 1;
-        SetupMockScheduleData(scheduleItemCount, adCount, scheduleItemRequestCount);
+        SetupMockScheduleData([parameters], adCount, scheduleItemRequestCount);
 
         int usersFinalAdCount = 1;
         User user = CreateUserAndGiveHimExistingAds(usersFinalAdCount);
 
         GetUsersScheduleRequest request = new()
         {
-            UserId = user.Id
+            UserId = user.Id,
+            Month = parameters.Month,
+            Year = parameters.Year,
         };
 
         var scheduleItemRequest = user
@@ -204,17 +252,21 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
     public async Task GetUsersSchedule_WhenRequestIsAccepted_ShouldReturnCorrectStatus()
     {
         // Arrange
-        int scheduleItemCount = 1;
+        ScheduleItemParameterSet parameters = new(Month: DateTime.Now.Month,
+                                                  Year: DateTime.Now.Year,
+                                                  Count: 1);
         int adCount = 1;
         int scheduleItemRequestCount = 1;
-        SetupMockScheduleData(scheduleItemCount, adCount, scheduleItemRequestCount);
+        SetupMockScheduleData([parameters], adCount, scheduleItemRequestCount);
 
         int usersFinalScheduleItemRequestCount = 1;
         User user = CreateUserAndGiveHimExistingScheduleItemRequests(usersFinalScheduleItemRequestCount);
 
         GetUsersScheduleRequest request = new()
         {
-            UserId = user.Id
+            UserId = user.Id,
+            Month = parameters.Month,
+            Year = parameters.Year,
         };
 
         var scheduleItemRequest = user
@@ -237,17 +289,21 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
     public async Task GetUsersSchedule_WhenRequestIsPending_ShouldReturnCorrectStatus()
     {
         // Arrange
-        int scheduleItemCount = 1;
+        ScheduleItemParameterSet parameters = new(Month: DateTime.Now.Month,
+                                                  Year: DateTime.Now.Year,
+                                                  Count: 1);
         int adCount = 1;
         int scheduleItemRequestCount = 1;
-        SetupMockScheduleData(scheduleItemCount, adCount, scheduleItemRequestCount);
+        SetupMockScheduleData([parameters], adCount, scheduleItemRequestCount);
 
         int usersFinalScheduleItemRequestCount = 1;
         User user = CreateUserAndGiveHimExistingScheduleItemRequests(usersFinalScheduleItemRequestCount);
 
         GetUsersScheduleRequest request = new()
         {
-            UserId = user.Id
+            UserId = user.Id,
+            Month = parameters.Month,
+            Year = parameters.Year,
         };
 
         var scheduleItemRequest = user
@@ -266,9 +322,9 @@ public class BrowseServiceGetUsersScheduleTests : BrowseServiceTestsBase
         Assert.Equal(expectedStatus, actualStatus);
     }
 
-    private void SetupMockScheduleData(int scheduleItemCount, int adCount, int scheduleItemRequestCount)
+    private void SetupMockScheduleData(List<ScheduleItemParameterSet> scheduleItemParameterSets, int adCount, int scheduleItemRequestCount)
     {
-        SetupMockGetAllScheduleItems(scheduleItemCount);
+        SetupMockGetAllScheduleItems(scheduleItemParameterSets);
 
         CreateAdsForScheduleItems(adCount);
 

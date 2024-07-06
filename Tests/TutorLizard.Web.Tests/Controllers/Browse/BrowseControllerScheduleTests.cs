@@ -60,7 +60,9 @@ public class BrowseControllerScheduleTests : BrowseControllerTestsBase
 
         GetUsersScheduleRequest expected = new()
         {
-            UserId = userId
+            UserId = userId,
+            Month = DateTime.Now.Month,
+            Year = DateTime.Now.Year
         };
 
         // Act

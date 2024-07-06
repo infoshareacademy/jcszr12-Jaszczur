@@ -5,13 +5,13 @@
 <div class="calendar-container my-2">
     <div class="calendar-header">
         <div class="previous">
-            <button class="btn btn-success" @onclick="() => Navigate(controller, action)">
+            <button class="btn btn-success" @onclick="NavigateToPreviousMonth">
                 <i class="bi bi-arrow-left"></i>
             </button>
         </div>
-        <h3>@Month/@Year</h3>
+        <h3>@Month.ToString("00")/@Year</h3>
         <div class="next">
-            <button class="btn btn-success" @onclick="() => Navigate(controller, action)">
+            <button class="btn btn-success" @onclick="NavigateToNextMonth">
                 <i class="bi bi-arrow-right"></i>
             </button>
         </div>
@@ -66,7 +66,7 @@
     public int DaySelected { get; set; }
 
     private string controller = "Browse";
-    private string action = "Ads";
+    private string action = "Schedule";
 
     private string DayOfWeekOnFirst()
     {
@@ -74,9 +74,21 @@
         return first.DayOfWeek.ToString().ToLower();
     }
 
-    private void Navigate(string controller, string action)
+    private void NavigateToPreviousMonth()
     {
-        navigation.NavigateTo($"{controller}/{action}");
+        (int month, int year) = Month == 1 ? (12, Year - 1) : (Month - 1, Year);
+        NavigateToMonth(controller, action, month, year);
+    }
+    
+    private void NavigateToNextMonth()
+    {
+        (int month, int year) = Month == 12 ? (1, Year + 1) : (Month + 1, Year);
+        NavigateToMonth(controller, action, month, year);
+    }
+
+    private void NavigateToMonth(string controller, string action, int month, int year)
+    {
+        navigation.NavigateTo($"{controller}/{action}?month={month}&year={year}");
     }
 
     private void HandleDaySelected(int day)
