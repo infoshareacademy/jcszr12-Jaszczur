@@ -1,7 +1,7 @@
 ﻿/* tutorlizard.css */
 
 body {
-    padding-top: 66px;
+    padding-top: 60px;
 }
 
 .banner {
@@ -16,13 +16,17 @@ body {
 .banner-container {
     margin-top: 141px;
     max-width: 100%;
-    height: 10px;
+    height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 50px;
+    margin-bottom: 100px;
     transition: filter 0.3s ease;
-   /* filter: blur(5px);*/
+    border-top: 200px solid #9db88c;
+}
+
+.main-margin {
+    margin-top: 70px;
 }
 
 .title {
@@ -172,7 +176,7 @@ body {
 }
 
 .margin-bottom {
-    margin-bottom: 25px;
+    margin-bottom: 35px;
 }
 
 .border-bottom {

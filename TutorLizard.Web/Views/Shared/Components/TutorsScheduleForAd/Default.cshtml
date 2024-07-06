@@ -3,11 +3,9 @@
 @if(Model is not null)
 {
     <div>
-        <div class="title"><h3>Terminy</h3></div>
-        <div>
-            <ul class="list-group col-xl-12">
-                <div class="mx-auto"><a href="@Url.Action("CreateScheduleItem", "Tutor", new { id = Model.AdId })" class="btn btn-dark">Dodaj nowy termin</a></div>
-            </ul>
+        <div class="row">
+                <h3 class ="title-2 col-sm-12 col-md-6">Terminy</h3>
+            <div class="mx-autolist-group col-sm-12 col-md-6 margin-top-small"><a href="@Url.Action("CreateScheduleItem", "Tutor", new { id = Model.AdId })" class="btn btn-details">Dodaj nowy termin</a></div>
         </div>
         @foreach(var scheduleItem in Model.ScheduleItems)
         {
