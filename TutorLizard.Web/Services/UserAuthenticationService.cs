@@ -9,6 +9,8 @@ using TutorLizard.BusinessLogic.Interfaces.Services;
 using TutorLizard.BusinessLogic.Models;
 using TutorLizard.Shared.Enums;
 using TutorLizard.Shared.Models.DTOs;
+using TutorLizard.Shared.Models.DTOs.Requests;
+using TutorLizard.Shared.Models.DTOs.Responses;
 using TutorLizard.Web.Models;
 
 namespace TutorLizard.BusinessLogic.Services;
@@ -61,15 +63,18 @@ public class UserAuthenticationService : IUserAuthenticationService
         return Guid.NewGuid().ToString();
     }
 
-    public Task<bool> RegisterUserWithGoogle(string? username, string? email, string? googleId)
+    public async Task<GoogleRegistrationResult> RegisterUserWithGoogle(string? username, string? email, string? googleId)
     {
         if (String.IsNullOrWhiteSpace(username) ||
             String.IsNullOrWhiteSpace(email) ||
             String.IsNullOrWhiteSpace(googleId))
         {
-            return Task.FromResult(false);
+            return GoogleRegistrationResult.Failure;
         }
-        return _userService.RegisterUserWithGoogle(username, email, googleId);
+        RegisterUserWithGoogleRequest request = new(username, email, googleId);
+        RegisterUserWithGoogleResponse response = await _userService.RegisterUserWithGoogle(request);
+
+        return response.Result;
     }
 
     public async Task<bool> IsGoogleUserRegistered(string? googleId)

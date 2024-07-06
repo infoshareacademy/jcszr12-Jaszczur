@@ -1,0 +1,28 @@
+﻿@using TutorLizard.Shared.Models.DTOs
+@inject NavigationManager navigation
+
+@if (ScheduleItem is not null)
+{
+    <div class="item" @onclick="() => NavigateToAdDetails(ScheduleItem.AdId)">
+        <h4 class="display-6">@ScheduleItem.DateTime.ToString("HH:mm")</h4>
+        <div class="fw-bold">@ScheduleItem.AdTitle <small class="text-success">| Jako nauczyciel</small></div>
+        @if (ScheduleItem.AcceptedStudentsName is not null)
+        {
+            <div>Zaakceptowany uczeń: @ScheduleItem.AcceptedStudentsName</div>
+        }
+        <div>Liczba zgłoszeń: @ScheduleItem.RequestCount</div>
+    </div>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public TutorsScheduleItemSummaryDto? ScheduleItem { get; set; }
+
+    private string controller = "Browse";
+    private string action = "AdDetails";
+
+    private void NavigateToAdDetails(int adId)
+    {
+        navigation.NavigateTo($"{controller}/{action}/{adId}");
+    }
+}
