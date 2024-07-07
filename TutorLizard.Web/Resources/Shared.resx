@@ -184,7 +184,7 @@
     <value>Brak zgłoszeń</value>
   </data>
   <data name="PostedBy" xml:space="preserve">
-    <value>Wystawione przez</value>
+    <value>Nauczyciel</value>
   </data>
   <data name="Price" xml:space="preserve">
     <value>Cena</value>
@@ -214,13 +214,13 @@
     <value>Data wysłania</value>
   </data>
   <data name="RequestDate" xml:space="preserve">
-    <value>Zgłoszenie wysłane</value>
+    <value>Wysłane</value>
   </data>
   <data name="RequestIsAccepted" xml:space="preserve">
-    <value>Zgłoszenie zaakceptowane</value>
+    <value>Zaakceptowane</value>
   </data>
   <data name="RequestIsRejected" xml:space="preserve">
-    <value>Zgłoszenie niezaakceptowane</value>
+    <value>Niezaakceptowane</value>
   </data>
   <data name="RequestMessage" xml:space="preserve">
     <value>Twoja wiadomość</value>
@@ -229,7 +229,7 @@
     <value>Nie wysłano</value>
   </data>
   <data name="RequestPending" xml:space="preserve">
-    <value>Oczekuje na akceptacje</value>
+    <value>Oczekujące</value>
   </data>
   <data name="RequestRejected" xml:space="preserve">
     <value>Odrzucone</value>

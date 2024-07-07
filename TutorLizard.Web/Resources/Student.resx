@@ -121,15 +121,15 @@
     <value>Zaakceptowane ogłoszenia</value>
   </data>
   <data name="BrowseAcceptedAdRequests" xml:space="preserve">
-    <value>Przeglądaj ogłoszenia do których jesteś zaakceptowany</value>
+    <value>Przyjęte zgłoszenia</value>
   </data>
   <data name="BrowseYourAdRequests" xml:space="preserve">
-    <value>Przeglądaj swoje zapytania do ogłoszeń</value>
+    <value>Oczekujące zgłoszenia</value>
   </data>
   <data name="StudentFunction" xml:space="preserve">
-    <value>Funkcjonalość studenta</value>
+    <value>Student</value>
   </data>
   <data name="YourAdRequests" xml:space="preserve">
-    <value>Zgłoszenia do ogłoszeń</value>
+    <value>Przyjęte zgłoszenia</value>
   </data>
 </root>

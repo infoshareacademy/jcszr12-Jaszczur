@@ -259,7 +259,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wystawione przez.
+        ///   Looks up a localized string similar to Nauczyciel.
         /// </summary>
         public static string PostedBy {
             get {
@@ -349,7 +349,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zgłoszenie wysłane.
+        ///   Looks up a localized string similar to Wysłane.
         /// </summary>
         public static string RequestDate {
             get {
@@ -358,7 +358,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zgłoszenie zaakceptowane.
+        ///   Looks up a localized string similar to Zaakceptowane.
         /// </summary>
         public static string RequestIsAccepted {
             get {
@@ -367,7 +367,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zgłoszenie niezaakceptowane.
+        ///   Looks up a localized string similar to Niezaakceptowane.
         /// </summary>
         public static string RequestIsRejected {
             get {
@@ -394,7 +394,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Oczekuje na akceptacje.
+        ///   Looks up a localized string similar to Oczekujące.
         /// </summary>
         public static string RequestPending {
             get {
