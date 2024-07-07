@@ -88,7 +88,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stwórz.
+        ///   Looks up a localized string similar to Utwórz.
         /// </summary>
         public static string Create {
             get {

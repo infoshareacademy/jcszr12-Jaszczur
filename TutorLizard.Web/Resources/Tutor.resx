@@ -136,13 +136,13 @@
     <value>Twoje ogłoszenia</value>
   </data>
   <data name="AllPendingRequests" xml:space="preserve">
-    <value>Oczekujące  zgłoszenia</value>
+    <value>Oczekujące zgłoszenia</value>
   </data>
   <data name="BrowsAllAdRequests" xml:space="preserve">
-    <value>Przeglądaj wszystkie zgłoszenia</value>
+    <value>Wszystkie zgłoszenia</value>
   </data>
   <data name="BrowsePendingAdRequests" xml:space="preserve">
-    <value>Przeglądaj niezaakceptowane zgłoszenia</value>
+    <value>Oczekujące zgłoszenia</value>
   </data>
   <data name="CategoryId" xml:space="preserve">
     <value>Id kategorii</value>
@@ -157,7 +157,7 @@
     <value>Opis</value>
   </data>
   <data name="IsRemote" xml:space="preserve">
-    <value>Nauczanie zdalne</value>
+    <value>Zdalne</value>
   </data>
   <data name="Location" xml:space="preserve">
     <value>Lokalizacja</value>
@@ -181,6 +181,6 @@
     <value>Funkcjonalność nauczyciela</value>
   </data>
   <data name="TutorsAdsLists" xml:space="preserve">
-    <value>Przeglądaj swoje ogłoszenia</value>
+    <value>Twoje ogłoszenia</value>
   </data>
 </root>

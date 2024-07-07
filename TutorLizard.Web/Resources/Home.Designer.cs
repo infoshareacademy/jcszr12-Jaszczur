@@ -88,7 +88,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kategories.
+        ///   Looks up a localized string similar to Kategorie.
         /// </summary>
         public static string Categories {
             get {
@@ -142,7 +142,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Funkcjonalność ucznia.
+        ///   Looks up a localized string similar to Uczeń.
         /// </summary>
         public static string StudentFunction {
             get {
@@ -151,7 +151,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Funkcjonalność nauczyciela.
+        ///   Looks up a localized string similar to Nauczyciel.
         /// </summary>
         public static string TutorFunction {
             get {
@@ -169,7 +169,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Twoje terminy.
+        ///   Looks up a localized string similar to Kalendarz.
         /// </summary>
         public static string YourSchedule {
             get {
