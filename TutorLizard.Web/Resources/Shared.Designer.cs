@@ -295,7 +295,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remote.
+        ///   Looks up a localized string similar to Zdalne.
         /// </summary>
         public static string Remote {
             get {
