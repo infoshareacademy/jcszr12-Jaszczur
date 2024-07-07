@@ -117,70 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddAd" xml:space="preserve">
-    <value>Dodaj ogłoszenie</value>
-  </data>
-  <data name="AddAdvertisement" xml:space="preserve">
-    <value>Dodaj ogłoszenie</value>
-  </data>
-  <data name="AddScheduleItem" xml:space="preserve">
-    <value>Dodaj termin</value>
-  </data>
-  <data name="AdId" xml:space="preserve">
-    <value>Id ogłoszenia</value>
-  </data>
-  <data name="AllAdRequests" xml:space="preserve">
-    <value>Wszystkie zgłoszenia</value>
-  </data>
-  <data name="AllAds" xml:space="preserve">
-    <value>Twoje ogłoszenia</value>
-  </data>
-  <data name="AllPendingRequests" xml:space="preserve">
-    <value>Oczekujące zgłoszenia</value>
-  </data>
-  <data name="BrowsAllAdRequests" xml:space="preserve">
-    <value>Wszystkie zgłoszenia</value>
-  </data>
-  <data name="BrowsePendingAdRequests" xml:space="preserve">
-    <value>Oczekujące zgłoszenia</value>
-  </data>
-  <data name="CategoryId" xml:space="preserve">
-    <value>Id kategorii</value>
-  </data>
-  <data name="Confirm" xml:space="preserve">
-    <value>Zatwierdź</value>
-  </data>
-  <data name="DateTime" xml:space="preserve">
-    <value>Data</value>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>Opis</value>
+  <data name="Category" xml:space="preserve">
+    <value>Kategoria:</value>
   </data>
   <data name="IsRemote" xml:space="preserve">
-    <value>Zdalne</value>
+    <value>Nauczanie zdalne:</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>Lokalizacja</value>
+    <value>Lokalizacja:</value>
   </data>
-  <data name="NewAd" xml:space="preserve">
-    <value>Nowe ogłoszenie</value>
+  <data name="PriceMax" xml:space="preserve">
+    <value>Cena do:</value>
   </data>
-  <data name="NewScheduleItem" xml:space="preserve">
-    <value>Nowy termin</value>
+  <data name="PriceMin" xml:space="preserve">
+    <value>Cena od:</value>
   </data>
-  <data name="Price" xml:space="preserve">
-    <value>Cena</value>
-  </data>
-  <data name="Subject" xml:space="preserve">
-    <value>Przedmiot</value>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>Tytuł</value>
-  </data>
-  <data name="TutorFunc" xml:space="preserve">
-    <value>Funkcjonalność nauczyciela</value>
-  </data>
-  <data name="TutorsAdsLists" xml:space="preserve">
-    <value>Twoje ogłoszenia</value>
+  <data name="Text" xml:space="preserve">
+    <value>Tytuł / Przedmiot / Opis:</value>
   </data>
 </root>

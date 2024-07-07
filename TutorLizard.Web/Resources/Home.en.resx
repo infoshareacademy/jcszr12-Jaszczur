@@ -139,16 +139,16 @@
     <value>Use this page to detail your site's privacy policy.</value>
   </data>
   <data name="ScheduleItemRequests" xml:space="preserve">
-    <value>Schedule Item Requests</value>
+    <value>Schedule Requests</value>
   </data>
   <data name="ScheduleItems" xml:space="preserve">
     <value>Schedule Items</value>
   </data>
   <data name="StudentFunction" xml:space="preserve">
-    <value>Student functionality</value>
+    <value>Student</value>
   </data>
   <data name="TutorFunction" xml:space="preserve">
-    <value>Tutor functionality</value>
+    <value>Tutor</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Users</value>

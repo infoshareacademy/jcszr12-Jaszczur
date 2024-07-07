@@ -1,4 +1,5 @@
 ﻿@using System.Text.Json
+@using Microsoft.Extensions.Localization
 @using TutorLizard.Shared.Models.DTOs
 
 <div class="row">
@@ -27,6 +28,8 @@
     [Parameter, EditorRequired]
     public string? StudentsSchedule { get; set; }
 
+    string monday = "";
+
     private List<IScheduleItemSummaryDto> schedule = [];
     private List<IScheduleItemSummaryDto> scheduleForDay = [];
 
@@ -34,6 +37,7 @@
 
     protected override void OnParametersSet()
     {
+        monday = Resources.Schedule.Monday;
         schedule.Clear();
         try
         {
@@ -41,13 +45,19 @@
             {
                 var studentsSchedule = JsonSerializer
                     .Deserialize<IEnumerable<StudentsScheduleItemSummaryDto>>(StudentsSchedule);
-                schedule.AddRange(studentsSchedule);
+                if (studentsSchedule is not null)
+                {
+                    schedule.AddRange(studentsSchedule);
+                }
             }
             if (String.IsNullOrWhiteSpace(TutorsSchedule) == false)
             {
                 var tutorsSchedule = JsonSerializer
                     .Deserialize<IEnumerable<TutorsScheduleItemSummaryDto>>(TutorsSchedule);
-                schedule.AddRange(tutorsSchedule);
+                if (tutorsSchedule is not null)
+                {
+                    schedule.AddRange(tutorsSchedule);
+                }
             }
         }
         catch

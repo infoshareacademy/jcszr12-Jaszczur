@@ -127,7 +127,7 @@
     <value>Ogłoszenia</value>
   </data>
   <data name="Categories" xml:space="preserve">
-    <value>Kategories</value>
+    <value>Kategorie</value>
   </data>
   <data name="Data" xml:space="preserve">
     <value>Dane</value>
@@ -145,15 +145,15 @@
     <value>Terminy</value>
   </data>
   <data name="StudentFunction" xml:space="preserve">
-    <value>Funkcjonalność ucznia</value>
+    <value>Uczeń</value>
   </data>
   <data name="TutorFunction" xml:space="preserve">
-    <value>Funkcjonalność nauczyciela</value>
+    <value>Nauczyciel</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Użytkownicy</value>
   </data>
   <data name="YourSchedule" xml:space="preserve">
-    <value>Twoje terminy</value>
+    <value>Kalendarz</value>
   </data>
 </root>

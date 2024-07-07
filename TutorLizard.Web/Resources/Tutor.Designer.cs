@@ -115,7 +115,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Oczekujące  zgłoszenia.
+        ///   Looks up a localized string similar to Oczekujące zgłoszenia.
         /// </summary>
         public static string AllPendingRequests {
             get {
@@ -124,7 +124,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Przeglądaj wszystkie zgłoszenia.
+        ///   Looks up a localized string similar to Wszystkie zgłoszenia.
         /// </summary>
         public static string BrowsAllAdRequests {
             get {
@@ -133,7 +133,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Przeglądaj niezaakceptowane zgłoszenia.
+        ///   Looks up a localized string similar to Oczekujące zgłoszenia.
         /// </summary>
         public static string BrowsePendingAdRequests {
             get {
@@ -178,7 +178,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nauczanie zdalne.
+        ///   Looks up a localized string similar to Zdalne.
         /// </summary>
         public static string IsRemote {
             get {
@@ -250,7 +250,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Przeglądaj swoje ogłoszenia.
+        ///   Looks up a localized string similar to Twoje ogłoszenia.
         /// </summary>
         public static string TutorsAdsLists {
             get {

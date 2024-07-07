@@ -127,7 +127,7 @@
     <value>Ad Details</value>
   </data>
   <data name="Ads" xml:space="preserve">
-    <value>Advertisements</value>
+    <value>Ads</value>
   </data>
   <data name="AsStudent" xml:space="preserve">
     <value>As student</value>
@@ -142,10 +142,10 @@
     <value>Category name</value>
   </data>
   <data name="IsRemote" xml:space="preserve">
-    <value>Is remote</value>
+    <value>Remote</value>
   </data>
   <data name="Localization" xml:space="preserve">
-    <value>Localization</value>
+    <value>Location</value>
   </data>
   <data name="NextPage" xml:space="preserve">
     <value>Next page</value>
@@ -175,7 +175,7 @@
     <value>Previous page</value>
   </data>
   <data name="Price" xml:space="preserve">
-    <value>Hourly price</value>
+    <value>Price</value>
   </data>
   <data name="Rejected" xml:space="preserve">
     <value>Rejected</value>

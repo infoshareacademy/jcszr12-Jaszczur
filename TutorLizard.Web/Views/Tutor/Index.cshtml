@@ -1,19 +1,22 @@
 ﻿@using TutorLizard.Web.Resources
+<h1 class="title">@TutorLizard.Web.Resources.Tutor.TutorFunc</h1>
 
-<h1>@TutorLizard.Web.Resources.Tutor.TutorFunc</h1>
+<div class="col-lg-5 mx-auto">
 
-<ul class="list-group col-md-6 col-xl-3">
-    <li class="list-group-item"><a asp-action="CreateAd">@TutorLizard.Web.Resources.Tutor.AddAd</a></li>
-</ul>
+    <div class="list-group">
+        <div class="btn btn-list"><a asp-action="TutorsAdsList" class="custom-link btn btn-light col-12">@TutorLizard.Web.Resources.Tutor.TutorsAdsLists</a></div>
+    </div>
 
-<ul class="list-group col-md-6 col-xl-3">
-    <li class="list-group-item"><a asp-action="CreateScheduleItem">@TutorLizard.Web.Resources.Tutor.AddScheduleItem</a></li>
-</ul>
-<li class="list-group-item"><a asp-action="ViewPendingAdRequests">@TutorLizard.Web.Resources.Tutor.BrowsePendingAdRequests</a></li>
-<li class="list-group-item"><a asp-action="ViewAllAdRequests">@TutorLizard.Web.Resources.Tutor.BrowsAllAdRequests</a></li>
-</ul>
-</ul>
-</ul>
-<ul class="list-group col-md-6 col-xl-3">
-    <li class="list-group-item"><a asp-action="TutorsAdsList">@TutorLizard.Web.Resources.Tutor.TutorsAdsLists</a></li>
-</ul>
+    <div class="list-group">
+    <div class="btn"><a asp-action="CreateAd" class="custom-link btn btn-light col-12">@TutorLizard.Web.Resources.Tutor.AddAd</a></div>
+    </div>
+
+    <div class="list-group">
+        <div class="btn"><a asp-action="ViewPendingAdRequests" class="custom-link btn btn-light col-12">@TutorLizard.Web.Resources.Tutor.BrowsePendingAdRequests</a></div>
+        </div>
+
+    <div class="list-group">
+            <div class="btn"><a asp-action="ViewAllAdRequests" class="custom-link btn btn-light col-12">@TutorLizard.Web.Resources.Tutor.BrowsAllAdRequests</a></div>
+            </div>
+ </div>
+

@@ -70,7 +70,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stwórz.
+        ///   Looks up a localized string similar to Utwórz.
         /// </summary>
         public static string Create {
             get {
@@ -79,7 +79,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stwórz nowy.
+        ///   Looks up a localized string similar to Utwórz nowy.
         /// </summary>
         public static string CreateNew {
             get {
@@ -124,7 +124,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nauczanie zdalne.
+        ///   Looks up a localized string similar to Zdalne.
         /// </summary>
         public static string IsRemote {
             get {

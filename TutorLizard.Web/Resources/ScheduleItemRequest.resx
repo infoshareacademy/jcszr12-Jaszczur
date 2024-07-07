@@ -121,10 +121,10 @@
     <value>Wróć do listy</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Stwórz</value>
+    <value>Utwórz</value>
   </data>
   <data name="CreateNew" xml:space="preserve">
-    <value>Stwórz nowy</value>
+    <value>Utwórz nowy</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Usuń</value>
@@ -139,7 +139,7 @@
     <value>Status</value>
   </data>
   <data name="IsRemote" xml:space="preserve">
-    <value>Nauczanie zdalne</value>
+    <value>Zdalne</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Zapisz</value>

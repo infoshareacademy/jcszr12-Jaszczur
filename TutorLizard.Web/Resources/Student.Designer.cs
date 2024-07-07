@@ -70,7 +70,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Przeglądaj ogłoszenia do których jesteś zaakceptowany.
+        ///   Looks up a localized string similar to Przyjęte zgłoszenia.
         /// </summary>
         public static string BrowseAcceptedAdRequests {
             get {
@@ -79,7 +79,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Przeglądaj swoje zapytania do ogłoszeń.
+        ///   Looks up a localized string similar to Oczekujące zgłoszenia.
         /// </summary>
         public static string BrowseYourAdRequests {
             get {
@@ -88,7 +88,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Funkcjonalość studenta.
+        ///   Looks up a localized string similar to Student.
         /// </summary>
         public static string StudentFunction {
             get {
@@ -97,7 +97,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zgłoszenia do ogłoszeń.
+        ///   Looks up a localized string similar to Przyjęte zgłoszenia.
         /// </summary>
         public static string YourAdRequests {
             get {

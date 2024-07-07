@@ -1,10 +1,14 @@
 ﻿<div>
     @if (TempData.ContainsKey(MessageType.Success))
     {
+        <div class="message">
         <p class="alert alert-success">@TempData[MessageType.Success]</p>
+        </div>
     }
     @if (TempData.ContainsKey(MessageType.Failure))
     {
+        <div class="message">
         <p class="alert alert-danger">@TempData[MessageType.Failure]</p>
+        </div>
     }
 </div>

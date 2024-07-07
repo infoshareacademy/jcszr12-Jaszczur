@@ -117,70 +117,61 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddAd" xml:space="preserve">
-    <value>Dodaj ogłoszenie</value>
+  <data name="AsStudent" xml:space="preserve">
+    <value>Jako uczeń</value>
   </data>
-  <data name="AddAdvertisement" xml:space="preserve">
-    <value>Dodaj ogłoszenie</value>
+  <data name="AsTutor" xml:space="preserve">
+    <value>Jako nauczyciel</value>
   </data>
-  <data name="AddScheduleItem" xml:space="preserve">
-    <value>Dodaj termin</value>
+  <data name="Friday" xml:space="preserve">
+    <value>Piątek</value>
   </data>
-  <data name="AdId" xml:space="preserve">
-    <value>Id ogłoszenia</value>
+  <data name="Friday_Abbr" xml:space="preserve">
+    <value>Pt</value>
   </data>
-  <data name="AllAdRequests" xml:space="preserve">
-    <value>Wszystkie zgłoszenia</value>
+  <data name="Indicator_Student" xml:space="preserve">
+    <value>U</value>
   </data>
-  <data name="AllAds" xml:space="preserve">
-    <value>Twoje ogłoszenia</value>
+  <data name="Indicator_Tutor" xml:space="preserve">
+    <value>N</value>
   </data>
-  <data name="AllPendingRequests" xml:space="preserve">
-    <value>Oczekujące zgłoszenia</value>
+  <data name="Monday" xml:space="preserve">
+    <value>Poniedziałek</value>
   </data>
-  <data name="BrowsAllAdRequests" xml:space="preserve">
-    <value>Wszystkie zgłoszenia</value>
+  <data name="Monday_Abbr" xml:space="preserve">
+    <value>Pn</value>
   </data>
-  <data name="BrowsePendingAdRequests" xml:space="preserve">
-    <value>Oczekujące zgłoszenia</value>
+  <data name="Saturday" xml:space="preserve">
+    <value>Sobota</value>
   </data>
-  <data name="CategoryId" xml:space="preserve">
-    <value>Id kategorii</value>
+  <data name="Saturday_Abbr" xml:space="preserve">
+    <value>Sb</value>
   </data>
-  <data name="Confirm" xml:space="preserve">
-    <value>Zatwierdź</value>
+  <data name="ScheduleEmpty" xml:space="preserve">
+    <value>Brak terminów dla tego dnia.</value>
   </data>
-  <data name="DateTime" xml:space="preserve">
-    <value>Data</value>
+  <data name="Sunday" xml:space="preserve">
+    <value>Niedziela</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Opis</value>
+  <data name="Sunday_Abbr" xml:space="preserve">
+    <value>Nd</value>
   </data>
-  <data name="IsRemote" xml:space="preserve">
-    <value>Zdalne</value>
+  <data name="Thursday" xml:space="preserve">
+    <value>Czwartek</value>
   </data>
-  <data name="Location" xml:space="preserve">
-    <value>Lokalizacja</value>
+  <data name="Thursday_Abbr" xml:space="preserve">
+    <value>Czw</value>
   </data>
-  <data name="NewAd" xml:space="preserve">
-    <value>Nowe ogłoszenie</value>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Wtorek</value>
   </data>
-  <data name="NewScheduleItem" xml:space="preserve">
-    <value>Nowy termin</value>
+  <data name="Tuesday_Abbr" xml:space="preserve">
+    <value>Wt</value>
   </data>
-  <data name="Price" xml:space="preserve">
-    <value>Cena</value>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Środa</value>
   </data>
-  <data name="Subject" xml:space="preserve">
-    <value>Przedmiot</value>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>Tytuł</value>
-  </data>
-  <data name="TutorFunc" xml:space="preserve">
-    <value>Funkcjonalność nauczyciela</value>
-  </data>
-  <data name="TutorsAdsLists" xml:space="preserve">
-    <value>Twoje ogłoszenia</value>
+  <data name="Wednesday_Abbr" xml:space="preserve">
+    <value>Śr</value>
   </data>
 </root>

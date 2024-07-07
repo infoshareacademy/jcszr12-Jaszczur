@@ -5,7 +5,7 @@
 {
     <div class="item" @onclick="() => NavigateToAdDetails(ScheduleItem.AdId)">
         <h4 class="display-6">@ScheduleItem.DateTime.ToString("HH:mm")</h4>
-        <div class="fw-bold">@ScheduleItem.AdTitle <small class="text-primary">| Jako uczeń</small></div>
+        <div class="fw-bold">@ScheduleItem.AdTitle <small class="text-green">| @Resources.Schedule.AsStudent</small></div>
         <div>Nauczyciel: @ScheduleItem.TutorName</div>
         <div>Status zgłoszenia: @GetStatusName(ScheduleItem.Status)</div>
     </div>
