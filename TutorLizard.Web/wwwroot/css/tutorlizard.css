@@ -25,10 +25,6 @@ body {
     border-top: 200px solid #9db88c;
 }
 
-.main-margin {
-    margin-top: 70px;
-}
-
 .title {
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
@@ -38,6 +34,7 @@ body {
     margin-top: 20px;
     text-align: center;
     border-bottom: 1px solid #b0b0b0;
+    padding-top: 1rem;
 }
 
 .title-2 {
