@@ -234,6 +234,9 @@
   <data name="RequestRejected" xml:space="preserve">
     <value>Odrzucone</value>
   </data>
+  <data name="Requests" xml:space="preserve">
+    <value>Zgłoszenia</value>
+  </data>
   <data name="RequestStatus" xml:space="preserve">
     <value>Status zgłoszenia</value>
   </data>
