@@ -106,6 +106,15 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Funkcje.
+        /// </summary>
+        public static string Functions {
+            get {
+                return ResourceManager.GetString("Functions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Strona startowa.
         /// </summary>
         public static string HomePage {
@@ -138,6 +147,15 @@ namespace TutorLizard.Web.Resources {
         public static string ScheduleItems {
             get {
                 return ResourceManager.GetString("ScheduleItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Przeglądaj.
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
             }
         }
         

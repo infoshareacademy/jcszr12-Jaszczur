@@ -132,6 +132,9 @@
   <data name="Data" xml:space="preserve">
     <value>Data</value>
   </data>
+  <data name="Functions" xml:space="preserve">
+    <value>Functions</value>
+  </data>
   <data name="HomePage" xml:space="preserve">
     <value>Home</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="ScheduleItems" xml:space="preserve">
     <value>Schedule Items</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
   </data>
   <data name="StudentFunction" xml:space="preserve">
     <value>Student</value>

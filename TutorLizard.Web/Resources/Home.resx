@@ -132,6 +132,9 @@
   <data name="Data" xml:space="preserve">
     <value>Dane</value>
   </data>
+  <data name="Functions" xml:space="preserve">
+    <value>Funkcje</value>
+  </data>
   <data name="HomePage" xml:space="preserve">
     <value>Strona startowa</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="ScheduleItems" xml:space="preserve">
     <value>Terminy</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Przeglądaj</value>
   </data>
   <data name="StudentFunction" xml:space="preserve">
     <value>Uczeń</value>

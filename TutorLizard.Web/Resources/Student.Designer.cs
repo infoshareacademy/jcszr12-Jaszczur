@@ -97,7 +97,7 @@ namespace TutorLizard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Przyjęte zgłoszenia.
+        ///   Looks up a localized string similar to Twoje zgłoszenia.
         /// </summary>
         public static string YourAdRequests {
             get {
