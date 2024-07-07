@@ -6,21 +6,28 @@ using TutorLizard.BusinessLogic.Models;
 using TutorLizard.Shared.Models.DTOs;
 using TutorLizard.Shared.Models.DTOs.Requests;
 using TutorLizard.Shared.Models.DTOs.Responses;
+using Microsoft.Extensions.Logging;
+using TutorLizard.BusinessLogic.Extensions;
 
 namespace TutorLizard.BusinessLogic.Services;
 public class BrowseService : IBrowseService
 {
     private readonly IDbRepository<Ad> _adRepository;
     private readonly IDbRepository<ScheduleItem> _scheduleItemRepository;
+    private readonly ILogger<BrowseService> _logger;
 
     public BrowseService(IDbRepository<Ad> adRepository,
-                         IDbRepository<ScheduleItem> _scheduleItemRepository)
+                         IDbRepository<ScheduleItem> _scheduleItemRepository,
+                         ILogger<BrowseService> logger)
     {
         _adRepository = adRepository;
         this._scheduleItemRepository = _scheduleItemRepository;
+        _logger = logger;
     }
     public async Task<GetBrowseAdsPageResponse> GetBrowseAdsPage(GetBrowseAdsPageRequest request)
     {
+        using var scope = _logger.BeginMethodCallScope(nameof(GetBrowseAdsPage), request);
+
         if (request.PageSize < 1 || request.PageNumber < 1)
         {
             return new()
@@ -64,11 +71,14 @@ public class BrowseService : IBrowseService
             SearchCriteria = request.SearchCriteria
         };
 
+        _logger.LogReturningResponse(response);
         return response;
     }
 
     public async Task<GetAdDetailsResponse?> GetAdDetails(GetAdDetailsRequest request)
     {
+        using var scope = _logger.BeginMethodCallScope(nameof(GetAdDetails), request);
+
         GetAdDetailsResponse? response = await _adRepository.GetAll()
             .Where(a => a.Id == request.AdId)
             .Select(a => new GetAdDetailsResponse
@@ -92,11 +102,14 @@ public class BrowseService : IBrowseService
             })
             .FirstOrDefaultAsync();
 
+        _logger.LogReturningResponse(response);
         return response;
     }
 
     public async Task<GetUsersScheduleResponse> GetUsersSchedule(GetUsersScheduleRequest request)
     {
+        using var scope = _logger.BeginMethodCallScope(nameof(GetUsersSchedule), request);
+
         List<TutorsScheduleItemSummaryDto> tutorsSchedule = await _scheduleItemRepository.GetAll()
             .Where(i => i.Ad.TutorId == request.UserId &&
                                   i.DateTime.Month == request.Month &&
@@ -144,6 +157,7 @@ public class BrowseService : IBrowseService
             Year = request.Year,
         };
 
+        _logger.LogReturningResponse(response);
         return response;
     }
     private IQueryable<Ad> ApplySearchCriteria(IQueryable<Ad> ads, AdSearchCriteriaDto searchCriteria)

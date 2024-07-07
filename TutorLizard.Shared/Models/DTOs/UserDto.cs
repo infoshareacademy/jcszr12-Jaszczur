@@ -10,15 +10,13 @@ public class UserDto
     public UserType UserType { get; set; }
     public string Email { get; set; }
     public DateTime DateCreated { get; set; } = DateTime.Now;
-    public string? GoogleId { get; set; }
 
-    public UserDto(int id, string name, UserType userType, string email, DateTime dateCreated, string? googleId)
+    public UserDto(int id, string name, UserType userType, string email, DateTime dateCreated)
     {
         Id = id;
         Name = name;
         UserType = userType;
         Email = email;
         DateCreated = dateCreated;
-        GoogleId = googleId;
     }
 }

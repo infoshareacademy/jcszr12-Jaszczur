@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using Microsoft.Extensions.Logging;
 using Moq;
 using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
 using TutorLizard.BusinessLogic.Models;
@@ -12,10 +13,13 @@ public abstract class BrowseServiceTestsBase : TestsWithInMemoryDbBase
     protected Fixture Fixture = new();
     protected Mock<IDbRepository<Ad>> MockAdRepository = new();
     protected Mock<IDbRepository<ScheduleItem>> MockScheduleItemRepository = new();
+    protected Mock<ILogger<BrowseService>> MockLogger = new();
 
     protected BrowseServiceTestsBase() : base()
     {
-        BrowseService = new(MockAdRepository.Object, MockScheduleItemRepository.Object);
+        BrowseService = new(MockAdRepository.Object,
+                            MockScheduleItemRepository.Object,
+                            MockLogger.Object);
     }
 
     protected void SetupMockGetAllAds(List<Ad> ads)
