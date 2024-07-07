@@ -3,26 +3,27 @@
 
 @if(Model is not null)
 {
-    <div>
-        <div><h3>@TutorLizard.Web.Resources.Shared.YourRequest</h3></div>
-        <div>
+    <div class="row">
+        <div class="title-2"><h3>@TutorLizard.Web.Resources.Shared.YourRequest</h3></div>
+        <div class="col-md-11 row ad-list-item">
             <span>@TutorLizard.Web.Resources.Shared.RequestStatus </span>
             @if(Model.Status == GetAdRequestStatusResponse.RequestStatus.Accepted)
             {
-                <span>@TutorLizard.Web.Resources.Shared.RequestAccepted</span>
+                <span class="status-accepted">@TutorLizard.Web.Resources.Shared.RequestAccepted</span>
             }
             else if(Model.Status == GetAdRequestStatusResponse.RequestStatus.Pending)
             {
-                <span>@TutorLizard.Web.Resources.Shared.RequestPending</span>
+                <span class="status-pending">@TutorLizard.Web.Resources.Shared.RequestPending</span>
             }
             else if (Model.Status == GetAdRequestStatusResponse.RequestStatus.Rejected)
             {
-                <span>@TutorLizard.Web.Resources.Shared.RequestRejected</span>
+                <span class="status-rejected">@TutorLizard.Web.Resources.Shared.RequestRejected</span>
             }
-        </div>
+        
         <div>Data wysłania: @Model.DateCreated</div>
+        </div>
         <div>
-            <div class="h5 mt-3">@TutorLizard.Web.Resources.Shared.RequestMessage</div>
+            <div class="col-md-11 row ad-list-item">@TutorLizard.Web.Resources.Shared.RequestMessage</div>
             <div>@Model.Message</div>
         </div>
         @if(Model.ReplyMessage is not null)

@@ -4,7 +4,7 @@
     <div class="schedule-list">
         @if (Schedule.Count == 0)
         {
-            <div class="text-light text-center">@Resources.Schedule.ScheduleEmpty</div>
+            <div class="text-red text-center">@Resources.Schedule.ScheduleEmpty</div>
         }
         @foreach (var item in Schedule)
         {

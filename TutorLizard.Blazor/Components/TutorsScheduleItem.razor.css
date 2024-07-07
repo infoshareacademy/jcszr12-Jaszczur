@@ -2,14 +2,14 @@
     background-color: white;
     padding: .5rem;
     margin: .25rem;
-    border-radius: .5rem;
+    border-radius: 0;
 }
 
-.item:hover {
-    background-color: lightblue;
-    transition: .25s;
-    cursor: pointer;
-}
+    .item:hover {
+        background-color: #9db88c;
+        transition: .25s;
+        cursor: pointer;
+    }
 
     .item h4 {
         margin: 0;

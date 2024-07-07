@@ -2,11 +2,11 @@
     background-color: white;
     padding: .5rem;
     margin: .25rem;
-    border-radius: .5rem;
+    border-radius: 0;
 }
 
     .item:hover {
-        background-color: lightblue;
+        background-color: #9db88c;
         transition: .25s;
         cursor: pointer;
     }

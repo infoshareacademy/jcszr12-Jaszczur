@@ -27,7 +27,7 @@ public class BrowseController : Controller
         _userAuthenticationService = userAuthenticationService;
         _uiMessagesService = uiMessagesService;
         _categoryService = categoryService;
-        _pageSize = 10;
+        _pageSize = 12;
     }
     public IActionResult Index()
     {

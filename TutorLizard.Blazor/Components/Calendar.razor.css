@@ -1,8 +1,8 @@
 ﻿.calendar-container {
     display: flex;
     flex-direction: column;
-    background-color: darkgreen;
-    border-radius: 1rem;
+    background-color: #2b4027;
+    border-radius: 0px;
     padding: 1rem;
 }
 
@@ -39,7 +39,7 @@
 .calendar-main {
     border-radius: .5rem;
     overflow: hidden;
-    background-color: whitesmoke;
+    background-color: #2b4027;
 }
 
 .seven-column-section {
@@ -55,7 +55,7 @@
 
     .days-header div {
         padding: 1rem 0;
-        background-color: white;
+        background-color: #9db88c;
         text-align: center;
         font-weight: bold;
     }
@@ -75,7 +75,7 @@
     }
 
         .calendar-grid div:hover {
-            background-color: darkgreen;
+            background-color: #9db88c;
             transition: .35s;
             color: white;
             font-weight: bold;

@@ -3,27 +3,25 @@
 @if(Model is not null)
 {
     <div>
-        <div><h3>Terminy</h3></div>
-        <div>
-            <ul class="list-group col-md-6 col-xl-3">
-                <li class="list-group-item"><a href="@Url.Action("CreateScheduleItem", "Tutor", new { id = Model.AdId })" class="btn btn-primary">@TutorLizard.Web.Resources.Shared.AddScheduleItem</a></li>
-            </ul>
+        <div class="row">
+                <h3 class ="title-2 col-sm-12 col-md-6">Terminy</h3>
+            <div class="mx-autolist-group col-sm-12 col-md-6 margin-top-small"><a href="@Url.Action("CreateScheduleItem", "Tutor", new { id = Model.AdId })" class="btn btn-details">@TutorLizard.Web.Resources.Shared.AddScheduleItem</a></div>
         </div>
         @foreach(var scheduleItem in Model.ScheduleItems)
         {
-            <div class="my-3 p-3 border border-2">
-                <div><h4>@scheduleItem.DateTime</h4></div>
-                <div class="row">
+            <div class="border-1 ad-list-item my-3">
+                <div class="title-2 mx-auto"><h4>@scheduleItem.DateTime</h4></div>
+                <div class="row align-items-center col-lg-10 mx-auto">
                     @if(scheduleItem.Requests.Count == 0)
                     {
-                        <h5>@TutorLizard.Web.Resources.Shared.NoRequests</h5>
+                        <div class="text-red"><h5>@TutorLizard.Web.Resources.Shared.NoRequests</h5></div>
                     }
                     else
                     {
-                        <h5>Zgłoszenia:</h5>
+                        <div class="text-green"><h5>Zgłoszenia:</h5></div>
                         @foreach (var request in scheduleItem.Requests)
                         {
-                            <div class="col-sm-3 border-1 p-3 m-2 border">
+                            <div class="border-1 user-container">
                                 <div><h6>@request.StudentName</h6></div>
                                 <div>@TutorLizard.Web.Resources.Shared.RequestDate : @request.DateCreated</div>
                                 <div>

@@ -1,51 +1,57 @@
 ﻿@model AdRequestsListDto
 
-<div class="card my-3">
+
+    <div class="card my-3 ad-list-item montserrat-lizardFont h-100">
     <div class="card-body">
-        <h5 class="card-title">@Model.AdId</h5>
+        <h5 class="card-title">@Model.AdTitle</h5>
         <div class="row">
-            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.Advert :</div>
+            <div class="col-6 col-sm-3 text-bold">@TutorLizard.Web.Resources.Shared.Advert:</div>
             <div class="col-6 col-sm-9">@Model.AdId</div>
         </div>
 
         <div class="row">
-            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.RequestMessage :</div>
+            <div class="col-6 col-sm-3 text-bold">@TutorLizard.Web.Resources.Shared.RequestMessage:</div>
             <div class="col-6 col-sm-9">@Model.Message</div>
         </div>
 
         <div class="row">
-            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.Reply :</div>
+            <div class="col-6 col-sm-3 text-bold">@TutorLizard.Web.Resources.Shared.Reply:</div>
             <div class="col-6 col-sm-9">@Model.ReplyMessage</div>
         </div>
 
         <div class="row">
-            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.IsRemote :</div>
+            <div class="col-6 col-sm-3 text-bold">@TutorLizard.Web.Resources.Shared.IsRemote:</div>
             <div class="col-6 col-sm-9">
                 @if (Model.IsRemote)
                 {
-                    <span>@TutorLizard.Web.Resources.Shared.Yes</span>
+                    <span class="text-green">@TutorLizard.Web.Resources.Shared.Yes</span>
                 }
                 else
                 {
-                    <span>@TutorLizard.Web.Resources.Shared.No</span>
+                    <span class="text-green">@TutorLizard.Web.Resources.Shared.No</span>
                 }
             </div>
         </div>
 
         <div class="row">
-            <div class="col-6 col-sm-3">@TutorLizard.Web.Resources.Shared.Acceptance :</div>
+            <div class="col-6 col-sm-3 text-bold">@TutorLizard.Web.Resources.Shared.Acceptance</div>
             <div class="col-6 col-sm-9">
                 @if (Model.IsAccepted)
                 {
-                    <span>@TutorLizard.Web.Resources.Shared.TutorHasAcceptedRequest</span>
+                    <span class="text-green">@TutorLizard.Web.Resources.Shared.TutorHasAcceptedRequest</span>
                 }
                 else
                 {
-                    <span>@TutorLizard.Web.Resources.Shared.TutorHasRejectedRequest</span>
+                    <span class="text-red">@TutorLizard.Web.Resources.Shared.TutorHasRejectedRequest</span>
                 }
             </div>
-        </div>       
+        </div>
 
-
+        <footer>
+            <div class="text-end mt-2 button-container">
+                <a asp-action="AdDetails" asp-controller="Browse" asp-route-id="@Model.AdId" class="btn btn-details">@TutorLizard.Web.Resources.Shared.AdDetails</a>
+            </div>
+        </footer>
     </div>
 </div>
+
