@@ -4,9 +4,13 @@
     ViewData["Title"] = "AcceptedAds";
 }
 
-<h1>@TutorLizard.Web.Resources.Student.AcceptedAds</h1>
+<h1 class="title">@TutorLizard.Web.Resources.Student.AcceptedAds</h1>
+<div class="row">
 @foreach(var ad in Model.Ads)
 {
-    <partial name="@PartialNames.AdListItem" model="ad" />
-}
+        <div class="col-12 col-md-6 flex-row flex-column my-3">
+            <partial name="@PartialNames.AdListItem" model="ad" />
+            </div>
+    }
+</div>
 

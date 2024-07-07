@@ -5,13 +5,13 @@
     ViewData["Title"] = "Ads - List";
 }
 
-<h1>@TutorLizard.Web.Resources.Ad.Ads</h1>
+<h1 class="ads-title">@TutorLizard.Web.Resources.Ad.Ads</h1>
 
 <p>
-    <a asp-action="Create">@TutorLizard.Web.Resources.Ad.CreateNew</a>
+    <a asp-action="Create" class="btn btn-primary">@TutorLizard.Web.Resources.Ad.CreateNew</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped table-hover">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Id)
@@ -65,7 +65,7 @@
                     @Html.DisplayFor(modelItem => item.CategoryId)
                 @if (ViewBag.CategoryName is not null)
                 {
-                    <span> (@ViewBag.CategoryName)</span>
+                        <span class="category-name"> (@ViewBag.CategoryName)</span>
                 }
             </td>
             <td>

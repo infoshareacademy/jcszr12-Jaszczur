@@ -4,11 +4,11 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@TutorLizard.Web.Resources.Account.Register</h1>
+<h1 class="title">@TutorLizard.Web.Resources.Account.Register</h1>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="login-grid row justify-content-center gap-4">
+    <div class="col-md-4 user-container">
         <form asp-action="Register">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -27,23 +27,23 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group my-2">
-                <input type="submit" value="@TutorLizard.Web.Resources.Account.Register" class="btn btn-primary" />
+                <input type="submit" value="@TutorLizard.Web.Resources.Account.Register" class="btn btn-dark" />
             </div>
         </form>
     </div>
-    <div class="row">
-        <div>
-            <h2>@TutorLizard.Web.Resources.Account.RegisterWithGoogle</h2>
+    <div class="col-md-4 user-container">
+        <div class="col-md-4 w-100">
+            <h2 class="title-3">@TutorLizard.Web.Resources.Account.RegisterWithGoogle</h2>
         </div>
         <div>
-            <a asp-controller="Account" asp-action="GoogleLogin" class="btn btn-primary">@TutorLizard.Web.Resources.Account.GoogleSignUp</a>
+            <a asp-controller="Account" asp-action="GoogleLogin" class="btn btn-dark">Sign In with Google</a>
         </div>
     </div>
 </div>
 
-<div>
+@* <div>
     <a asp-action="Index">Back</a>
-</div>
+</div> *@
 
 @section Scripts {
     @{

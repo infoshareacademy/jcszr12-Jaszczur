@@ -10,16 +10,18 @@
         categories = ViewBag.Categories;
     }
 }
+<head>
+    <link rel="stylesheet" href="~/css/tutorlizard.css" asp-append-version="true" />
+</head>
 
-<h1>@TutorLizard.Web.Resources.Browse.Ads</h1>
+<h1 class="title">@TutorLizard.Web.Resources.Browse.Ads</h1>
 
-<form asp-action="Search" method="post" class="d-flex flex-column p-2 border">
-    <h2 class="text-center">@TutorLizard.Web.Resources.Browse.BrowsingAds</h2>
+<form asp-action="Search" method="post" class="d-flex flex-column p-2 search-container">
     <component type="typeof(AdSearchForm)"
                render-mode="WebAssemblyPrerendered"
                param-SearchCriteriaJson="Model.SearchCriteria.ToViewModel().Serialize()"
                param-CategoriesJson="@categories.Serialize()" />
-    <button type="submit" class="btn btn-primary m-2">@TutorLizard.Web.Resources.Browse.Search</button>
+    <button type="submit" class="btn btn-dark m-2">@TutorLizard.Web.Resources.Browse.Search</button>
 </form>
 
 
@@ -29,24 +31,27 @@
     <div class="p-2">@TutorLizard.Web.Resources.Browse.NumberOfResults : @Model.TotalAds</div>
 }
 
+<div class="row">
 @foreach (var ad in Model.Ads)
 {
-    <partial name="@PartialNames.AdListItem" model="ad" />
-}
+        <div class="col-12 col-lg-6 col-xxl-4 my-2 flex-row"><partial name="@PartialNames.AdListItem" model="ad" class="montserrat-lizardFont ad-row-height" /></div>
+ }
+</div>
 
-<div class="row text-center">
 
-    <div class="col-4">
+<div class="row text-center margin-top-small">
 
-        @if(Model.PageNumber > 1)
+    <div class="col-4 margin-top-small">
+
+        @if (Model.PageNumber > 1)
         {
             @if (Model.SearchCriteria.AnySearch)
             {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">@TutorLizard.Web.Resources.Browse.PreviousPage</a>
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()" class="btn btn-light">@TutorLizard.Web.Resources.Browse.PreviousPage</a>
             }
             else
             {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)">@TutorLizard.Web.Resources.Browse.PreviousPage</a>
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber - 1)" class="btn btn-light">@TutorLizard.Web.Resources.Browse.PreviousPage</a>
             }
         }
     </div>
@@ -55,16 +60,16 @@
         @TutorLizard.Web.Resources.Browse.Page @Model.PageNumber z @Model.TotalPages
     </div>
 
-    <div class="col-4">
-        @if(Model.TotalPages > Model.PageNumber)
+    <div class="col-4 margin-top-small">
+        @if (Model.TotalPages > Model.PageNumber)
         {
-            @if(Model.SearchCriteria.AnySearch)
+            @if (Model.SearchCriteria.AnySearch)
             {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()">@TutorLizard.Web.Resources.Browse.NextPage</a>
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" asp-route-search="@Model.SearchCriteria.ToBase64String()" class="btn btn-light">@TutorLizard.Web.Resources.Browse.NextPage</a>
             }
             else
             {
-                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)">@TutorLizard.Web.Resources.Browse.NextPage</a>
+                <a asp-action="Ads" asp-route-id="@(Model.PageNumber + 1)" class="btn btn-light">@TutorLizard.Web.Resources.Browse.NextPage</a>
             }
         }
     </div>

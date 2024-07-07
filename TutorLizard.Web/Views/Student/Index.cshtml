@@ -1,12 +1,15 @@
 ﻿@using TutorLizard.Web.Resources
 @using TutorLizard.Web.ViewComponents
 
-<h1>@TutorLizard.Web.Resources.Student.StudentFunction</h1>
+<h1 class="title">@TutorLizard.Web.Resources.Student.StudentFunction</h1>
 
-<ul class="list-group col-md-6 col-xl-3">
-    <li class="list-group-item"><a asp-action="AdRequests">@TutorLizard.Web.Resources.Student.BrowseYourAdRequests</a></li>
-</ul>
-<ul class="list-group col-md-6 col-xl-3">
-    <li class="list-group-item"><a asp-action="AcceptedAds">@TutorLizard.Web.Resources.Student.BrowseAcceptedAdRequests</a></li>
-</ul>
+<div class="col-lg-5 mx-auto">
+    <div class="list-group">
+        <div class="btn"><a asp-action="AdRequests" class="custom-link btn btn-light col-12">@TutorLizard.Web.Resources.Student.BrowseYourAdRequests</a></div>
+    </div>
+
+    <div class="list-group">
+        <div class="btn"><a asp-action="AcceptedAds" class="custom-link btn btn-light col-12">@TutorLizard.Web.Resources.Student.BrowseAcceptedAdRequests</a></div>
+    </div>
+</div>
 
