@@ -59,6 +59,12 @@ public class AccountController : Controller
     {
         try
         {
+            string? returnUrl = TempData.ContainsKey("returnUrl") ?
+            TempData["returnUrl"] as string
+            : null;
+
+            TempData["returnUrl"] = "";
+
             var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
 
             if (result?.Succeeded != true)
@@ -94,7 +100,11 @@ public class AccountController : Controller
                 return RedirectToAction("Login");
             }
 
-            return RedirectToAction("Index", "Home");
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return Redirect(returnUrl);
         }
         catch
         {
