@@ -1,0 +1,65 @@
+﻿@model IEnumerable<TutorLizard.BusinessLogic.Models.AdRequest>
+
+@{
+    ViewData["Title"] = "Ad Requests";
+}
+
+<h1>@TutorLizard.Web.Resources.AdRequest.AdRequests</h1>
+
+<p>
+    <a asp-action="Create">@TutorLizard.Web.Resources.AdRequest.CreateNew</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @TutorLizard.Web.Resources.AdRequest.AdId
+            </th>
+            <th>
+                @TutorLizard.Web.Resources.AdRequest.StudentId
+            </th>
+            <th>
+                @TutorLizard.Web.Resources.AdRequest.Status
+            </th>
+            <th>
+                @TutorLizard.Web.Resources.AdRequest.IsRemote
+            </th>
+            <th>
+                @TutorLizard.Web.Resources.AdRequest.ReviewDate
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAccepted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsRemote)
+            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviewDate)
+            </th>
+            <td>
+                    @Html.ActionLink(@TutorLizard.Web.Resources.AdRequest.Edit, "Edit", new { id = item.Id }) |
+                    @Html.ActionLink(@TutorLizard.Web.Resources.AdRequest.Details, "Details", new { id = item.Id }) |
+                    @Html.ActionLink(@TutorLizard.Web.Resources.AdRequest.Delete, "Delete", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

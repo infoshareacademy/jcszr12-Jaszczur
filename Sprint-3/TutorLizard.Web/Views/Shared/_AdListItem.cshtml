@@ -1,0 +1,56 @@
+﻿@model AdListItemDto
+<div class="card my-3 ad-list-item h-100">
+    <div class="card-body">
+        <h5 class="card-title text-green text-center margin-bottom border-bottom">@Model.Title</h5>
+        <div class="row">
+            <div class="col-6 col-xl-5 text-bold">@TutorLizard.Web.Resources.Shared.Category:</div>
+            <div class="col-6 col-xl-7">@Model.CategoryName</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-xl-5 text-bold">@TutorLizard.Web.Resources.Shared.Subject:</div>
+            <div class="col-6 col-xl-7">@Model.Subject</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-xl-5 text-bold">@TutorLizard.Web.Resources.Shared.Localization:</div>
+            <div class="col-6 col-xl-7">@Model.Location</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-xl-5 text-bold">@TutorLizard.Web.Resources.Shared.PostedBy:</div>
+            <div class="col-6 col-xl-7">@Model.TutorName</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-xl-5 text-bold">@TutorLizard.Web.Resources.Shared.Price:</div>
+            <div class="col-6 col-xl-7">@Html.DisplayFor(model => model.Price) zł/h</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-xl-5 text-bold">@TutorLizard.Web.Resources.Shared.IsRemote:</div>
+            <div class="col-6 col-xl-7 text-bold">
+                @if(Model.IsRemote)
+                {
+                    <span>@TutorLizard.Web.Resources.Shared.Yes</span>
+                }
+                else
+                {
+                    <span>@TutorLizard.Web.Resources.Shared.No</span>
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <p class="card-text">@Model.Description</p>
+            </div>
+        </div>
+
+            <footer>
+            <div class="text-end mt-2 button-container">
+                <a asp-action="AdDetails" asp-controller="Browse" asp-route-id="@Model.Id" class="btn btn-details">@TutorLizard.Web.Resources.Shared.AdDetails</a>
+                </div>
+            </footer>
+    </div>
+</div>

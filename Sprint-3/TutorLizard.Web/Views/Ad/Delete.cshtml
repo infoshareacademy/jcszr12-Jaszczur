@@ -1,0 +1,79 @@
+﻿@using TutorLizard.Web.Resources
+@model TutorLizard.BusinessLogic.Models.Ad
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>@TutorLizard.Web.Resources.Ad.Delete</h1>
+
+<h3>@TutorLizard.Web.Resources.Ad.AreYouSureToDelete</h3>
+<div>
+    <h4>@TutorLizard.Web.Resources.Ad.Advertisement</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @TutorLizard.Web.Resources.Ad.TutorId
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TutorId)
+        </dd>
+        <dt class = "col-sm-2">
+            @TutorLizard.Web.Resources.Ad.Subject
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Subject)
+        </dd>
+        <dt class = "col-sm-2">
+            @TutorLizard.Web.Resources.Ad.Title
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @TutorLizard.Web.Resources.Ad.Description
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @TutorLizard.Web.Resources.Ad.CategoryId
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CategoryId)
+            @if(ViewBag.CategoryName is not null)
+            {
+                <span> (@ViewBag.CategoryName)</span>
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            @TutorLizard.Web.Resources.Ad.Price
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            @TutorLizard.Web.Resources.Ad.Location
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+        <dt class = "col-sm-2">
+            @TutorLizard.Web.Resources.Ad.IsRemote
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsRemote)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="submit" value="@TutorLizard.Web.Resources.Ad.Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">@TutorLizard.Web.Resources.Ad.BackToList</a>
+    </form>
+</div>

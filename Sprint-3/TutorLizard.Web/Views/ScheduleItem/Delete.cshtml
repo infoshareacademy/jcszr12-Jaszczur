@@ -1,0 +1,38 @@
+﻿@model TutorLizard.BusinessLogic.Models.ScheduleItem
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>@TutorLizard.Web.Resources.ScheduleItem.Delete</h1>
+
+<h3>@TutorLizard.Web.Resources.ScheduleItem.YouSureToDelete</h3>
+<div>
+    <h4>ScheduleItem</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @TutorLizard.Web.Resources.ScheduleItem.AdId
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AdId)
+        </dd>
+        <dt class = "col-sm-2">
+            @TutorLizard.Web.Resources.ScheduleItem.DateTime
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateTime)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="submit" value="@TutorLizard.Web.Resources.ScheduleItem.Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">@TutorLizard.Web.Resources.ScheduleItem.BackToList</a>
+    </form>
+</div>

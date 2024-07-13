@@ -1,0 +1,39 @@
+﻿@using TutorLizard.Web.Resources
+@model TutorLizard.BusinessLogic.Models.Category
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>@TutorLizard.Web.Resources.Category.Edit</h1>
+
+<h4>@TutorLizard.Web.Resources.Category.Categoryy</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">@TutorLizard.Web.Resources.Category.Name </label>
+                <input asp-for="Name" class="form-control" placeholder="@TutorLizard.Web.Resources.Category.Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">@TutorLizard.Web.Resources.Category.Description</label>
+                <input asp-for="Description" class="form-control" placeholder="@TutorLizard.Web.Resources.Category.Description" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@TutorLizard.Web.Resources.Category.Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">@TutorLizard.Web.Resources.Category.BackToList</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

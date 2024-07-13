@@ -1,0 +1,29 @@
+﻿@using TutorLizard.Web.Resources
+@model CreateScheduleItemRequest
+
+@{
+    ViewData["Title"] = "Dodaj termin";
+}
+
+<h1 class="title">@TutorLizard.Web.Resources.Tutor.NewScheduleItem</h1>
+
+<hr />
+<div class="row ad-list-item mx-auto">
+    <div class="col-md-4 mx-auto">
+        <form asp-action="CreateScheduleItem">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="AdId" class="form-control" type="hidden" placeholder="@TutorLizard.Web.Resources.Tutor.AdId" />
+            <div class="form-group">
+                <label asp-for="DateTime" class="control-label">@TutorLizard.Web.Resources.Tutor.DateTime</label>
+                <input asp-for="DateTime" class="form-control" placeholder="@TutorLizard.Web.Resources.Tutor.DateTime" />
+                <span asp-validation-for="DateTime" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn w-100 btn-outline-dark">@TutorLizard.Web.Resources.Tutor.Confirm</button>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

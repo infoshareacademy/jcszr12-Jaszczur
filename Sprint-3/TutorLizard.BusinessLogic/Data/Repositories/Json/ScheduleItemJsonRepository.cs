@@ -1,0 +1,72 @@
+﻿using Microsoft.Extensions.Options;
+using System.Security.Cryptography.X509Certificates;
+using TutorLizard.BusinessLogic.Interfaces.Data.Repositories;
+using TutorLizard.BusinessLogic.Models;
+using TutorLizard.BusinessLogic.Options;
+
+namespace TutorLizard.BusinessLogic.Data.Repositories.Json
+{
+    public class ScheduleItemJsonRepository : JsonRepositoryBase<ScheduleItem>, IScheduleItemRepository
+    {
+        public ScheduleItemJsonRepository(IOptions<DataJsonFilePaths> options) : base(options.Value.ScheduleItems)
+        {
+        }
+
+        public ScheduleItem CreateScheduleItem(int adId, DateTime dateTime)
+        {
+            ScheduleItem newScheduleItem = new(GetNewScheduleItemId(), adId, dateTime);
+            Data.Add(newScheduleItem);
+            SaveToJson();
+
+            return newScheduleItem;
+        }
+
+        public void UpdateScheduleItem(ScheduleItem scheduleItem)
+        {
+            var toUpdate = GetScheduleItemById(scheduleItem.Id);
+            if (toUpdate == null)
+            {
+                return;
+            }
+
+            toUpdate.Id = scheduleItem.Id;
+            toUpdate.AdId = scheduleItem.AdId;
+            toUpdate.DateTime = scheduleItem.DateTime;
+
+            SaveToJson();
+        }
+
+        public void DeleteScheduleItemById(int id)
+        {
+            var toDelete = GetScheduleItemById(id);
+            if (toDelete == null)
+            {
+                return;
+            }
+
+            Data.Remove(toDelete);
+            SaveToJson();
+        }
+
+        public ScheduleItem? GetScheduleItemById(int id)
+        {
+            var scheduleItem = Data.FirstOrDefault(s => s.Id == id);
+            return scheduleItem;
+        }
+
+        public List<ScheduleItem> GetAllScheduleItems()
+        {
+            return Data;
+        }
+
+        private int GetNewScheduleItemId()
+        {
+            if (Data.Any())
+            {
+                return Data.Max(s => s.Id) + 1;
+            }
+
+            return 1;
+        }
+    }
+}

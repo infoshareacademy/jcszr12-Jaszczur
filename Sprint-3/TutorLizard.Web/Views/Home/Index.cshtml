@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+    <div class="banner">
+            <img src="~/images/banner.png" alt="banner" class="banner">
+    </div>
+
+<h1 class="title">@TutorLizard.Web.Resources.Home.HomePage</h1>
+
+<div class="col-lg-5 mx-auto">
+    <div class="custom-padding">
+        <a asp-controller="Tutor" asp-action="Index" class="custom-link btn btn-light col-12">@TutorLizard.Web.Resources.Home.TutorFunction</a>
+    </div>
+    <div class="custom-padding">
+        <a asp-controller="Student" asp-action="Index" class="custom-link btn btn-light col-12">@TutorLizard.Web.Resources.Home.StudentFunction</a>
+    </div>
+    <div class="custom-padding">
+        <a asp-controller="Browse" asp-action="Schedule" class="custom-link btn btn-light col-12">@TutorLizard.Web.Resources.Home.YourSchedule</a>
+    </div>
+</div>
+
+
+

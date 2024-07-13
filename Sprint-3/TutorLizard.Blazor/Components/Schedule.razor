@@ -1,0 +1,87 @@
+﻿@using System.Text.Json
+@using Microsoft.Extensions.Localization
+@using TutorLizard.Shared.Models.DTOs
+
+<div class="row">
+    <div class="col-lg-8">
+        <Calendar Year="@Year"
+                  Month="@Month"
+                  Schedule="@schedule"
+                  OnDaySelected="@DisplayScheduleForDay"
+                  DaySelected="@selectedDay.Day"/>
+    </div>
+    <div class="col-lg-4">
+        <ScheduleForDay Schedule="@scheduleForDay"
+                        Day="@selectedDay.Day"
+                        Month="@selectedDay.Month"
+                        Year="@selectedDay.Year" />
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public int Year { get; set; }
+    [Parameter, EditorRequired]
+    public int Month { get; set; }
+    [Parameter, EditorRequired]
+    public string? TutorsSchedule { get; set; }
+    [Parameter, EditorRequired]
+    public string? StudentsSchedule { get; set; }
+
+    string monday = "";
+
+    private List<IScheduleItemSummaryDto> schedule = [];
+    private List<IScheduleItemSummaryDto> scheduleForDay = [];
+
+    DateTime selectedDay = DateTime.Now;
+
+    protected override void OnParametersSet()
+    {
+        monday = Resources.Schedule.Monday;
+        schedule.Clear();
+        try
+        {
+            if (String.IsNullOrWhiteSpace(StudentsSchedule) == false)
+            {
+                var studentsSchedule = JsonSerializer
+                    .Deserialize<IEnumerable<StudentsScheduleItemSummaryDto>>(StudentsSchedule);
+                if (studentsSchedule is not null)
+                {
+                    schedule.AddRange(studentsSchedule);
+                }
+            }
+            if (String.IsNullOrWhiteSpace(TutorsSchedule) == false)
+            {
+                var tutorsSchedule = JsonSerializer
+                    .Deserialize<IEnumerable<TutorsScheduleItemSummaryDto>>(TutorsSchedule);
+                if (tutorsSchedule is not null)
+                {
+                    schedule.AddRange(tutorsSchedule);
+                }
+            }
+        }
+        catch
+        { }
+
+        if (Year == DateTime.Now.Year && Month == DateTime.Now.Month)
+        {
+            DisplayScheduleForDay(Year, Month, DateTime.Now.Day);
+        }
+        else
+        {
+            DisplayScheduleForDay(Year, Month, 1);
+        }
+
+        base.OnParametersSet();
+    }
+
+    private void DisplayScheduleForDay(int year, int month, int day)
+    {
+        selectedDay = new DateTime(year, month, day);
+        scheduleForDay = schedule
+            .Where(si => si.DateTime.Date == selectedDay.Date)
+            .OrderBy(si => si.DateTime)
+            .ToList();
+        StateHasChanged();
+    }
+}

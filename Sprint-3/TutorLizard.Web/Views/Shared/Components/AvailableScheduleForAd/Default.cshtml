@@ -1,0 +1,65 @@
+﻿@using static TutorLizard.Shared.Models.DTOs.ScheduleItemDto
+@using TutorLizard.Web.Resources
+@model GetAvailableScheduleForAdResponse?
+
+@if (Model is not null)
+{
+    <h3 class="title">@TutorLizard.Web.Resources.Shared.AvailableDates</h3>
+    <div class="container schedule-container">
+        @if (Model.IsAccepted == true)
+        {
+            <div class="row">
+                @foreach (var item in Model.Items)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="p-3 border border-2 ad-list-item h-100">
+                            <div class="schedule-item-datetime">@item.DateTime</div>
+                            <div class="schedule-item-status">
+                                @if (item.Status == ScheduleItemRequestStatus.Accepted)
+                                {
+                                    <span class="status-accepted">@TutorLizard.Web.Resources.Shared.RequestAccepted</span>
+                                }
+                                else if (item.Status == ScheduleItemRequestStatus.Pending)
+                                {
+                                    <span class="status-pending">@TutorLizard.Web.Resources.Shared.RequestPending</span>
+                                }
+                                else if (item.Status == ScheduleItemRequestStatus.Rejected)
+                                {
+                                    <span class="status-rejected">@TutorLizard.Web.Resources.Shared.RequestRejected</span>
+                                }
+                                else if (item.Status == ScheduleItemRequestStatus.RequestNotSent)
+                                {
+                                    <span class="status-rejected">@TutorLizard.Web.Resources.Shared.RequestNotSent</span>
+                                    <div class="mt-2">
+                                        <form asp-controller="Student" asp-action="CreateScheduleItemRequest" method="post">
+                                            <input name="scheduleItemId" value="@item.Id" type="hidden" />
+                                            <input name="adId" value="@item.AdId" type="hidden" />
+
+                                            @if (Model.IsRemote)
+                                            {
+                                                <div class="form-group form-check my-2">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" name="requestIsRemote" type="checkbox" /> @TutorLizard.Web.Resources.Shared.Remote
+                                                    </label>
+                                                </div>
+                                            }
+
+                                            <button type="submit" class="btn btn-danger mt-3">@TutorLizard.Web.Resources.Shared.SignUp</button>
+                                        </form>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+
+
+
+
+
+
+

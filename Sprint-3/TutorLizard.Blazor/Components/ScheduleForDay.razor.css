@@ -1,0 +1,19 @@
+﻿.schedule-container {
+    background-color: #ededed;
+    padding: 1rem;
+    border-radius: 0;
+    color: black;
+}
+
+    .schedule-container h3 {
+    color:black;
+    margin: 0;
+    text-align: center;
+    padding-bottom: 1rem;
+}
+
+.schedule-list {
+    border-radius: .5rem;
+    display: flex;
+    flex-direction: column;
+}

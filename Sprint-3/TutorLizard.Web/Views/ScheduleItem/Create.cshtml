@@ -1,0 +1,39 @@
+﻿@using TutorLizard.Web.Resources
+@model TutorLizard.BusinessLogic.Models.ScheduleItem
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>@TutorLizard.Web.Resources.ScheduleItem.AddScheduleItem</h1>
+
+<h4>@TutorLizard.Web.Resources.ScheduleItem.NewScheduleItem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AdId" class="control-label">@TutorLizard.Web.Resources.ScheduleItem.AdId</label>
+                <input asp-for="AdId" class="form-control" placeholder="@TutorLizard.Web.Resources.ScheduleItem.AdId" />
+                <span asp-validation-for="AdId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateTime" class="control-label">@TutorLizard.Web.Resources.ScheduleItem.DateTime</label>
+                <input asp-for="DateTime" class="form-control" placeholder="@TutorLizard.Web.Resources.ScheduleItem.DateTime" />
+                <span asp-validation-for="DateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@TutorLizard.Web.Resources.ScheduleItem.Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">@TutorLizard.Web.Resources.ScheduleItem.BackToList</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,66 @@
+﻿@using TutorLizard.Web.Resources
+@model IEnumerable<TutorLizard.BusinessLogic.Models.User>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<h1>@TutorLizard.Web.Resources.User.Users</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @TutorLizard.Web.Resources.User.Name
+            </th>
+            <th>
+                @TutorLizard.Web.Resources.User.UserType
+            </th>
+            <th>
+                @TutorLizard.Web.Resources.User.Email
+            </th>
+            <th>
+                @TutorLizard.Web.Resources.User.Password
+            </th>
+            <th>
+                @TutorLizard.Web.Resources.User.DateCreated
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PasswordHash)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreated)
+            </td>
+            <td>
+                    @Html.ActionLink(@TutorLizard.Web.Resources.User.Edit, "Edit", new { id = item.Id }) |
+                    @Html.ActionLink(@TutorLizard.Web.Resources.User.Details, "Details", new { id = item.Id }) |
+                    @Html.ActionLink(@TutorLizard.Web.Resources.User.Delete, "Delete", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

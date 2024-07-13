@@ -1,0 +1,13 @@
+﻿@using TutorLizard.Web.Resources
+@model GetTutorsAdsResponse
+@{
+    ViewData["Title"] = "AdsList";
+}
+
+<h1 class="title">@TutorLizard.Web.Resources.Tutor.AllAds</h1>
+<div class="row">
+@foreach(var adListItem in Model.AdList)
+{
+    <div class="col-12 col-md-6 col-xl-4 flex-row flex-column"><partial name="@PartialNames.AdListItem" model="adListItem" /></div>
+    }
+</div>

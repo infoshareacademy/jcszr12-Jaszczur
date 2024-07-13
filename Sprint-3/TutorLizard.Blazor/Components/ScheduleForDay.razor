@@ -1,0 +1,37 @@
+﻿@using TutorLizard.Shared.Models.DTOs
+<div class="schedule-container my-2">
+    <h3>@($"{Day.ToString("00")}.{Month.ToString("00")}.{Year}")</h3>
+    <div class="schedule-list">
+        @if (Schedule.Count == 0)
+        {
+            <div class="text-red text-center">@Resources.Schedule.ScheduleEmpty</div>
+        }
+        @foreach (var item in Schedule)
+        {
+            if (item is StudentsScheduleItemSummaryDto studentsScheduleItem)
+            {
+                <StudentsScheduleItem ScheduleItem="@studentsScheduleItem" />
+            }
+            if (item is TutorsScheduleItemSummaryDto tutorsScheduleItem)
+            {
+                <TutorsScheduleItem ScheduleItem="@tutorsScheduleItem" />
+            }
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public int Day { get; set; }
+    [Parameter, EditorRequired]
+    public int Month { get; set; }
+    [Parameter, EditorRequired]
+    public int Year { get; set; }
+    [Parameter, EditorRequired]
+    public List<IScheduleItemSummaryDto> Schedule { get; set; } = [];
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+    }
+}

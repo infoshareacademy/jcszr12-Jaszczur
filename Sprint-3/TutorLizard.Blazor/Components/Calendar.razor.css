@@ -1,0 +1,115 @@
+﻿.calendar-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #2b4027;
+    border-radius: 0px;
+    padding: 1rem;
+}
+
+    .calendar-container h3 {
+        text-align: center;
+        color: white;
+        margin: 0;
+    }
+
+.calendar-header {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding-bottom: 1rem;
+}
+
+.previous {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding-left: 1rem;
+    font-size: 2rem;
+}
+
+.next {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding-right: 1rem;
+    font-size: 2rem;
+}
+
+.calendar-main {
+    border-radius: .5rem;
+    overflow: hidden;
+    background-color: #2b4027;
+}
+
+.seven-column-section {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    column-gap: .5rem;
+    row-gap: .5rem;
+}
+
+.days-header {
+    padding-bottom: .5rem;
+}
+
+    .days-header div {
+        padding: 1rem 0;
+        background-color: #9db88c;
+        text-align: center;
+        font-weight: bold;
+    }
+
+.calendar-grid {
+}
+
+    .calendar-grid div {
+        background-color: white;
+        font-size: 2rem;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position:relative;
+        height: 7rem;
+    }
+
+        .calendar-grid div:hover {
+            background-color: #9db88c;
+            transition: .35s;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+.selected {
+    font-weight: bold;
+}
+
+.monday {
+    grid-column: 1;
+}
+
+.tuesday {
+    grid-column: 2;
+}
+
+.wednesday {
+    grid-column: 3;
+}
+
+.thursday {
+    grid-column: 4;
+}
+
+.friday {
+    grid-column: 5;
+}
+
+.saturday {
+    grid-column: 6;
+}
+
+.sunday {
+    grid-column: 7;
+}

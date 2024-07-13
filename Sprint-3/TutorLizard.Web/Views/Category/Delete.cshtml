@@ -1,0 +1,39 @@
+﻿@using TutorLizard.Web.Resources
+@model TutorLizard.BusinessLogic.Models.Category
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>@TutorLizard.Web.Resources.Category.Delete</h1>
+
+<h3>@TutorLizard.Web.Resources.Category.AreYouSureToDelete</h3>
+<div>
+    <h4>@TutorLizard.Web.Resources.Category.Categoryy</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @TutorLizard.Web.Resources.Category.Name
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @TutorLizard.Web.Resources.Category.Description
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="submit" value="@TutorLizard.Web.Resources.Category.Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">@TutorLizard.Web.Resources.Category.BackToList</a>
+    </form>
+</div>
